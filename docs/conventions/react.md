@@ -225,7 +225,7 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormOptions) => {
 - **Work that the response does not need runs after it**, with `after()` (logging, analytics).
 - **No mutable module-level state on the server.** A module variable is shared by every request.
 - **Server Actions are public endpoints.** Each one lives in an `api/` file that starts with `"use server"`, and each one validates its input and checks authentication and authorization itself, however the page that calls it is protected.
-- **Client-side fetching goes through a caching library, never through `useEffect`.** The library deduplicates requests and handles loading and errors; its hooks live in the slice's `api/` segment.
+- **When a Client Component has to fetch, it goes through a caching library** (SWR or TanStack Query), never through `useEffect`. The library deduplicates requests and handles loading and errors; its hooks live in the slice's `api/` segment.
 - **Keep the client bundle small.** Load heavy client-only components with `next/dynamic`, load third-party scripts after hydration with `next/script`, and import only the modules you use. Next.js rewrites imports from well-known libraries with huge entry points (icon sets, component kits); add any other such library to `optimizePackageImports` in `next.config.ts`. A slice's `index.ts` is a short, explicit public API, not one of those entry points.
 - **Rendering:** `content-visibility: auto` on long lists, `<Activity>` to hide a subtree while keeping its state, and React DOM resource hints (`preload`, `preconnect`) for resources the next interaction needs.
 

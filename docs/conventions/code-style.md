@@ -103,7 +103,7 @@ The folder structure is Feature-Sliced Design, described in [docs/architecture/f
 
 ## Functions
 
-**Every function is an arrow function**: components, hooks, handlers, helpers, Server Actions, Route Handlers and `generateMetadata`. The exceptions are the ones the language forces: methods of a class or an object literal, and generators (`function*`).
+**Every function is an arrow function**: components, hooks, handlers, helpers, Server Actions, Route Handlers and `generateMetadata`. The only exceptions are methods written with method syntax on a class or an object, and generators (`function*`), which have no arrow form.
 
 ```ts
 // Bad
@@ -208,7 +208,7 @@ const label = ORDER_STATUS_LABELS[status];
 
 - `satisfies Record<Union, Value>` fails the build when a new status has no entry.
 - A map can hold behavior too: `Record<ShapeKind, (shape: Shape) => number>`.
-- When the key comes from outside the union (a string from the network), fall back explicitly: `STATUS_LABELS[status] ?? UNKNOWN_STATUS_LABEL`.
+- When the key comes from outside the union (a string from the network), narrow it to the union first, or type the map as `Partial<Record<string, Value>>` and fall back explicitly: `STATUS_LABELS_BY_CODE[code] ?? UNKNOWN_STATUS_LABEL`.
 - **Registries instead of chained checks.** `kind === "circle" || kind === "square" || ...` grows with every new kind. Declare a registry, `Record<ShapeKind, ShapeCapabilities>`, where each kind lists its flags, and read `SHAPE_CAPABILITIES[kind].isResizable`. Adding a kind is one new row.
 
 ### No `else if`, no nested ternaries
@@ -216,7 +216,7 @@ const label = ORDER_STATUS_LABELS[status];
 - **No `else if` chains.** Three or more branches become guard clauses or a lookup map.
 - **No `else` after `return`.** The early return already ends the branch.
 - **A ternary never nests.** `a ? x : b ? y : z` becomes a small function with guard clauses.
-- **Do not negate a condition that has an `else`.** Swap the branches: `if (isReady) { ... } else { ... }`, not `if (!isReady)`.
+- **Do not negate a condition that has an `else` branch or a ternary.** Swap the branches: `if (isReady) { ... } else { ... }`, not `if (!isReady)`.
 
 ### Depth and complexity
 
@@ -230,10 +230,10 @@ Blocks nest at most two levels inside a function, a function has a cyclomatic co
 | --- | --- | --- |
 | Module (file) | One concept of its segment | Unrelated helpers go to their own files |
 | Component | Render markup from the values it receives | State, effects and derivations go to a hook |
-| Hook | Own one piece of state or one side effect, and expose it | Pure computation goes to `lib/`, named data to `config/` |
+| Hook | Own the state, derived values and handlers of one component or one concern | Pure computation goes to `lib/`, named data to `config/` |
 | Function | One transformation or one step | Each extra step becomes a named function |
 
-Signals that a unit does too much: a file over 250 lines, a function over 60, a name that needs "and", a hook that returns unrelated values, a component with several pieces of state.
+Signals that a unit does too much: a file over 250 lines of code, a function over 60, a name that needs "and", a hook that returns unrelated values, a component with several pieces of state.
 
 The other four principles, as they apply to functional TypeScript:
 
@@ -278,7 +278,7 @@ const getDiscount = (order: Order) => {
 ## Types
 
 - **`type`, not `interface`.** One way to declare a shape, and it composes with `&`, unions and mapped types.
-- **No `enum`.** Use a union of string literals. When the values are also needed at runtime, derive the union from an `as const` object:
+- **No `enum`.** Use a union of string literals. When the values are also needed at runtime, derive the union from an `as const` array or object:
 
   ```ts
   export const ORDER_STATUSES = ["pending", "paid", "cancelled"] as const;
