@@ -4,6 +4,11 @@
 #
 # One top-level key per hook, each with named jobs; a new hook goes at the end.
 
+# The hook scripts run the first lefthook on the PATH before the pinned one, and the
+# pre-commit setup step needs 2.1.2 or later, so an older lefthook stops here instead
+# of silently skipping it. 2.1.14 is the version these hooks were verified with.
+min_version: 2.1.14
+
 # ESLint and Prettier fix the staged files and stage the result. While the hook runs,
 # lefthook hides the unstaged part of a partially staged file, so every job reads
 # exactly what the commit will contain. The two fixers run one after the other,
