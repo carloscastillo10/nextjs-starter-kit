@@ -1,0 +1,10 @@
+/*
+ * The app's global styles: the shared theme and tokens, the UI kit, and the app's own
+ * folders. Tailwind scans only the folders listed here and in the imported files.
+ */
+@import "@repo/tailwind-config/theme.css";
+@import "@repo/ui/globals.css";
+
+@source "../../**/*.{ts,tsx}";
+@source "../../../app/**/*.{ts,tsx}";
+@source not "../../**/*.test.{ts,tsx}";

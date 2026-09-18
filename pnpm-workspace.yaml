@@ -63,6 +63,7 @@ catalog:
   markdownlint: ^0.41.1
   markdownlint-cli2: ^0.23.2
   next: ^16.3.5
+  next-themes: ^0.4.6
   # Formatting can change in any release, so Prettier is pinned to an exact version.
   prettier: 3.9.7
   prettier-plugin-tailwindcss: ^0.8.1

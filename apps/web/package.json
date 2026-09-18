@@ -21,13 +21,17 @@
     "types:check": "next typegen && tsc --noEmit"
   },
   "dependencies": {
+    "@repo/ui": "workspace:*",
     "next": "catalog:",
+    "next-themes": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
   "devDependencies": {
     "@feature-sliced/steiger-plugin": "catalog:",
     "@repo/eslint-config": "workspace:*",
+    "@repo/prettier-config": "workspace:*",
+    "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@repo/vitest-config": "workspace:*",
     "@testing-library/dom": "catalog:",
