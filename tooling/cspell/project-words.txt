@@ -4,6 +4,7 @@ jsdom
 lefthook
 Liskov
 lockfiles
+lucide
 nvmrc
 oklch
 shadcn
