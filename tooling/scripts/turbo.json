@@ -6,7 +6,8 @@
       "inputs": [
         "$TURBO_DEFAULT$",
         "$TURBO_ROOT$/commitlint.config.mjs",
-        "$TURBO_ROOT$/.github/workflows/ci.yml"
+        "$TURBO_ROOT$/.github/workflows/ci.yml",
+        "$TURBO_ROOT$/.claude/skills/*/SKILL.md"
       ]
     }
   }
