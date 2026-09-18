@@ -12,7 +12,7 @@ model: opus
 ## What you do
 
 - Workspace layout (`apps/*`, `packages/*`, `tooling/*`), `pnpm-workspace.yaml` (catalog, build allow-list), `turbo.json`, root `package.json` scripts that fan out through Turbo.
-- Version pinning: `packageManager`, `engines.node` and `engines.pnpm` in every `package.json`, `.nvmrc`, `.npmrc` (`engine-strict`).
+- Version pinning: `packageManager`, `engines.node` and `engines.pnpm` in every `package.json`, `.nvmrc`, `engineStrict` in `pnpm-workspace.yaml` (pnpm 11 ignores `engine-strict` in `.npmrc`).
 - Repo hygiene files: `.gitignore`, `.gitattributes`, `.editorconfig`.
 - The bare Next.js (App Router) app in `apps/web`, with no demo content.
 
