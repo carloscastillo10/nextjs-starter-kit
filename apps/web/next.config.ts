@@ -1,4 +1,4 @@
-import { appEnv, clerkEnv, loadEnv } from "@repo/env";
+import { appEnv, loadEnv } from "@repo/env";
 import type { NextConfig } from "next";
 
 /*
@@ -6,7 +6,7 @@ import type { NextConfig } from "next";
  * file, so NEXT_PUBLIC_ values get inlined, and stops on a malformed variable. On a hosting
  * platform there is no file, and the platform's variables are used as they are.
  */
-loadEnv({ ...appEnv, ...clerkEnv });
+loadEnv(appEnv);
 
 const nextConfig: NextConfig = {
   transpilePackages: ["@repo/ui"],

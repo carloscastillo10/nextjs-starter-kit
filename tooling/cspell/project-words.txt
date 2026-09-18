@@ -13,7 +13,6 @@ nvmrc
 oklch
 shadcn
 shortstat
-Solana
 Steiger
 tsconfck
 Turborepo

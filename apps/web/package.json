@@ -21,7 +21,6 @@
     "types:check": "next typegen && tsc --noEmit"
   },
   "dependencies": {
-    "@clerk/nextjs": "catalog:",
     "@repo/env": "workspace:*",
     "@repo/ui": "workspace:*",
     "next": "catalog:",
