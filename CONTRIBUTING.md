@@ -182,39 +182,48 @@ On the empty template, a commit of code spends about 3 seconds in its hooks, and
 
 Two workflows in [`.github/workflows/`](.github/workflows), both on the Node.js version in [`.nvmrc`](.nvmrc) and the pnpm version that `packageManager` names in [`package.json`](package.json):
 
-| Workflow       | Job        | Runs on                                              | Checks                                                                                                                                              |
-| -------------- | ---------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ci.yml`       | `Checks`   | Every pull request and every push to `main`          | `pnpm format`, `lint` (with `lint:arch`), `lint:comments`, `types:check`, `test`, `spell:check`, `lint:md`, `env:check`, `env:check:turbo`, `build` |
-| `pr-title.yml` | `PR title` | A pull request opened, edited, reopened or pushed to | The pull request title, with commitlint and the same [commit rules](#commits)                                                                       |
+| Workflow       | Job               | Runs on                                                                    | Checks                                                                                                                                              |
+| -------------- | ----------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ci.yml`       | `Checks`          | Every pull request and every push to `main`                                | `pnpm format`, `lint` (with `lint:arch`), `lint:comments`, `types:check`, `test`, `spell:check`, `lint:md`, `env:check`, `env:check:turbo`, `build` |
+| `ci.yml`       | `Author identity` | Pull requests, once [switched on](#repository-settings)                    | Every commit author is an account with access to the repository                                                                                     |
+| `pr-title.yml` | `PR title`        | A pull request opened, edited, reopened or pushed to, except by Dependabot | The pull request title, with commitlint and the same [commit rules](#commits)                                                                       |
 
 - **`pnpm gates` runs the same checks on your machine.** It reads the `Checks` job out of `ci.yml`, runs every step that is marked to run after a failure (`if: ${{ !cancelled() … }}`), and sums them up, so the list of checks lives in one place. Run it before you open a pull request; on the empty template it takes about 20 seconds.
 - **A new check is one step.** Add it to the `Checks` job with the same `if:` as the others, and both CI and `pnpm gates` run it.
 - **Every check runs even after one fails**, so a single run lists every problem, and the job still fails.
 - **Caches**: the pnpm store and the Turborepo cache are restored between runs, so packages that did not change replay their results.
-- **Pinned actions.** Each action is pinned to a commit SHA, with its version in a comment; Dependabot opens one pull request a month to update them.
+- **Pinned actions.** Each action is pinned to a commit SHA, with its version in a comment; Dependabot opens one pull request a month to update them. Its titles cannot follow the commit convention, so `PR title` skips its pull requests, which counts as passing, and the title is rewritten when it is squashed.
+- **`Author identity` is off by default.** It asks GitHub which account owns each commit's email address and whether that account has access to the repository, the one question a laptop cannot answer. It needs a token with push access, which a pull request from a fork never gets, so a public repository that takes outside contributions leaves it off.
 
 ### Pull requests
 
 1. Push the branch and open a pull request against `main`, for example with `gh pr create --base main`.
-2. Write the title as a commit message: it becomes the squash commit on `main`, and the `PR title` check holds it to the same rules.
-3. Fill in the template: what changes, how you verified it, and the checklist.
-4. Once `Checks` and `PR title` pass and the review is done, use **Squash and merge**. The branch is deleted after the merge.
+2. Write the title in the [commit convention](#commits): it becomes the squash commit on `main`, and the `PR title` check holds it to the same rules. GitHub appends the pull request number, as in `(#12)`, to the subject of a squash commit; that suffix is expected.
+3. Fill in the template: what changes, how you verified it, and the checklist. `pnpm gates` runs the checks CI will run.
+4. Once `Checks` and `PR title` pass, and `Author identity` when it is on, and the review is done, use **Squash and merge**. The branch is deleted after the merge.
 
-One pull request carries one change. Open it as a draft when you want early feedback.
+One pull request carries one change. Open it as a draft when you want early feedback. For a Dependabot pull request, rewrite the title in the squash dialog, for example `ci(deps): ⬆️ Bump the workflow actions`.
 
 ### Repository settings
 
 A repository created from this template does not copy the settings of this one. Set these once, as an administrator:
 
-| Setting                   | Where                              | Value                                                                                                                 |
-| ------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Merge methods             | Settings → General → Pull Requests | Only **Allow squash merging**, with the default message **Pull request title and commit details**                     |
-| Branch cleanup            | Settings → General → Pull Requests | **Automatically delete head branches**                                                                                |
-| Branch ruleset for `main` | Settings → Rules → Rulesets        | Require a pull request, require the status checks `Checks` and `PR title`, block force pushes, require linear history |
+| Setting                         | Where                                                  | Value                                                                                                                                                   |
+| ------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Merge methods                   | Settings → General → Pull Requests                     | Only **Allow squash merging**, with the default message **Pull request title and commit details**                                                       |
+| Branch cleanup                  | Settings → General → Pull Requests                     | **Automatically delete head branches**                                                                                                                  |
+| Branch ruleset for `main`       | Settings → Rules → Rulesets                            | Require a pull request, require the status checks `Checks` and `PR title`, block force pushes, require linear history                                   |
+| Author identity check, optional | Settings → Secrets and variables → Actions → Variables | `ENFORCE_AUTHOR_IDENTITY` set to `true`, then add `Author identity` to the required checks. Only in a repository that takes no pull requests from forks |
 
 The first two in one command, run from a clone of the new repository:
 
 ```bash
 gh repo edit --enable-squash-merge --squash-merge-commit-message pr-title-commits \
   --enable-merge-commit=false --enable-rebase-merge=false --delete-branch-on-merge
+```
+
+The variable, from the same clone:
+
+```bash
+gh variable set ENFORCE_AUTHOR_IDENTITY --body true
 ```

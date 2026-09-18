@@ -92,3 +92,33 @@ jobs:
       - name: Build
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: pnpm build
+
+  # Off until the repository variable ENFORCE_AUTHOR_IDENTITY is set to true. Only
+  # GitHub can tell which account owns an email address, and the check needs a token
+  # with push access, which a pull request from a fork never gets.
+  author-identity:
+    name: Author identity
+    if: vars.ENFORCE_AUTHOR_IDENTITY == 'true' && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: read
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+
+      - name: Check every commit author
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST: ${{ github.event.pull_request.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: node tooling/scripts/check-author-identity.mjs "$REPOSITORY" "$PULL_REQUEST"

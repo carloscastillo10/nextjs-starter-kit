@@ -8,21 +8,22 @@ Holds the checks written for this repository, each with its tests. [lefthook](..
 
 ## 🗂️ Structure
 
-| File                      | Holds                                                                                                              |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `commit-rules.mjs`        | The commit convention as commitlint rules, loaded by the root `commitlint.config.mjs`                              |
-| `check-git-identity.mjs`  | `pre-commit`: refuses a commit that would not carry the global git identity                                        |
-| `check-push-authors.mjs`  | `pre-push`: refuses a commit by an address that is neither the pusher's nor already on `origin/main`               |
-| `check-linked-branch.mjs` | `pre-push`: stops the first push of an issue branch that GitHub has not linked to its issue                        |
-| `check-branch-scope.mjs`  | `pre-push`: reports a branch that mixes unrelated changes or is very large; `--strict` makes it fail               |
-| `fix-staged.mjs`          | `pre-commit`: runs ESLint or Prettier in fix mode on fully staged files and in check mode on partially staged ones |
-| `read-gates.mjs`          | `readGates(text, job)`: the gates of a workflow job, with no I/O                                                   |
-| `run-gates.mjs`           | `pnpm gates`: runs every gate of the `Checks` job in `ci.yml` and sums them up                                     |
-| `git-sandbox.mjs`         | Test helper: a temporary repository with its own global git config, and fake commands on its `PATH`                |
-| `comment-rules.mjs`       | The comment rules: `inspectComments({ code, file })` and `isCheckedSource(file)`, with no I/O                      |
-| `check-comments.mjs`      | The comment check command: picks the files, prints the findings, sets the exit code                                |
-| `*.test.mjs`              | Tests, with inline fixtures or a temporary git repository                                                          |
-| `turbo.json`              | Adds the root files the tests read, the commitlint config and the CI workflow, to the test cache inputs            |
+| File                        | Holds                                                                                                              |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `commit-rules.mjs`          | The commit convention as commitlint rules, loaded by the root `commitlint.config.mjs`                              |
+| `check-git-identity.mjs`    | `pre-commit`: refuses a commit that would not carry the global git identity                                        |
+| `check-push-authors.mjs`    | `pre-push`: refuses a commit by an address that is neither the pusher's nor already on `origin/main`               |
+| `check-author-identity.mjs` | CI, opt in: refuses a pull request with a commit whose author has no access to the repository                      |
+| `check-linked-branch.mjs`   | `pre-push`: stops the first push of an issue branch that GitHub has not linked to its issue                        |
+| `check-branch-scope.mjs`    | `pre-push`: reports a branch that mixes unrelated changes or is very large; `--strict` makes it fail               |
+| `fix-staged.mjs`            | `pre-commit`: runs ESLint or Prettier in fix mode on fully staged files and in check mode on partially staged ones |
+| `read-gates.mjs`            | `readGates(text, job)`: the gates of a workflow job, with no I/O                                                   |
+| `run-gates.mjs`             | `pnpm gates`: runs every gate of the `Checks` job in `ci.yml` and sums them up                                     |
+| `git-sandbox.mjs`           | Test helper: a temporary repository with its own global git config, and fake commands on its `PATH`                |
+| `comment-rules.mjs`         | The comment rules: `inspectComments({ code, file })` and `isCheckedSource(file)`, with no I/O                      |
+| `check-comments.mjs`        | The comment check command: picks the files, prints the findings, sets the exit code                                |
+| `*.test.mjs`                | Tests, with inline fixtures or a temporary git repository                                                          |
+| `turbo.json`                | Adds the root files the tests read, the commitlint config and the CI workflow, to the test cache inputs            |
 
 ## 🚀 Usage
 
@@ -68,6 +69,12 @@ Two checks, because one question splits into two that are answered at different 
 - **It skips itself when there is no global identity**, because a fresh machine has none, and a check that fires before setup is a check people switch off.
 
 **`check-push-authors.mjs`, on `pre-push`: does a commit come from an address nobody here uses?** The commit check cannot see a commit made somewhere else and then rebased or cherry-picked into the branch. So this one looks at every commit the branch adds against `origin/main` and accepts an author address only if it is the pusher's global one, or if it already appears in the history of `origin/main`. The accepted set derives itself from git, so there is no file to keep: a new colleague passes on their first push, because it carries their own identity. Without a fetched `origin/main` it skips itself.
+
+**`check-author-identity.mjs`, in CI on the pull request: does every commit belong to someone with access?** For each commit it asks GitHub which account owns the author's address, then whether that account is a collaborator on the repository. A commit whose address belongs to no account, or to an account without access, fails the check. No hook runs on a commit made in the GitHub web editor, pushed by a bot, or committed with the escape hatch, and only GitHub can turn an address into an account, so this is the half a laptop cannot check. The collaborator endpoint needs a token with push access: the `Author identity` job asks for `contents: write` for itself alone, stays off until the repository variable `ENFORCE_AUTHOR_IDENTITY` is `true`, and suits a repository that takes no pull requests from forks, whose tokens are read-only.
+
+```bash
+GITHUB_TOKEN=… node tooling/scripts/check-author-identity.mjs <owner/repo> <pull-request-number>
+```
 
 ### The branch checks
 
