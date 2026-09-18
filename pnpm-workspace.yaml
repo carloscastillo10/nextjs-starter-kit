@@ -33,6 +33,7 @@ overrides:
   eslint-plugin-react-hooks>zod-validation-error: ^4.0.2
 
 catalog:
+  "@base-ui/react": ^1.8.0
   "@commitlint/cli": ^21.2.2
   "@commitlint/config-conventional": ^21.2.2
   "@commitlint/types": ^21.2.0
@@ -48,6 +49,7 @@ catalog:
   "@types/node": ^24.13.5
   "@types/react": ^19.3.0
   "@types/react-dom": ^19.3.0
+  class-variance-authority: ^0.7.1
   cn: ^0.3.0
   cspell: ^10.3.3
   eslint: ^10.10.0
