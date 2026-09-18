@@ -1,3 +1,1 @@
-export function HomePage() {
-  return <main />;
-}
+export const HomePage = () => <main />;

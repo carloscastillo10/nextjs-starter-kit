@@ -4,10 +4,10 @@ export const metadata: Metadata = {
   title: "next-starter-kit",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
-}
+const RootLayout = ({ children }: LayoutProps<"/">) => (
+  <html lang="en">
+    <body>{children}</body>
+  </html>
+);
+
+export default RootLayout;
