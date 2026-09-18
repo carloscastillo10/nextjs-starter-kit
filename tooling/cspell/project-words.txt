@@ -1,8 +1,11 @@
+backlinks
 commitlint
+Dataview
 esbuild
 estree
 gitmoji
 graphify
+graphifyignore
 jsdom
 lefthook
 Liskov
@@ -25,5 +28,6 @@ vite
 vitest
 WCAG
 webp
+wikilinks
 worktree
 worktrees

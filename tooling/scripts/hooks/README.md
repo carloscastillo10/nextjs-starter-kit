@@ -8,6 +8,7 @@
 - [🗂️ Structure](#️-structure)
 - [🚀 Usage](#-usage)
   - [The skill reminder](#the-skill-reminder)
+  - [The graph hint](#the-graph-hint)
   - [Declaring a hook](#declaring-a-hook)
   - [Trying a hook by hand](#trying-a-hook-by-hand)
   - [Two things that will bite](#two-things-that-will-bite)
@@ -29,9 +30,10 @@
 
 Hooks declared in `.claude/settings.json`:
 
-| Script              | Event        | Matcher       | Behavior                                                                                            |
-| ------------------- | ------------ | ------------- | --------------------------------------------------------------------------------------------------- |
-| `remind-skills.mjs` | `PreToolUse` | `Write\|Edit` | Names the skills that govern the file and, on a source file, the comment rule. Never blocks a write |
+| Script                                                     | Event        | Matcher            | Behavior                                                                                            |
+| ---------------------------------------------------------- | ------------ | ------------------ | --------------------------------------------------------------------------------------------------- |
+| `remind-skills.mjs`                                        | `PreToolUse` | `Write\|Edit`      | Names the skills that govern the file and, on a source file, the comment rule. Never blocks a write |
+| [`../graphify/graph-hint.mjs`](../graphify/graph-hint.mjs) | `PreToolUse` | `Bash\|Grep\|Glob` | Before a search, points at the code graph when one has been built. Never blocks a search            |
 
 ## 🚀 Usage
 
@@ -73,6 +75,18 @@ Each reminder above appears once per session.
 
 > [!NOTE]
 > A rule names only skills vendored in [`.claude/skills/`](../../../.claude/skills/README.md), never a plugin: a fresh clone has every vendored skill, while a plugin may not be installed yet. A test fails when a rule names a skill with no folder there, so removing a skill means removing it from the rules too.
+
+### The graph hint
+
+Before a search, `graph-hint.mjs` says that the [code graph](../../../docs/knowledge/README.md) can answer the question without reading the files:
+
+```text
+A code graph of this repository is in .graphify/, rebuilt after each commit, branch checkout,
+merge and rebase. Before searching the files, read .graphify/GRAPH_REPORT.md for the most
+connected symbols and the communities, or ask the graph: `graphify query "<question>"` …
+```
+
+It speaks only when `.graphify/GRAPH_REPORT.md` exists in the checkout that holds the working folder, so a clone where nobody installed graphify never hears about it, and only once per session, like the skill reminder. In Bash it looks for a search program in command position (`grep`, `rg`, `find`, `fd`, `ack`, `ag`, `git grep`), so `git log --grep=x` does not count; the `Grep` and `Glob` tools always do. The script lives with the other graph scripts rather than in this folder, because it changes with them.
 
 ### Declaring a hook
 
@@ -120,6 +134,7 @@ The `additionalContext` in the output is what Claude receives. Run the same line
 | ------------------------------------------------------------------ | ----------------------------------------------- |
 | `pnpm --filter @repo/scripts test`                                 | Runs the hook tests with the other script tests |
 | `echo '<payload>' \| node tooling/scripts/hooks/remind-skills.mjs` | Runs the skill reminder on one payload          |
+| `echo '<payload>' \| node tooling/scripts/graphify/graph-hint.mjs` | Runs the graph hint on one payload              |
 
 ## 🧩 Extending
 
@@ -132,4 +147,5 @@ The `additionalContext` in the output is what Claude receives. Run the same line
 - [Project skills](../../../.claude/skills/README.md): what each skill covers and where it comes from
 - [Comment conventions](../../../docs/conventions/comments.md)
 - [@repo/scripts](../README.md): the checks lefthook and CI run
+- [Knowledge graph](../../../docs/knowledge/README.md): what the graph holds and when it is rebuilt
 - [Hooks reference](https://code.claude.com/docs/en/hooks) in the Claude Code docs

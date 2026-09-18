@@ -13,6 +13,7 @@
   - [Fixing the staged files](#fixing-the-staged-files)
   - [The CI gates on your machine](#the-ci-gates-on-your-machine)
   - [The comment check](#the-comment-check)
+  - [Rebuilding the code graph](#rebuilding-the-code-graph)
 - [⌨️ Commands](#️-commands)
 - [🧩 Extending](#-extending)
 - [🔗 Related](#-related)
@@ -23,22 +24,23 @@ Holds the checks written for this repository, each with its tests. [lefthook](..
 
 ## 🗂️ Structure
 
-| File                        | Holds                                                                                                              |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `commit-rules.mjs`          | The commit convention as commitlint rules, loaded by the root `commitlint.config.mjs`                              |
-| `check-git-identity.mjs`    | `commit-msg`: refuses a commit that would not carry the global git identity                                        |
-| `check-push-authors.mjs`    | `pre-push`: refuses a commit by an address that is neither the pusher's nor already on `origin/main`               |
-| `check-author-identity.mjs` | CI, opt in: refuses a pull request with a commit whose author has no access to the repository                      |
-| `check-linked-branch.mjs`   | `pre-push`: stops the first push of an issue branch that GitHub has not linked to its issue                        |
-| `check-branch-scope.mjs`    | `pre-push`: reports a branch that mixes unrelated changes or is very large; `--strict` makes it fail               |
-| `fix-staged.mjs`            | `pre-commit`: runs ESLint or Prettier in fix mode on fully staged files and in check mode on partially staged ones |
-| `read-gates.mjs`            | `readGates(text, job)`: the gates of a workflow job, with no I/O                                                   |
-| `run-gates.mjs`             | `pnpm gates`: runs every gate of the `Checks` job in `ci.yml` and sums them up                                     |
-| `git-sandbox.mjs`           | Test helper: a temporary repository with its own global git config, and fake commands on its `PATH`                |
-| `comment-rules.mjs`         | The comment rules: `inspectComments({ code, file })` and `isCheckedSource(file)`, with no I/O                      |
-| `check-comments.mjs`        | The comment check command: picks the files, prints the findings, sets the exit code                                |
-| `*.test.mjs`                | Tests, with inline fixtures or a temporary git repository                                                          |
-| `turbo.json`                | Adds the root files the tests read, the commitlint config and the CI workflow, to the test cache inputs            |
+| File                              | Holds                                                                                                                 |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `commit-rules.mjs`                | The commit convention as commitlint rules, loaded by the root `commitlint.config.mjs`                                 |
+| `check-git-identity.mjs`          | `commit-msg`: refuses a commit that would not carry the global git identity                                           |
+| `check-push-authors.mjs`          | `pre-push`: refuses a commit by an address that is neither the pusher's nor already on `origin/main`                  |
+| `check-author-identity.mjs`       | CI, opt in: refuses a pull request with a commit whose author has no access to the repository                         |
+| `check-linked-branch.mjs`         | `pre-push`: stops the first push of an issue branch that GitHub has not linked to its issue                           |
+| `check-branch-scope.mjs`          | `pre-push`: reports a branch that mixes unrelated changes or is very large; `--strict` makes it fail                  |
+| `fix-staged.mjs`                  | `pre-commit`: runs ESLint or Prettier in fix mode on fully staged files and in check mode on partially staged ones    |
+| `read-gates.mjs`                  | `readGates(text, job)`: the gates of a workflow job, with no I/O                                                      |
+| `run-gates.mjs`                   | `pnpm gates`: runs every gate of the `Checks` job in `ci.yml` and sums them up                                        |
+| `git-sandbox.mjs`                 | Test helper: a temporary repository with its own global git config, and fake commands on its `PATH`                   |
+| `comment-rules.mjs`               | The comment rules: `inspectComments({ code, file })` and `isCheckedSource(file)`, with no I/O                         |
+| `check-comments.mjs`              | The comment check command: picks the files, prints the findings, sets the exit code                                   |
+| `*.test.mjs`                      | Tests, with inline fixtures or a temporary git repository                                                             |
+| `turbo.json`                      | Adds the root files the tests read, the commitlint config and the CI workflow, to the test cache inputs               |
+| [`graphify/`](graphify/README.md) | The code graph rebuild: the git hook trigger, the detached worker behind it, and the hint Claude gets before a search |
 
 ## 🚀 Usage
 
@@ -154,6 +156,15 @@ apps/web/src/example.ts
 check-comments: 12 files, 1 failures
 ```
 
+### Rebuilding the code graph
+
+The scripts in [`graphify/`](graphify/README.md) keep the [code graph](../../docs/knowledge/README.md) in step with the checkout. Four post hooks call one of them, it returns at once, and a detached process does the rebuild, one at a time. Nothing happens on a machine without graphify installed.
+
+```bash
+pnpm graph         # rebuild now, in the foreground
+pnpm graph:watch   # rebuild on every code change
+```
+
 ## ⌨️ Commands
 
 | Command                                             | What it does                              |
@@ -161,6 +172,7 @@ check-comments: 12 files, 1 failures
 | `printf '%s\n' "<message>" \| pnpm exec commitlint` | Check a commit message without committing |
 | `pnpm gates`                                        | Run every check CI runs                   |
 | `pnpm lint:comments [files...]`                     | Run the comment check                     |
+| `pnpm graph`                                        | Rebuild the code graph and its notes      |
 | `pnpm --filter @repo/scripts test`                  | Run the scripts' tests                    |
 
 ## 🧩 Extending
@@ -174,3 +186,4 @@ check-comments: 12 files, 1 failures
 
 - [Commits](../../CONTRIBUTING.md#commits) and [Git hooks](../../CONTRIBUTING.md#git-hooks) in the contributing guide
 - [Comment conventions](../../docs/conventions/comments.md#the-comment-check)
+- [Knowledge graph](../../docs/knowledge/README.md): the graph these scripts rebuild
