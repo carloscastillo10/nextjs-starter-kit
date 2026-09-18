@@ -40,3 +40,17 @@ Thumbs.db
 .claude/settings.local.json
 .claude/orchestration/
 CLAUDE.local.md
+
+# Knowledge graph: graphify writes the graph, its report and the Obsidian notes per
+# clone. graphify-out/ is where graphify wrote before 0.17.
+.graphify/
+graphify-out/
+
+# Obsidian: the shared vault settings are committed, the rest is personal
+.obsidian/*
+!.obsidian/app.json
+!.obsidian/core-plugins.json
+.trash/
+
+# lefthook: personal overrides of lefthook.yml
+lefthook-local.yml

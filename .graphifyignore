@@ -1,0 +1,29 @@
+# Kept out of the graph so it describes this repository's own code. The default scope
+# reads only committed files already; these lines also hold for --scope all and watch.
+
+# Vendored agent skills and agent state
+.claude/skills/
+.claude/orchestration/
+.claude/worktrees/
+.agents/
+
+# The graph's own output and the Obsidian vault settings
+.graphify/
+graphify-out/
+.obsidian/
+
+# Dependencies, build output and caches
+node_modules/
+.next/
+.turbo/
+dist/
+out/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Lockfiles and files that tools write
+pnpm-lock.yaml
+skills-lock.json
+apps/*/AGENTS.md
+apps/*/CLAUDE.md

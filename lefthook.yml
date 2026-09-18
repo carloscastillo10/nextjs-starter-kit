@@ -101,3 +101,34 @@ pre-push:
 
           - name: env-turbo
             run: pnpm env:check:turbo
+
+# The code graph follows HEAD: after a commit, a branch checkout, a merge or a pull, and
+# a rebase, which runs neither of the first two for the commits it replays. The script
+# does nothing without graphify on the PATH, never fails, and returns at once, leaving
+# the rebuild to a detached process; hooks that fire while one runs add one more
+# rebuild at most, never a second at the same time. LEFTHOOK_EXCLUDE=graph turns it off
+# for one command, and lefthook-local.yml for good in one clone.
+post-commit:
+  jobs:
+    - name: graph
+      run: node tooling/scripts/graphify/graph-rebuild.mjs post-commit {0}
+      skip:
+        - rebase
+
+post-checkout:
+  jobs:
+    - name: graph
+      run: node tooling/scripts/graphify/graph-rebuild.mjs post-checkout {0}
+      skip:
+        - rebase
+
+post-merge:
+  jobs:
+    - name: graph
+      run: node tooling/scripts/graphify/graph-rebuild.mjs post-merge {0}
+
+# git runs this while the rebase still shows as in progress, so it cannot skip rebases.
+post-rewrite:
+  jobs:
+    - name: graph
+      run: node tooling/scripts/graphify/graph-rebuild.mjs post-rewrite {0}
