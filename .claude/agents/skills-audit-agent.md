@@ -13,7 +13,7 @@ model: opus
 
 - Inventory user-level and project-level skills, plugins (and their marketplaces) and agents. Record name, source, version and whether it is enabled.
 - Confirm the Superpowers framework works (invoke one of its skills) and decide how the project declares it so that anyone who clones the template gets it (for example `enabledPlugins` / `extraKnownMarketplaces` in `.claude/settings.json`).
-- Search for official skills of the stack pieces (shadcn/ui, Clerk, Next.js, Vercel, Feature-Sliced Design, React best practices, testing, accessibility, performance) and judge each: install, reference, or reject with a reason.
+- Search for official skills of the stack pieces (shadcn/ui, Tailwind CSS, Next.js, Vercel, Feature-Sliced Design, React best practices, testing, accessibility, performance) and judge each: install, reference, or reject with a reason.
 - Evaluate design-system skills against shadcn/ui: integrate, keep user-level only, or reject, with the reasoning written down.
 - Map which later agent should use which skill, so the orchestrator can put it in their briefs.
 
