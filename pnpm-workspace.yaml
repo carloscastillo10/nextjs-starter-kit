@@ -1,0 +1,12 @@
+packages:
+  - apps/*
+  - packages/*
+  - tooling/*
+
+# Refuse to install a dependency whose `engines` range excludes the running Node.js.
+# pnpm 11 reads this setting from this file only: `.npmrc` now carries auth and
+# registry settings, so an `engine-strict` line there is silently ignored.
+engineStrict: true
+
+catalog:
+  turbo: ^2.10.13

@@ -1,0 +1,17 @@
+{
+  "name": "next-starter-kit",
+  "private": true,
+  "packageManager": "pnpm@11.17.0",
+  "engines": {
+    "node": ">=24.18.0 <25",
+    "pnpm": ">=11.17.0 <12"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "clean": "turbo run clean && git clean -xdf .turbo node_modules",
+    "dev": "turbo run dev"
+  },
+  "devDependencies": {
+    "turbo": "catalog:"
+  }
+}
