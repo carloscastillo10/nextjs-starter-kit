@@ -10,6 +10,9 @@
 pre-commit:
   parallel: true
   jobs:
+    - name: identity
+      run: node tooling/scripts/check-git-identity.mjs
+
     - name: eslint
       glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"
       run: pnpm exec eslint --no-warn-ignored {staged_files}
@@ -49,6 +52,9 @@ commit-msg:
 pre-push:
   parallel: true
   jobs:
+    - name: authors
+      run: node tooling/scripts/check-push-authors.mjs
+
     - name: tests
       run: pnpm test --output-logs=errors-only
 

@@ -8,6 +8,7 @@ Liskov
 lockfiles
 lucide
 nextjs
+NOSYSTEM
 nvmrc
 oklch
 shadcn
@@ -21,3 +22,4 @@ vite
 vitest
 WCAG
 webp
+worktree
