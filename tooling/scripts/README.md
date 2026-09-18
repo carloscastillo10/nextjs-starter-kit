@@ -16,6 +16,8 @@ Holds the checks written for this repository, each with its tests. [lefthook](..
 | `check-linked-branch.mjs` | `pre-push`: stops the first push of an issue branch that GitHub has not linked to its issue                        |
 | `check-branch-scope.mjs`  | `pre-push`: reports a branch that mixes unrelated changes or is very large; `--strict` makes it fail               |
 | `fix-staged.mjs`          | `pre-commit`: runs ESLint or Prettier in fix mode on fully staged files and in check mode on partially staged ones |
+| `read-gates.mjs`          | `readGates(text, job)`: the gates of a workflow job, with no I/O                                                   |
+| `run-gates.mjs`           | `pnpm gates`: runs every gate of the `Checks` job in `ci.yml` and sums them up                                     |
 | `git-sandbox.mjs`         | Test helper: a temporary repository with its own global git config, and fake commands on its `PATH`                |
 | `comment-rules.mjs`       | The comment rules: `inspectComments({ code, file })` and `isCheckedSource(file)`, with no I/O                      |
 | `check-comments.mjs`      | The comment check command: picks the files, prints the findings, sets the exit code                                |
@@ -95,6 +97,16 @@ node tooling/scripts/fix-staged.mjs prettier {staged_files}  # a pre-commit job,
 
 It knows two tools, `eslint` (`--fix --max-warnings 0 --no-warn-ignored`) and `prettier` (`--write --ignore-unknown`), each run through `pnpm exec`. A new pre-commit job that rewrites files goes through it too. Once lefthook releases a fix for that issue, the jobs can call the tools directly again.
 
+### The CI gates on your machine
+
+```bash
+pnpm gates
+```
+
+`run-gates.mjs` reads the `checks` job of `.github/workflows/ci.yml` and runs, from the repository root, every step whose `if:` calls `cancelled()`: the marker that lets a step run after an earlier one failed. Setup steps do not carry it, which tells a gate from a setup step without naming either. A gate added to the workflow reaches `pnpm gates` with no edit here, and **finding no gate at all is an error rather than a pass**, because a check that silently matches nothing reports success. It keeps going after a failing gate and prints a summary; the exit code is 1 when a gate failed and 2 when it could not read the workflow.
+
+The environment of a step is not copied: CI can pass secrets that a laptop does not have, so each gate runs with the environment of your shell.
+
 ### The comment check
 
 ```bash
@@ -124,6 +136,7 @@ check-comments: 12 files, 1 failures
 | Command                                             | What it does                              |
 | --------------------------------------------------- | ----------------------------------------- |
 | `printf '%s\n' "<message>" \| pnpm exec commitlint` | Check a commit message without committing |
+| `pnpm gates`                                        | Run every check CI runs                   |
 | `pnpm lint:comments [files...]`                     | Run the comment check                     |
 | `pnpm --filter @repo/scripts test`                  | Run the scripts' tests                    |
 

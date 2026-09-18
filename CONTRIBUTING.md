@@ -182,14 +182,15 @@ On the empty template, a commit of code spends about 3 seconds in its hooks, and
 
 Two workflows in [`.github/workflows/`](.github/workflows), both on the Node.js version in [`.nvmrc`](.nvmrc) and the pnpm version that `packageManager` names in [`package.json`](package.json):
 
-| Workflow       | Job        | Runs on                                              | Checks                                                                                                              |
-| -------------- | ---------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `ci.yml`       | `Checks`   | Every pull request and every push to `main`          | `pnpm format`, `lint` (with `lint:arch`), `lint:comments`, `types:check`, `test`, `spell:check`, `lint:md`, `build` |
-| `pr-title.yml` | `PR title` | A pull request opened, edited, reopened or pushed to | The pull request title, with commitlint                                                                             |
+| Workflow       | Job        | Runs on                                              | Checks                                                                                                                                              |
+| -------------- | ---------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ci.yml`       | `Checks`   | Every pull request and every push to `main`          | `pnpm format`, `lint` (with `lint:arch`), `lint:comments`, `types:check`, `test`, `spell:check`, `lint:md`, `env:check`, `env:check:turbo`, `build` |
+| `pr-title.yml` | `PR title` | A pull request opened, edited, reopened or pushed to | The pull request title, with commitlint and the same [commit rules](#commits)                                                                       |
 
+- **`pnpm gates` runs the same checks on your machine.** It reads the `Checks` job out of `ci.yml`, runs every step that is marked to run after a failure (`if: ${{ !cancelled() … }}`), and sums them up, so the list of checks lives in one place. Run it before you open a pull request; on the empty template it takes about 20 seconds.
+- **A new check is one step.** Add it to the `Checks` job with the same `if:` as the others, and both CI and `pnpm gates` run it.
 - **Every check runs even after one fails**, so a single run lists every problem, and the job still fails.
 - **Caches**: the pnpm store and the Turborepo cache are restored between runs, so packages that did not change replay their results.
-- **Secrets are optional.** The build reads `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` from the repository secrets (Settings → Secrets and variables → Actions). Without them, as in a pull request from a fork, both are empty strings.
 - **Pinned actions.** Each action is pinned to a commit SHA, with its version in a comment; Dependabot opens one pull request a month to update them.
 
 ### Pull requests
@@ -205,12 +206,11 @@ One pull request carries one change. Open it as a draft when you want early feed
 
 A repository created from this template does not copy the settings of this one. Set these once, as an administrator:
 
-| Setting                         | Where                                      | Value                                                                                                                 |
-| ------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| Merge methods                   | Settings → General → Pull Requests         | Only **Allow squash merging**, with the default message **Pull request title and commit details**                     |
-| Branch cleanup                  | Settings → General → Pull Requests         | **Automatically delete head branches**                                                                                |
-| Branch ruleset for `main`       | Settings → Rules → Rulesets                | Require a pull request, require the status checks `Checks` and `PR title`, block force pushes, require linear history |
-| Clerk keys, when auth is set up | Settings → Secrets and variables → Actions | `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY`                                                            |
+| Setting                   | Where                              | Value                                                                                                                 |
+| ------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Merge methods             | Settings → General → Pull Requests | Only **Allow squash merging**, with the default message **Pull request title and commit details**                     |
+| Branch cleanup            | Settings → General → Pull Requests | **Automatically delete head branches**                                                                                |
+| Branch ruleset for `main` | Settings → Rules → Rulesets        | Require a pull request, require the status checks `Checks` and `PR title`, block force pushes, require linear history |
 
 The first two in one command, run from a clone of the new repository:
 

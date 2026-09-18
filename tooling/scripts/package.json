@@ -21,7 +21,8 @@
   },
   "dependencies": {
     "@typescript-eslint/typescript-estree": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "yaml": "catalog:"
   },
   "devDependencies": {
     "@commitlint/lint": "catalog:",
