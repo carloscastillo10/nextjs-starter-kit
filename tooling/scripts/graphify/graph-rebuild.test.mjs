@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 import { describe, expect, test } from "vitest";
 
-import { createSandbox } from "./git-sandbox.mjs";
+import { createSandbox } from "../git-sandbox.mjs";
 import { statePaths } from "./graph-lock.mjs";
 import { findExecutable } from "./graph-rules.mjs";
 
