@@ -16,13 +16,28 @@
     "transit": {
       "dependsOn": ["^transit"]
     },
+    "lint": {
+      "dependsOn": ["transit"]
+    },
+    "lint:fix": {
+      "dependsOn": ["transit"],
+      "cache": false
+    },
+    "lint:arch": {
+      "inputs": ["src/**", "steiger.config.ts", "package.json"]
+    },
+    "//#lint:root": {},
+    "//#lint:fix:root": {
+      "cache": false
+    },
     "format": {
       "dependsOn": ["transit"],
       "inputs": [
         "$TURBO_DEFAULT$",
         "$TURBO_ROOT$/.editorconfig",
         "$TURBO_ROOT$/.gitignore",
-        "$TURBO_ROOT$/.prettierignore"
+        "$TURBO_ROOT$/.prettierignore",
+        "$TURBO_ROOT$/tooling/prettier/prettier.config.js"
       ]
     },
     "format:fix": {

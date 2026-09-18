@@ -13,7 +13,9 @@
   "scripts": {
     "clean": "git clean -xdf .turbo node_modules",
     "format": "prettier . --check --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
-    "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore"
+    "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "prettier-plugin-tailwindcss": "catalog:"
@@ -22,6 +24,8 @@
     "prettier": "catalog:"
   },
   "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "eslint": "catalog:",
     "prettier": "catalog:"
   }
 }

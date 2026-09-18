@@ -1,0 +1,101 @@
+import eslintReact from "@eslint-react/eslint-plugin";
+import jsxA11y from "eslint-plugin-jsx-a11y";
+import reactHooks from "eslint-plugin-react-hooks";
+
+import { closing, codeStyle, fileNamingRule, MODULE_FILE_NAMES } from "./base.js";
+import { BASE_SYNTAX, COMPONENT_SYNTAX } from "./syntax.js";
+
+const REACT_FILES = ["**/*.{ts,tsx}"];
+
+const COMPONENT_FILES = ["**/*.tsx"];
+
+/*
+ * @eslint-react carries its own copy of the React Compiler rules. The React team's
+ * plugin owns them here, so the copies are switched off and each problem is reported
+ * once, under the name the React documentation uses.
+ */
+const RULES_OWNED_BY_REACT_HOOKS = [
+  "rules-of-hooks",
+  "exhaustive-deps",
+  "static-components",
+  "purity",
+  "refs",
+  "set-state-in-effect",
+  "set-state-in-render",
+  "immutability",
+  "globals",
+  "use-memo",
+  "error-boundaries",
+  "unsupported-syntax",
+];
+
+const JSX_PROP_ORDER = {
+  type: "unsorted",
+  groups: ["key", "class-name", "unknown", "callback"],
+  customGroups: [
+    { groupName: "key", elementNamePattern: "^key$" },
+    { groupName: "class-name", elementNamePattern: "^className$" },
+    { groupName: "callback", elementNamePattern: "^on[A-Z]" },
+  ],
+};
+
+/**
+ * React rules for TypeScript files, shared by the React library and Next.js presets.
+ * They stay off JavaScript files: the type-aware rules need type information.
+ */
+export const reactBlocks = [
+  {
+    ...reactHooks.configs.flat["recommended-latest"],
+    name: "react-hooks/recommended-latest",
+    files: REACT_FILES,
+  },
+  { ...eslintReact.configs["recommended-type-checked"], files: REACT_FILES },
+  {
+    name: "@repo/eslint-config/react/rules-owned-by-react-hooks",
+    files: REACT_FILES,
+    rules: Object.fromEntries(
+      RULES_OWNED_BY_REACT_HOOKS.map((rule) => [`@eslint-react/${rule}`, "off"]),
+    ),
+  },
+  { ...jsxA11y.flatConfigs.recommended, files: COMPONENT_FILES },
+  {
+    name: "@repo/eslint-config/react/rules",
+    files: REACT_FILES,
+    rules: {
+      "react-hooks/exhaustive-deps": "warn",
+      "@eslint-react/no-array-index-key": "error",
+      "@eslint-react/no-forward-ref": "error",
+      "@eslint-react/no-use-context": "error",
+      "@eslint-react/no-context-provider": "error",
+      "@eslint-react/no-unstable-context-value": "error",
+      "@eslint-react/no-unstable-default-props": "error",
+      "@eslint-react/use-state": "error",
+      "@eslint-react/jsx-no-useless-fragment": "error",
+      "@eslint-react/dom-no-missing-button-type": "error",
+      "@eslint-react/dom-no-unsafe-target-blank": "error",
+    },
+  },
+  {
+    name: "@repo/eslint-config/react/components",
+    files: COMPONENT_FILES,
+    rules: {
+      "no-restricted-syntax": ["error", ...BASE_SYNTAX, ...COMPONENT_SYNTAX],
+      "perfectionist/sort-jsx-props": ["error", JSX_PROP_ORDER],
+    },
+  },
+];
+
+export const react = [
+  ...codeStyle,
+  ...reactBlocks,
+  {
+    name: "@repo/eslint-config/react/file-names",
+    rules: {
+      "check-file/filename-naming-convention": fileNamingRule({
+        ...MODULE_FILE_NAMES,
+        "**/*.tsx": "KEBAB_CASE",
+      }),
+    },
+  },
+  ...closing,
+];

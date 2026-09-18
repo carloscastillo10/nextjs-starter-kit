@@ -14,10 +14,17 @@
     "format:fix": "turbo run format:fix format:fix:root --continue",
     "format:fix:root": "prettier . --write \"!apps/**\" \"!packages/**\" \"!tooling/**\"",
     "format:root": "prettier . --check \"!apps/**\" \"!packages/**\" \"!tooling/**\"",
+    "lint": "turbo run lint lint:root lint:arch --continue",
+    "lint:arch": "turbo run lint:arch",
+    "lint:fix": "turbo run lint:fix lint:fix:root --continue",
+    "lint:fix:root": "eslint \"*.{js,mjs,cjs}\" --fix",
+    "lint:root": "eslint \"*.{js,mjs,cjs}\"",
     "types:check": "turbo run types:check"
   },
   "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
+    "eslint": "catalog:",
     "prettier": "catalog:",
     "turbo": "catalog:"
   },

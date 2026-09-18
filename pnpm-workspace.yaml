@@ -10,11 +10,39 @@ packages:
 # an `engine-strict` line there is silently ignored.
 engineStrict: true
 
+# Peer ranges that lag behind a release the package already works with. Each entry
+# was checked by running the package, and can go once upstream widens its range.
+peerDependencyRules:
+  allowedVersions:
+    # The accessibility rules run on ESLint 10 (a missing `alt` is still reported);
+    # the plugin's last release predates ESLint 10.
+    eslint-plugin-jsx-a11y>eslint: "10"
+    # Optional peer of a Steiger dependency, which only reads tsconfig files and does
+    # not call the TypeScript compiler.
+    tsconfck>typescript: "6"
+
+# eslint-plugin-react-hooks accepts zod-validation-error 3.5 or 4, but loads its `v4`
+# entry point, which 3.5.4 no longer exports. Steiger needs the 3.x line, so without
+# this override both share 3.5.4 and the plugin fails to load.
+overrides:
+  eslint-plugin-react-hooks>zod-validation-error: ^4.0.2
+
 catalog:
+  "@eslint-react/eslint-plugin": ^5.19.1
+  "@eslint/js": ^10.0.1
   "@feature-sliced/steiger-plugin": ^0.7.0
+  "@next/eslint-plugin-next": ^16.3.5
+  "@stylistic/eslint-plugin": ^5.10.0
   "@types/node": ^24.13.5
   "@types/react": ^19.3.0
   "@types/react-dom": ^19.3.0
+  eslint: ^10.10.0
+  eslint-config-prettier: ^10.1.8
+  eslint-plugin-check-file: ^3.3.2
+  eslint-plugin-jsx-a11y: ^6.10.2
+  eslint-plugin-perfectionist: ^5.11.1
+  eslint-plugin-react-hooks: ^7.1.1
+  globals: ^17.12.0
   next: ^16.3.5
   # Formatting can change in any release, so Prettier is pinned to an exact version.
   prettier: 3.9.7
@@ -26,3 +54,4 @@ catalog:
   # TypeScript minors can break types, so stay on 6.0.x: typescript-eslint
   # supports `<6.1.0`, and TypeScript 7 ships without the compiler API it needs.
   typescript: ~6.0.3
+  typescript-eslint: ^8.70.0

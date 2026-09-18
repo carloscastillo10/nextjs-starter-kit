@@ -17,8 +17,6 @@
     "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore"
   },
   "devDependencies": {
-    "@repo/prettier-config": "workspace:*",
     "prettier": "catalog:"
-  },
-  "prettier": "@repo/prettier-config"
+  }
 }
