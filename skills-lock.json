@@ -19,6 +19,12 @@
       "skillPath": "skills/core/clerk-setup/SKILL.md",
       "computedHash": "382732a11dee7ffe3d021cdb72ac8d71e173491c6bff59b3a2903d40d4520f21"
     },
+    "design-md": {
+      "source": "NousResearch/hermes-agent",
+      "sourceType": "github",
+      "skillPath": "skills/creative/design-md/SKILL.md",
+      "computedHash": "5fcd1d3ec25d878d7e4b69ac5b379283a6eb3404a1c06be6092c56add0bec73c"
+    },
     "feature-sliced-design": {
       "source": "feature-sliced/skills",
       "sourceType": "github",
@@ -30,6 +36,12 @@
       "sourceType": "github",
       "skillPath": "skills/shadcn/SKILL.md",
       "computedHash": "f615de216e085a84e31593ad0fa9062232adc40cd87b7c7ab2b8e49abf6500be"
+    },
+    "stop-slop": {
+      "source": "hardikpandya/stop-slop",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "617bf97d33162a6bd0da4f40a97aac589de58e5a6c9cf011ed6108992210e7cb"
     },
     "turborepo": {
       "source": "vercel/turborepo",
