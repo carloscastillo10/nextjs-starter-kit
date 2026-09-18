@@ -17,10 +17,14 @@ const OWNER = { name: "Ada Lovelace", email: "ada@example.com" };
 /*
  * Git exports variables such as GIT_INDEX_FILE to the hooks it runs, and these
  * tests run inside the pre-push hook, so a sandbox starts from an environment
- * with none of them and a global config of its own.
+ * without them, without the lefthook switches, and with a global config of its own.
  */
-const environmentWithoutGit = () =>
-  Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith("GIT_")));
+const inheritedEnvironment = () =>
+  Object.fromEntries(
+    Object.entries(process.env).filter(
+      ([key]) => !key.startsWith("GIT_") && !key.startsWith("LEFTHOOK"),
+    ),
+  );
 
 const globalConfigText = (identity) =>
   [
@@ -33,7 +37,7 @@ export const createSandbox = (identity = OWNER) => {
   const directory = path.join(root, "work");
   const globalConfig = path.join(root, "global.gitconfig");
   const env = {
-    ...environmentWithoutGit(),
+    ...inheritedEnvironment(),
     GIT_CONFIG_GLOBAL: globalConfig,
     GIT_CONFIG_NOSYSTEM: "1",
   };
@@ -70,6 +74,20 @@ export const createSandbox = (identity = OWNER) => {
     git(["remote", "add", "origin", origin]);
   };
 
+  const write = (file, text) => {
+    mkdirSync(path.dirname(path.join(directory, file)), { recursive: true });
+    writeFileSync(path.join(directory, file), text);
+  };
+
+  const fakeCommand = (name, script) => {
+    const bin = path.join(root, "bin");
+
+    if (!env.PATH.startsWith(bin)) env.PATH = `${bin}${path.delimiter}${env.PATH}`;
+
+    mkdirSync(bin, { recursive: true });
+    writeFileSync(path.join(bin, name), `${script}\n`, { mode: 0o755 });
+  };
+
   const run = (script, args = [], extraEnv = {}) => {
     const { status, stdout, stderr } = spawnSync(process.execPath, [script, ...args], {
       cwd: directory,
@@ -82,5 +100,5 @@ export const createSandbox = (identity = OWNER) => {
 
   git(["init", "--quiet"]);
 
-  return { addOrigin, commit, directory, env, git, root, run };
+  return { addOrigin, commit, directory, env, fakeCommand, git, root, run, write };
 };

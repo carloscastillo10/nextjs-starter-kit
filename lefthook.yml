@@ -4,43 +4,60 @@
 #
 # One top-level key per hook, each with named jobs; a new hook goes at the end.
 
-# The checks never rewrite a file: `pnpm format:fix` and `pnpm lint:fix` do. While they
-# run, lefthook hides the unstaged part of a partially staged file, so the checks on
-# staged files read exactly what the commit will contain.
+# ESLint and Prettier fix the staged files and stage the result. While the hook runs,
+# lefthook hides the unstaged part of a partially staged file, so every job reads
+# exactly what the commit will contain. The two fixers run one after the other,
+# Prettier last, so they never write the same file at once and the layout Prettier
+# chooses is the one committed. The checks run together after them, on fixed files.
+# A failure does not stop the jobs after it, so one commit reports every problem.
+#
+# fix-staged only checks a partially staged file instead of rewriting it: when a
+# rewrite collides with the hidden unstaged lines, lefthook 2.1.14 reverts every
+# unstaged change in the repository (upstream issue 1480). The setup step records
+# those files before lefthook hides anything. A new job that rewrites files goes
+# through fix-staged too.
 pre-commit:
-  parallel: true
-  jobs:
-    - name: identity
-      run: node tooling/scripts/check-git-identity.mjs
+  setup:
+    - run: node tooling/scripts/fix-staged.mjs --record
 
+  jobs:
     - name: eslint
       glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"
-      run: pnpm exec eslint --no-warn-ignored {staged_files}
-
-    - name: comments
-      glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"
-      run: pnpm lint:comments {staged_files}
+      run: node tooling/scripts/fix-staged.mjs eslint {staged_files}
+      stage_fixed: true
 
     - name: prettier
-      run: pnpm exec prettier --check --ignore-unknown {staged_files}
+      run: node tooling/scripts/fix-staged.mjs prettier {staged_files}
+      stage_fixed: true
 
-    - name: spelling
-      run: pnpm exec cspell --no-progress --no-must-find-files {staged_files}
+    - name: checks
+      group:
+        parallel: true
+        jobs:
+          - name: identity
+            run: node tooling/scripts/check-git-identity.mjs
 
-    # Lints every Markdown file, not only the staged ones: markdownlint-cli2 reads a
-    # file argument as a glob, so a Next.js folder such as `[slug]` or `(group)`
-    # matches nothing, and a literal path skips the ignores in its config.
-    - name: markdown
-      glob: "*.md"
-      run: pnpm lint:md
+          - name: comments
+            glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"
+            run: pnpm lint:comments {staged_files}
 
-    # Types belong to a whole project, so this runs the full check; Turborepo replays
-    # every package whose files did not change from its cache.
-    - name: types
-      glob:
-        - "*.{ts,tsx,mts,cts}"
-        - "*.json"
-      run: pnpm types:check --output-logs=errors-only
+          - name: spelling
+            run: pnpm exec cspell --no-progress --no-must-find-files {staged_files}
+
+          # Lints every Markdown file, not only the staged ones: markdownlint-cli2 reads a
+          # file argument as a glob, so a Next.js folder such as `[slug]` or `(group)`
+          # matches nothing, and a literal path skips the ignores in its config.
+          - name: markdown
+            glob: "*.md"
+            run: pnpm lint:md
+
+          # Types belong to a whole project, so this runs the full check; Turborepo
+          # replays every package whose files did not change from its cache.
+          - name: types
+            glob:
+              - "*.{ts,tsx,mts,cts}"
+              - "*.json"
+            run: pnpm types:check --output-logs=errors-only
 
 commit-msg:
   jobs:
@@ -70,3 +87,9 @@ pre-push:
 
           - name: architecture
             run: pnpm lint:arch --output-logs=errors-only
+
+          - name: env
+            run: pnpm env:check
+
+          - name: env-turbo
+            run: pnpm env:check:turbo

@@ -1,5 +1,3 @@
-import { mkdirSync, writeFileSync } from "node:fs";
-import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { describe, expect, test } from "vitest";
@@ -16,13 +14,10 @@ const answeringGh = (linkedBranches) =>
     "exit 1",
   ].join("\n");
 
-const withFakeGh = (sandbox, script) => {
-  const bin = path.join(sandbox.root, "bin");
+const runWithGh = (sandbox, gh) => {
+  sandbox.fakeCommand("gh", gh);
 
-  mkdirSync(bin);
-  writeFileSync(path.join(bin, "gh"), `${script}\n`, { mode: 0o755 });
-
-  return { PATH: `${bin}${path.delimiter}${process.env.PATH}` };
+  return sandbox.run(SCRIPT);
 };
 
 const sandboxOnBranch = (branch, { withOrigin = true } = {}) => {
@@ -41,7 +36,7 @@ describe("check-linked-branch", () => {
   test("stays silent on a branch that names no issue", () => {
     const sandbox = sandboxOnBranch("chore/tidy-scripts");
 
-    expect(sandbox.run(SCRIPT, [], withFakeGh(sandbox, answeringGh(0)))).toEqual({
+    expect(runWithGh(sandbox, answeringGh(0))).toEqual({
       status: 0,
       stdout: "",
       stderr: "",
@@ -50,7 +45,7 @@ describe("check-linked-branch", () => {
 
   test("stops the first push of an issue branch that GitHub has not linked", () => {
     const sandbox = sandboxOnBranch("feat/12-settings-page");
-    const { status, stderr } = sandbox.run(SCRIPT, [], withFakeGh(sandbox, answeringGh(0)));
+    const { status, stderr } = runWithGh(sandbox, answeringGh(0));
 
     expect(status).toBe(1);
     expect(stderr).toContain("#12 has no linked branch");
@@ -61,7 +56,7 @@ describe("check-linked-branch", () => {
 
   test("passes when the issue already has a linked branch", () => {
     const sandbox = sandboxOnBranch("feat/12-settings-page");
-    const { status, stdout } = sandbox.run(SCRIPT, [], withFakeGh(sandbox, answeringGh(1)));
+    const { status, stdout } = runWithGh(sandbox, answeringGh(1));
 
     expect(status).toBe(0);
     expect(stdout).toContain("#12 already has a linked branch");
@@ -72,12 +67,12 @@ describe("check-linked-branch", () => {
 
     sandbox.git(["push", "--quiet", "origin", "feat/12-settings-page"]);
 
-    expect(sandbox.run(SCRIPT, [], withFakeGh(sandbox, answeringGh(0))).status).toBe(0);
+    expect(runWithGh(sandbox, answeringGh(0)).status).toBe(0);
   });
 
   test("does not block a push when GitHub cannot be asked", () => {
     const sandbox = sandboxOnBranch("feat/12-settings-page");
-    const { status, stderr } = sandbox.run(SCRIPT, [], withFakeGh(sandbox, "#!/bin/sh\nexit 1"));
+    const { status, stderr } = runWithGh(sandbox, "#!/bin/sh\nexit 1");
 
     expect(status).toBe(0);
     expect(stderr).toContain("could not ask GitHub about #12");
@@ -86,6 +81,6 @@ describe("check-linked-branch", () => {
   test("does not block a repository without a remote", () => {
     const sandbox = sandboxOnBranch("feat/12-settings-page", { withOrigin: false });
 
-    expect(sandbox.run(SCRIPT, [], withFakeGh(sandbox, answeringGh(0))).status).toBe(0);
+    expect(runWithGh(sandbox, answeringGh(0)).status).toBe(0);
   });
 });

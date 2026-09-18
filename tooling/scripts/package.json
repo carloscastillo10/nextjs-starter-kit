@@ -30,6 +30,7 @@
     "@repo/vitest-config": "workspace:*",
     "cspell": "catalog:",
     "eslint": "catalog:",
+    "lefthook": "catalog:",
     "prettier": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"

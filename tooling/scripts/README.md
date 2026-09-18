@@ -8,13 +8,19 @@ Holds the checks written for this repository, each with its tests. [lefthook](..
 
 ## 🗂️ Structure
 
-| File                 | Holds                                                                                                   |
-| -------------------- | ------------------------------------------------------------------------------------------------------- |
-| `commit-rules.mjs`   | The commit convention as commitlint rules, loaded by the root `commitlint.config.mjs`                   |
-| `comment-rules.mjs`  | The comment rules: `inspectComments({ code, file })` and `isCheckedSource(file)`, with no I/O           |
-| `check-comments.mjs` | The comment check command: picks the files, prints the findings, sets the exit code                     |
-| `*.test.mjs`         | Tests, with inline fixtures or a temporary git repository                                               |
-| `turbo.json`         | Adds the root files the tests read, the commitlint config and the CI workflow, to the test cache inputs |
+| File                      | Holds                                                                                                              |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `commit-rules.mjs`        | The commit convention as commitlint rules, loaded by the root `commitlint.config.mjs`                              |
+| `check-git-identity.mjs`  | `pre-commit`: refuses a commit that would not carry the global git identity                                        |
+| `check-push-authors.mjs`  | `pre-push`: refuses a commit by an address that is neither the pusher's nor already on `origin/main`               |
+| `check-linked-branch.mjs` | `pre-push`: stops the first push of an issue branch that GitHub has not linked to its issue                        |
+| `check-branch-scope.mjs`  | `pre-push`: reports a branch that mixes unrelated changes or is very large; `--strict` makes it fail               |
+| `fix-staged.mjs`          | `pre-commit`: runs ESLint or Prettier in fix mode on fully staged files and in check mode on partially staged ones |
+| `git-sandbox.mjs`         | Test helper: a temporary repository with its own global git config, and fake commands on its `PATH`                |
+| `comment-rules.mjs`       | The comment rules: `inspectComments({ code, file })` and `isCheckedSource(file)`, with no I/O                      |
+| `check-comments.mjs`      | The comment check command: picks the files, prints the findings, sets the exit code                                |
+| `*.test.mjs`              | Tests, with inline fixtures or a temporary git repository                                                          |
+| `turbo.json`              | Adds the root files the tests read, the commitlint config and the CI workflow, to the test cache inputs            |
 
 ## 🚀 Usage
 
@@ -48,6 +54,46 @@ Why it is built this way:
 - **The trailer rule reads the parsed body**, not the raw message: with `git commit --verbose`, git appends the diff below a scissors line, and a `Co-authored-by` inside that diff is not a trailer.
 
 The pull request title goes through the same config in CI, because a squash merge turns it into the commit on `main`.
+
+### Who a commit says it came from
+
+Two checks, because one question splits into two that are answered at different moments.
+
+**`check-git-identity.mjs`, on `pre-commit`: is this commit about to carry the wrong name?** It compares the identity git would stamp, `git var GIT_AUTHOR_IDENT` and `GIT_COMMITTER_IDENT` (so environment variables and `git -c` count too), with `user.name` and `user.email` from the global config, and refuses the commit when they differ. It names the cause: a repository-level override, with the exact `git config --unset-all` commands; a `-c` on the command line; or the environment.
+
+- **The global config is the reference, not a list of people.** A list of allowed addresses has to be edited every time someone joins, and the day it is forgotten it blocks a real developer. A new developer sets their global identity once, as everyone already does, and never sees this check.
+- **A repository-level override is the case worth refusing.** Every worktree shares one config file, so `git config user.email` inside the repository silently reassigns authorship for every session on the machine, not for one commit.
+- **It skips itself when there is no global identity**, because a fresh machine has none, and a check that fires before setup is a check people switch off.
+
+**`check-push-authors.mjs`, on `pre-push`: does a commit come from an address nobody here uses?** The commit check cannot see a commit made somewhere else and then rebased or cherry-picked into the branch. So this one looks at every commit the branch adds against `origin/main` and accepts an author address only if it is the pusher's global one, or if it already appears in the history of `origin/main`. The accepted set derives itself from git, so there is no file to keep: a new colleague passes on their first push, because it carries their own identity. Without a fetched `origin/main` it skips itself.
+
+### The branch checks
+
+**`check-linked-branch.mjs`** reads the issue number from a branch named `<type>/<issue>-<slug>`. On the first push of such a branch, when the remote does not have it yet, it asks GitHub through `gh` whether the issue has a linked branch, and stops the push with the commands to move the work onto one when it has none. `gh issue develop` links a branch when it creates it, and a branch that is already on the remote cannot be linked that way, so the first push is the last moment to fix it. Without a remote, network or `gh`, it does not block.
+
+**`check-branch-scope.mjs`** compares the branch with `origin/main`, or `main`, and reports without failing when it mixes concerns or is very large. Pass another base as the first argument, and `--strict` to make the report fail.
+
+| Concern    | Paths                            |
+| ---------- | -------------------------------- |
+| `product`  | `apps/`, `packages/`             |
+| `delivery` | `.github/`                       |
+| `tooling`  | `tooling/`, `turbo/`, `.claude/` |
+
+A concern counts when it holds at least 3 files and 10% of the files the branch attributes to a concern. Two or more of them in one branch is reported, and so is a branch over 40 files or 1500 changed lines. Markdown, `docs/`, the spelling dictionary and the files at the root travel with any concern, so a slice with its docs and a lockfile change still counts as one thing.
+
+### Fixing the staged files
+
+```bash
+node tooling/scripts/fix-staged.mjs --record                 # the setup step of pre-commit
+node tooling/scripts/fix-staged.mjs prettier {staged_files}  # a pre-commit job, with stage_fixed
+```
+
+`pre-commit` fixes the staged files and stages the result, so a formatting slip never costs a second commit. lefthook hides the unstaged part of each partially staged file while the hook runs. If a fixer then rewrites a line whose unstaged edit it hid, lefthook 2.1.14 cannot re-apply that edit and reverts the unstaged changes of every file in the repository, including files the commit never touched ([lefthook issue 1480](https://github.com/evilmartians/lefthook/issues/1480), with a fix proposed upstream). `fix-staged` keeps the fixers off that path:
+
+1. `--record`, the hook's `setup` step, runs before lefthook hides anything and writes the partially staged files to a file in the git directory.
+2. `fix-staged <tool> <files>` runs the tool in fix mode on the other files and in check mode on those, and says which files it only checked.
+
+It knows two tools, `eslint` (`--fix --max-warnings 0 --no-warn-ignored`) and `prettier` (`--write --ignore-unknown`), each run through `pnpm exec`. A new pre-commit job that rewrites files goes through it too. Once lefthook releases a fix for that issue, the jobs can call the tools directly again.
 
 ### The comment check
 
