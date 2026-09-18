@@ -12,6 +12,12 @@
     },
     "clean": {
       "cache": false
+    },
+    "transit": {
+      "dependsOn": ["^transit"]
+    },
+    "types:check": {
+      "dependsOn": ["transit"]
     }
   }
 }

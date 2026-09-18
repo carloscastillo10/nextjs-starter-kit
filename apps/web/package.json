@@ -8,10 +8,11 @@
   },
   "scripts": {
     "build": "next build",
-    "clean": "git clean -xdf .next .turbo node_modules next-env.d.ts",
+    "clean": "git clean -xdf .next .turbo node_modules next-env.d.ts tsconfig.tsbuildinfo",
     "dev": "next dev",
     "lint:arch": "steiger ./src",
-    "start": "next start"
+    "start": "next start",
+    "types:check": "next typegen && tsc --noEmit"
   },
   "dependencies": {
     "next": "catalog:",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@feature-sliced/steiger-plugin": "catalog:",
+    "@repo/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
