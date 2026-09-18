@@ -82,3 +82,10 @@ export const SLICE_UI_SYNTAX = [
     message: "Move component state and effects into a custom hook in the slice's model segment.",
   },
 ];
+
+export const UI_KIT_SYNTAX = [
+  {
+    selector: "JSXOpeningElement[name.name=/^(button|input|select|textarea|label|dialog)$/]",
+    message: "Use the UI kit component from @repo/ui instead of the raw element.",
+  },
+];

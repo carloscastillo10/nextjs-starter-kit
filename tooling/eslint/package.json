@@ -26,11 +26,13 @@
     "@next/eslint-plugin-next": "catalog:",
     "@stylistic/eslint-plugin": "catalog:",
     "eslint-config-prettier": "catalog:",
+    "eslint-plugin-better-tailwindcss": "catalog:",
     "eslint-plugin-check-file": "catalog:",
     "eslint-plugin-jsx-a11y": "catalog:",
     "eslint-plugin-perfectionist": "catalog:",
     "eslint-plugin-react-hooks": "catalog:",
     "globals": "catalog:",
+    "tailwindcss": "catalog:",
     "typescript-eslint": "catalog:"
   },
   "devDependencies": {

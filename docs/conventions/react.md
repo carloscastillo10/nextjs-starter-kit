@@ -1,3 +1,8 @@
+---
+tags: [conventions, react, nextjs, tailwind]
+aliases: [React conventions, React and Next.js conventions]
+---
+
 # React and Next.js
 
 How components, hooks and pages are written in `apps/web` (Next.js App Router, React 19, Server Components by default). The general TypeScript rules are in [code-style.md](code-style.md) and apply here too; where code lives is decided by [Feature-Sliced Design](../architecture/feature-sliced-design.md).
@@ -239,7 +244,7 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormOptions) => {
 
 ## Styling
 
-These rules apply once Tailwind CSS and the UI kit are installed.
+Tailwind CSS v4 reads its theme from [`@repo/tailwind-config`](../../tooling/tailwind/README.md), and the UI kit is [`@repo/ui`](../../packages/ui/README.md). [DESIGN.md](../../DESIGN.md) lists the tokens.
 
 - **Only values from the theme.** No arbitrary values: `w-[123px]`, `text-[14px]`, `bg-[#1a2b3c]`, `z-[60]`, `shadow-[...]` and `rounded-[...]` are all out. Use the closest step of the scale; a value the design needs and the scale lacks becomes a named token in the theme, and the code uses its class.
 - **Colors come from semantic tokens** (`bg-primary`, `text-muted-foreground`, `border-border`), never from hex values.
@@ -258,22 +263,25 @@ These rules apply once Tailwind CSS and the UI kit are installed.
 
 In addition to the checks in [code-style.md](code-style.md#enforcement):
 
-| Rule                                                                                                    | Check                                                                                               |
-| ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Rules of hooks, no components created during render, no synchronous `setState` in effects, purity, refs | `eslint-plugin-react-hooks` (`recommended-latest`)                                                  |
-| Missing effect dependencies (warning)                                                                   | `react-hooks/exhaustive-deps`                                                                       |
-| No state or effect hooks in slice `ui/` files                                                           | `no-restricted-syntax` (hook calls in `src/{_pages,widgets,features,entities}/**/ui/**/*.tsx`)      |
-| No `if` in a component body except navigation guards                                                    | `no-restricted-syntax` (for `*.tsx`)                                                                |
-| No computation in JSX props                                                                             | `no-restricted-syntax` (`JSXAttribute > JSXExpressionContainer > BinaryExpression`, `??`)           |
-| The rest of the props is named `props`                                                                  | `no-restricted-syntax` (for `*.tsx`)                                                                |
-| `useState` typed, hooks without a return type                                                           | `no-restricted-syntax`                                                                              |
-| `className` first and callbacks last in JSX                                                             | `perfectionist/sort-jsx-props`                                                                      |
-| `&&` only with a boolean                                                                                | `@eslint-react/no-leaked-conditional-rendering`                                                     |
-| No component defined inside another                                                                     | `@eslint-react/no-nested-component-definitions`, `react-hooks/static-components`                    |
-| No index as `key`                                                                                       | `@eslint-react/no-array-index-key`                                                                  |
-| No `forwardRef`, `use` over `useContext`, `<Context>` over `<Context.Provider>`                         | `@eslint-react/no-forward-ref`, `@eslint-react/no-use-context`, `@eslint-react/no-context-provider` |
-| Stable context values and default props                                                                 | `@eslint-react/no-unstable-context-value`, `@eslint-react/no-unstable-default-props`                |
-| `[value, setValue]` naming for state                                                                    | `@eslint-react/use-state`                                                                           |
-| Next.js rules (`next/image`, scripts, fonts)                                                            | `@next/eslint-plugin-next` (`core-web-vitals`)                                                      |
-| Accessibility                                                                                           | `eslint-plugin-jsx-a11y` (`recommended`)                                                            |
-| Tailwind without arbitrary values, the UI kit first                                                     | added when Tailwind and the UI kit are installed                                                    |
+| Rule                                                                                                    | Check                                                                                                                                   |
+| ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Rules of hooks, no components created during render, no synchronous `setState` in effects, purity, refs | `eslint-plugin-react-hooks` (`recommended-latest`)                                                                                      |
+| Missing effect dependencies (warning)                                                                   | `react-hooks/exhaustive-deps`                                                                                                           |
+| No state or effect hooks in slice `ui/` files                                                           | `no-restricted-syntax` (hook calls in `src/{_pages,widgets,features,entities}/**/ui/**/*.tsx`)                                          |
+| No `if` in a component body except navigation guards                                                    | `no-restricted-syntax` (for `*.tsx`)                                                                                                    |
+| No computation in JSX props                                                                             | `no-restricted-syntax` (`JSXAttribute > JSXExpressionContainer > BinaryExpression`, `??`)                                               |
+| The rest of the props is named `props`                                                                  | `no-restricted-syntax` (for `*.tsx`)                                                                                                    |
+| `useState` typed, hooks without a return type                                                           | `no-restricted-syntax`                                                                                                                  |
+| `className` first and callbacks last in JSX                                                             | `perfectionist/sort-jsx-props`                                                                                                          |
+| `&&` only with a boolean                                                                                | `@eslint-react/no-leaked-conditional-rendering`                                                                                         |
+| No component defined inside another                                                                     | `@eslint-react/no-nested-component-definitions`, `react-hooks/static-components`                                                        |
+| No index as `key`                                                                                       | `@eslint-react/no-array-index-key`                                                                                                      |
+| No `forwardRef`, `use` over `useContext`, `<Context>` over `<Context.Provider>`                         | `@eslint-react/no-forward-ref`, `@eslint-react/no-use-context`, `@eslint-react/no-context-provider`                                     |
+| Stable context values and default props                                                                 | `@eslint-react/no-unstable-context-value`, `@eslint-react/no-unstable-default-props`                                                    |
+| `[value, setValue]` naming for state                                                                    | `@eslint-react/use-state`                                                                                                               |
+| Next.js rules (`next/image`, scripts, fonts)                                                            | `@next/eslint-plugin-next` (`core-web-vitals`)                                                                                          |
+| Accessibility                                                                                           | `eslint-plugin-jsx-a11y` (`recommended`)                                                                                                |
+| The UI kit first (`button`, `input`, `select`, `textarea`, `label`, `dialog`)                           | `no-restricted-syntax` (for `src/**/*.tsx`)                                                                                             |
+| No arbitrary values (`calc()` allowed)                                                                  | `better-tailwindcss/no-restricted-classes`                                                                                              |
+| Only classes the theme defines                                                                          | `better-tailwindcss/no-unknown-classes`                                                                                                 |
+| Canonical and current Tailwind v4 classes, `(--var)` syntax, no conflicting classes                     | `better-tailwindcss/enforce-canonical-classes`, `enforce-consistent-variable-syntax`, `no-deprecated-classes`, `no-conflicting-classes` |
