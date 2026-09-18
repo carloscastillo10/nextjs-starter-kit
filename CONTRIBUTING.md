@@ -33,12 +33,17 @@ The rules in short:
 
 Tools enforce what they can, so run them before you push:
 
-| Command                       | Checks                                                                                                      |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `pnpm lint`                   | ESLint: the rules in the Enforcement tables of each convention document                                     |
-| `pnpm lint:comments`          | Comment citations, one-line block comments and lint directives fail; comment density and shape are reported |
-| `pnpm format`                 | Prettier formatting                                                                                         |
-| `pnpm --filter web lint:arch` | Feature-Sliced Design structure (Steiger)                                                                   |
+| Command              | Checks                                                                                                       |
+| -------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `pnpm lint`          | ESLint (the rules in the Enforcement tables of each convention document) and Steiger (Feature-Sliced Design) |
+| `pnpm lint:comments` | Comment citations, one-line block comments and lint directives fail; comment density and shape are reported  |
+| `pnpm format`        | Prettier formatting                                                                                          |
+| `pnpm types:check`   | TypeScript in strict mode                                                                                    |
+| `pnpm test`          | Vitest                                                                                                       |
+| `pnpm spell:check`   | cspell, over code and docs                                                                                   |
+| `pnpm lint:md`       | markdownlint, over every Markdown file                                                                       |
+
+`pnpm lint:fix` and `pnpm format:fix` apply the fixes the tools can make on their own. `pnpm lint:arch` runs only Steiger. To add a word to the spelling dictionary, edit [`tooling/cspell/project-words.txt`](tooling/cspell/project-words.txt).
 
 Inline lint suppressions are switched off. If a rule does not fit a file, change the configuration for that file's glob and write down why.
 
