@@ -71,14 +71,16 @@ const drain = async (root, graphify, openSink) => {
   if (!acquireLock(root)) return 0;
 
   const heartbeat = setInterval(() => refreshLock(root), HEARTBEAT_MS);
-  const sink = openSink(root);
+  let sink;
   let status = 0;
 
   try {
+    sink = openSink(root);
+
     while (takeRequest(root)) status = await rebuildOnce(graphify, sink);
   } finally {
     clearInterval(heartbeat);
-    sink.close();
+    sink?.close();
     releaseLock(root);
   }
 
@@ -122,13 +124,17 @@ const trigger = (hook, args) => {
 
     if (activeLockHolder(root) !== undefined) return 0;
 
-    spawn(process.execPath, [SCRIPT, "--worker"], {
+    const child = spawn(process.execPath, [SCRIPT, "--worker"], {
       cwd: root,
       detached: true,
       env: withoutGitVariables(process.env),
       stdio: "ignore",
       windowsHide: true,
-    }).unref();
+    });
+
+    // Without a listener, a process that cannot start throws out of the hook.
+    child.on("error", () => undefined);
+    child.unref();
   } catch {
     // The rebuild waits for the next hook; the git command itself goes on.
   }
