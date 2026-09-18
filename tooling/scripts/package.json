@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "exports": {
+    "./commit-rules": "./commit-rules.mjs"
+  },
   "engines": {
     "node": ">=24.18.0 <25",
     "pnpm": ">=11.17.0 <12"
@@ -21,6 +24,8 @@
     "typescript": "catalog:"
   },
   "devDependencies": {
+    "@commitlint/lint": "catalog:",
+    "@commitlint/load": "catalog:",
     "@repo/eslint-config": "workspace:*",
     "@repo/vitest-config": "workspace:*",
     "cspell": "catalog:",

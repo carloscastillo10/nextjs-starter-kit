@@ -1,14 +1,39 @@
 import { RuleConfigSeverity } from "@commitlint/types";
+import {
+  COMMIT_TYPES,
+  commitRulesPlugin,
+  MAX_HEADER_CODE_POINTS,
+} from "@repo/scripts/commit-rules";
 
 /*
- * Conventional Commits, plus a required kebab-case scope: `type(scope): subject`.
- * Pull requests are squashed, so the pull request title is the message that reaches
- * `main`, and CI checks it with this same config.
+ * The commit convention: `type(scope): <gitmoji> Message`. Pull requests are
+ * squashed, so the pull request title is the message that reaches `main`, and
+ * CI checks it with this same config.
+ *
+ * The default ignores are off because they skip every rule on a merge, and a
+ * Co-authored-by trailer must not ride in on one. The shape rules skip the
+ * messages git writes itself instead.
  */
 export default {
-  extends: ["@commitlint/config-conventional"],
+  defaultIgnores: false,
+  helpUrl: "CONTRIBUTING.md#commits",
+  parserPreset: {
+    parserOpts: {
+      headerPattern: /^(\w*)(?:\(([^()]*)\))?: (.*)$/u,
+      headerCorrespondence: ["type", "scope", "subject"],
+    },
+  },
+  plugins: [commitRulesPlugin],
   rules: {
-    "scope-case": [RuleConfigSeverity.Error, "always", "kebab-case"],
-    "scope-empty": [RuleConfigSeverity.Error, "never"],
+    "type-enum": [RuleConfigSeverity.Error, "always", COMMIT_TYPES],
+    "header-shape": [RuleConfigSeverity.Error, "always"],
+    "header-max-code-points": [RuleConfigSeverity.Error, "always", MAX_HEADER_CODE_POINTS],
+    "subject-gitmoji": [RuleConfigSeverity.Error, "always"],
+    "subject-upper-first": [RuleConfigSeverity.Error, "always"],
+    "subject-imperative": [RuleConfigSeverity.Error, "always"],
+    "subject-allowed-characters": [RuleConfigSeverity.Error, "always"],
+    "subject-full-stop": [RuleConfigSeverity.Error, "never", "."],
+    "body-leading-blank": [RuleConfigSeverity.Error, "always"],
+    "no-co-authored-by": [RuleConfigSeverity.Error, "always"],
   },
 };

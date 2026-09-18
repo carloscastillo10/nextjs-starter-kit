@@ -31,12 +31,12 @@
   },
   "devDependencies": {
     "@commitlint/cli": "catalog:",
-    "@commitlint/config-conventional": "catalog:",
     "@commitlint/types": "catalog:",
     "@repo/cspell-config": "workspace:*",
     "@repo/eslint-config": "workspace:*",
     "@repo/markdownlint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
+    "@repo/scripts": "workspace:*",
     "cspell": "catalog:",
     "eslint": "catalog:",
     "lefthook": "catalog:",

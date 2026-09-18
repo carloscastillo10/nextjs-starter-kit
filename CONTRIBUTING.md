@@ -88,44 +88,59 @@ To bring in new work from `main`, either rebase onto it or merge it into the bra
 
 ### Commits
 
-Messages follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). commitlint checks them in the `commit-msg` hook, with the rules in [`commitlint.config.mjs`](commitlint.config.mjs):
+Every commit subject has one shape, `type(scope): <gitmoji> Message`, built on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) with a [gitmoji](https://gitmoji.dev) after the colon. commitlint checks it in the `commit-msg` hook, with the rules in [`commitlint.config.mjs`](commitlint.config.mjs) and [`tooling/scripts/commit-rules.mjs`](tooling/scripts/commit-rules.mjs):
 
 ```text
-type(scope): subject
+feat(web): ✨ Add the settings page
 
-Optional body: why the change was made, in lines of up to 100 characters.
-
-Optional footers, such as BREAKING CHANGE: or Co-authored-by:
+Optional body: why the change was made, after a blank line.
 ```
 
-- **Type**: one from the table below.
-- **Scope**: required, in kebab-case. The package or area the change touches, such as `web`, `ui`, `eslint-config`, `repo`, `deps` or `ci`.
-- **Subject**: imperative and lower case ("add", not "Added" or "Adds"), with no final period. The whole first line stays within 100 characters.
-- **Breaking change**: add `!` after the scope, as in `feat(web)!: drop the legacy route`, or a `BREAKING CHANGE:` footer.
+| Rule             | Detail                                                                                                                                      |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Type**         | One of the types in the next table, in lower case                                                                                           |
+| **Scope**        | Required, in kebab-case, and general rather than specific: the package or area the change touches, such as `web`, `ui`, `tooling` or `repo` |
+| **Gitmoji**      | Required, right after the colon and a space: the emoji itself or its `:code:`, then a space                                                 |
+| **First letter** | Upper case                                                                                                                                  |
+| **First word**   | A verb in the imperative. Forms such as `Added`, `Adding` or `Adds`, and openers such as `The` or `New`, are rejected                       |
+| **Message**      | None of ``( ) , - ' " ` ;``, and no final period                                                                                            |
+| **Length**       | 50 characters for the whole first line, counted in code points: an emoji with a variation selector, such as ♻️, counts as two               |
+| **Body**         | Only when the subject cannot carry the reason, separated from it by a blank line                                                            |
+| **Trailers**     | No `Co-authored-by`: authorship belongs in the commit author field                                                                          |
 
-| Type       | For                                                       |
-| ---------- | --------------------------------------------------------- |
-| `feat`     | A new capability                                          |
-| `fix`      | A bug fix                                                 |
-| `docs`     | Documentation only                                        |
-| `style`    | Formatting that does not change what the code does        |
-| `refactor` | A code change that neither fixes a bug nor adds a feature |
-| `perf`     | A performance improvement                                 |
-| `test`     | Tests only                                                |
-| `build`    | Dependencies, the build and the tooling packages          |
-| `ci`       | The GitHub workflows                                      |
-| `chore`    | Other maintenance that ships no code                      |
-| `revert`   | Undoing an earlier commit                                 |
+| Type       | For                                                       | Common gitmoji                                                   |
+| ---------- | --------------------------------------------------------- | ---------------------------------------------------------------- |
+| `feat`     | A new capability                                          | ✨ feature, 🚸 user experience, ♿️ accessibility, 🌐 translation |
+| `fix`      | A bug fix                                                 | 🐛 bug, 🩹 small fix, 🚑️ urgent fix, 🔒️ security                 |
+| `docs`     | Documentation only                                        | 📝                                                               |
+| `style`    | Formatting that does not change what the code does        | 🎨 code layout, 💄 visual styles                                 |
+| `refactor` | A code change that neither fixes a bug nor adds a feature | ♻️ refactor, 🔥 removal, 🚚 move or rename                       |
+| `perf`     | A performance improvement                                 | ⚡️                                                               |
+| `test`     | Tests only                                                | ✅                                                               |
+| `build`    | Dependencies, the build and the tooling packages          | 🔧 config, 📦️ build, ⬆️ upgrade, ➕ add, ➖ remove, 📌 pin       |
+| `ci`       | The GitHub workflows                                      | 👷 workflow, 💚 fix the build                                    |
+| `chore`    | Other maintenance that ships no code                      | 🔨 scripts, 🙈 ignore files, 🧑‍💻 developer experience             |
+| `revert`   | Undoing an earlier commit                                 | ⏪️                                                               |
 
-| Message                            | Result                                    |
-| ---------------------------------- | ----------------------------------------- |
-| `feat(web): add the sign-in page`  | ✅                                        |
-| `build(deps): bump next to 16.4`   | ✅                                        |
-| `Added sign in page`               | ❌ no type and no scope                   |
-| `feat: add the sign-in page`       | ❌ no scope                               |
-| `feat(web): Add the sign-in page.` | ❌ capitalized subject and a final period |
+Any emoji passes the check; the column lists the usual gitmoji so the history reads the same everywhere. A breaking change takes 💥 and a `BREAKING CHANGE:` footer in the body, since `!` after the scope does not fit the shape.
 
-commitlint lets through merge commits, the `Revert "..."` message that `git revert` writes, and `fixup!`, `squash!` and `amend!` commits, so `git commit --fixup` works as usual. To try a message without committing, run `echo "feat(web): add the sign-in page" | pnpm exec commitlint`.
+| Message                                                        | Result                              |
+| -------------------------------------------------------------- | ----------------------------------- |
+| `feat(web): ✨ Add the settings page`                          | ✅                                  |
+| `build(deps): ⬆️ Bump Next.js to 16.4`                         | ✅                                  |
+| `chore(repo): :wrench: Tune the editor config`                 | ✅ a `:code:` in place of the emoji |
+| `feat(web): add the settings page`                             | ❌ no gitmoji                       |
+| `feat: ✨ Add the settings page`                               | ❌ no scope                         |
+| `feat(web): ✨ add the settings page`                          | ❌ lower case after the gitmoji     |
+| `feat(web): ✨ Added the settings page`                        | ❌ not an instruction               |
+| `feat(web): ✨ Add the read-only page.`                        | ❌ a hyphen and a final period      |
+| `fix(web): 🐛 Keep the header on one line when the menu opens` | ❌ 59 characters                    |
+
+Messages that git writes itself skip the shape rules, because git chose that wording: merge commits, the `Revert "…"` and `Reapply "…"` messages of `git revert`, and `fixup!`, `squash!` and `amend!` commits, so `git commit --fixup` works as usual. The `Co-authored-by` rule is not one they skip. To try a message without committing, pipe it in:
+
+```bash
+printf '%s\n' "feat(web): ✨ Add the settings page" | pnpm exec commitlint
+```
 
 ### Git hooks
 

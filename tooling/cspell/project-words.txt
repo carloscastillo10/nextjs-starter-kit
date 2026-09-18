@@ -1,6 +1,7 @@
 commitlint
 esbuild
 estree
+gitmoji
 jsdom
 lefthook
 Liskov
