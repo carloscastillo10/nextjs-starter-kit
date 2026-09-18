@@ -6,7 +6,7 @@ import { fontSans } from "@/_app/fonts";
 import { Providers } from "@/_app/providers";
 
 export const metadata: Metadata = {
-  title: "next-starter-kit",
+  title: "nextjs-starter-kit",
 };
 
 /*

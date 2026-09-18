@@ -2,7 +2,7 @@
 tags: [design-system, design-tokens, tailwind, shadcn]
 aliases: [Design system, Design tokens, DESIGN]
 version: alpha
-name: next-starter-kit
+name: nextjs-starter-kit
 description: The neutral shadcn/ui base theme (base-nova on Base UI), in light and dark, for the product built on this template to rebrand.
 colors:
   background: "oklch(1 0 0)"
@@ -216,7 +216,7 @@ components:
 
 # 🎨 Design system
 
-> The visual language of next-starter-kit: the neutral shadcn/ui theme, its tokens in light and dark, and the rules for using them.
+> The visual language of nextjs-starter-kit: the neutral shadcn/ui theme, its tokens in light and dark, and the rules for using them.
 
 ![DESIGN.md spec alpha](https://img.shields.io/badge/DESIGN.md-alpha-4285F4?logo=google&logoColor=white)
 ![shadcn/ui base-nova](https://img.shields.io/badge/shadcn%2Fui-base--nova-000000?logo=shadcnui&logoColor=white)
