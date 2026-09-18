@@ -9,7 +9,10 @@ import type { NextConfig } from "next";
 const env = loadEnv(appEnv);
 
 const nextConfig: NextConfig = {
-  // Builds the validated value, default included, into the bundles; a zod default never reaches process.env.
+  /*
+   * Builds the validated value, default included, into the bundles: a zod default never
+   * reaches process.env.
+   */
   env: { NEXT_PUBLIC_SITE_URL: env.NEXT_PUBLIC_SITE_URL },
   transpilePackages: ["@repo/ui"],
 };
