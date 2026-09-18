@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/markdownlint/schema/markdownlint-config-schema.json",
+  "default": true,
+
+  // Prettier formats Markdown, so the rules that would argue with its output are off.
+  "extends": "markdownlint/style/prettier",
+
+  // A paragraph is one line, so line length is not a signal.
+  "MD013": false,
+
+  // Two sections of one document may both have a "Usage" heading.
+  "MD024": { "siblings_only": true }
+}

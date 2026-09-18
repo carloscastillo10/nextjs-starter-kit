@@ -19,6 +19,7 @@
     "lint:comments": "node tooling/scripts/check-comments.mjs",
     "lint:fix": "turbo run lint:fix lint:fix:root --continue",
     "lint:fix:root": "eslint \"*.{js,mjs,cjs}\" --fix",
+    "lint:md": "markdownlint-cli2",
     "lint:root": "eslint \"*.{js,mjs,cjs}\"",
     "spell:check": "turbo run spell:check spell:check:root --continue",
     "spell:check:root": "cspell --no-progress --gitignore --dot . --exclude \"{apps,packages,tooling}/**\"",
@@ -28,9 +29,11 @@
   "devDependencies": {
     "@repo/cspell-config": "workspace:*",
     "@repo/eslint-config": "workspace:*",
+    "@repo/markdownlint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
     "cspell": "catalog:",
     "eslint": "catalog:",
+    "markdownlint-cli2": "catalog:",
     "prettier": "catalog:",
     "turbo": "catalog:"
   },

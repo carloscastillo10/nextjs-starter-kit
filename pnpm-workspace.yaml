@@ -48,6 +48,8 @@ catalog:
   eslint-plugin-react-hooks: ^7.1.1
   globals: ^17.12.0
   jsdom: ^30.1.0
+  markdownlint: ^0.41.1
+  markdownlint-cli2: ^0.23.2
   next: ^16.3.5
   # Formatting can change in any release, so Prettier is pinned to an exact version.
   prettier: 3.9.7

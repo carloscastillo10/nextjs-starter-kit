@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/markdownlint-cli2/schema/markdownlint-cli2-config-schema.json",
+  "globs": ["**/*.md"],
+  "gitignore": true,
+  "ignores": [
+    "**/node_modules/**",
+    ".claude/**",
+    ".agents/**",
+
+    // Written and rewritten by `next dev`
+    "apps/*/AGENTS.md",
+    "apps/*/CLAUDE.md"
+  ],
+  "config": {
+    "extends": "@repo/markdownlint-config/markdownlint.jsonc"
+  }
+}

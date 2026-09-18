@@ -1,0 +1,26 @@
+{
+  "name": "@repo/markdownlint-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.18.0 <25",
+    "pnpm": ">=11.17.0 <12"
+  },
+  "exports": {
+    "./markdownlint.jsonc": "./markdownlint.jsonc"
+  },
+  "scripts": {
+    "clean": "git clean -xdf .turbo node_modules",
+    "format": "prettier . --check --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
+    "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
+    "spell:check": "cspell --no-progress --gitignore ."
+  },
+  "dependencies": {
+    "markdownlint": "catalog:"
+  },
+  "devDependencies": {
+    "cspell": "catalog:",
+    "prettier": "catalog:"
+  }
+}
