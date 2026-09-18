@@ -329,11 +329,13 @@ Sizes are `xs` (1.5rem), `sm` (1.75rem), `default` (2rem), `lg` (2.25rem), and s
 - **Don't** write `dark:` color overrides. The variables already change with the mode.
 - **Do** keep text at 4.5:1 against its surface (3:1 for large text and icons).
 - **Don't** set a `z-index` on overlays; the components stack themselves.
+- **Do** give an icon-only `Button` (`size="icon"` and its variants) an `aria-label`, and mark its icon `aria-hidden`.
 
 ## Changing the brand
 
 1. Pick new values for the color pairs in `:root` and `.dark` of [`theme.css`](./tooling/tailwind/theme.css), or apply a shadcn preset from `apps/web` with `pnpm dlx shadcn@latest apply --only theme <preset>`.
 2. Change `--radius` for the corner scale.
 3. Change the font in `apps/web/src/_app/fonts/sans.ts`; it keeps the `--font-sans` variable.
-4. Update the front matter and the tables of this file to the new values.
-5. Run `npx -y @google/design.md@0.4.0 lint DESIGN.md` for broken references and contrast, then `pnpm build` and check both modes in the browser.
+4. Copy the new `background` values, light and dark, into `themeColor` in `apps/web/app/layout.tsx`, which colors the browser toolbar.
+5. Update the front matter and the tables of this file to the new values.
+6. Run `npx -y @google/design.md@0.4.0 lint DESIGN.md` for broken references and contrast, then `pnpm build` and check both modes in the browser.

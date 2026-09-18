@@ -9,8 +9,16 @@ export const metadata: Metadata = {
   title: "next-starter-kit",
 };
 
+/*
+ * The browser tints its own toolbar with these colors before the page styles load, so
+ * they repeat the page background of the light and dark themes.
+ */
 export const viewport: Viewport = {
   colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "oklch(1 0 0)" },
+    { media: "(prefers-color-scheme: dark)", color: "oklch(0.145 0 0)" },
+  ],
 };
 
 const RootLayout = ({ children }: LayoutProps<"/">) => (
