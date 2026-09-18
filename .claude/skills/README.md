@@ -81,7 +81,7 @@ Vendored skills load on their own. Claude picks one when its description matches
 
 Before Claude writes or edits a file, a hook names the skills that govern its path: `feature-sliced-design` for app code, `shadcn` for the UI kit, `stop-slop` for Markdown, and so on. Each reminder appears once per session. [The hooks README](../../tooling/scripts/hooks/README.md#the-skill-reminder) has the full map of paths to skills.
 
-The project approves the `next-devtools` MCP server once you accept the workspace trust dialog; a folder you have not trusted ignores the approval, so opening an unknown clone still asks first. In a trusted workspace its four tools (`nextjs_index`, `nextjs_call`, `nextjs_docs`, `browser_eval`) also run without a prompt, because none of them changes a file in the repository: they read the dev server's state or compile a route, point to the docs that ship with Next.js, or explain how to drive a browser. A tool that a later version adds still asks.
+The project approves the `next-devtools` MCP server once you accept the workspace trust dialog; a folder you have not trusted ignores the approval, so opening an unknown clone still asks first. In a trusted workspace its four tools (`nextjs_index`, `nextjs_call`, `nextjs_docs`, `browser_eval`) also run without a prompt, because none of them changes a file in the repository: they read the dev server's state or compile a route, point to the docs that ship with Next.js, or explain how to drive a browser. A tool that a later version adds still asks, and the server version is pinned in `.mcp.json`, so an upgrade is a reviewed change rather than whatever `npx` resolves that day.
 
 When two sources disagree, this order applies:
 
