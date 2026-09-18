@@ -1,4 +1,5 @@
 commitlint
+esbuild
 estree
 jsdom
 lefthook
