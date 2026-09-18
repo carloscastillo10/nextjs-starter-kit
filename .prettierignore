@@ -1,0 +1,9 @@
+# Machine-written files: the tool that writes them owns their layout
+pnpm-lock.yaml
+skills-lock.json
+apps/*/AGENTS.md
+apps/*/CLAUDE.md
+
+# Agent configuration and vendored agent skills
+.claude/
+.agents/

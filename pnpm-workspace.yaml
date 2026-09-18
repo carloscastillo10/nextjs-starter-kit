@@ -16,6 +16,9 @@ catalog:
   "@types/react": ^19.3.0
   "@types/react-dom": ^19.3.0
   next: ^16.3.5
+  # Formatting can change in any release, so Prettier is pinned to an exact version.
+  prettier: 3.9.7
+  prettier-plugin-tailwindcss: ^0.8.1
   react: ^19.3.0
   react-dom: ^19.3.0
   steiger: ^0.6.0

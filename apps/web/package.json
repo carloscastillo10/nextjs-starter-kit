@@ -10,6 +10,8 @@
     "build": "next build",
     "clean": "git clean -xdf .next .turbo node_modules next-env.d.ts tsconfig.tsbuildinfo",
     "dev": "next dev",
+    "format": "prettier . --check --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
+    "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
     "lint:arch": "steiger ./src",
     "start": "next start",
     "types:check": "next typegen && tsc --noEmit"
@@ -21,11 +23,14 @@
   },
   "devDependencies": {
     "@feature-sliced/steiger-plugin": "catalog:",
+    "@repo/prettier-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "prettier": "catalog:",
     "steiger": "catalog:",
     "typescript": "catalog:"
-  }
+  },
+  "prettier": "@repo/prettier-config"
 }

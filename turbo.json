@@ -16,6 +16,22 @@
     "transit": {
       "dependsOn": ["^transit"]
     },
+    "format": {
+      "dependsOn": ["transit"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/.editorconfig",
+        "$TURBO_ROOT$/.gitignore",
+        "$TURBO_ROOT$/.prettierignore"
+      ]
+    },
+    "format:fix": {
+      "cache": false
+    },
+    "//#format:root": {},
+    "//#format:fix:root": {
+      "cache": false
+    },
     "types:check": {
       "dependsOn": ["transit"]
     }

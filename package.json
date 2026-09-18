@@ -10,9 +10,16 @@
     "build": "turbo run build",
     "clean": "turbo run clean && git clean -xdf .turbo node_modules",
     "dev": "turbo run dev",
+    "format": "turbo run format format:root --continue",
+    "format:fix": "turbo run format:fix format:fix:root --continue",
+    "format:fix:root": "prettier . --write \"!apps/**\" \"!packages/**\" \"!tooling/**\"",
+    "format:root": "prettier . --check \"!apps/**\" \"!packages/**\" \"!tooling/**\"",
     "types:check": "turbo run types:check"
   },
   "devDependencies": {
+    "@repo/prettier-config": "workspace:*",
+    "prettier": "catalog:",
     "turbo": "catalog:"
-  }
+  },
+  "prettier": "@repo/prettier-config"
 }
