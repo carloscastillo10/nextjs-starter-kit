@@ -1,0 +1,16 @@
+# Store text files with LF endings and check them out with LF on every platform.
+* text=auto eol=lf
+
+# Binary assets: never normalize or diff as text.
+*.avif binary
+*.gif binary
+*.ico binary
+*.jpeg binary
+*.jpg binary
+*.otf binary
+*.pdf binary
+*.png binary
+*.ttf binary
+*.webp binary
+*.woff binary
+*.woff2 binary
