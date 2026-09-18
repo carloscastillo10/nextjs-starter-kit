@@ -3,9 +3,11 @@ import "@/_app/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 
 import { fontSans } from "@/_app/fonts";
+import { SITE_URL } from "@/_app/metadata";
 import { Providers } from "@/_app/providers";
 
 export const metadata: Metadata = {
+  metadataBase: SITE_URL,
   title: "nextjs-starter-kit",
 };
 
