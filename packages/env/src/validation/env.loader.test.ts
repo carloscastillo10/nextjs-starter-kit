@@ -5,8 +5,6 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { z } from "zod";
 
 import { appEnv } from "../schemas/app.schema";
-import { clerkEnv } from "../schemas/clerk.schema";
-import { fakeClerkKey } from "../testing/clerk-key.fixture";
 import { restoreEnv, snapshotEnv } from "../testing/process-env.fixture";
 import { fixtureRoot } from "../testing/workspace.fixture";
 import { loadEnv } from "./env.loader";
@@ -17,7 +15,18 @@ const serviceEnv = {
   SERVICE_SECRET: z.string().min(1),
 };
 
-const DECLARED = ["APP_ENV", "PORT", ...Object.keys(serviceEnv), ...Object.keys(clerkEnv)];
+const keyedEnv = {
+  SERVICE_KEY: z.string().refine((key) => key.startsWith("key_"), {
+    error: "not a service key, which starts with key_",
+  }),
+};
+
+const DECLARED = [
+  "PORT",
+  ...Object.keys(appEnv),
+  ...Object.keys(serviceEnv),
+  ...Object.keys(keyedEnv),
+];
 
 let snapshot: NodeJS.ProcessEnv;
 let root: string;
@@ -71,13 +80,14 @@ describe("loadEnv", () => {
     expect(message).not.toContain("not-a-url-super-secret");
   });
 
-  it("says what a refinement wanted, so a key in the wrong variable names itself", () => {
-    process.env.CLERK_SECRET_KEY = fakeClerkKey("pk");
+  it("says what a refinement wanted, so a value of the wrong shape names itself", () => {
+    process.env.SERVICE_KEY = "token_that_is_not_a_key";
 
-    const message = messageFrom(() => loadEnv(clerkEnv, root));
+    const message = messageFrom(() => loadEnv(keyedEnv, root));
 
-    expect(message).toContain("CLERK_SECRET_KEY");
-    expect(message).toContain("not a Clerk secret key");
+    expect(message).toContain("SERVICE_KEY");
+    expect(message).toContain("not a service key");
+    expect(message).not.toContain("token_that_is_not_a_key");
   });
 
   it("defaults APP_ENV to dev", () => {
@@ -85,27 +95,25 @@ describe("loadEnv", () => {
   });
 
   it("treats an empty variable as unset and removes it from process.env", () => {
-    process.env.CLERK_SECRET_KEY = "";
+    process.env.NEXT_PUBLIC_SITE_URL = "";
 
-    expect(loadEnv(clerkEnv, root).CLERK_SECRET_KEY).toBeUndefined();
-    expect("CLERK_SECRET_KEY" in process.env).toBe(false);
+    expect(loadEnv(appEnv, root).NEXT_PUBLIC_SITE_URL).toBe("http://localhost:3000");
+    expect("NEXT_PUBLIC_SITE_URL" in process.env).toBe(false);
   });
 
   it("lets the root file fill a variable the shell left empty", () => {
-    const key = fakeClerkKey("sk");
+    writeFileSync(join(root, ".env.dev"), "NEXT_PUBLIC_SITE_URL=https://example.com\n");
+    process.env.NEXT_PUBLIC_SITE_URL = "";
 
-    writeFileSync(join(root, ".env.dev"), `CLERK_SECRET_KEY=${key}\n`);
-    process.env.CLERK_SECRET_KEY = "";
-
-    expect(loadEnv(clerkEnv, root).CLERK_SECRET_KEY).toBe(key);
+    expect(loadEnv(appEnv, root).NEXT_PUBLIC_SITE_URL).toBe("https://example.com");
   });
 
   it("accepts a file copied from the example, with every value left empty", () => {
-    writeFileSync(
-      join(root, ".env.dev"),
-      "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=\nCLERK_SECRET_KEY=\n",
-    );
+    writeFileSync(join(root, ".env.dev"), "NEXT_PUBLIC_SITE_URL=\n");
 
-    expect(loadEnv(clerkEnv, root)).toEqual({});
+    expect(loadEnv(appEnv, root)).toEqual({
+      APP_ENV: "dev",
+      NEXT_PUBLIC_SITE_URL: "http://localhost:3000",
+    });
   });
 });

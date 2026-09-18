@@ -4,7 +4,7 @@ import { checkGlobalEnv, declaredVariableNames } from "./turbo-global-env";
 
 describe("checkGlobalEnv", () => {
   it("accepts a name a wildcard covers", () => {
-    const result = checkGlobalEnv({ globalEnv: ["CLERK_*"] }, ["CLERK_SECRET_KEY"]);
+    const result = checkGlobalEnv({ globalEnv: ["SERVICE_*"] }, ["SERVICE_TOKEN"]);
 
     expect(result).toEqual({ kind: "ok" });
   });
@@ -16,28 +16,26 @@ describe("checkGlobalEnv", () => {
   });
 
   it("treats a wildcard as a prefix rather than a substring", () => {
-    const result = checkGlobalEnv({ globalEnv: ["CLERK_*"] }, [
-      "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
-    ]);
+    const result = checkGlobalEnv({ globalEnv: ["SERVICE_*"] }, ["NEXT_PUBLIC_SERVICE_URL"]);
 
     expect(result).toEqual({
       kind: "missing-variables",
-      missing: ["NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"],
+      missing: ["NEXT_PUBLIC_SERVICE_URL"],
     });
   });
 
   it("honors an exclusion, which is what makes a broad wildcard readable", () => {
-    const result = checkGlobalEnv({ globalEnv: ["CLERK_*", "!CLERK_SECRET_KEY"] }, [
-      "CLERK_SECRET_KEY",
+    const result = checkGlobalEnv({ globalEnv: ["SERVICE_*", "!SERVICE_TOKEN"] }, [
+      "SERVICE_TOKEN",
     ]);
 
-    expect(result).toEqual({ kind: "missing-variables", missing: ["CLERK_SECRET_KEY"] });
+    expect(result).toEqual({ kind: "missing-variables", missing: ["SERVICE_TOKEN"] });
   });
 
   it("counts a name in globalPassThroughEnv, where a secret stays out of the hash", () => {
     const result = checkGlobalEnv(
-      { globalEnv: ["APP_ENV"], globalPassThroughEnv: ["CLERK_SECRET_KEY"] },
-      ["APP_ENV", "CLERK_SECRET_KEY"],
+      { globalEnv: ["APP_ENV"], globalPassThroughEnv: ["SERVICE_SECRET"] },
+      ["APP_ENV", "SERVICE_SECRET"],
     );
 
     expect(result).toEqual({ kind: "ok" });
@@ -65,10 +63,6 @@ describe("checkGlobalEnv", () => {
 
 describe("declaredVariableNames", () => {
   it("lists every variable the schemas declare, defaulted ones included", () => {
-    expect(declaredVariableNames()).toEqual([
-      "APP_ENV",
-      "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
-      "CLERK_SECRET_KEY",
-    ]);
+    expect(declaredVariableNames()).toEqual(["APP_ENV", "NEXT_PUBLIC_SITE_URL"]);
   });
 });

@@ -16,7 +16,7 @@ const SAMPLE: readonly EnvSchema[] = [
       SERVICE_TOKEN: z.string().min(1),
       SERVICE_TIMEOUT: z.coerce.number().default(30),
       SERVICE_REGION: z.string().optional(),
-      SERVICE_KEY: z.string().optional().meta({ requiredToRun: true }),
+      SERVICE_URL: z.url().default("http://localhost:8080").meta({ requiredWhenDeployed: true }),
     },
   },
   { title: "Defaults only", shape: { RETRIES: z.coerce.number().default(3) } },
@@ -25,23 +25,21 @@ const SAMPLE: readonly EnvSchema[] = [
 
 describe("renderEnvExample", () => {
   it("lists the variables of this repository, grouped, with no values", () => {
-    expect(renderEnvExample(ENV_SCHEMAS)).toBe(
-      "# Clerk\nNEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=\nCLERK_SECRET_KEY=\n",
-    );
+    expect(renderEnvExample(ENV_SCHEMAS)).toBe("# App\nNEXT_PUBLIC_SITE_URL=\n");
   });
 
   it("keeps what has to be supplied and leaves defaulted and optional knobs out", () => {
     const example = renderEnvExample(SAMPLE);
 
     expect(example).toContain("SERVICE_TOKEN=\n");
-    expect(example).toContain("SERVICE_KEY=\n");
+    expect(example).toContain("SERVICE_URL=\n");
     expect(example).not.toContain("SERVICE_TIMEOUT");
     expect(example).not.toContain("SERVICE_REGION");
   });
 
   it("drops a group left empty and separates the rest with a blank line", () => {
     expect(renderEnvExample(SAMPLE)).toBe(
-      "# Service\nSERVICE_TOKEN=\nSERVICE_KEY=\n\n# Queue\nQUEUE_URL=\n",
+      "# Service\nSERVICE_TOKEN=\nSERVICE_URL=\n\n# Queue\nQUEUE_URL=\n",
     );
   });
 });
