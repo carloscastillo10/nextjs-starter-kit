@@ -16,6 +16,7 @@
     "format:root": "prettier . --check \"!apps/**\" \"!packages/**\" \"!tooling/**\"",
     "lint": "turbo run lint lint:root lint:arch --continue",
     "lint:arch": "turbo run lint:arch",
+    "lint:comments": "node tooling/scripts/check-comments.mjs",
     "lint:fix": "turbo run lint:fix lint:fix:root --continue",
     "lint:fix:root": "eslint \"*.{js,mjs,cjs}\" --fix",
     "lint:root": "eslint \"*.{js,mjs,cjs}\"",
