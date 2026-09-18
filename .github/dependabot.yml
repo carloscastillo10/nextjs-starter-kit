@@ -1,5 +1,7 @@
 # Keeps the commit SHAs that pin the workflow actions current, in one pull request a month.
-# The ci(deps) prefix gives that pull request a title the PR title check accepts.
+# The ci(deps) prefix gets the type and scope right; the rest of a Dependabot title cannot
+# follow the convention, so the PR title check skips it and the title is rewritten when
+# the pull request is squashed.
 version: 2
 updates:
   - package-ecosystem: github-actions

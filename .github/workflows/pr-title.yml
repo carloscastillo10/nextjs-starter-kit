@@ -18,6 +18,9 @@ permissions:
 jobs:
   commitlint:
     name: PR title
+    # Dependabot writes titles outside the convention. A skipped job counts as passing
+    # for a required check, and the title is rewritten in the squash dialog.
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

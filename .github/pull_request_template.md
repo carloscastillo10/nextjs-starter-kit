@@ -8,8 +8,8 @@
 
 ## ✅ Checklist
 
-- [ ] The title follows `type(scope): subject`, because it becomes the commit on `main`
-- [ ] `pnpm lint`, `pnpm types:check`, `pnpm test` and `pnpm build` pass locally
+- [ ] The title follows `type(scope): <gitmoji> Message`, because it becomes the commit on `main`
+- [ ] `pnpm gates` passes locally
 - [ ] The git hooks ran on every commit, or this description says why they were skipped
 - [ ] Docs and READMEs that this change makes out of date are updated in this branch
 - [ ] No secrets, `.env` files or machine-specific paths in the diff
