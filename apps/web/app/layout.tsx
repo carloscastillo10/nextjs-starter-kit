@@ -3,6 +3,7 @@ import "@/_app/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 
 import { fontSans } from "@/_app/fonts";
+import { SiteHeader } from "@/_app/layouts";
 import { Providers } from "@/_app/providers";
 
 export const metadata: Metadata = {
@@ -24,7 +25,10 @@ export const viewport: Viewport = {
 const RootLayout = ({ children }: LayoutProps<"/">) => (
   <html className={fontSans.variable} suppressHydrationWarning lang="en">
     <body>
-      <Providers>{children}</Providers>
+      <Providers>
+        <SiteHeader />
+        {children}
+      </Providers>
     </body>
   </html>
 );
