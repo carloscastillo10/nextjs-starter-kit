@@ -14,10 +14,11 @@ model: opus
 - shadcn/ui set up for a monorepo (shared UI package consumed by `apps/web`), following the official shadcn docs and skills.
 - Tailwind CSS, design tokens as CSS variables (color, radius, typography, spacing), light and dark theme, and theme switching wired but without demo screens.
 - Place UI code where the FSD conventions in `docs/architecture/` say it goes.
+- Tailwind CSS v4, CSS-first: `@import "tailwindcss"`, tokens in `@theme` inside the shared `@repo/tailwind-config` theme, `@source` for classes in workspace packages, no `tailwind.config.*`. Use the project skill `tailwind-css` for v4 syntax and keep the `better-tailwindcss` lint rules green.
 
 ## Ownership
 
-You own the shared UI package, `components.json`, Tailwind/PostCSS config, global styles and tokens, and the theme provider wiring in the app.
+You own the shared UI package, the shared Tailwind package (`tooling/tailwind`), `components.json`, global styles and tokens, `DESIGN.md`, and the theme provider wiring in the app.
 
 ## Operating protocol
 
