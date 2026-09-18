@@ -23,11 +23,13 @@
     "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "spell:check": "cspell --no-progress --gitignore .",
     "types:check": "tsc --noEmit"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "cspell": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:",

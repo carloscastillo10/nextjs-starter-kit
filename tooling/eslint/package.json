@@ -17,7 +17,8 @@
     "format": "prettier . --check --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
     "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "spell:check": "cspell --no-progress --gitignore ."
   },
   "dependencies": {
     "@eslint-react/eslint-plugin": "catalog:",
@@ -33,6 +34,7 @@
     "typescript-eslint": "catalog:"
   },
   "devDependencies": {
+    "cspell": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"

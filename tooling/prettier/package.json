@@ -15,7 +15,8 @@
     "format": "prettier . --check --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
     "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "spell:check": "cspell --no-progress --gitignore ."
   },
   "dependencies": {
     "prettier-plugin-tailwindcss": "catalog:"
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
+    "cspell": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:"
   }

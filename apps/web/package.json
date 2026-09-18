@@ -15,6 +15,7 @@
     "lint": "eslint .",
     "lint:arch": "steiger ./src",
     "lint:fix": "eslint . --fix",
+    "spell:check": "cspell --no-progress --gitignore .",
     "start": "next start",
     "test": "vitest run",
     "types:check": "next typegen && tsc --noEmit"
@@ -34,6 +35,7 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "cspell": "catalog:",
     "eslint": "catalog:",
     "jsdom": "catalog:",
     "prettier": "catalog:",

@@ -13,6 +13,7 @@
     "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "spell:check": "cspell --no-progress --gitignore .",
     "test": "vitest run"
   },
   "dependencies": {
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/vitest-config": "workspace:*",
+    "cspell": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "vite": "catalog:",

@@ -20,12 +20,16 @@
     "lint:fix": "turbo run lint:fix lint:fix:root --continue",
     "lint:fix:root": "eslint \"*.{js,mjs,cjs}\" --fix",
     "lint:root": "eslint \"*.{js,mjs,cjs}\"",
+    "spell:check": "turbo run spell:check spell:check:root --continue",
+    "spell:check:root": "cspell --no-progress --gitignore --dot . --exclude \"{apps,packages,tooling}/**\"",
     "test": "turbo run test",
     "types:check": "turbo run types:check"
   },
   "devDependencies": {
+    "@repo/cspell-config": "workspace:*",
     "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
+    "cspell": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "turbo": "catalog:"

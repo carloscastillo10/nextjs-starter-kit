@@ -47,6 +47,17 @@
     "//#format:fix:root": {
       "cache": false
     },
+    "spell:check": {
+      "dependsOn": ["transit"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/.gitignore",
+        "$TURBO_ROOT$/cspell.json",
+        "$TURBO_ROOT$/tooling/cspell/cspell.json",
+        "$TURBO_ROOT$/tooling/cspell/project-words.txt"
+      ]
+    },
+    "//#spell:check:root": {},
     "types:check": {
       "dependsOn": ["transit"]
     },
