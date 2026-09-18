@@ -9,6 +9,7 @@ The layer has no slices; it is split into segments. Create a segment when its fi
 - `providers/`: context providers mounted once for the whole app (theme, authentication). `providers/index.ts` exposes a single `Providers` component that `app/layout.tsx` wraps around `{children}`.
 - `styles/`: the global stylesheet `globals.css` (Tailwind entry point and app-level design tokens), imported once from `app/layout.tsx`.
 - `fonts/`: `next/font` definitions, applied to `<html>` or `<body>` in `app/layout.tsx`.
+- `metadata/`: values the root metadata in `app/layout.tsx` reads, such as the site URL that relative Open Graph and canonical URLs resolve against.
 - `layouts/`: app-wide chrome rendered on every route, such as a site header.
 - `api-routes/`: Route Handler implementations. `app/api/<name>/route.ts` re-exports them.
 

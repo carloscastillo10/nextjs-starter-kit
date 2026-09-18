@@ -198,28 +198,29 @@ The monorepo can hold shared workspace packages under `packages/*`, named `@repo
 
 ## Placement guide
 
-| What                                            | Where                                                                                             |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| A screen                                        | `src/_pages/<screen>/`, re-exported by `app/<route>/page.tsx`                                     |
-| UI, state or requests used by one screen        | inside that screen's slice (`ui/`, `model/`, `api/`)                                              |
-| A Server Action                                 | the `api/` segment of the slice that owns the action, in a file that starts with `"use server"`   |
-| A user action reused by several pages           | `src/features/<action>/`                                                                          |
-| A domain rule several slices must agree on      | `src/entities/<noun>/model/`                                                                      |
-| HTTP client, requests several slices call, DTOs | `src/shared/api/`                                                                                 |
-| Environment access, route paths, app settings   | `src/shared/config/`                                                                              |
-| Generic helpers (formatting, class names)       | `src/shared/lib/`                                                                                 |
-| App-specific UI with no business context        | `src/shared/ui/`                                                                                  |
-| Design-system primitives shared by apps         | the `@repo/ui` package                                                                            |
-| Design tokens (colors, radius, fonts)           | the `@repo/tailwind-config` package (`tooling/tailwind/theme.css`), described in `DESIGN.md`      |
-| Global stylesheet (theme, UI kit, app sources)  | `src/_app/styles/globals.css`, imported once in `app/layout.tsx`                                  |
-| Fonts (`next/font`)                             | `src/_app/fonts/`, applied in `app/layout.tsx`                                                    |
-| Global providers (theme, auth)                  | `src/_app/providers/`, exposed as `Providers` from its `index.ts` and mounted in `app/layout.tsx` |
-| App-wide chrome (a header on every route)       | `src/_app/layouts/`, rendered from `app/layout.tsx`                                               |
-| Route Handler implementation                    | `src/_app/api-routes/`, re-exported by `app/api/<name>/route.ts`                                  |
-| Proxy (auth checks, redirects)                  | `apps/web/proxy.ts`                                                                               |
-| An image used by one component                  | next to that component, in its `ui/` segment                                                      |
-| favicon, `robots.txt`, fixed-URL images         | `apps/web/public/` or the Next.js metadata files in `app/`                                        |
-| Tests                                           | inside the slice or segment they cover; a test never reaches into another slice's internals       |
+| What                                                 | Where                                                                                             |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| A screen                                             | `src/_pages/<screen>/`, re-exported by `app/<route>/page.tsx`                                     |
+| UI, state or requests used by one screen             | inside that screen's slice (`ui/`, `model/`, `api/`)                                              |
+| A Server Action                                      | the `api/` segment of the slice that owns the action, in a file that starts with `"use server"`   |
+| A user action reused by several pages                | `src/features/<action>/`                                                                          |
+| A domain rule several slices must agree on           | `src/entities/<noun>/model/`                                                                      |
+| HTTP client, requests several slices call, DTOs      | `src/shared/api/`                                                                                 |
+| Environment access, route paths, app settings        | `src/shared/config/`                                                                              |
+| Generic helpers (formatting, class names)            | `src/shared/lib/`                                                                                 |
+| App-specific UI with no business context             | `src/shared/ui/`                                                                                  |
+| Design-system primitives shared by apps              | the `@repo/ui` package                                                                            |
+| Design tokens (colors, radius, fonts)                | the `@repo/tailwind-config` package (`tooling/tailwind/theme.css`), described in `DESIGN.md`      |
+| Global stylesheet (theme, UI kit, app sources)       | `src/_app/styles/globals.css`, imported once in `app/layout.tsx`                                  |
+| Fonts (`next/font`)                                  | `src/_app/fonts/`, applied in `app/layout.tsx`                                                    |
+| Root metadata values (the site URL)                  | `src/_app/metadata/`, used by `app/layout.tsx`                                                    |
+| Global providers (theme, auth)                       | `src/_app/providers/`, exposed as `Providers` from its `index.ts` and mounted in `app/layout.tsx` |
+| App-wide chrome (a header on every route)            | `src/_app/layouts/`, rendered from `app/layout.tsx`                                               |
+| Route Handler implementation                         | `src/_app/api-routes/`, re-exported by `app/api/<name>/route.ts`                                  |
+| Proxy (redirects, rewrites, a provider's middleware) | `apps/web/proxy.ts`                                                                               |
+| An image used by one component                       | next to that component, in its `ui/` segment                                                      |
+| favicon, `robots.txt`, fixed-URL images              | `apps/web/public/` or the Next.js metadata files in `app/`                                        |
+| Tests                                                | inside the slice or segment they cover; a test never reaches into another slice's internals       |
 
 ### shadcn/ui
 
@@ -238,16 +239,21 @@ If the primitives live in the app instead, point `ui` at `@/shared/ui` and `util
 - a block the CLI adds to `src/shared/ui` that carries logic for one screen (a login form, a dashboard section) moves into that screen's `_pages` slice;
 - the CSS variables the CLI adds go to the shared theme, `tooling/tailwind/theme.css`, because `tailwind.css` in both `components.json` files points there; `src/_app/styles/globals.css` imports that theme.
 
-### Authentication (Clerk)
+### Authentication (if you add a provider)
 
-| What                                                                   | Where                                                                                                                                           |
-| ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `<ClerkProvider>` and its `appearance`                                 | `src/_app/providers/`, composed into `Providers`                                                                                                |
-| `clerkMiddleware()`                                                    | `apps/web/proxy.ts`                                                                                                                             |
-| Sign-in and sign-up screens                                            | `src/_pages/sign-in/` and `src/_pages/sign-up/`, re-exported by `app/sign-in/[[...sign-in]]/page.tsx` and `app/sign-up/[[...sign-up]]/page.tsx` |
-| Session helpers, auth route paths                                      | `src/shared/auth/` (`index.ts`, plus `index.server.ts` for helpers that call server-only APIs)                                                  |
-| An auth action reused by several pages (for example a sign-out button) | `src/features/<action>/`; while one page uses it, keep it in that page                                                                          |
-| Clerk webhooks                                                         | `src/_app/api-routes/`, re-exported by `app/api/webhooks/<name>/route.ts`                                                                       |
+The template ships without authentication. When you add a provider, its pieces go here:
+
+| What                                                       | Where                                                                                                                                             |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The provider's context component and its theme options     | `src/_app/providers/`, composed into `Providers`                                                                                                  |
+| The provider's middleware, if it has one                   | `apps/web/proxy.ts`, next to `app/`                                                                                                               |
+| Sign-in and sign-up screens                                | `src/_pages/<screen>/`, re-exported by an optional catch-all route (`app/sign-in/[[...sign-in]]/page.tsx`) when the provider routes its own steps |
+| Session helpers, auth route paths                          | `src/shared/auth/` (`index.ts`, plus `index.server.ts` for helpers that call server-only APIs)                                                    |
+| An auth action reused by several pages (a sign-out button) | `src/features/<action>/`; while one page uses it, keep it in that page                                                                            |
+| Webhooks from the provider                                 | `src/_app/api-routes/`, re-exported by `app/api/webhooks/<name>/route.ts`                                                                         |
+| The provider's keys                                        | a schema in `@repo/env`, then `pnpm env:emit` and a `turbo.json` entry                                                                            |
+
+Each page, Route Handler and Server Action that needs a signed-in user checks the session itself, first thing. A check in the proxy alone is not enough: Server Actions are called by ID, so a path matcher never sees them, and proxy checks have been bypassed before.
 
 Do not create a `user` entity only to wrap the session. An entity appears when the product has user-domain rules that several slices must share.
 
