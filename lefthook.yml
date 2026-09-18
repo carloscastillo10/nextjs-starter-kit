@@ -5,8 +5,8 @@
 # One top-level key per hook, each with named jobs; a new hook goes at the end.
 
 # The checks never rewrite a file: `pnpm format:fix` and `pnpm lint:fix` do. While they
-# run, lefthook hides the unstaged part of a partially staged file, so they read
-# exactly what the commit will contain.
+# run, lefthook hides the unstaged part of a partially staged file, so the checks on
+# staged files read exactly what the commit will contain.
 pre-commit:
   parallel: true
   jobs:
