@@ -47,16 +47,26 @@ commit-msg:
     - name: commitlint
       run: pnpm exec commitlint --edit {1}
 
-# The checks that read the whole project rather than the staged files. Turborepo
-# replays unchanged packages from its cache, so a push pays only for what changed.
+# The guards run one after the other, so the branch report prints on its own; a
+# failure does not stop the jobs after it. Then the checks that read the whole
+# project run together, and Turborepo replays unchanged packages from its cache.
 pre-push:
-  parallel: true
   jobs:
     - name: authors
       run: node tooling/scripts/check-push-authors.mjs
 
-    - name: tests
-      run: pnpm test --output-logs=errors-only
+    - name: linked
+      run: node tooling/scripts/check-linked-branch.mjs
 
-    - name: architecture
-      run: pnpm lint:arch --output-logs=errors-only
+    - name: scope
+      run: node tooling/scripts/check-branch-scope.mjs
+
+    - name: checks
+      group:
+        parallel: true
+        jobs:
+          - name: tests
+            run: pnpm test --output-logs=errors-only
+
+          - name: architecture
+            run: pnpm lint:arch --output-logs=errors-only

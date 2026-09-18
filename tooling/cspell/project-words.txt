@@ -12,6 +12,7 @@ NOSYSTEM
 nvmrc
 oklch
 shadcn
+shortstat
 Solana
 Steiger
 tsconfck

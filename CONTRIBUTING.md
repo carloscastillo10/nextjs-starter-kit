@@ -60,7 +60,7 @@ Inline lint suppressions are switched off. If a rule does not fit a file, change
 
 ## 🌿 Git workflow
 
-`main` is always releasable. Every change starts on a short-lived branch and reaches `main` through a pull request, squashed into a single Conventional Commit. The checks from the table above run twice before that: as git hooks on your machine, and in CI on the pull request.
+`main` is always releasable. Every change starts on a short-lived branch and reaches `main` through a pull request, squashed into a single commit in the [commit convention](#commits). The checks from the table above run twice before that: as git hooks on your machine, and in CI on the pull request.
 
 ```mermaid
 flowchart LR
@@ -74,15 +74,18 @@ flowchart LR
 
 GitHub Flow: `main` is the only long-lived branch. Create each branch from an up-to-date `main`, keep it small enough to review in one sitting, and delete it after the merge.
 
-Name it `<type>/<short-description>`, using a commit type from the next section and kebab-case:
+| Branch name             | When                                   | Examples                                      |
+| ----------------------- | -------------------------------------- | --------------------------------------------- |
+| `<type>/<issue>-<slug>` | The work has an issue                  | `feat/12-settings-page`, `fix/31-header-wrap` |
+| `<type>/<slug>`         | The work has no issue, such as a chore | `chore/tidy-scripts`, `docs/deploy-guide`     |
 
-| Branch                | For                            |
-| --------------------- | ------------------------------ |
-| `feat/sign-in-page`   | A new capability               |
-| `fix/header-overflow` | A bug fix                      |
-| `docs/deploy-guide`   | Documentation only             |
-| `build/bump-next`     | Dependencies and tooling       |
-| `chore/tidy-scripts`  | Maintenance that ships no code |
+The type is a commit type from the [next section](#commits) and the slug is kebab-case. When there is an issue, let GitHub create the branch, so the issue links to it from the first moment and shows the work as started:
+
+```bash
+gh issue develop 12 --name feat/12-settings-page --base main --checkout
+```
+
+A branch without an issue is an ordinary `git switch --create chore/tidy-scripts`. Two `pre-push` checks look at the branch, described in [Git hooks](#git-hooks): `linked` stops the first push of an issue branch that GitHub has not linked, and `scope` reports a branch that mixes unrelated changes.
 
 To bring in new work from `main`, either rebase onto it or merge it into the branch. The branch is squashed when it merges, so its own history is never kept.
 
