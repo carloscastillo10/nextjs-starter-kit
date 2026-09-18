@@ -22,6 +22,7 @@ Plugins declared in [`../settings.json`](../settings.json) are not copied into t
 | `turborepo` | [vercel/turborepo](https://github.com/vercel/turborepo) | MIT | Copyright (c) 2026 Vercel, Inc |
 | `design-md` | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | MIT | Copyright (c) 2025 Nous Research |
 | `stop-slop` | [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop) | MIT | Copyright (c) 2025 Hardik Pandya (its `LICENSE` file is also inside the folder) |
+| `tailwind-css` | [paulrberg/agent-skills](https://github.com/paulrberg/agent-skills) | MIT | Copyright (c) 2025 Paul Razvan Berg |
 
 ## 📄 MIT License
 

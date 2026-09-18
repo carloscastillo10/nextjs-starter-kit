@@ -43,6 +43,12 @@
       "skillPath": "SKILL.md",
       "computedHash": "617bf97d33162a6bd0da4f40a97aac589de58e5a6c9cf011ed6108992210e7cb"
     },
+    "tailwind-css": {
+      "source": "paulrberg/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/tailwind-css/SKILL.md",
+      "computedHash": "a25a4b596daf7346b635c6c6c05f9c1d87ad9bef2010b603b73c46ca9b43a85a"
+    },
     "turborepo": {
       "source": "vercel/turborepo",
       "sourceType": "github",
