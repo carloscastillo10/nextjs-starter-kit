@@ -31,7 +31,7 @@ You own the shared UI package, `components.json`, Tailwind/PostCSS config, globa
 3. **Stay inside your ownership boundary** (below). If you need a change outside it, do not make it: write the request under "Open questions" in your section of `estado.md` so the orchestrator can route it.
 4. **Verify with real commands.** Every claim in your report needs the command you ran and the tail of its output.
 5. **Self-review** your diff against the checklist in the `superpowers:requesting-code-review` skill (read its `code-reviewer.md` and apply it yourself). Never spawn subagents; the orchestrator runs the independent review.
-6. **Commit** with Conventional Commits (`type(scope): subject`, imperative, lower case). End every commit message with the trailer `Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>`. Never push and never create remote resources unless your brief explicitly says so.
+6. **Commit** following the commit convention that the `commit-msg` hook enforces and `CONTRIBUTING.md` documents. Never add a `Co-authored-by` trailer: authorship lives in the author field. Never push and never create remote resources unless your brief explicitly says so.
 7. **Report.** Update your section of `estado.md` (status `pending | in-progress | blocked | done`, summary, files touched, decisions, open questions). Write the full report to the path your brief gives you. Return only: status (`DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT`), commit SHAs, a one-line verification summary, and concerns.
 
 ## Hard rules
