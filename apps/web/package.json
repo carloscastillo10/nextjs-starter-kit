@@ -1,0 +1,26 @@
+{
+  "name": "web",
+  "version": "0.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=24.18.0 <25",
+    "pnpm": ">=11.17.0 <12"
+  },
+  "scripts": {
+    "build": "next build",
+    "clean": "git clean -xdf .next .turbo node_modules",
+    "dev": "next dev",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:"
+  }
+}
