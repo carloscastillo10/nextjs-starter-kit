@@ -98,12 +98,12 @@ export {
 
 ### Files that live outside `src/`
 
-| File | Location | Why |
-| --- | --- | --- |
-| `proxy.ts` (formerly `middleware.ts`) | `apps/web/proxy.ts` | Next.js looks for it next to the `app/` folder |
-| `instrumentation.ts` | `apps/web/instrumentation.ts` | same rule as `proxy.ts` |
-| favicon, `robots.txt`, fixed-URL images | `apps/web/public/` or the Next.js metadata file conventions in `app/` | served as-is; not part of FSD |
-| Framework config | `apps/web/next.config.ts`, `apps/web/tsconfig.json` | project root |
+| File                                    | Location                                                              | Why                                            |
+| --------------------------------------- | --------------------------------------------------------------------- | ---------------------------------------------- |
+| `proxy.ts` (formerly `middleware.ts`)   | `apps/web/proxy.ts`                                                   | Next.js looks for it next to the `app/` folder |
+| `instrumentation.ts`                    | `apps/web/instrumentation.ts`                                         | same rule as `proxy.ts`                        |
+| favicon, `robots.txt`, fixed-URL images | `apps/web/public/` or the Next.js metadata file conventions in `app/` | served as-is; not part of FSD                  |
+| Framework config                        | `apps/web/next.config.ts`, `apps/web/tsconfig.json`                   | project root                                   |
 
 ### Server and client code
 
@@ -114,14 +114,14 @@ export {
 
 From highest to lowest. A module may import only from layers strictly below its own.
 
-| Layer | Folder | Holds | May import from |
-| --- | --- | --- | --- |
-| App | `src/_app` | Providers, global styles, fonts, app-wide layouts, Route Handler implementations | `_pages`, `widgets`, `features`, `entities`, `shared` |
-| Pages | `src/_pages` | One slice per screen with its UI, data fetching, state and page-specific rules | `widgets`, `features`, `entities`, `shared` |
-| Widgets | `src/widgets` | Discouraged. Large blocks several pages render that compose several features | `features`, `entities`, `shared` |
-| Features | `src/features` | Complete user actions (UI, request, state) reused by several consumers | `entities`, `shared` |
-| Entities | `src/entities` | Domain models and rules several slices must agree on | `shared` |
-| Shared | `src/shared` | Infrastructure specific to this app, with no business rules | nothing in `src/` |
+| Layer    | Folder         | Holds                                                                            | May import from                                       |
+| -------- | -------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| App      | `src/_app`     | Providers, global styles, fonts, app-wide layouts, Route Handler implementations | `_pages`, `widgets`, `features`, `entities`, `shared` |
+| Pages    | `src/_pages`   | One slice per screen with its UI, data fetching, state and page-specific rules   | `widgets`, `features`, `entities`, `shared`           |
+| Widgets  | `src/widgets`  | Discouraged. Large blocks several pages render that compose several features     | `features`, `entities`, `shared`                      |
+| Features | `src/features` | Complete user actions (UI, request, state) reused by several consumers           | `entities`, `shared`                                  |
+| Entities | `src/entities` | Domain models and rules several slices must agree on                             | `shared`                                              |
+| Shared   | `src/shared`   | Infrastructure specific to this app, with no business rules                      | nothing in `src/`                                     |
 
 Every layer may also import third-party libraries and the workspace packages (`@repo/*`).
 
@@ -193,39 +193,39 @@ The monorepo can hold shared workspace packages under `packages/*`, named `@repo
 
 ## Placement guide
 
-| What | Where |
-| --- | --- |
-| A screen | `src/_pages/<screen>/`, re-exported by `app/<route>/page.tsx` |
-| UI, state or requests used by one screen | inside that screen's slice (`ui/`, `model/`, `api/`) |
-| A Server Action | the `api/` segment of the slice that owns the action, in a file that starts with `"use server"` |
-| A user action reused by several pages | `src/features/<action>/` |
-| A domain rule several slices must agree on | `src/entities/<noun>/model/` |
-| HTTP client, requests several slices call, DTOs | `src/shared/api/` |
-| Environment access, route paths, app settings | `src/shared/config/` |
-| Generic helpers (formatting, class names) | `src/shared/lib/` |
-| App-specific UI with no business context | `src/shared/ui/` |
-| Design-system primitives shared by apps | the `@repo/ui` package |
-| Global stylesheet (Tailwind entry, app tokens) | `src/_app/styles/globals.css`, imported once in `app/layout.tsx` |
-| Fonts (`next/font`) | `src/_app/fonts/`, applied in `app/layout.tsx` |
-| Global providers (theme, auth) | `src/_app/providers/`, exposed as `Providers` from its `index.ts` and mounted in `app/layout.tsx` |
-| App-wide chrome (a header on every route) | `src/_app/layouts/`, rendered from `app/layout.tsx` |
-| Route Handler implementation | `src/_app/api-routes/`, re-exported by `app/api/<name>/route.ts` |
-| Proxy (auth checks, redirects) | `apps/web/proxy.ts` |
-| An image used by one component | next to that component, in its `ui/` segment |
-| favicon, `robots.txt`, fixed-URL images | `apps/web/public/` or the Next.js metadata files in `app/` |
-| Tests | inside the slice or segment they cover; a test never reaches into another slice's internals |
+| What                                            | Where                                                                                             |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| A screen                                        | `src/_pages/<screen>/`, re-exported by `app/<route>/page.tsx`                                     |
+| UI, state or requests used by one screen        | inside that screen's slice (`ui/`, `model/`, `api/`)                                              |
+| A Server Action                                 | the `api/` segment of the slice that owns the action, in a file that starts with `"use server"`   |
+| A user action reused by several pages           | `src/features/<action>/`                                                                          |
+| A domain rule several slices must agree on      | `src/entities/<noun>/model/`                                                                      |
+| HTTP client, requests several slices call, DTOs | `src/shared/api/`                                                                                 |
+| Environment access, route paths, app settings   | `src/shared/config/`                                                                              |
+| Generic helpers (formatting, class names)       | `src/shared/lib/`                                                                                 |
+| App-specific UI with no business context        | `src/shared/ui/`                                                                                  |
+| Design-system primitives shared by apps         | the `@repo/ui` package                                                                            |
+| Global stylesheet (Tailwind entry, app tokens)  | `src/_app/styles/globals.css`, imported once in `app/layout.tsx`                                  |
+| Fonts (`next/font`)                             | `src/_app/fonts/`, applied in `app/layout.tsx`                                                    |
+| Global providers (theme, auth)                  | `src/_app/providers/`, exposed as `Providers` from its `index.ts` and mounted in `app/layout.tsx` |
+| App-wide chrome (a header on every route)       | `src/_app/layouts/`, rendered from `app/layout.tsx`                                               |
+| Route Handler implementation                    | `src/_app/api-routes/`, re-exported by `app/api/<name>/route.ts`                                  |
+| Proxy (auth checks, redirects)                  | `apps/web/proxy.ts`                                                                               |
+| An image used by one component                  | next to that component, in its `ui/` segment                                                      |
+| favicon, `robots.txt`, fixed-URL images         | `apps/web/public/` or the Next.js metadata files in `app/`                                        |
+| Tests                                           | inside the slice or segment they cover; a test never reaches into another slice's internals       |
 
 ### shadcn/ui
 
 With the primitives in a `@repo/ui` package, the app's `apps/web/components.json` points its aliases at FSD locations:
 
-| Alias | Value | What lands there |
-| --- | --- | --- |
-| `ui` | `@repo/ui/components` | primitives (`button`, `dialog`) |
-| `utils` | `@repo/ui/lib/utils` | the `cn` helper |
-| `components` | `@/shared/ui` | blocks and app-level compositions |
-| `lib` | `@/shared/lib` | app helpers |
-| `hooks` | `@/shared/lib` | app hooks (there is no `hooks` segment) |
+| Alias        | Value                 | What lands there                        |
+| ------------ | --------------------- | --------------------------------------- |
+| `ui`         | `@repo/ui/components` | primitives (`button`, `dialog`)         |
+| `utils`      | `@repo/ui/lib/utils`  | the `cn` helper                         |
+| `components` | `@/shared/ui`         | blocks and app-level compositions       |
+| `lib`        | `@/shared/lib`        | app helpers                             |
+| `hooks`      | `@/shared/lib`        | app hooks (there is no `hooks` segment) |
 
 If the primitives live in the app instead, point `ui` at `@/shared/ui` and `utils` at `@/shared/lib/utils`. Either way:
 
@@ -234,14 +234,14 @@ If the primitives live in the app instead, point `ui` at `@/shared/ui` and `util
 
 ### Authentication (Clerk)
 
-| What | Where |
-| --- | --- |
-| `<ClerkProvider>` and its `appearance` | `src/_app/providers/`, composed into `Providers` |
-| `clerkMiddleware()` | `apps/web/proxy.ts` |
-| Sign-in and sign-up screens | `src/_pages/sign-in/` and `src/_pages/sign-up/`, re-exported by `app/sign-in/[[...sign-in]]/page.tsx` and `app/sign-up/[[...sign-up]]/page.tsx` |
-| Session helpers, auth route paths | `src/shared/auth/` (`index.ts`, plus `index.server.ts` for helpers that call server-only APIs) |
-| An auth action reused by several pages (for example a sign-out button) | `src/features/<action>/`; while one page uses it, keep it in that page |
-| Clerk webhooks | `src/_app/api-routes/`, re-exported by `app/api/webhooks/<name>/route.ts` |
+| What                                                                   | Where                                                                                                                                           |
+| ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<ClerkProvider>` and its `appearance`                                 | `src/_app/providers/`, composed into `Providers`                                                                                                |
+| `clerkMiddleware()`                                                    | `apps/web/proxy.ts`                                                                                                                             |
+| Sign-in and sign-up screens                                            | `src/_pages/sign-in/` and `src/_pages/sign-up/`, re-exported by `app/sign-in/[[...sign-in]]/page.tsx` and `app/sign-up/[[...sign-up]]/page.tsx` |
+| Session helpers, auth route paths                                      | `src/shared/auth/` (`index.ts`, plus `index.server.ts` for helpers that call server-only APIs)                                                  |
+| An auth action reused by several pages (for example a sign-out button) | `src/features/<action>/`; while one page uses it, keep it in that page                                                                          |
+| Clerk webhooks                                                         | `src/_app/api-routes/`, re-exported by `app/api/webhooks/<name>/route.ts`                                                                       |
 
 Do not create a `user` entity only to wrap the session. An entity appears when the product has user-domain rules that several slices must share.
 

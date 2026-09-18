@@ -11,11 +11,11 @@ How changes are written and how they move into this repository: the rules every 
 
 The full standard lives in [`docs/conventions/`](docs/conventions/README.md), one document per topic, each with bad and good examples and a table of the checks that enforce it:
 
-| Document | Covers |
-| --- | --- |
+| Document                                        | Covers                                                                                                     |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | [code-style.md](docs/conventions/code-style.md) | TypeScript: files and exports, naming, functions, control flow, SOLID, spacing, types, imports, formatting |
-| [comments.md](docs/conventions/comments.md) | When a comment earns its place, its shape, and the comment check |
-| [react.md](docs/conventions/react.md) | React and Next.js: components, props, hooks, state, composition, data fetching, styling, accessibility |
+| [comments.md](docs/conventions/comments.md)     | When a comment earns its place, its shape, and the comment check                                           |
+| [react.md](docs/conventions/react.md)           | React and Next.js: components, props, hooks, state, composition, data fetching, styling, accessibility     |
 
 Where code lives is decided by Feature-Sliced Design, described in [`docs/architecture/feature-sliced-design.md`](docs/architecture/feature-sliced-design.md).
 
@@ -33,12 +33,12 @@ The rules in short:
 
 Tools enforce what they can, so run them before you push:
 
-| Command | Checks |
-| --- | --- |
-| `pnpm lint` | ESLint: the rules in the Enforcement tables of each convention document |
-| `pnpm lint:comments` | Comment citations, one-line block comments and lint directives fail; comment density and shape are reported |
-| `pnpm format` | Prettier formatting |
-| `pnpm --filter web lint:arch` | Feature-Sliced Design structure (Steiger) |
+| Command                       | Checks                                                                                                      |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `pnpm lint`                   | ESLint: the rules in the Enforcement tables of each convention document                                     |
+| `pnpm lint:comments`          | Comment citations, one-line block comments and lint directives fail; comment density and shape are reported |
+| `pnpm format`                 | Prettier formatting                                                                                         |
+| `pnpm --filter web lint:arch` | Feature-Sliced Design structure (Steiger)                                                                   |
 
 Inline lint suppressions are switched off. If a rule does not fit a file, change the configuration for that file's glob and write down why.
 

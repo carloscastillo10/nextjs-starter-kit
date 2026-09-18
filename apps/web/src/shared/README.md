@@ -6,13 +6,13 @@ Infrastructure specific to this app, with no business rules. The layer has no sl
 
 Create a segment when its first file arrives.
 
-| Segment | Holds | Public API |
-| --- | --- | --- |
-| `ui/` | App-specific UI: branded compositions, shadcn blocks without page logic | one file or folder per component (`@/shared/ui/<name>`); a folder needs its own `index.ts` |
-| `lib/` | Generic helpers: formatting, class names, small hooks | one file or folder per module (`@/shared/lib/<name>`), same as `ui/` |
-| `api/` | API client, request functions several slices call, transport types (DTOs) | `api/index.ts` |
-| `config/` | Environment variable access, route paths, app settings | `config/index.ts` |
-| `auth/` | Session helpers and auth route constants | `auth/index.ts`, plus `auth/index.server.ts` for server-only exports |
+| Segment   | Holds                                                                     | Public API                                                                                 |
+| --------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `ui/`     | App-specific UI: branded compositions, shadcn blocks without page logic   | one file or folder per component (`@/shared/ui/<name>`); a folder needs its own `index.ts` |
+| `lib/`    | Generic helpers: formatting, class names, small hooks                     | one file or folder per module (`@/shared/lib/<name>`), same as `ui/`                       |
+| `api/`    | API client, request functions several slices call, transport types (DTOs) | `api/index.ts`                                                                             |
+| `config/` | Environment variable access, route paths, app settings                    | `config/index.ts`                                                                          |
+| `auth/`   | Session helpers and auth route constants                                  | `auth/index.ts`, plus `auth/index.server.ts` for server-only exports                       |
 
 ## What does not go here
 

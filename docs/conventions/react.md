@@ -83,6 +83,7 @@ export const LoginForm = ({ className, onSubmit, ...props }: LoginFormProps) => 
   ```
 
   The same applies to `redirect`, `permanentRedirect`, `forbidden` and `unauthorized`.
+
 - **No computation in JSX props.** `width={base + extra}`, `disabled={count === 0}` and `label={title ?? fallback}` are logic; compute them in the hook, or name them as a constant. A conditional class inside `cn(...)` is the accepted exception: `className={cn("tab", isActive ? "text-primary" : "text-muted-foreground")}`.
 - **`&&` only with a boolean.** `{count && <Badge />}` renders `0` when the count is zero. Use a ternary, or compare first in the hook.
 - **Never define a component inside another component.** It remounts on every render and loses its state.
@@ -257,22 +258,22 @@ These rules apply once Tailwind CSS and the UI kit are installed.
 
 In addition to the checks in [code-style.md](code-style.md#enforcement):
 
-| Rule | Check |
-| --- | --- |
-| Rules of hooks, no components created during render, no synchronous `setState` in effects, purity, refs | `eslint-plugin-react-hooks` (`recommended-latest`) |
-| Missing effect dependencies (warning) | `react-hooks/exhaustive-deps` |
-| No state or effect hooks in slice `ui/` files | `no-restricted-syntax` (hook calls in `src/{_pages,widgets,features,entities}/**/ui/**/*.tsx`) |
-| No `if` in a component body except navigation guards | `no-restricted-syntax` (for `*.tsx`) |
-| No computation in JSX props | `no-restricted-syntax` (`JSXAttribute > JSXExpressionContainer > BinaryExpression`, `??`) |
-| The rest of the props is named `props` | `no-restricted-syntax` (for `*.tsx`) |
-| `useState` typed, hooks without a return type | `no-restricted-syntax` |
-| `className` first and callbacks last in JSX | `perfectionist/sort-jsx-props` |
-| `&&` only with a boolean | `@eslint-react/no-leaked-conditional-rendering` |
-| No component defined inside another | `@eslint-react/no-nested-component-definitions`, `react-hooks/static-components` |
-| No index as `key` | `@eslint-react/no-array-index-key` |
-| No `forwardRef`, `use` over `useContext`, `<Context>` over `<Context.Provider>` | `@eslint-react/no-forward-ref`, `@eslint-react/no-use-context`, `@eslint-react/no-context-provider` |
-| Stable context values and default props | `@eslint-react/no-unstable-context-value`, `@eslint-react/no-unstable-default-props` |
-| `[value, setValue]` naming for state | `@eslint-react/use-state` |
-| Next.js rules (`next/image`, scripts, fonts) | `@next/eslint-plugin-next` (`core-web-vitals`) |
-| Accessibility | `eslint-plugin-jsx-a11y` (`recommended`) |
-| Tailwind without arbitrary values, the UI kit first | added when Tailwind and the UI kit are installed |
+| Rule                                                                                                    | Check                                                                                               |
+| ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Rules of hooks, no components created during render, no synchronous `setState` in effects, purity, refs | `eslint-plugin-react-hooks` (`recommended-latest`)                                                  |
+| Missing effect dependencies (warning)                                                                   | `react-hooks/exhaustive-deps`                                                                       |
+| No state or effect hooks in slice `ui/` files                                                           | `no-restricted-syntax` (hook calls in `src/{_pages,widgets,features,entities}/**/ui/**/*.tsx`)      |
+| No `if` in a component body except navigation guards                                                    | `no-restricted-syntax` (for `*.tsx`)                                                                |
+| No computation in JSX props                                                                             | `no-restricted-syntax` (`JSXAttribute > JSXExpressionContainer > BinaryExpression`, `??`)           |
+| The rest of the props is named `props`                                                                  | `no-restricted-syntax` (for `*.tsx`)                                                                |
+| `useState` typed, hooks without a return type                                                           | `no-restricted-syntax`                                                                              |
+| `className` first and callbacks last in JSX                                                             | `perfectionist/sort-jsx-props`                                                                      |
+| `&&` only with a boolean                                                                                | `@eslint-react/no-leaked-conditional-rendering`                                                     |
+| No component defined inside another                                                                     | `@eslint-react/no-nested-component-definitions`, `react-hooks/static-components`                    |
+| No index as `key`                                                                                       | `@eslint-react/no-array-index-key`                                                                  |
+| No `forwardRef`, `use` over `useContext`, `<Context>` over `<Context.Provider>`                         | `@eslint-react/no-forward-ref`, `@eslint-react/no-use-context`, `@eslint-react/no-context-provider` |
+| Stable context values and default props                                                                 | `@eslint-react/no-unstable-context-value`, `@eslint-react/no-unstable-default-props`                |
+| `[value, setValue]` naming for state                                                                    | `@eslint-react/use-state`                                                                           |
+| Next.js rules (`next/image`, scripts, fonts)                                                            | `@next/eslint-plugin-next` (`core-web-vitals`)                                                      |
+| Accessibility                                                                                           | `eslint-plugin-jsx-a11y` (`recommended`)                                                            |
+| Tailwind without arbitrary values, the UI kit first                                                     | added when Tailwind and the UI kit are installed                                                    |

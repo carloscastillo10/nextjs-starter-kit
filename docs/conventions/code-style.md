@@ -27,12 +27,12 @@ Three ideas sit under every rule below:
 
 **File names follow the extension.**
 
-| File | Case | Example |
-| --- | --- | --- |
-| React component (`.tsx`) in `apps/*/src` | PascalCase, named after the component it exports | `HomePage.tsx`, `LoginForm.tsx` |
-| Any other module (`.ts`, `.mjs`, ...) | kebab-case | `format-price.ts`, `use-login-form.ts`, `get-product.ts` |
-| Next.js route files in `apps/*/app` | the name Next.js expects | `page.tsx`, `layout.tsx`, `not-found.tsx`, `route.ts` |
-| Files the shadcn CLI generates in `packages/*` | the kebab-case name the CLI gives them | `button.tsx` |
+| File                                           | Case                                             | Example                                                  |
+| ---------------------------------------------- | ------------------------------------------------ | -------------------------------------------------------- |
+| React component (`.tsx`) in `apps/*/src`       | PascalCase, named after the component it exports | `HomePage.tsx`, `LoginForm.tsx`                          |
+| Any other module (`.ts`, `.mjs`, ...)          | kebab-case                                       | `format-price.ts`, `use-login-form.ts`, `get-product.ts` |
+| Next.js route files in `apps/*/app`            | the name Next.js expects                         | `page.tsx`, `layout.tsx`, `not-found.tsx`, `route.ts`    |
+| Files the shadcn CLI generates in `packages/*` | the kebab-case name the CLI gives them           | `button.tsx`                                             |
 
 Middle extensions are not part of the name: `index.server.ts`, `format-price.test.ts` and `steiger.config.ts` are all kebab-case.
 
@@ -69,14 +69,14 @@ Middle extensions are not part of the name: `index.server.ts`, `format-price.tes
 
 The folder structure is Feature-Sliced Design, described in [docs/architecture/feature-sliced-design.md](../architecture/feature-sliced-design.md). Inside a slice, each kind of code has one segment:
 
-| What | Segment | Example file |
-| --- | --- | --- |
-| A component | `ui/` | `ui/LoginForm.tsx` |
-| The hook that holds a component's logic and state | `model/` | `model/use-login-form.ts` |
-| Pure functions the slice needs | `lib/` | `lib/validate-email.ts` |
-| Named data: lookup maps, option lists, thresholds, fallback labels | `config/` | `config/login-errors.ts` |
-| Domain types and rules | `model/` | `model/order.ts` |
-| Requests, query and mutation hooks, Server Actions, transport types | `api/` | `api/get-product.ts` |
+| What                                                                | Segment   | Example file              |
+| ------------------------------------------------------------------- | --------- | ------------------------- |
+| A component                                                         | `ui/`     | `ui/LoginForm.tsx`        |
+| The hook that holds a component's logic and state                   | `model/`  | `model/use-login-form.ts` |
+| Pure functions the slice needs                                      | `lib/`    | `lib/validate-email.ts`   |
+| Named data: lookup maps, option lists, thresholds, fallback labels  | `config/` | `config/login-errors.ts`  |
+| Domain types and rules                                              | `model/`  | `model/order.ts`          |
+| Requests, query and mutation hooks, Server Actions, transport types | `api/`    | `api/get-product.ts`      |
 
 - Segment names describe what the code is for. `hooks`, `components`, `utils`, `helpers`, `types` and `constants` describe what the code is, and the architecture linter rejects them.
 - Files are named after the domain they serve (`model/order.ts`), never after a technical role (`model/types.ts`, `lib/helpers.ts`).
@@ -85,16 +85,16 @@ The folder structure is Feature-Sliced Design, described in [docs/architecture/f
 
 ## Naming
 
-| Kind | Format | Example |
-| --- | --- | --- |
-| Variables, functions, parameters | camelCase | `activeUsers`, `formatPrice` |
-| Components | PascalCase | `LoginForm` |
-| Types | PascalCase | `LoginError`, `LoginFormProps` |
-| Module-level constants that hold named data | UPPER_CASE | `LOGIN_ERROR_MESSAGES`, `EMAIL_PATTERN` |
-| Hooks | `use` + PascalCase | `useLoginForm` |
-| A hook's input type | `Use<Name>Options` | `UseLoginFormOptions` |
-| A component's props type | `<Name>Props` | `LoginFormProps` |
-| Event handlers | `handle<Event>` where defined, `on<Event>` as a prop | `handleSubmit` passed as `onSubmit` |
+| Kind                                        | Format                                               | Example                                 |
+| ------------------------------------------- | ---------------------------------------------------- | --------------------------------------- |
+| Variables, functions, parameters            | camelCase                                            | `activeUsers`, `formatPrice`            |
+| Components                                  | PascalCase                                           | `LoginForm`                             |
+| Types                                       | PascalCase                                           | `LoginError`, `LoginFormProps`          |
+| Module-level constants that hold named data | UPPER_CASE                                           | `LOGIN_ERROR_MESSAGES`, `EMAIL_PATTERN` |
+| Hooks                                       | `use` + PascalCase                                   | `useLoginForm`                          |
+| A hook's input type                         | `Use<Name>Options`                                   | `UseLoginFormOptions`                   |
+| A component's props type                    | `<Name>Props`                                        | `LoginFormProps`                        |
+| Event handlers                              | `handle<Event>` where defined, `on<Event>` as a prop | `handleSubmit` passed as `onSubmit`     |
 
 - **Booleans read as a yes-or-no question**: `isOpen`, `hasItems`, `shouldRetry`, `canEdit`, `didLoad`, `willExpire`.
 - **Names are words, not fragments.** `event`, not `e`; `error`, not `err`; `request`, not `req`; `(link) => link.href`, not `(l) => l.href`. The exceptions are `i` for a plain loop index, `x` and `y` for coordinates, and `_` for a parameter that is deliberately unused.
@@ -226,12 +226,12 @@ Blocks nest at most two levels inside a function, a function has a cyclomatic co
 
 **Single responsibility** is the principle this codebase leans on hardest. Each unit has one reason to change:
 
-| Unit | Its one job | What gets split out |
-| --- | --- | --- |
-| Module (file) | One concept of its segment | Unrelated helpers go to their own files |
-| Component | Render markup from the values it receives | State, effects and derivations go to a hook |
-| Hook | Own the state, derived values and handlers of one component or one concern | Pure computation goes to `lib/`, named data to `config/` |
-| Function | One transformation or one step | Each extra step becomes a named function |
+| Unit          | Its one job                                                                | What gets split out                                      |
+| ------------- | -------------------------------------------------------------------------- | -------------------------------------------------------- |
+| Module (file) | One concept of its segment                                                 | Unrelated helpers go to their own files                  |
+| Component     | Render markup from the values it receives                                  | State, effects and derivations go to a hook              |
+| Hook          | Own the state, derived values and handlers of one component or one concern | Pure computation goes to `lib/`, named data to `config/` |
+| Function      | One transformation or one step                                             | Each extra step becomes a named function                 |
 
 Signals that a unit does too much: a file over 250 lines of code, a function over 60, a name that needs "and", a hook that returns unrelated values, a component with several pieces of state.
 
@@ -315,25 +315,25 @@ Inline ESLint directives (`// eslint-disable-next-line`, `/* eslint-disable */`)
 
 `pnpm lint` runs ESLint and `pnpm lint:comments` runs the comment check described in [comments.md](comments.md#the-comment-check). Everything not listed here is checked in review.
 
-| Rule | Check |
-| --- | --- |
-| Component files PascalCase, other modules kebab-case | `check-file/filename-naming-convention` |
-| Named exports only; defaults in route files and config files | `no-restricted-exports` (switched off for `app/**` and `*.config.*`) |
-| No `export *` | `no-restricted-syntax` (`ExportAllDeclaration`) |
-| Naming formats and boolean prefixes | `@typescript-eslint/naming-convention` |
-| No clipped names | `id-length`, `id-denylist` |
-| Arrow functions | `func-style`, `prefer-arrow-callback`, `no-restricted-syntax` (`FunctionExpression`, `ExportDefaultDeclaration > FunctionDeclaration`) |
-| At most three parameters | `@typescript-eslint/max-params` |
-| No `switch` | `no-restricted-syntax` (`SwitchStatement`) |
-| No `else if` chains, no `else` after `return` | `no-restricted-syntax` (`IfStatement > IfStatement.alternate`), `no-else-return`, `no-lonely-if` |
-| No nested ternaries, no negated conditions with `else` | `no-nested-ternary`, `no-negated-condition` |
-| Braces except on one-line guard clauses | `curly` (`multi-line`) |
-| Depth and complexity limits | `max-depth` (2), `complexity` (10), `max-nested-callbacks` (3) |
-| Size signals (warnings) | `max-lines` (250), `max-lines-per-function` (60) |
-| Blank lines between steps | `@stylistic/padding-line-between-statements` |
-| `type` over `interface`, no `enum` | `@typescript-eslint/consistent-type-definitions`, `no-restricted-syntax` (`TSEnumDeclaration`) |
-| Type-only imports and exports | `@typescript-eslint/consistent-type-imports`, `@typescript-eslint/consistent-type-exports` |
-| Import order | `perfectionist/sort-imports` |
-| Route files import only from `_pages` and `_app` public APIs | `no-restricted-imports` (for `app/**`) |
-| Formatting | Prettier |
-| No inline lint directives | `linterOptions.noInlineConfig` and the comment check |
+| Rule                                                         | Check                                                                                                                                  |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Component files PascalCase, other modules kebab-case         | `check-file/filename-naming-convention`                                                                                                |
+| Named exports only; defaults in route files and config files | `no-restricted-exports` (switched off for `app/**` and `*.config.*`)                                                                   |
+| No `export *`                                                | `no-restricted-syntax` (`ExportAllDeclaration`)                                                                                        |
+| Naming formats and boolean prefixes                          | `@typescript-eslint/naming-convention`                                                                                                 |
+| No clipped names                                             | `id-length`, `id-denylist`                                                                                                             |
+| Arrow functions                                              | `func-style`, `prefer-arrow-callback`, `no-restricted-syntax` (`FunctionExpression`, `ExportDefaultDeclaration > FunctionDeclaration`) |
+| At most three parameters                                     | `@typescript-eslint/max-params`                                                                                                        |
+| No `switch`                                                  | `no-restricted-syntax` (`SwitchStatement`)                                                                                             |
+| No `else if` chains, no `else` after `return`                | `no-restricted-syntax` (`IfStatement > IfStatement.alternate`), `no-else-return`, `no-lonely-if`                                       |
+| No nested ternaries, no negated conditions with `else`       | `no-nested-ternary`, `no-negated-condition`                                                                                            |
+| Braces except on one-line guard clauses                      | `curly` (`multi-line`)                                                                                                                 |
+| Depth and complexity limits                                  | `max-depth` (2), `complexity` (10), `max-nested-callbacks` (3)                                                                         |
+| Size signals (warnings)                                      | `max-lines` (250), `max-lines-per-function` (60)                                                                                       |
+| Blank lines between steps                                    | `@stylistic/padding-line-between-statements`                                                                                           |
+| `type` over `interface`, no `enum`                           | `@typescript-eslint/consistent-type-definitions`, `no-restricted-syntax` (`TSEnumDeclaration`)                                         |
+| Type-only imports and exports                                | `@typescript-eslint/consistent-type-imports`, `@typescript-eslint/consistent-type-exports`                                             |
+| Import order                                                 | `perfectionist/sort-imports`                                                                                                           |
+| Route files import only from `_pages` and `_app` public APIs | `no-restricted-imports` (for `app/**`)                                                                                                 |
+| Formatting                                                   | Prettier                                                                                                                               |
+| No inline lint directives                                    | `linterOptions.noInlineConfig` and the comment check                                                                                   |

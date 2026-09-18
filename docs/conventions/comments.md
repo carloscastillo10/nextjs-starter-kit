@@ -32,12 +32,12 @@ The comment states the reason itself, in full. It does not point somewhere else 
 
 ## Shape
 
-| Where | Form |
-| --- | --- |
+| Where                                                              | Form                                               |
+| ------------------------------------------------------------------ | -------------------------------------------------- |
 | Documents a declaration (a function, a type, an exported constant) | A `/** */` block, always spread over several lines |
-| Explains a statement inside a body, in more than one line | A `/* */` block, always spread over several lines |
-| Anything that fits on one line | `//` |
-| Inside JSX | `{/* ... */}`, the only comment syntax JSX accepts |
+| Explains a statement inside a body, in more than one line          | A `/* */` block, always spread over several lines  |
+| Anything that fits on one line                                     | `//`                                               |
+| Inside JSX                                                         | `{/* ... */}`, the only comment syntax JSX accepts |
 
 ```ts
 /**
@@ -65,20 +65,20 @@ export const toMajorUnits = (amountInMinorUnits: number) => amountInMinorUnits /
 
 **Fails** (non-zero exit):
 
-| Finding | Why it fails |
-| --- | --- |
-| A citation: a path into the repository, an `@/` import path, a file name, an issue or pull request number, a numbered section | The pointer goes stale; write the reason instead. A file naming itself, and product names such as `Next.js`, are not citations |
-| A block comment on a single line (`/* ... */` or `/** ... */` alone on its line) | Use `//`, or spread the block over several lines. `{/* ... */}` in JSX and bundler annotations such as `/*#__PURE__*/` are exempt |
-| An ESLint directive (`eslint-disable`, `eslint-enable`, `eslint`, `global`) | Inline directives are ignored by the linter; change the config for the glob instead |
+| Finding                                                                                                                       | Why it fails                                                                                                                      |
+| ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| A citation: a path into the repository, an `@/` import path, a file name, an issue or pull request number, a numbered section | The pointer goes stale; write the reason instead. A file naming itself, and product names such as `Next.js`, are not citations    |
+| A block comment on a single line (`/* ... */` or `/** ... */` alone on its line)                                              | Use `//`, or spread the block over several lines. `{/* ... */}` in JSX and bundler annotations such as `/*#__PURE__*/` are exempt |
+| An ESLint directive (`eslint-disable`, `eslint-enable`, `eslint`, `global`)                                                   | Inline directives are ignored by the linter; change the config for the glob instead                                               |
 
 **Reports** (printed, exit code unaffected):
 
-| Finding | Reported at |
-| --- | --- |
-| More comment than code | Over 40% of the non-blank lines of a file of 20 or more non-blank lines |
-| One block became an essay | A single comment block longer than 12 lines |
-| A doc block on every member | At least 60% of the exports of a file with 3 or more exports |
-| Commented-out code | A comment line that reads like code (starts with `import`, `const`, `return`...; ends with `;`, `{` or `}`) |
+| Finding                     | Reported at                                                                                                 |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| More comment than code      | Over 40% of the non-blank lines of a file of 20 or more non-blank lines                                     |
+| One block became an essay   | A single comment block longer than 12 lines                                                                 |
+| A doc block on every member | At least 60% of the exports of a file with 3 or more exports                                                |
+| Commented-out code          | A comment line that reads like code (starts with `import`, `const`, `return`...; ends with `;`, `{` or `}`) |
 
 Read the reports instead of scrolling past them. Whether a comment restates its code is a judgement no heuristic can make, so review makes it.
 

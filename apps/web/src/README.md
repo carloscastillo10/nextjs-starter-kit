@@ -6,14 +6,14 @@ This folder holds the application code of `web`, organized with [Feature-Sliced 
 
 From highest to lowest. A layer may import only from the layers below it.
 
-| Layer | Folder | Purpose |
-| --- | --- | --- |
-| App | [`_app/`](_app/README.md) | Providers, global styles, fonts, app-wide layouts, Route Handler implementations |
-| Pages | [`_pages/`](_pages/README.md) | One slice per screen; owns its UI, data fetching and page logic |
-| Widgets | [`widgets/`](widgets/README.md) | Discouraged; large UI blocks shared by several pages |
-| Features | [`features/`](features/README.md) | User actions reused by several pages |
-| Entities | [`entities/`](entities/README.md) | Business domain models reused by several slices |
-| Shared | [`shared/`](shared/README.md) | Infrastructure with no business logic |
+| Layer    | Folder                            | Purpose                                                                          |
+| -------- | --------------------------------- | -------------------------------------------------------------------------------- |
+| App      | [`_app/`](_app/README.md)         | Providers, global styles, fonts, app-wide layouts, Route Handler implementations |
+| Pages    | [`_pages/`](_pages/README.md)     | One slice per screen; owns its UI, data fetching and page logic                  |
+| Widgets  | [`widgets/`](widgets/README.md)   | Discouraged; large UI blocks shared by several pages                             |
+| Features | [`features/`](features/README.md) | User actions reused by several pages                                             |
+| Entities | [`entities/`](entities/README.md) | Business domain models reused by several slices                                  |
+| Shared   | [`shared/`](shared/README.md)     | Infrastructure with no business logic                                            |
 
 `_app` and `_pages` start with an underscore so they never collide with the Next.js `app/` and `pages/` routing folders. This is the naming the FSD guide for Next.js prescribes.
 
