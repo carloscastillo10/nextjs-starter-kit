@@ -41,8 +41,14 @@ const PRODUCT_NAME = /^[A-Z][a-z]+\.js$/u;
 
 const TRAILING_PUNCTUATION = /[.,;:]+$/u;
 
-const DIRECTIVE =
-  /^\s*(?:eslint(?:-disable(?:-next-line|-line)?|-enable)?|globals?|exported)(?:\s|$)/u;
+/*
+ * ESLint reads configuration (`eslint`, `global`, `exported`) only from block comments,
+ * so a line comment is a directive only when it tries to switch rules off or on.
+ */
+const DIRECTIVE = {
+  Block: /^\s*(?:eslint(?:-disable(?:-next-line|-line)?|-enable)?|globals?|exported)(?:\s|$)/u,
+  Line: /^\s*eslint-(?:disable|enable)(?:-next-line|-line)?(?:\s|$)/u,
+};
 
 const BUNDLER_ANNOTATION = /^\s*[#@]__(?:PURE|NO_SIDE_EFFECTS)__\s*$/u;
 
@@ -109,7 +115,7 @@ const shapeFailures = (comment, sourceLines) =>
     : [];
 
 const commentFailures = ({ comment, file, sourceLines }) => {
-  if (DIRECTIVE.test(comment.value)) {
+  if (DIRECTIVE[comment.type].test(comment.value)) {
     return [
       {
         line: comment.loc.start.line,

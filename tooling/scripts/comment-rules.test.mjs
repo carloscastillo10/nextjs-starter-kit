@@ -127,8 +127,16 @@ describe("lint directives", () => {
     expect(failuresIn(code)).toEqual([{ line: 1, rule: "directive" }]);
   });
 
-  test("passes prose that names the linter", () => {
-    expect(failuresIn("// ESLint cannot see through the dynamic import.")).toEqual([]);
+  test("fails on a line comment that tries to disable a rule", () => {
+    expect(failuresIn("// eslint-disable no-console")).toEqual([{ line: 1, rule: "directive" }]);
+  });
+
+  test.each([
+    "// ESLint cannot see through the dynamic import.",
+    "// global cache shared by every request",
+    "// exported for the tests only",
+  ])("passes prose in a line comment: %s", (code) => {
+    expect(failuresIn(code)).toEqual([]);
   });
 });
 
