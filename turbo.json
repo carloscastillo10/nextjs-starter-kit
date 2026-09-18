@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/turbo/schema.json",
+  "globalDependencies": [".env.*"],
+  "globalEnv": ["APP_ENV", "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"],
+  "globalPassThroughEnv": ["CLERK_SECRET_KEY"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
