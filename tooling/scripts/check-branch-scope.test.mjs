@@ -75,6 +75,19 @@ describe("check-branch-scope", () => {
     expect(stderr).toBe("check-branch-scope: nothing changed against main\n");
   });
 
+  test("skips, without blocking the push, a base it shares no history with", () => {
+    const sandbox = createSandbox();
+
+    sandbox.commit("Start");
+    sandbox.git(["switch", "--quiet", "--orphan", "feat/unrelated"]);
+    sandbox.commit("Unrelated", { files: filesIn("apps/web/src", 3) });
+
+    const { status, stderr } = sandbox.run(SCRIPT, ["main"]);
+
+    expect(status).toBe(0);
+    expect(stderr).toContain("could not compare against main, skipped");
+  });
+
   test("skips a base it cannot resolve", () => {
     const sandbox = sandboxWithBranch(filesIn("apps/web/src", 3));
     const { status, stderr } = sandbox.run(SCRIPT, ["nope"]);

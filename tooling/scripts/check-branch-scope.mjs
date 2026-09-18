@@ -34,14 +34,22 @@ const resolves = (ref) => {
   }
 };
 
+/*
+ * A report must never be the reason a push fails, so a history git cannot
+ * compare, such as a shallow clone or an unrelated branch, is skipped.
+ */
 const changedAgainst = (base) => {
-  const range = `${git("merge-base", base, "HEAD")}...HEAD`;
-  const names = git("diff", "--name-only", range).split("\n").filter(Boolean);
-  const lines = [
-    ...git("diff", "--shortstat", range).matchAll(/(?<count>\d+) (?:insertion|deletion)/gu),
-  ].reduce((sum, match) => sum + Number(match.groups.count), 0);
+  try {
+    const range = `${git("merge-base", base, "HEAD")}...HEAD`;
+    const names = git("diff", "--name-only", range).split("\n").filter(Boolean);
+    const lines = [
+      ...git("diff", "--shortstat", range).matchAll(/(?<count>\d+) (?:insertion|deletion)/gu),
+    ].reduce((sum, match) => sum + Number(match.groups.count), 0);
 
-  return { names, lines };
+    return { names, lines };
+  } catch {
+    return null;
+  }
 };
 
 const concernsIn = (names) => {
@@ -120,6 +128,12 @@ const main = () => {
   }
 
   const changes = changedAgainst(base);
+
+  if (changes === null) {
+    process.stderr.write(`check-branch-scope: could not compare against ${base}, skipped\n`);
+
+    return 0;
+  }
 
   if (changes.names.length === 0) {
     process.stderr.write(`check-branch-scope: nothing changed against ${base}\n`);
