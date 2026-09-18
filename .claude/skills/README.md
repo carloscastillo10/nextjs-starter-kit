@@ -8,7 +8,7 @@ aliases: [Project skills, Claude Code skills]
 > Agent skills and plugins that Claude Code loads for everyone who opens this repository.
 
 ![skills CLI](https://img.shields.io/badge/skills%20CLI-1.7.0-000000)
-![vendored skills](https://img.shields.io/badge/vendored%20skills-12-2ea44f)
+![vendored skills](https://img.shields.io/badge/vendored%20skills-9-2ea44f)
 ![declared plugins](https://img.shields.io/badge/declared%20plugins-3-D97757)
 
 ## 🧭 Table of contents
@@ -23,7 +23,7 @@ aliases: [Project skills, Claude Code skills]
 
 ## 🎯 Purpose
 
-Give every contributor, human or agent, the same stack-aware guidance: shadcn/ui, Tailwind CSS v4, Clerk, Feature-Sliced Design, React and Next.js, Turborepo, the web platform, the root `DESIGN.md` and the prose in the docs.
+Give every contributor, human or agent, the same stack-aware guidance: shadcn/ui, Tailwind CSS v4, Feature-Sliced Design, React and Next.js, Turborepo, the web platform, the root `DESIGN.md` and the prose in the docs.
 
 Two mechanisms, chosen per item:
 
@@ -37,9 +37,6 @@ Two mechanisms, chosen per item:
 | Skill | Source | Upstream commit | Version | License | Use it for |
 | --- | --- | --- | --- | --- | --- |
 | `shadcn` | [shadcn/ui](https://github.com/shadcn/ui) | `a87a63b` | - | MIT | Adding, composing and theming shadcn/ui components, toasts included |
-| `clerk-setup` | [clerk/skills](https://github.com/clerk/skills) | `7523bd3` | 2.5.1 | MIT | Adding Clerk to the app, keys and environment |
-| `clerk-nextjs-patterns` | [clerk/skills](https://github.com/clerk/skills) | `7523bd3` | 2.2.0 | MIT | Clerk with the Next.js App Router: proxy, server auth, route protection |
-| `clerk-custom-ui` | [clerk/skills](https://github.com/clerk/skills) | `7523bd3` | 2.3.0 | MIT | Clerk appearance and custom flows, matched to the shadcn/ui theme |
 | `feature-sliced-design` | [feature-sliced/skills](https://github.com/feature-sliced/skills) | `fd71da4` | FSD 2.1 | MIT | Deciding where code lives: layers, slices and public APIs |
 | `vercel-react-best-practices` | [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) | `063bee9` | 1.0.0 | MIT | React and Next.js performance rules when writing or reviewing code |
 | `vercel-composition-patterns` | [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) | `063bee9` | 1.0.0 | MIT | Component API design: composition over boolean props, compound components |
@@ -113,7 +110,6 @@ Vendored skills change only when someone refreshes them. Run `add` from the repo
 
 ```sh
 npx -y skills@1.7.0 add shadcn/ui --skill shadcn -a claude-code -y
-npx -y skills@1.7.0 add clerk/skills --skill clerk-setup clerk-nextjs-patterns clerk-custom-ui -a claude-code -y
 npx -y skills@1.7.0 add feature-sliced/skills --skill feature-sliced-design -a claude-code -y
 npx -y skills@1.7.0 add vercel-labs/agent-skills --skill vercel-react-best-practices vercel-composition-patterns web-design-guidelines -a claude-code -y
 npx -y skills@1.7.0 add vercel/turborepo --skill turborepo -a claude-code -y
@@ -173,6 +169,7 @@ These were evaluated and turned down. Do not add them back without a new reason:
 | Material Design 3 skills | No official skill exists; the community ones target Jetpack Compose or Flutter first and replace the shadcn/ui tokens. |
 | Google Stitch skills | Need a Stitch account and MCP server, and write `.stitch/DESIGN.md` in a format that drifts from the spec. |
 | `context7` | A hosted documentation service; Next.js ships versioned docs and the vendored skills cover the rest. |
+| Authentication provider skills | The template ships without authentication, so each project picks its provider. Add that provider's official skills when you add the provider. |
 | `mattpocock-skills` | Test-first, debugging and review workflows that overlap Superpowers. |
 | `tailwind-design-system` (wshobson/agents) | Sets tokens up differently from shadcn/ui (`--color-*` directly in `@theme`, overridden under `.dark`), ships a hand-built theme provider that stores the theme in `localStorage`, and its examples keep Tailwind v3 habits (`outline-none` where v4 uses `outline-hidden`, the legacy `bg-gradient-to-r`) and arbitrary values. |
 | `tailwind-4-docs` (Lombiq) | Downloads the Tailwind docs, which have no open-source license, into the skill folder with Python and git, then tells the agent to stop until that copy exists and is less than a week old. |

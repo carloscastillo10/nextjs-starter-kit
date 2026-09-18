@@ -16,7 +16,6 @@ Plugins declared in [`../settings.json`](../settings.json) are not copied into t
 | Skill folders | Source | License | Copyright notice |
 | --- | --- | --- | --- |
 | `shadcn` | [shadcn/ui](https://github.com/shadcn/ui) | MIT | Copyright (c) 2023 shadcn |
-| `clerk-setup`, `clerk-nextjs-patterns`, `clerk-custom-ui` | [clerk/skills](https://github.com/clerk/skills) | MIT | Declared in the upstream README and in each skill's frontmatter. The repository ships no LICENSE file with a copyright line. |
 | `feature-sliced-design` | [feature-sliced/skills](https://github.com/feature-sliced/skills) | MIT | Declared in the upstream README. The repository ships no LICENSE file with a copyright line. |
 | `vercel-react-best-practices`, `vercel-composition-patterns`, `web-design-guidelines` | [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) | MIT | Declared in the upstream README and in the frontmatter of two of the skills. The repository ships no LICENSE file with a copyright line. |
 | `turborepo` | [vercel/turborepo](https://github.com/vercel/turborepo) | MIT | Copyright (c) 2026 Vercel, Inc |
