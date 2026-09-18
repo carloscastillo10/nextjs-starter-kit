@@ -1,6 +1,7 @@
 estree
 jsdom
 Liskov
+lockfiles
 Steiger
 tsconfck
 vercel
