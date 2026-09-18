@@ -4,6 +4,7 @@ jsdom
 lefthook
 Liskov
 lockfiles
+nvmrc
 Steiger
 tsconfck
 Turborepo
