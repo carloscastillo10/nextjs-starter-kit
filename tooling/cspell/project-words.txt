@@ -6,9 +6,11 @@ lefthook
 Liskov
 lockfiles
 lucide
+nextjs
 nvmrc
 oklch
 shadcn
+Solana
 Steiger
 tsconfck
 Turborepo

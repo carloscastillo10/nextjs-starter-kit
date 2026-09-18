@@ -1,7 +1,18 @@
 import { render, screen } from "@testing-library/react";
+import type { ReactNode } from "react";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
 import { Providers } from "./Providers";
+
+/*
+ * Clerk's provider is a Server Component that needs real keys and a request. These tests
+ * cover what the app composes around it, so it stands in as a pass-through.
+ */
+vi.mock("@clerk/nextjs", () => {
+  const ClerkProvider = ({ children }: { children: ReactNode }) => children;
+
+  return { ClerkProvider };
+});
 
 const DARK_SCHEME_QUERY = "(prefers-color-scheme: dark)";
 
