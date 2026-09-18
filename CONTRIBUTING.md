@@ -1,11 +1,22 @@
-# Contributing
+---
+tags: [contributing, conventions, git]
+aliases: [Contributing, Contribution guide]
+---
 
-How changes are written and how they move into this repository: the rules every change follows, and the checks that hold them.
+# 🤝 Contributing
+
+> How changes are written and how they move into this repository: the rules every change follows, and the checks that hold them.
 
 ## 🌳 Table of contents
 
 - [🎨 Code style](#-code-style)
 - [🌿 Git workflow](#-git-workflow)
+  - [Branches](#branches)
+  - [Commits](#commits)
+  - [Git hooks](#git-hooks)
+  - [Continuous integration](#continuous-integration)
+  - [Pull requests](#pull-requests)
+  - [Repository settings](#repository-settings)
 
 ## 🎨 Code style
 
@@ -49,4 +60,136 @@ Inline lint suppressions are switched off. If a rule does not fit a file, change
 
 ## 🌿 Git workflow
 
-<!-- Owned by git-workflow-agent: branching strategy, commit convention and git hooks. -->
+`main` is always releasable. Every change starts on a short-lived branch and reaches `main` through a pull request, squashed into a single Conventional Commit. The checks from the table above run twice before that: as git hooks on your machine, and in CI on the pull request.
+
+```mermaid
+flowchart LR
+  branch["Branch from main"] --> commit["Commit"]
+  commit -- "pre-commit, commit-msg" --> push["Push"]
+  push -- "pre-push" --> pr["Pull request"]
+  pr -- "Checks, PR title" --> main["Squash into main"]
+```
+
+### Branches
+
+GitHub Flow: `main` is the only long-lived branch. Create each branch from an up-to-date `main`, keep it small enough to review in one sitting, and delete it after the merge.
+
+Name it `<type>/<short-description>`, using a commit type from the next section and kebab-case:
+
+| Branch                | For                            |
+| --------------------- | ------------------------------ |
+| `feat/sign-in-page`   | A new capability               |
+| `fix/header-overflow` | A bug fix                      |
+| `docs/deploy-guide`   | Documentation only             |
+| `build/bump-next`     | Dependencies and tooling       |
+| `chore/tidy-scripts`  | Maintenance that ships no code |
+
+To bring in new work from `main`, either rebase onto it or merge it into the branch. The branch is squashed when it merges, so its own history is never kept.
+
+### Commits
+
+Messages follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). commitlint checks them in the `commit-msg` hook, with the rules in [`commitlint.config.mjs`](commitlint.config.mjs):
+
+```text
+type(scope): subject
+
+Optional body: why the change was made, in lines of up to 100 characters.
+
+Optional footers, such as BREAKING CHANGE: or Co-authored-by:
+```
+
+- **Type**: one from the table below.
+- **Scope**: required, in kebab-case. The package or area the change touches, such as `web`, `ui`, `eslint-config`, `repo`, `deps` or `ci`.
+- **Subject**: imperative and lower case ("add", not "Added" or "Adds"), with no final period. The whole first line stays within 100 characters.
+- **Breaking change**: add `!` after the scope, as in `feat(web)!: drop the legacy route`, or a `BREAKING CHANGE:` footer.
+
+| Type       | For                                                       |
+| ---------- | --------------------------------------------------------- |
+| `feat`     | A new capability                                          |
+| `fix`      | A bug fix                                                 |
+| `docs`     | Documentation only                                        |
+| `style`    | Formatting that does not change what the code does        |
+| `refactor` | A code change that neither fixes a bug nor adds a feature |
+| `perf`     | A performance improvement                                 |
+| `test`     | Tests only                                                |
+| `build`    | Dependencies, the build and the tooling packages          |
+| `ci`       | The GitHub workflows                                      |
+| `chore`    | Other maintenance that ships no code                      |
+| `revert`   | Undoing an earlier commit                                 |
+
+| Message                            | Result                                    |
+| ---------------------------------- | ----------------------------------------- |
+| `feat(web): add the sign-in page`  | ✅                                        |
+| `build(deps): bump next to 16.4`   | ✅                                        |
+| `Added sign in page`               | ❌ no type and no scope                   |
+| `feat: add the sign-in page`       | ❌ no scope                               |
+| `feat(web): Add the sign-in page.` | ❌ capitalized subject and a final period |
+
+commitlint lets through merge commits, the `Revert "..."` message that `git revert` writes, and `fixup!`, `squash!` and `amend!` commits, so `git commit --fixup` works as usual. To try a message without committing, run `echo "feat(web): add the sign-in page" | pnpm exec commitlint`.
+
+### Git hooks
+
+[lefthook](https://lefthook.dev) runs the hooks defined in [`lefthook.yml`](lefthook.yml). `pnpm install` installs them through the postinstall script of lefthook, which pnpm runs because `allowBuilds` in [`pnpm-workspace.yaml`](pnpm-workspace.yaml) lists it. The script does nothing when the `CI` variable is set.
+
+| Hook         | Job            | Checks                                   | Runs when                   |
+| ------------ | -------------- | ---------------------------------------- | --------------------------- |
+| `pre-commit` | `eslint`       | ESLint on the staged files               | A JS or TS file is staged   |
+| `pre-commit` | `comments`     | `pnpm lint:comments` on the staged files | A JS or TS file is staged   |
+| `pre-commit` | `prettier`     | `prettier --check` on the staged files   | Always                      |
+| `pre-commit` | `spelling`     | cspell on the staged files               | Always                      |
+| `pre-commit` | `markdown`     | `pnpm lint:md`, over every Markdown file | A Markdown file is staged   |
+| `pre-commit` | `types`        | `pnpm types:check`                       | A TS or JSON file is staged |
+| `commit-msg` | `commitlint`   | The commit message                       | Always                      |
+| `pre-push`   | `tests`        | `pnpm test`                              | Always                      |
+| `pre-push`   | `architecture` | `pnpm lint:arch` (Steiger)               | Always                      |
+
+On the empty template, a commit spends about 2 seconds in its hooks and a push about 2 seconds, or under half a second when Turborepo already holds the results. Jobs in the same hook run in parallel, and `types`, `tests` and `architecture` only redo the packages whose files changed.
+
+- **The hooks check, they never rewrite.** When one fails, run `pnpm format:fix` or `pnpm lint:fix`, or fix the file by hand, then stage it and commit again.
+- **They check what you staged.** While `pre-commit` runs, lefthook hides the unstaged part of a partially staged file. `types`, `tests` and `architecture` read whole projects from disk, so unstaged changes in other files still count.
+- **Markdown is linted as a whole.** markdownlint-cli2 reads a file argument as a glob, so a staged path inside a Next.js folder such as `[slug]` or `(group)` would match nothing.
+- **Missing hooks.** If `ls .git/hooks` shows only `*.sample` files, run `pnpm exec lefthook install`. A `pnpm install` with nothing new to install does not run the postinstall script again.
+
+> [!IMPORTANT]
+> `LEFTHOOK=0 git commit ...` skips every hook for one command, and `LEFTHOOK_EXCLUDE=types,tests git push` skips only the jobs it names. Skipping is fine for a work-in-progress commit on your own branch that the squash will fold away, or while a tool is broken on your machine and you are fixing it. It is never a way to get a failing check past review: CI runs the same checks, and with the [ruleset](#repository-settings) on `main` it blocks the merge, so a skipped hook only moves the failure later. If commits in a pull request skipped a hook, say so in its description.
+
+### Continuous integration
+
+Two workflows in [`.github/workflows/`](.github/workflows), both on the Node.js version in [`.nvmrc`](.nvmrc) and the pnpm version that `packageManager` names in [`package.json`](package.json):
+
+| Workflow       | Job        | Runs on                                              | Checks                                                                                                              |
+| -------------- | ---------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `ci.yml`       | `Checks`   | Every pull request and every push to `main`          | `pnpm format`, `lint` (with `lint:arch`), `lint:comments`, `types:check`, `test`, `spell:check`, `lint:md`, `build` |
+| `pr-title.yml` | `PR title` | A pull request opened, edited, reopened or pushed to | The pull request title, with commitlint                                                                             |
+
+- **Every check runs even after one fails**, so a single run lists every problem, and the job still fails.
+- **Caches**: the pnpm store and the Turborepo cache are restored between runs, so packages that did not change replay their results.
+- **Secrets are optional.** The build reads `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` from the repository secrets (Settings → Secrets and variables → Actions). Without them, as in a pull request from a fork, both are empty strings.
+- **Pinned actions.** Each action is pinned to a commit SHA, with its version in a comment; Dependabot opens one pull request a month to update them.
+
+### Pull requests
+
+1. Push the branch and open a pull request against `main`, for example with `gh pr create --base main`.
+2. Write the title as a commit message: it becomes the squash commit on `main`, and the `PR title` check holds it to the same rules.
+3. Fill in the template: what changes, how you verified it, and the checklist.
+4. Once `Checks` and `PR title` pass and the review is done, use **Squash and merge**. The branch is deleted after the merge.
+
+One pull request carries one change. Open it as a draft when you want early feedback.
+
+### Repository settings
+
+A repository created from this template does not copy the settings of this one. Set these once, as an administrator:
+
+| Setting                         | Where                                      | Value                                                                                                                 |
+| ------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| Merge methods                   | Settings → General → Pull Requests         | Only **Allow squash merging**, with the default message **Pull request title and commit details**                     |
+| Branch cleanup                  | Settings → General → Pull Requests         | **Automatically delete head branches**                                                                                |
+| Branch ruleset for `main`       | Settings → Rules → Rulesets                | Require a pull request, require the status checks `Checks` and `PR title`, block force pushes, require linear history |
+| Clerk keys, when auth is set up | Settings → Secrets and variables → Actions | `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY`                                                            |
+
+The first two in one command, run from a clone of the new repository:
+
+```bash
+gh repo edit --enable-squash-merge --squash-merge-commit-message pr-title-commits \
+  --enable-merge-commit=false --enable-rebase-merge=false --delete-branch-on-merge
+```
