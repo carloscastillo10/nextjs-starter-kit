@@ -27,6 +27,18 @@
             "statusMessage": "Checking which skills govern this file"
           }
         ]
+      },
+      {
+        "matcher": "Bash|Grep|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PROJECT_DIR}/tooling/scripts/graphify/graph-hint.mjs"],
+            "timeout": 10,
+            "statusMessage": "Checking for the code graph"
+          }
+        ]
       }
     ]
   }
