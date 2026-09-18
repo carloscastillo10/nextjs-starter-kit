@@ -4,5 +4,21 @@
     "superpowers@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
     "modern-web-guidance@claude-plugins-official": true
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PROJECT_DIR}/tooling/scripts/hooks/remind-skills.mjs"],
+            "timeout": 10,
+            "statusMessage": "Checking which skills govern this file"
+          }
+        ]
+      }
+    ]
   }
 }

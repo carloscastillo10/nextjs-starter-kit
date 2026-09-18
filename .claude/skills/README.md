@@ -1,8 +1,3 @@
----
-tags: [claude-code, skills, plugins, agents, tailwind]
-aliases: [Project skills, Claude Code skills]
----
-
 # 🧩 Project skills
 
 > Agent skills and plugins that Claude Code loads for everyone who opens this repository.
@@ -64,7 +59,8 @@ The upstream commit is the repository HEAD at install time, or for the last thre
 | --- | --- |
 | `<skill>/` | One vendored skill each. Do not edit by hand. |
 | [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) | Copyright and license notices for the vendored skills |
-| [`../settings.json`](../settings.json) | `enabledPlugins` for the declared plugins |
+| [`../settings.json`](../settings.json) | The declared plugins and the hooks |
+| [`../../tooling/scripts/hooks/`](../../tooling/scripts/hooks/README.md) | The hook scripts `settings.json` runs, such as the skill reminder |
 | [`../../skills-lock.json`](../../skills-lock.json) | Source, path and content hash of each vendored skill, written by the CLI |
 | [`../../.mcp.json`](../../.mcp.json) | The Next.js DevTools MCP server |
 
@@ -82,6 +78,8 @@ Vendored skills load on their own. Claude picks one when its description matches
 > ```
 >
 > Each command reports "already installed" when there is nothing to do, and `--scope project` matches what `.claude/settings.json` already declares, so the file does not change. Approve the `next-devtools` MCP server when Claude Code asks.
+
+Before Claude writes or edits a file, a hook names the skills that govern its path: `feature-sliced-design` for app code, `shadcn` for the UI kit, `stop-slop` for Markdown, and so on. Each reminder appears once per session. [The hooks README](../../tooling/scripts/hooks/README.md#the-skill-reminder) has the full map of paths to skills.
 
 When two sources disagree, this order applies:
 
@@ -184,6 +182,7 @@ These were evaluated and turned down. Do not add them back without a new reason:
 ## 🔗 Related
 
 - [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md): licenses of the vendored skills.
+- [Claude Code hooks](../../tooling/scripts/hooks/README.md): the skill reminder and how to declare a hook.
 - [Claude Code skills](https://code.claude.com/docs/en/skills) and [plugin settings](https://code.claude.com/docs/en/settings-reference#enabledplugins).
 - [DESIGN.md specification](https://github.com/google-labs-code/design.md) from Google Labs.
 - [Modern Web Guidance](https://developer.chrome.com/docs/modern-web-guidance) from Chrome for Developers.
