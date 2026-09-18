@@ -15,4 +15,5 @@ unstub
 vercel
 vite
 vitest
+WCAG
 webp

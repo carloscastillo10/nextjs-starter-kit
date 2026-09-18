@@ -1,3 +1,8 @@
+---
+tags: [architecture, feature-sliced-design, nextjs]
+aliases: [Feature-Sliced Design, FSD guide]
+---
+
 # Feature-Sliced Design in `apps/web`
 
 The web app organizes its code with [Feature-Sliced Design](https://fsd.how) (FSD) v2.1. This guide covers where code lives, which code may import which, how FSD fits the Next.js App Router, where the workspace packages fit, and how the structure is checked. The official FSD skill that agents follow is vendored in `.claude/skills/feature-sliced-design/`.
@@ -205,7 +210,8 @@ The monorepo can hold shared workspace packages under `packages/*`, named `@repo
 | Generic helpers (formatting, class names)       | `src/shared/lib/`                                                                                 |
 | App-specific UI with no business context        | `src/shared/ui/`                                                                                  |
 | Design-system primitives shared by apps         | the `@repo/ui` package                                                                            |
-| Global stylesheet (Tailwind entry, app tokens)  | `src/_app/styles/globals.css`, imported once in `app/layout.tsx`                                  |
+| Design tokens (colors, radius, fonts)           | the `@repo/tailwind-config` package (`tooling/tailwind/theme.css`), described in `DESIGN.md`      |
+| Global stylesheet (theme, UI kit, app sources)  | `src/_app/styles/globals.css`, imported once in `app/layout.tsx`                                  |
 | Fonts (`next/font`)                             | `src/_app/fonts/`, applied in `app/layout.tsx`                                                    |
 | Global providers (theme, auth)                  | `src/_app/providers/`, exposed as `Providers` from its `index.ts` and mounted in `app/layout.tsx` |
 | App-wide chrome (a header on every route)       | `src/_app/layouts/`, rendered from `app/layout.tsx`                                               |
@@ -230,7 +236,7 @@ With the primitives in a `@repo/ui` package, the app's `apps/web/components.json
 If the primitives live in the app instead, point `ui` at `@/shared/ui` and `utils` at `@/shared/lib/utils`. Either way:
 
 - a block the CLI adds to `src/shared/ui` that carries logic for one screen (a login form, a dashboard section) moves into that screen's `_pages` slice;
-- the global stylesheet the CLI writes or extends is `src/_app/styles/globals.css`, or the `@repo/ui` stylesheet that it imports.
+- the CSS variables the CLI adds go to the shared theme, `tooling/tailwind/theme.css`, because `tailwind.css` in both `components.json` files points there; `src/_app/styles/globals.css` imports that theme.
 
 ### Authentication (Clerk)
 
