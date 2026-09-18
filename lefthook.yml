@@ -1,0 +1,56 @@
+# Git hooks, installed by `pnpm install` through the postinstall script of lefthook.
+# `LEFTHOOK=0 git commit ...` skips every hook for one command, and
+# `LEFTHOOK_EXCLUDE=<job>` skips one job. CONTRIBUTING.md says when either is fine.
+#
+# One top-level key per hook, each with named jobs; a new hook goes at the end.
+
+# The checks never rewrite a file: `pnpm format:fix` and `pnpm lint:fix` do. While they
+# run, lefthook hides the unstaged part of a partially staged file, so they read
+# exactly what the commit will contain.
+pre-commit:
+  parallel: true
+  jobs:
+    - name: eslint
+      glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"
+      run: pnpm exec eslint --no-warn-ignored {staged_files}
+
+    - name: comments
+      glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"
+      run: pnpm lint:comments {staged_files}
+
+    - name: prettier
+      run: pnpm exec prettier --check --ignore-unknown {staged_files}
+
+    - name: spelling
+      run: pnpm exec cspell --no-progress --no-must-find-files {staged_files}
+
+    # Lints every Markdown file, not only the staged ones: markdownlint-cli2 reads a
+    # file argument as a glob, so a Next.js folder such as `[slug]` or `(group)`
+    # matches nothing, and a literal path skips the ignores in its config.
+    - name: markdown
+      glob: "*.md"
+      run: pnpm lint:md
+
+    # Types belong to a whole project, so this runs the full check; Turborepo replays
+    # every package whose files did not change from its cache.
+    - name: types
+      glob:
+        - "*.{ts,tsx,mts,cts}"
+        - "*.json"
+      run: pnpm types:check --output-logs=errors-only
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: pnpm exec commitlint --edit {1}
+
+# The checks that read the whole project rather than the staged files. Turborepo
+# replays unchanged packages from its cache, so a push pays only for what changed.
+pre-push:
+  parallel: true
+  jobs:
+    - name: tests
+      run: pnpm test --output-logs=errors-only
+
+    - name: architecture
+      run: pnpm lint:arch --output-logs=errors-only

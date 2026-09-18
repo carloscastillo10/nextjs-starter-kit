@@ -1,9 +1,12 @@
+commitlint
 estree
 jsdom
+lefthook
 Liskov
 lockfiles
 Steiger
 tsconfck
+Turborepo
 vercel
 vite
 vitest
