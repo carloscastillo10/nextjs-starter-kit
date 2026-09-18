@@ -16,7 +16,7 @@ colors:
   secondary: "oklch(0.97 0 0)"
   secondary-foreground: "oklch(0.205 0 0)"
   muted: "oklch(0.97 0 0)"
-  muted-foreground: "oklch(0.556 0 0)"
+  muted-foreground: "oklch(0.54 0 0)"
   accent: "oklch(0.97 0 0)"
   accent-foreground: "oklch(0.205 0 0)"
   destructive: "oklch(0.577 0.245 27.325)"
@@ -248,7 +248,7 @@ Colors come in pairs. The base name is a surface, and `-foreground` is the text 
 | `popover` / `popover-foreground`     | `oklch(1 0 0)` / `oklch(0.145 0 0)`     | `oklch(0.205 0 0)` / `oklch(0.985 0 0)`    | Menus, popovers, dialogs                                  |
 | `primary` / `primary-foreground`     | `oklch(0.205 0 0)` / `oklch(0.985 0 0)` | `oklch(0.922 0 0)` / `oklch(0.205 0 0)`    | The main action of a view                                 |
 | `secondary` / `secondary-foreground` | `oklch(0.97 0 0)` / `oklch(0.205 0 0)`  | `oklch(0.269 0 0)` / `oklch(0.985 0 0)`    | Actions next to the main one                              |
-| `muted` / `muted-foreground`         | `oklch(0.97 0 0)` / `oklch(0.556 0 0)`  | `oklch(0.269 0 0)` / `oklch(0.708 0 0)`    | Quiet surfaces; secondary text such as hints and captions |
+| `muted` / `muted-foreground`         | `oklch(0.97 0 0)` / `oklch(0.54 0 0)`   | `oklch(0.269 0 0)` / `oklch(0.708 0 0)`    | Quiet surfaces; secondary text such as hints and captions |
 | `accent` / `accent-foreground`       | `oklch(0.97 0 0)` / `oklch(0.205 0 0)`  | `oklch(0.269 0 0)` / `oklch(0.985 0 0)`    | Hovered and highlighted items                             |
 | `destructive`                        | `oklch(0.577 0.245 27.325)`             | `oklch(0.704 0.191 22.216)`                | Errors and actions that delete or cannot be undone        |
 | `border`, `input`                    | `oklch(0.922 0 0)`                      | `oklch(1 0 0 / 10%)`, `oklch(1 0 0 / 15%)` | Dividers and outlines; form control borders               |
@@ -258,8 +258,8 @@ Colors come in pairs. The base name is a surface, and `-foreground` is the text 
 
 Dark mode is a `dark` class on `<html>`. `next-themes` sets it from the system preference before the page paints, and sets `color-scheme` to match, so native controls and scrollbars follow. The app also declares `<meta name="color-scheme" content="light dark">`. Components never branch on the mode: the variables change, and `dark:` is left for the rare case a variable cannot cover.
 
-> [!WARNING]
-> `muted-foreground` on a `muted` surface is 4.35:1 in light mode, under the WCAG AA minimum of 4.5:1 for body text (it is 4.74:1 on `background`). Keep it for large or secondary text on `muted`, or darken `--muted-foreground` when you rebrand. The design system linter reports the pair.
+> [!NOTE]
+> Every text pair meets WCAG AA (4.5:1) in both modes. The tightest is `muted-foreground`, secondary text that sits on `muted`, `background` and `card`: 4.61:1 on `muted` and 5.02:1 on `background` in light mode, 5.86:1 on `muted` in dark mode. It is one step darker than shadcn's neutral preset (`oklch(0.556 0 0)`, 4.35:1 on `muted`) for that reason. Check these pairs again when you rebrand.
 
 ## Typography
 
