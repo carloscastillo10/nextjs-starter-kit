@@ -26,7 +26,7 @@ Holds the checks written for this repository, each with its tests. [lefthook](..
 | File                        | Holds                                                                                                              |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `commit-rules.mjs`          | The commit convention as commitlint rules, loaded by the root `commitlint.config.mjs`                              |
-| `check-git-identity.mjs`    | `pre-commit`: refuses a commit that would not carry the global git identity                                        |
+| `check-git-identity.mjs`    | `commit-msg`: refuses a commit that would not carry the global git identity                                        |
 | `check-push-authors.mjs`    | `pre-push`: refuses a commit by an address that is neither the pusher's nor already on `origin/main`               |
 | `check-author-identity.mjs` | CI, opt in: refuses a pull request with a commit whose author has no access to the repository                      |
 | `check-linked-branch.mjs`   | `pre-push`: stops the first push of an issue branch that GitHub has not linked to its issue                        |
@@ -77,10 +77,11 @@ The pull request title goes through the same config in CI, because a squash merg
 
 Two checks, because one question splits into two that are answered at different moments.
 
-**`check-git-identity.mjs`, on `pre-commit`: is this commit about to carry the wrong name?** It compares the identity git would stamp, `git var GIT_AUTHOR_IDENT` and `GIT_COMMITTER_IDENT` (so environment variables and `git -c` count too), with `user.name` and `user.email` from the global config, and refuses the commit when they differ. It names the cause: a repository-level override, with the exact `git config --unset-all` commands; a `-c` on the command line; or the environment.
+**`check-git-identity.mjs`, on `commit-msg`: is this commit about to carry the wrong name?** It compares the identity git would stamp, `git var GIT_AUTHOR_IDENT` and `GIT_COMMITTER_IDENT` (so environment variables and `git -c` count too), with `user.name` and `user.email` from the global config, and refuses the commit when they differ. It names the cause: a repository-level override, with the exact `git config --unset-all` commands; a `-c` on the command line; or the environment.
 
 - **The global config is the reference, not a list of people.** A list of allowed addresses has to be edited every time someone joins, and the day it is forgotten it blocks a real developer. A new developer sets their global identity once, as everyone already does, and never sees this check.
 - **A repository-level override is the case worth refusing.** Every worktree shares one config file, so `git config user.email` inside the repository silently reassigns authorship for every session on the machine, not for one commit.
+- **It runs on `commit-msg`, not `pre-commit`.** lefthook skips every `pre-commit` job when nothing is staged, so an empty commit, a message-only amend or a merge would pass unchecked; `commit-msg` runs for every commit `git commit` and `git merge` create.
 - **It skips itself when there is no global identity**, because a fresh machine has none, and a check that fires before setup is a check people switch off.
 
 **`check-push-authors.mjs`, on `pre-push`: does a commit come from an address nobody here uses?** The commit check cannot see a commit made somewhere else and then rebased or cherry-picked into the branch. So this one looks at every commit the branch adds against `origin/main` and accepts an author address only if it is the pusher's global one, or if it already appears in the history of `origin/main`. The accepted set derives itself from git, so there is no file to keep: a new colleague passes on their first push, because it carries their own identity. Without a fetched `origin/main` it skips itself.

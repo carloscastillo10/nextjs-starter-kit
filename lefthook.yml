@@ -34,9 +34,6 @@ pre-commit:
       group:
         parallel: true
         jobs:
-          - name: identity
-            run: node tooling/scripts/check-git-identity.mjs
-
           - name: comments
             glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"
             run: pnpm lint:comments {staged_files}
@@ -59,10 +56,16 @@ pre-commit:
               - "*.json"
             run: pnpm types:check --output-logs=errors-only
 
+# identity runs here rather than in pre-commit: pre-commit skips every job when
+# nothing is staged, so an empty commit or a message-only amend would pass
+# unchecked, while commit-msg runs for every commit git creates, merges included.
 commit-msg:
   jobs:
     - name: commitlint
       run: pnpm exec commitlint --edit {1}
+
+    - name: identity
+      run: node tooling/scripts/check-git-identity.mjs
 
 # The guards run one after the other, so the branch report prints on its own; a
 # failure does not stop the jobs after it. Then the checks that read the whole

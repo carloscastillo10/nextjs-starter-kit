@@ -144,29 +144,29 @@ printf '%s\n' "feat(web): ✨ Add the settings page" | pnpm exec commitlint
 
 [lefthook](https://lefthook.dev) runs the hooks defined in [`lefthook.yml`](lefthook.yml). `pnpm install` installs them through the postinstall script of lefthook, which pnpm runs because `allowBuilds` in [`pnpm-workspace.yaml`](pnpm-workspace.yaml) lists it. The script does nothing when the `CI` variable is set.
 
-| Hook         | Job            | What it does                                                                                  | Runs when                              |
-| ------------ | -------------- | --------------------------------------------------------------------------------------------- | -------------------------------------- |
-| `pre-commit` | `eslint`       | ESLint with `--fix` on the staged files, and stages the fixes                                 | A JS or TS file is staged              |
-| `pre-commit` | `prettier`     | Prettier with `--write` on the staged files, and stages the fixes                             | Always                                 |
-| `pre-commit` | `identity`     | Refuses a commit that would not carry your global git identity                                | Always                                 |
-| `pre-commit` | `comments`     | `pnpm lint:comments` on the staged files                                                      | A JS or TS file is staged              |
-| `pre-commit` | `spelling`     | cspell on the staged files                                                                    | Always                                 |
-| `pre-commit` | `markdown`     | `pnpm lint:md`, over every Markdown file                                                      | A Markdown file is staged              |
-| `pre-commit` | `types`        | `pnpm types:check`                                                                            | A TS or JSON file is staged            |
-| `commit-msg` | `commitlint`   | The message, against the [commit convention](#commits)                                        | Always                                 |
-| `pre-push`   | `authors`      | Refuses a commit by an address that is neither your global one nor already on `origin/main`   | Always                                 |
-| `pre-push`   | `linked`       | Stops the first push of an issue branch whose issue has no linked branch on GitHub            | The branch is named `<type>/<issue>-…` |
-| `pre-push`   | `scope`        | Reports, without failing, a branch that mixes the app, delivery and tooling, or is very large | Always                                 |
-| `pre-push`   | `tests`        | `pnpm test`                                                                                   | Always                                 |
-| `pre-push`   | `architecture` | `pnpm lint:arch` (Steiger)                                                                    | Always                                 |
-| `pre-push`   | `env`          | `pnpm env:check`: the committed `.env.example` matches the env schemas                        | Always                                 |
-| `pre-push`   | `env-turbo`    | `pnpm env:check:turbo`: Turborepo declares every variable the schemas read                    | Always                                 |
+| Hook         | Job            | What it does                                                                                  | Runs when                                 |
+| ------------ | -------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| `pre-commit` | `eslint`       | ESLint with `--fix` on the staged files, and stages the fixes                                 | A JS or TS file is staged                 |
+| `pre-commit` | `prettier`     | Prettier with `--write` on the staged files, and stages the fixes                             | Always                                    |
+| `pre-commit` | `comments`     | `pnpm lint:comments` on the staged files                                                      | A JS or TS file is staged                 |
+| `pre-commit` | `spelling`     | cspell on the staged files                                                                    | Always                                    |
+| `pre-commit` | `markdown`     | `pnpm lint:md`, over every Markdown file                                                      | A Markdown file is staged                 |
+| `pre-commit` | `types`        | `pnpm types:check`                                                                            | A TS or JSON file is staged               |
+| `commit-msg` | `commitlint`   | The message, against the [commit convention](#commits)                                        | Always                                    |
+| `commit-msg` | `identity`     | Refuses a commit that would not carry your global git identity                                | Always, merges and empty commits included |
+| `pre-push`   | `authors`      | Refuses a commit by an address that is neither your global one nor already on `origin/main`   | Always                                    |
+| `pre-push`   | `linked`       | Stops the first push of an issue branch whose issue has no linked branch on GitHub            | The branch is named `<type>/<issue>-…`    |
+| `pre-push`   | `scope`        | Reports, without failing, a branch that mixes the app, delivery and tooling, or is very large | Always                                    |
+| `pre-push`   | `tests`        | `pnpm test`                                                                                   | Always                                    |
+| `pre-push`   | `architecture` | `pnpm lint:arch` (Steiger)                                                                    | Always                                    |
+| `pre-push`   | `env`          | `pnpm env:check`: the committed `.env.example` matches the env schemas                        | Always                                    |
+| `pre-push`   | `env-turbo`    | `pnpm env:check:turbo`: Turborepo declares every variable the schemas read                    | Always                                    |
 
-On the empty template, a commit of code spends about 3 seconds in its hooks, and a push about 3 seconds, or under a second when Turborepo already holds the results. In `pre-commit` the two fixers run first, one after the other, and the checks then run in parallel on the fixed files; in `pre-push` the three guards run first, then the checks in parallel. A failing job does not stop the jobs after it, so one run reports every problem.
+On the empty template, a commit of code spends about 3 seconds in its hooks, a commit of docs about 1.5, and a push about 3 seconds, or under a second when Turborepo already holds the results. In `pre-commit` the two fixers run first, one after the other, and the checks then run in parallel on the fixed files; in `pre-push` the three guards run first, then the checks in parallel. A failing job does not stop the jobs after it, so one run reports every problem.
 
 - **The hooks fix what they can and stage it.** ESLint then Prettier rewrite the staged files, and the commit carries the fixed version. What they cannot fix stops the commit: an ESLint error, and also a warning, since `--max-warnings 0` makes warnings block here while CI only reports them.
 - **A partially staged file is checked, not rewritten.** While `pre-commit` runs, lefthook hides the unstaged part of a partially staged file, so every job reads exactly what the commit will contain. Rewriting such a file can collide with its hidden lines, and lefthook 2.1.14 then discards the unstaged changes of every file in the repository ([lefthook issue 1480](https://github.com/evilmartians/lefthook/issues/1480)). So [`fix-staged`](tooling/scripts/README.md#fixing-the-staged-files) only checks those files and says so; to have one fixed, stage all of it or run `pnpm format:fix` or `pnpm lint:fix`, then commit again.
-- **Identity.** `identity` compares the identity git would stamp on the commit with your global `user.name` and `user.email`, and `authors` checks every commit the branch adds before it leaves your machine. Both explain the fix when they refuse, and both are described in [`tooling/scripts`](tooling/scripts/README.md#who-a-commit-says-it-came-from).
+- **Identity.** `identity` compares the identity git would stamp on the commit with your global `user.name` and `user.email`. It runs in `commit-msg` because `pre-commit` skips every job when nothing is staged, and a merge or a message-only amend would slip past it. `authors` checks every commit the branch adds before it leaves your machine. Both explain the fix when they refuse, and both are described in [`tooling/scripts`](tooling/scripts/README.md#who-a-commit-says-it-came-from).
 - **Whole projects.** `types`, `tests`, `architecture` and the env checks read whole projects from disk, so unstaged changes in other files still count. Markdown is linted as a whole because markdownlint-cli2 reads a file argument as a glob, and a path inside a Next.js folder such as `[slug]` or `(group)` would match nothing.
 - **Missing hooks.** If `ls .git/hooks` shows only `*.sample` files, run `pnpm exec lefthook install`. A `pnpm install` with nothing new to install does not run the postinstall script again.
 
