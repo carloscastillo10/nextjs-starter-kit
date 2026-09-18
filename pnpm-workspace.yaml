@@ -3,9 +3,11 @@ packages:
   - packages/*
   - tooling/*
 
-# Refuse to install a dependency whose `engines` range excludes the running Node.js.
-# pnpm 11 reads this setting from this file only: `.npmrc` now carries auth and
-# registry settings, so an `engine-strict` line there is silently ignored.
+# Fail the install when the running Node.js is outside an `engines.node` range, both
+# in this workspace's package.json files and in dependencies. Without it, pnpm 11
+# only warns when the workspace's own range does not match. pnpm 11 reads this
+# setting from this file only: `.npmrc` now carries auth and registry settings, so
+# an `engine-strict` line there is silently ignored.
 engineStrict: true
 
 catalog:
