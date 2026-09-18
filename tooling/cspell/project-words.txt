@@ -12,6 +12,8 @@ nextjs
 NOSYSTEM
 nvmrc
 oklch
+PATHEXT
+sentropic
 shadcn
 shortstat
 Steiger
