@@ -1,0 +1,13 @@
+{
+  "alwaysUpdateLinks": true,
+  "newLinkFormat": "relative",
+  "useMarkdownLinks": true,
+  "attachmentFolderPath": "./assets",
+  "readableLineLength": true,
+  "showLineNumber": true,
+  "userIgnoreFilters": [
+    "node_modules/",
+    "apps/web/AGENTS.md",
+    "apps/web/CLAUDE.md"
+  ]
+}

@@ -19,6 +19,7 @@
     "**/dist/**",
     "**/.claude/**",
     "**/.agents/**",
+    "**/.obsidian/**",
     "**/pnpm-lock.yaml",
     "**/skills-lock.json",
     "**/next-env.d.ts",

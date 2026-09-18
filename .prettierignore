@@ -3,6 +3,7 @@ pnpm-lock.yaml
 skills-lock.json
 apps/*/AGENTS.md
 apps/*/CLAUDE.md
+.obsidian/
 
 # Agent configuration and vendored agent skills
 .claude/
