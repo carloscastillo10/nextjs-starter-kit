@@ -1,0 +1,41 @@
+{
+  "name": "@repo/vitest-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.18.0 <25",
+    "pnpm": ">=11.17.0 <12"
+  },
+  "exports": {
+    ".": {
+      "types": "./base.d.ts",
+      "default": "./base.js"
+    },
+    "./react": {
+      "types": "./react.d.ts",
+      "default": "./react.js"
+    }
+  },
+  "scripts": {
+    "clean": "git clean -xdf .turbo node_modules",
+    "format": "prettier . --check --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
+    "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "types:check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -19,6 +19,7 @@
     "lint:fix": "turbo run lint:fix lint:fix:root --continue",
     "lint:fix:root": "eslint \"*.{js,mjs,cjs}\" --fix",
     "lint:root": "eslint \"*.{js,mjs,cjs}\"",
+    "test": "turbo run test",
     "types:check": "turbo run types:check"
   },
   "devDependencies": {

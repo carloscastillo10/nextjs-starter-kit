@@ -49,6 +49,9 @@
     },
     "types:check": {
       "dependsOn": ["transit"]
+    },
+    "test": {
+      "dependsOn": ["transit"]
     }
   }
 }
