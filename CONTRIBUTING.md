@@ -1,13 +1,8 @@
----
-tags: [contributing, conventions, git]
-aliases: [Contributing, Contribution guide]
----
-
 # 🤝 Contributing
 
 > How changes are written and how they move into this repository: the rules every change follows, and the checks that hold them.
 
-## 🌳 Table of contents
+## 🧭 Table of contents
 
 - [🎨 Code style](#-code-style)
 - [🌿 Git workflow](#-git-workflow)
@@ -176,7 +171,7 @@ On the empty template, a commit of code spends about 3 seconds in its hooks, and
 - **Missing hooks.** If `ls .git/hooks` shows only `*.sample` files, run `pnpm exec lefthook install`. A `pnpm install` with nothing new to install does not run the postinstall script again.
 
 > [!IMPORTANT]
-> `LEFTHOOK=0 git commit ...` skips every hook for one command, and `LEFTHOOK_EXCLUDE=identity,linked git push` skips only the jobs it names. Skipping is fine for a work-in-progress commit on your own branch that the squash will fold away, while a tool is broken on your machine and you are fixing it, or to commit a patch someone else wrote with `--author`. It is never a way to get a failing check past review: CI runs the same checks, and with the [ruleset](#repository-settings) on `main` it blocks the merge, so a skipped hook only moves the failure later. If commits in a pull request skipped a hook, say so in its description.
+> `LEFTHOOK=0 git commit ...` skips every hook for one command, and `LEFTHOOK_EXCLUDE=linked,tests git push` skips only the jobs it names. Skipping is fine for a work-in-progress commit on your own branch that the squash will fold away, while a tool is broken on your machine and you are fixing it, or to commit a patch someone else wrote with `git commit --author`, which `identity` refuses and `authors` refuses again at the push unless that address is already on `origin/main`. It is never a way to get a failing check past review: CI runs the same checks, and with the [ruleset](#repository-settings) on `main` it blocks the merge, so a skipped hook only moves the failure later. If commits in a pull request skipped a hook, say so in its description.
 
 ### Continuous integration
 

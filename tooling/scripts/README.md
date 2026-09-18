@@ -2,6 +2,21 @@
 
 > Repository checks that no off-the-shelf tool covers, called by the git hooks and by CI.
 
+## 🧭 Table of contents
+
+- [🎯 Purpose](#-purpose)
+- [🗂️ Structure](#️-structure)
+- [🚀 Usage](#-usage)
+  - [The commit convention](#the-commit-convention)
+  - [Who a commit says it came from](#who-a-commit-says-it-came-from)
+  - [The branch checks](#the-branch-checks)
+  - [Fixing the staged files](#fixing-the-staged-files)
+  - [The CI gates on your machine](#the-ci-gates-on-your-machine)
+  - [The comment check](#the-comment-check)
+- [⌨️ Commands](#️-commands)
+- [🧩 Extending](#-extending)
+- [🔗 Related](#-related)
+
 ## 🎯 Purpose
 
 Holds the checks written for this repository, each with its tests. [lefthook](../../lefthook.yml) and the [CI workflows](../../.github/workflows) call them, so a rule the team agreed on is enforced by the repository rather than remembered by a person.
