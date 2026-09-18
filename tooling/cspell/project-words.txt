@@ -5,6 +5,8 @@ lefthook
 Liskov
 lockfiles
 nvmrc
+oklch
+shadcn
 Steiger
 tsconfck
 Turborepo

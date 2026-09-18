@@ -1,6 +1,6 @@
 # 🧰 Tooling
 
-> Shared configuration for the quality tools, one workspace package per tool.
+> Shared configuration for the build and quality tools, one workspace package per tool.
 
 ## 🎯 Purpose
 
@@ -8,15 +8,16 @@ Every app and package in the monorepo is linted, formatted, type-checked, tested
 
 ## 🗂️ Structure
 
-| Folder                                      | Package                     | Tool                         | Used through                                   |
-| ------------------------------------------- | --------------------------- | ---------------------------- | ---------------------------------------------- |
-| [`eslint/`](./eslint/README.md)             | `@repo/eslint-config`       | ESLint                       | an `eslint.config.mjs` in each package         |
-| [`prettier/`](./prettier/README.md)         | `@repo/prettier-config`     | Prettier                     | the `prettier` key of the root `package.json`  |
-| [`typescript/`](./typescript/README.md)     | `@repo/typescript-config`   | TypeScript                   | `extends` in each `tsconfig.json`              |
-| [`vitest/`](./vitest/README.md)             | `@repo/vitest-config`       | Vitest                       | a `vitest.config.*` in each package with tests |
-| [`cspell/`](./cspell/README.md)             | `@repo/cspell-config`       | cspell                       | the root `cspell.json`                         |
-| [`markdownlint/`](./markdownlint/README.md) | `@repo/markdownlint-config` | markdownlint                 | the root `.markdownlint-cli2.jsonc`            |
-| [`scripts/`](./scripts/README.md)           | `@repo/scripts`             | checks written for this repo | root scripts                                   |
+| Folder                                      | Package                     | Tool                                   | Used through                                               |
+| ------------------------------------------- | --------------------------- | -------------------------------------- | ---------------------------------------------------------- |
+| [`eslint/`](./eslint/README.md)             | `@repo/eslint-config`       | ESLint                                 | an `eslint.config.mjs` in each package                     |
+| [`prettier/`](./prettier/README.md)         | `@repo/prettier-config`     | Prettier                               | the `prettier` key of the root `package.json`              |
+| [`typescript/`](./typescript/README.md)     | `@repo/typescript-config`   | TypeScript                             | `extends` in each `tsconfig.json`                          |
+| [`vitest/`](./vitest/README.md)             | `@repo/vitest-config`       | Vitest                                 | a `vitest.config.*` in each package with tests             |
+| [`cspell/`](./cspell/README.md)             | `@repo/cspell-config`       | cspell                                 | the root `cspell.json`                                     |
+| [`markdownlint/`](./markdownlint/README.md) | `@repo/markdownlint-config` | markdownlint                           | the root `.markdownlint-cli2.jsonc`                        |
+| [`tailwind/`](./tailwind/README.md)         | `@repo/tailwind-config`     | Tailwind CSS (theme and design tokens) | the global stylesheet and `postcss.config.mjs` of each app |
+| [`scripts/`](./scripts/README.md)           | `@repo/scripts`             | checks written for this repo           | root scripts                                               |
 
 ## 🚀 Usage
 
