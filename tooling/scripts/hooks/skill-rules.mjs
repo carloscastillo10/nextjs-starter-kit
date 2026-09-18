@@ -79,7 +79,8 @@ const LIST = new Intl.ListFormat("en", { style: "long", type: "conjunction" });
 
 const skillReminder = ({ skills, why }) =>
   `Load ${LIST.format(skills.map((skill) => `\`${skill}\``))} before you continue, ` +
-  `unless they are already loaded: ${why}. A convention has to be in the context of whoever ` +
+  `unless ${skills.length === 1 ? "it is" : "they are"} already loaded: ${why}. ` +
+  "A convention has to be in the context of whoever " +
   "writes the code; read after review, it produces a rewrite instead of a review.";
 
 export const findSkillRule = (file) =>

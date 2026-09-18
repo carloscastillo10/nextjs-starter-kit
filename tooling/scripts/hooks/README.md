@@ -123,7 +123,7 @@ The `additionalContext` in the output is what Claude receives. Run the same line
 
 ## 🧩 Extending
 
-- **A new skill rule** is an `id`, a `when` pattern on the path from the repository root, the `skills` it names and a `why` that completes the sentence "Load … before you continue, unless they are already loaded: …". Place it above any wider rule that would also match, add its row to the table above (a test compares the two), and give it cases in `skill-rules.test.mjs`.
+- **A new skill rule** is an `id`, a `when` pattern on the path from the repository root, the `skills` it names and a `why` that completes the sentence "Load … before you continue, unless … already loaded: …". Place it above any wider rule that would also match, add its row to the table above (a test compares the two), and give it cases in `skill-rules.test.mjs`.
 - **A `Write|Edit` hook never blocks.** A refused write reads as a broken tool rather than wrong content, and an agent that cannot write a file cannot fix it either. lefthook is still the wall at commit time; these hooks are the handrail before it.
 - **A hook does not repeat a lefthook job.** Formatting and the commit message checks already run on staged files, and running them on every write slows each one down for nothing.
 

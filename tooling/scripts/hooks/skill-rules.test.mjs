@@ -121,6 +121,16 @@ describe("remindersFor", () => {
     expect(remindersFor("docs/conventions/react.md").map(({ key }) => key)).toEqual(["prose"]);
   });
 
+  test("speaks of one skill in the singular and of several in the plural", () => {
+    const [single] = remindersFor("docs/conventions/react.md");
+    const [several] = remindersFor("tooling/tailwind/theme.css");
+
+    expect(single.text).toContain(
+      "Load `stop-slop` before you continue, unless it is already loaded:",
+    );
+    expect(several.text).toContain("before you continue, unless they are already loaded:");
+  });
+
   test("gives a source file no rule covers the comment rule alone", () => {
     expect(remindersFor("tooling/eslint/next.js").map(({ key }) => key)).toEqual(["comments"]);
   });
