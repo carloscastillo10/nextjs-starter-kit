@@ -10,6 +10,7 @@
     "build": "next build",
     "clean": "git clean -xdf .next .turbo node_modules next-env.d.ts",
     "dev": "next dev",
+    "lint:arch": "steiger ./src",
     "start": "next start"
   },
   "dependencies": {
@@ -18,9 +19,11 @@
     "react-dom": "catalog:"
   },
   "devDependencies": {
+    "@feature-sliced/steiger-plugin": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "steiger": "catalog:",
     "typescript": "catalog:"
   }
 }

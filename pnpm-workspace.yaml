@@ -11,12 +11,14 @@ packages:
 engineStrict: true
 
 catalog:
+  "@feature-sliced/steiger-plugin": ^0.7.0
   "@types/node": ^24.13.5
   "@types/react": ^19.3.0
   "@types/react-dom": ^19.3.0
   next: ^16.3.5
   react: ^19.3.0
   react-dom: ^19.3.0
+  steiger: ^0.6.0
   turbo: ^2.10.13
   # TypeScript minors can break types, so stay on 6.0.x: typescript-eslint
   # supports `<6.1.0`, and TypeScript 7 ships without the compiler API it needs.
