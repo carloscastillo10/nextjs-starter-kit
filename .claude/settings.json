@@ -5,6 +5,15 @@
     "frontend-design@claude-plugins-official": true,
     "modern-web-guidance@claude-plugins-official": true
   },
+  "enabledMcpjsonServers": ["next-devtools"],
+  "permissions": {
+    "allow": [
+      "mcp__next-devtools__nextjs_index",
+      "mcp__next-devtools__nextjs_call",
+      "mcp__next-devtools__nextjs_docs",
+      "mcp__next-devtools__browser_eval"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
       {
