@@ -13,7 +13,7 @@ Typos in names, messages and docs get caught before review. cspell reads identif
 | `cspell.json`       | Language, the project dictionary, and the paths never checked                                    |
 | `project-words.txt` | Words the built-in dictionaries do not know: product and library names, terms of the conventions |
 
-Never checked: dependencies, build output and caches, lockfiles, generated type files, vendored skills under `.claude/skills/`, the worktrees of `.claude/worktrees/` and `.agents/`. The agent definitions and slash commands of `.claude/` are checked, with the words that belong to them alone in `.claude/cspell.json`.
+Never checked: dependencies, build output and caches, lockfiles, generated type files, vendored skills under `.claude/skills/`, the worktrees of `.claude/worktrees/` and `.agents/`. The agent definitions and slash commands of `.claude/` are checked, because their wording is this repository's own.
 
 ## 🚀 Usage
 
@@ -35,6 +35,7 @@ cspell also resolves the nearest config for each file it is given, so a word dec
 
 ## 🧩 Extending
 
+- **A word is flagged but correct and only one folder outside the workspaces uses it**, such as an extension identifier under `.vscode/`: add it to the matching entry of `overrides` in the root `cspell.json`, or write a new entry with a `filename` glob.
 - **A word is flagged but correct and only one workspace uses it**: add it to the `words` of that workspace's `cspell.json`. A word the whole repository uses, or one that appears in the files at the root, goes in `project-words.txt`, one per line, in alphabetical order. Case does not matter either way.
 - **A word is flagged and wrong**: fix the typo. The list is for real words, not for silencing a report.
 - **A file should never be checked**: add a `**/`-prefixed glob to `ignorePaths` in `cspell.json`.

@@ -11,6 +11,7 @@
   ],
   "dictionaries": ["project-words"],
   "ignorePaths": [
+    "**/cspell.json",
     "**/node_modules/**",
     "**/.git/**",
     "**/.next/**",

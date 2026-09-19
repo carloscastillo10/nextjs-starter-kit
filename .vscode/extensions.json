@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "EditorConfig.EditorConfig",
+    "streetsidesoftware.code-spell-checker",
+    "DavidAnson.vscode-markdownlint",
+    "bradlc.vscode-tailwindcss",
+    "vitest.explorer",
+    "yoavbls.pretty-ts-errors",
+    "Vercel.turbo-vsc",
+    "redhat.vscode-yaml"
+  ]
+}

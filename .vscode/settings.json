@@ -1,0 +1,48 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+
+  "eslint.run": "onSave",
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+
+  "prettier.configPath": "tooling/prettier/prettier.config.js",
+  "prettier.requireConfig": true,
+
+  "js/ts.tsdk.path": "apps/web/node_modules/typescript/lib",
+  "js/ts.preferences.importModuleSpecifier": "non-relative",
+
+  "cSpell.import": ["./tooling/spell-check/cspell.json"],
+  "cSpell.customDictionaries": {
+    "project-words": {
+      "name": "project-words",
+      "path": "./tooling/spell-check/project-words.txt",
+      "addWords": true,
+      "scope": "workspace"
+    }
+  },
+
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[jsonc]": { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[yaml]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+
+  "files.exclude": {
+    "**/.turbo": true,
+    "**/.next": true,
+    "**/dist": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/pnpm-lock.yaml": true,
+    "**/.turbo": true,
+    "**/.next": true
+  }
+}
