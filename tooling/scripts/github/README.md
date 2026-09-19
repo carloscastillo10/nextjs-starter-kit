@@ -51,5 +51,5 @@ Issue forms, labels, the pull request template and the contributing guide descri
 
 ## 🔗 Related
 
-- [How work moves](../../../CONTRIBUTING.md#how-work-moves) in the contributing guide
+- [How work moves](../../../CONTRIBUTING.md#-how-work-moves) in the contributing guide
 - [@repo/scripts](../README.md): the other checks in this package
