@@ -351,7 +351,17 @@ A repository created from this template does not copy the settings of this one. 
 | Labels                          | Issues → Labels                                        | The six in [`.github/labels.yml`](.github/labels.yml). A form that asks for a label that does not exist applies nothing and warns nobody                |
 | Author identity check, optional | Settings → Secrets and variables → Actions → Variables | `ENFORCE_AUTHOR_IDENTITY` set to `true`, then add `Author identity` to the required checks. Only in a repository that takes no pull requests from forks |
 
-One thing in the tree changes with the repository too: the four `contact_links` in [`.github/ISSUE_TEMPLATE/config.yml`](.github/ISSUE_TEMPLATE/config.yml) still point at this template, because GitHub accepts only absolute URLs there.
+### The name in the tree
+
+"Use this template" copies the files as they are, so this template's name travels into the copy. Five places carry it, and the first commit of a new repository is the moment to rewrite them:
+
+| Place                                                                    | What carries the name                                                                                                  |
+| ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| [`package.json`](package.json)                                           | `name`, the root workspace                                                                                             |
+| [`README.md`](README.md)                                                 | The title and the prose that names the project                                                                         |
+| [`DESIGN.md`](DESIGN.md)                                                 | `name` in the frontmatter, and the tagline                                                                             |
+| [`apps/web/app/layout.tsx`](apps/web/app/layout.tsx)                     | `metadata.title`, which is the `<title>` of every page                                                                 |
+| [`.github/ISSUE_TEMPLATE/config.yml`](.github/ISSUE_TEMPLATE/config.yml) | The four `contact_links`, which point at this template until you rewrite them: GitHub accepts only absolute URLs there |
 
 The first two settings in one command, run from a clone of the new repository:
 

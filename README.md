@@ -205,7 +205,8 @@ subject follows `type(scope): <gitmoji> Message` — [ADR 08](./docs/adr/08-gith
 > [!TIP]
 > A repository created from this template does not inherit this one's settings. The squash-only merge, the
 > branch ruleset and the six labels are four commands, in
-> [`CONTRIBUTING.md`](./CONTRIBUTING.md#repository-settings).
+> [`CONTRIBUTING.md`](./CONTRIBUTING.md#repository-settings), which also lists the five files that still
+> carry this template's name.
 
 ## 🛠️ Tooling
 
