@@ -17,6 +17,7 @@ everything graphify writes under `.graphify/`, is rewritten on each run and foll
 - [Badges](#badges)
 - [Links](#links)
 - [Tables, alerts and diagrams](#tables-alerts-and-diagrams)
+- [Structure blocks](#structure-blocks)
 - [Prose](#prose)
 - [A complete example](#a-complete-example)
 - [Enforcement](#enforcement)
@@ -46,17 +47,17 @@ who learned it once knows where to look in the next folder.
 ## 🔗 Related
 ```
 
-| Section             | Holds                                                                                     | When to omit                                   |
-| ------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| `# <emoji> <name>`  | The workspace name (`@repo/ui`) or the folder's subject, with one emoji before it         | Never                                          |
-| `>` tagline         | One sentence, no period needed, that answers "what is this"                               | Never                                          |
-| `🎯 Purpose`        | Why the folder exists and what decision it settles for whoever reads it                   | Never                                          |
-| `🗂️ Structure`      | A table of paths to what lives there. One row per file or folder that a reader would open | A folder with a single file                    |
-| `🚀 Usage`          | The shortest real example: an import, a snippet, the first command somebody runs          | A folder nobody consumes, such as a docs index |
-| `⌨️ Commands`       | A table of command to effect. Only commands that work from that folder or from the root   | Nothing is runnable there                      |
-| `🔁 How it updates` | What regenerates the contents, what triggers it, and how to run it by hand                | Nothing regenerates it                         |
-| `🧩 Extending`      | How to add the next thing: the steps, and what would make it the wrong folder             | Nothing is ever added, which is rare           |
-| `🔗 Related`        | Links out: the documents and folders that answer the next question                        | Never; a README with no way out is a dead end  |
+| Section             | Holds                                                                                         | When to omit                                   |
+| ------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| `# <emoji> <name>`  | The workspace name (`@repo/ui`) or the folder's subject, with one emoji before it             | Never                                          |
+| `>` tagline         | One sentence, no period needed, that answers "what is this"                                   | Never                                          |
+| `🎯 Purpose`        | Why the folder exists and what decision it settles for whoever reads it                       | Never                                          |
+| `🗂️ Structure`      | A table of paths to what lives there, and the tree when the shape matters as much as the list | A folder with a single file                    |
+| `🚀 Usage`          | The shortest real example: an import, a snippet, the first command somebody runs              | A folder nobody consumes, such as a docs index |
+| `⌨️ Commands`       | A table of command to effect. Only commands that work from that folder or from the root       | Nothing is runnable there                      |
+| `🔁 How it updates` | What regenerates the contents, what triggers it, and how to run it by hand                    | Nothing regenerates it                         |
+| `🧩 Extending`      | How to add the next thing: the steps, and what would make it the wrong folder                 | Nothing is ever added, which is rare           |
+| `🔗 Related`        | Links out: the documents and folders that answer the next question                            | Never; a README with no way out is a dead end  |
 
 Rules for the template:
 
@@ -156,6 +157,20 @@ a badge, so anything that changes often is a lie waiting to happen.
   browser renders.
 - A link to a heading of another file carries its anchor: `[the comment check](comments.md#the-comment-check)`.
 - External links are ordinary links with the product's name as the text; no bare URLs.
+- **Backticks stay in prose and leave a list of links.** In a sentence they mark the linked thing as code or
+  as a path. In a `🔗 Related` list they make it ragged: GitHub pads inline code, so an item in backticks
+  sits on a grey block and reads as though it had a space before its colon, beside a plain item that does not.
+- **Every item of a `🔗 Related` list has one shape**, with no backticks in the link text:
+
+  ```md
+  - [Label](../path/to/README.md): what the reader finds there
+  ```
+
+  `Label` is the name of the target: a document by its title with the emoji dropped (`Contributing`,
+  `Feature-Sliced Design`), a workspace or folder by the name the page already uses for it and with no
+  trailing slash (`@repo/env`, `apps/web`, `shared`), a root file everybody knows by its filename by that
+  filename (`README.md`, `CLAUDE.md`, `AGENTS.md`, `DESIGN.md`). The description starts lower-case and ends
+  without a period, and two links share one item only when a single description covers both.
 
 ## Tables, alerts and diagrams
 
@@ -171,6 +186,36 @@ a badge, so anything that changes often is a lie waiting to happen.
   markdownlint fails a fence without one.
 - **No inline HTML.** The only exception is `.github/`, where the pull request template uses `<details>` and
   markdownlint is configured to allow it there and nowhere else.
+- **A column of paths is in code from its first row to its last**, and every cell git tracks is also a
+  relative link: to the folder's `README.md` when it has one, to the folder itself when it does not, since
+  GitHub renders a folder listing. A path that does not exist yet, and one git ignores, stays in code with no
+  link, because that link would answer 404. Linking half the column is what makes the table look unfinished.
+
+## Structure blocks
+
+A structure block is a tree with connectors, not an indented list of paths. The connectors carry the depth,
+so you read the shape instead of counting spaces.
+
+```text
+apps/web/
+├── app/                   routing only: each route file re-exports a slice
+│   ├── layout.tsx
+│   └── page.tsx
+├── src/                   the FSD root Steiger checks
+│   ├── _app/              providers, styles, fonts, metadata
+│   └── _pages/            one slice per screen
+└── public/                static files served at fixed URLs
+```
+
+- **The root sits on its own line and ends in `/`**, and so does every folder under it. A file does not.
+- **`├──` for a child, `└──` for the last one, `│` for every level still open**, four columns per level.
+- **Comments line up in one column**, and an entry with nothing to add leaves it empty instead of restating
+  its own name.
+- **No backticks inside the block**: it is already a code fence, and they would render as characters.
+- **The tree is true.** Either it is what the folder holds today, checked against `git ls-files`, or the tree
+  says which part of it is an example. A tree that lies is worse than the list it replaced.
+- **It shows what a reader needs in order to place code**, not every file. The per-file detail belongs to the
+  `🗂️ Structure` table above it.
 
 ## Prose
 
@@ -200,12 +245,21 @@ thing in every workspace.
 
 ## 🗂️ Structure
 
-| Path                | Holds                                                     |
-| ------------------- | --------------------------------------------------------- |
-| `cspell.json`       | The settings each workspace imports by relative path      |
-| `project-words.txt` | Words this project uses that no dictionary knows          |
+| Path                                         | Holds                                                |
+| -------------------------------------------- | ---------------------------------------------------- |
+| [`cspell.json`](./cspell.json)               | The settings each workspace imports by relative path |
+| [`project-words.txt`](./project-words.txt)   | Words this project uses that no dictionary knows     |
+| `dictionaries/`                              | Not created yet: one file per domain vocabulary      |
 
 ## 🚀 Usage
+
+The folder holds the two files and nothing generated:
+
+```text
+tooling/spell-check/
+├── cspell.json            imported by every workspace
+└── project-words.txt      one word per line, sorted
+```
 
 Each workspace has a `cspell.json` of its own that imports this one:
 
@@ -249,3 +303,6 @@ over the same set. Everything not listed here is checked in review, and by the `
 | Table alignment, list markers, blank lines, final newline | `pnpm format` (Prettier)                                                          |
 | Spelling                                                  | `pnpm spell:check`                                                                |
 | The README template, and a README that answers by itself  | Review, and `doc-steward` through [`/doc-review`](../../CONTRIBUTING.md#the-flow) |
+| A relative link whose target exists                       | Review, and `doc-steward`                                                         |
+| One shape per `🔗 Related` list, a linked column of paths | Review, and `doc-steward`                                                         |
+| A structure block drawn as a tree, and true               | Review, and `doc-steward`                                                         |
