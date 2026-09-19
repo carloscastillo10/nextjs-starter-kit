@@ -1,0 +1,64 @@
+# {{emoji}} {{packageName}}
+
+> {{{summary}}}
+
+![type](https://img.shields.io/badge/type-{{typeLabel}}-8B5CF6)
+![status](https://img.shields.io/badge/status-scaffold-EAB308)
+
+## 🎯 Purpose
+
+Replace this paragraph with what this workspace owns, and with what it leaves to another one. The badge above reads `scaffold` until somebody does.
+
+## 🗂️ Structure
+
+{{#if layers}}
+| Path | Holds |
+| --- | --- |
+| `src/shared/` | Code with no meaning of its own: the segments every layer above may import |
+| `src/entities/`, `src/features/` | The layers this package shares, one folder per slice, each behind its `index.ts` |
+
+This package is a [Feature-Sliced Design](../../docs/architecture/feature-sliced-design.md) root: it is listed in `tooling/architecture/fsd-roots.json`, so Steiger lints its layers and dependency-cruiser keeps imports on the public API.
+{{else}}
+| Path | Holds |
+| --- | --- |
+| `src/index.ts` | The public API: what another workspace may import |
+
+Everything else is private to the workspace. The `exports` field of `package.json` is the door.
+{{/if}}
+
+## 🚀 Usage
+
+Declare it where it is used (`"{{packageName}}": "workspace:*"`), run `pnpm install`, and import it:
+
+```ts
+import { packageName } from "{{entry}}";
+```
+
+## ⌨️ Commands
+
+Each one runs inside this workspace; from the repository root, prefix it with `pnpm --filter {{packageName}}`.
+
+| Command | What it does |
+| --- | --- |
+| `pnpm lint` | ESLint |
+| `pnpm types:check` | TypeScript, without emitting |
+| `pnpm test` | Vitest |
+| `pnpm format` | Prettier |
+| `pnpm spell:check` | cspell |
+
+## 🧩 Extending
+
+- **A dependency** comes from the catalog (`"package": "catalog:"`) or from another workspace (`"@repo/other": "workspace:*"`). A version written by hand fails `pnpm lint:ws`.
+{{#if layers}}
+- **A layer** gets its own `exports` entry: `"./entities/*": "./src/entities/*/index.ts"`. A wildcard over `src` would let an import reach past a slice's public API, which `pnpm lint:deps` rejects.
+{{else}}
+- **The public API** grows in `src/index.ts`. A second entry point is a second `exports` key, never a deep import from outside.
+{{/if}}
+- **A word this workspace uses** and no dictionary knows goes in its own `cspell.json`, not in the shared one.
+
+## 🔗 Related
+
+- [Contributing](../../CONTRIBUTING.md): the checks every workspace passes
+{{#if layers}}
+- [Feature-Sliced Design](../../docs/architecture/feature-sliced-design.md): the layers, and what may import what
+{{/if}}

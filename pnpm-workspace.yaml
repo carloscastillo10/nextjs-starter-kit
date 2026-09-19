@@ -50,6 +50,7 @@ catalog:
   "@tailwindcss/postcss": ^4.3.3
   "@testing-library/dom": ^10.4.2
   "@testing-library/react": ^16.3.3
+  "@turbo/gen": ^2.10.13
   "@typescript-eslint/typescript-estree": ^8.70.0
   "@types/node": ^24.13.5
   "@types/react": ^19.3.0

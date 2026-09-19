@@ -1,0 +1,38 @@
+{
+  "name": "{{packageName}}",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.18.0 <25",
+    "pnpm": ">=11.17.0 <12"
+  },
+  "exports": {
+{{#if layers}}
+    "./shared/*": "./src/shared/*/index.ts"
+{{else}}
+    ".": "./src/index.ts"
+{{/if}}
+  },
+  "scripts": {
+    "clean": "git clean -xdf .turbo node_modules",
+    "format": "prettier . --check --ignore-unknown",
+    "format:fix": "prettier . --write --ignore-unknown",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "spell:check": "cspell --no-progress --gitignore --config cspell.json .",
+    "test": "vitest run",
+    "types:check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@repo/vitest-config": "workspace:*",
+    "cspell": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  }
+}
