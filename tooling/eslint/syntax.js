@@ -9,6 +9,9 @@ const HOOK_CALLS_KEPT_OUT_OF_COMPONENTS =
 
 const NAVIGATION_GUARDS = "notFound|redirect|permanentRedirect|forbidden|unauthorized";
 
+const PROPS_TYPE_STAYS_LOCAL =
+  "Keep a props type next to its component; derive it with ComponentProps<typeof X>.";
+
 const FUNCTION_EXPRESSION_OUTSIDE_METHODS = [
   "FunctionExpression[generator=false]",
   ":not(MethodDefinition > FunctionExpression)",
@@ -69,6 +72,41 @@ export const COMPONENT_SYNTAX = [
     selector:
       "JSXAttribute > JSXExpressionContainer > :matches(BinaryExpression, LogicalExpression[operator='??'])",
     message: "Compute the value in the hook (or a named constant), not inside a JSX prop.",
+  },
+  {
+    /*
+     * `>` keeps the component itself out: there the markup hangs from the arrow, not
+     * from the declarator, and so does a map of renderers built with `useMemo`.
+     */
+    selector: "VariableDeclarator > :matches(JSXElement, JSXFragment)",
+    message: "Keep markup where it renders, or give it a component of its own.",
+  },
+];
+
+/*
+ * Selectors for components written by hand, which is why only the `next` preset spreads
+ * them. The kit is the shadcn CLI's output, and nothing constrains the shapes the CLI
+ * writes; the rules that do reach it are the ones a fixer can apply on its own.
+ */
+export const APP_COMPONENT_SYNTAX = [
+  {
+    // The child combinator is deliberate: widening it would be a new rule, not a fix.
+    selector:
+      "JSXAttribute > JSXExpressionContainer > :matches(ConditionalExpression, ObjectExpression, ArrayExpression, TemplateLiteral[expressions.length>0], LogicalExpression[operator='&&'], LogicalExpression[operator='||'])",
+    message: "Compute the value in the hook (or a named constant), not inside a JSX prop.",
+  },
+  {
+    selector:
+      "JSXAttribute > JSXExpressionContainer > CallExpression[callee.property.name=/^(map|filter|reduce|sort|toSorted|slice|concat|flatMap|find)$/]",
+    message: "Build the list in the hook, not inside a JSX prop.",
+  },
+  {
+    selector: "ExportNamedDeclaration > TSTypeAliasDeclaration[id.name=/Props$/]",
+    message: PROPS_TYPE_STAYS_LOCAL,
+  },
+  {
+    selector: "ExportNamedDeclaration > ExportSpecifier[local.name=/Props$/]",
+    message: PROPS_TYPE_STAYS_LOCAL,
   },
 ];
 

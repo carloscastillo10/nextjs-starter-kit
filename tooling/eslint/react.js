@@ -39,6 +39,22 @@ const JSX_PROP_ORDER = {
   ],
 };
 
+/*
+ * The same order as the JSX one, for the three places the linter used to leave alone:
+ * the props type, the destructuring and the object a hook returns. `unsorted` moves
+ * only what falls in a group, so a lookup map keeps the order it was written in.
+ */
+const MEMBER_ORDER = {
+  type: "unsorted",
+  groups: ["class-name", "unknown", "callback"],
+  customGroups: [
+    { groupName: "class-name", elementNamePattern: "^className$" },
+    { groupName: "callback", elementNamePattern: "^(on|handle)[A-Z]" },
+  ],
+};
+
+const HOOK_FILES = ["**/model/use-*.ts", "**/api/use-*.ts"];
+
 /**
  * React rules for TypeScript files, shared by the React library and Next.js presets.
  * They stay off JavaScript files: the type-aware rules need type information.
@@ -81,6 +97,14 @@ export const reactBlocks = [
     rules: {
       "no-restricted-syntax": ["error", ...BASE_SYNTAX, ...COMPONENT_SYNTAX],
       "perfectionist/sort-jsx-props": ["error", JSX_PROP_ORDER],
+    },
+  },
+  {
+    name: "@repo/eslint-config/react/prop-order",
+    files: [...COMPONENT_FILES, ...HOOK_FILES],
+    rules: {
+      "perfectionist/sort-object-types": ["error", MEMBER_ORDER],
+      "perfectionist/sort-objects": ["error", MEMBER_ORDER],
     },
   },
 ];
