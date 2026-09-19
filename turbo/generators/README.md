@@ -35,7 +35,7 @@ pnpm exec turbo gen new-workspace --args packages metrics "Counters the apps rep
 ```
 
 > [!NOTE]
-> The generator is called `new-workspace` because `turbo gen workspace` is a built-in subcommand of Turborepo, which would win over a generator with that name.
+> The generator is called `new-workspace` because `turbo gen workspace` is a built-in subcommand of Turborepo, which would win over a generator with that name. `@turbo/gen` is a dev dependency of the repository so that the run needs no network: `turbo gen` downloads it on the fly when it is missing.
 
 ### What a generated workspace looks like
 
