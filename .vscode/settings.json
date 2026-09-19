@@ -1,19 +1,17 @@
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.organizeImports": "explicit"
-  },
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": "explicit" },
 
   "eslint.run": "onSave",
   "eslint.workingDirectories": [{ "mode": "auto" }],
 
-  "prettier.configPath": "tooling/prettier/prettier.config.js",
   "prettier.requireConfig": true,
 
-  "js/ts.tsdk.path": "apps/web/node_modules/typescript/lib",
-  "js/ts.preferences.importModuleSpecifier": "non-relative",
+  "typescript.tsdk": "apps/web/node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
 
   "cSpell.import": ["./tooling/spell-check/cspell.json"],
   "cSpell.customDictionaries": {

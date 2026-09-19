@@ -235,9 +235,8 @@ everyone else with nothing to configure.
 | Setting                           | Why it matters                                                        |
 | --------------------------------- | --------------------------------------------------------------------- |
 | `editor.formatOnSave`             | Prettier runs on every save                                           |
-| `editor.codeActionsOnSave`        | ESLint fixes and import ordering on save                              |
+| `editor.codeActionsOnSave`        | ESLint fixes on save, import order included                           |
 | `eslint.workingDirectories: auto` | ESLint resolves the right config per workspace                        |
-| `prettier.configPath`             | Points the editor at the shared config                                |
 | `typescript.tsdk`                 | Uses the repository's TypeScript, not the one bundled with the editor |
 | `cSpell.import`                   | Loads the shared dictionary and the project words                     |
 
