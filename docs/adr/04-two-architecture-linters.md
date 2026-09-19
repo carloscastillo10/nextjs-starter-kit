@@ -22,7 +22,7 @@ The configuration follows one rule: **a violation is reported by exactly one of 
 
 **Turborepo boundary tags for the direction rules.** Rejected: tags apply to packages that carry one, so a new package escapes every rule until somebody remembers to tag it. The path-based rules cover a workspace the day it is created.
 
-**`no-orphans` and `not-to-unresolvable` from the dependency-cruiser presets.** Rejected: in a Next.js app every route file and every config file is an entry point that nothing imports, and the per-app path alias does not resolve outside its app, so both rules would report the framework instead of a mistake. TypeScript already fails on an import that does not resolve.
+**`no-orphans` and `not-to-unresolvable` from the dependency-cruiser presets.** Rejected after measuring both on this repository. `no-orphans` reports six files that are all correct: a kit component no app imports yet, `next-env.d.ts`, the Vitest setup, and the scripts only CI and a git hook call. `not-to-unresolvable` reports the five imports the app writes with its path alias, which dependency-cruiser does not resolve and TypeScript already checks.
 
 ## Consequences
 

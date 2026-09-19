@@ -33,7 +33,7 @@ Two more checks sit below them and work on one file at a time: ESLint (`pnpm lin
 ## Why no finding is reported twice
 
 - **Steiger owns the interior of every FSD root.** dependency-cruiser declares no rule about layers or slices, so a forbidden import inside `apps/web/src` is Steiger's alone. What it does look at there is cycles, which Steiger has no rule for.
-- **Declaring a dependency is `turbo boundaries`' job.** dependency-cruiser therefore has no rule about undeclared imports, and no `no-orphans` rule either: in a Next.js app every route file and every config file is an entry point, so that rule would report the framework rather than a mistake.
+- **Declaring a dependency is `turbo boundaries`' job.** dependency-cruiser therefore has no rule about undeclared imports. It has no `no-orphans` rule either: switched on here it reports six files, and every one of them is correct — a component of the UI kit no app imports yet, `next-env.d.ts`, the Vitest setup and the scripts only CI and a git hook call. A rule whose findings are all false is a rule people learn to scroll past.
 - **`turbo boundaries` tags are deliberately unused.** They could express the direction rules, but only for packages that carry a tag, so a new package would silently escape them. The direction rules are written by path in dependency-cruiser instead, where a new workspace is covered the day it is created.
 - A cycle between two workspaces that also declare each other in their manifests is the one violation both `turbo boundaries` and dependency-cruiser report, at different granularity: the first names the two packages, the second the two files that close the cycle.
 
