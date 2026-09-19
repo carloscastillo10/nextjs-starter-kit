@@ -296,10 +296,14 @@ claude plugin install frontend-design@claude-plugins-official --scope project
 ## ☁️ Deploying
 
 The app is a standard Next.js build, so any host that runs Node 24 serves it. On
-[Vercel](https://vercel.com), import the repository and set **Root Directory** to `apps/web`; the install
-command is detected from `packageManager`, so pnpm 11 is used. Set `NEXT_PUBLIC_SITE_URL` to the public origin
-in every environment: without it the default is `http://localhost:3000`, and relative Open Graph and canonical
-URLs resolve against it.
+[Vercel](https://vercel.com), import the repository and set **Root Directory** to `apps/web`; the root
+`package.json` declares `packageManager`, which is where a host reads the pnpm version from. Set
+`NEXT_PUBLIC_SITE_URL` to the public origin in every environment: without it the default is
+`http://localhost:3000`, and that is what relative Open Graph and canonical URLs resolve against.
+
+> [!NOTE]
+> No deployment has been made from this repository yet, so the host settings above are what the build needs
+> rather than what a run confirmed. `pnpm build` is the same build the host runs, and it passes here.
 
 ```bash
 pnpm build     # the same build the host runs

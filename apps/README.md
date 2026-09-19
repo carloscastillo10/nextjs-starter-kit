@@ -49,9 +49,10 @@ pnpm create next-app@latest <name> --ts --app --no-src-dir --no-tailwind --no-es
 
 Then, before it works here:
 
-1. **Delete the `pnpm-workspace.yaml` it writes.** This repository declares its workspaces once, at the root.
-2. **Delete its `.gitignore` and its README.** The root `.gitignore` covers everything, and the README is
-   rewritten from the [house template](../docs/conventions/documentation.md).
+1. **Delete what it wrote for a standalone repository**: `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `.git/`,
+   `.gitignore` and `node_modules/`. This repository declares its workspaces, its lockfile and its ignores
+   once, at the root, and a nested `pnpm-workspace.yaml` makes pnpm treat the app as its own workspace.
+2. **Rewrite its README** from the [house template](../docs/conventions/documentation.md).
 3. **Match the manifest**: the name without a scope, `private: true`, the same `engines` as the other
    workspaces, and `catalog:` instead of a version for every shared dependency.
 4. **Add the shared configs** the way `apps/web` does: `eslint.config.mjs`, `tsconfig.json` extending
@@ -61,7 +62,7 @@ Then, before it works here:
    [`tooling/architecture/fsd-roots.json`](../tooling/architecture/README.md), so Steiger lints it.
 6. **Keep the `AGENTS.md` and `CLAUDE.md` that `next dev` writes.** Next.js rewrites them on every run;
    removing them from a diff only recreates the change.
-7. `pnpm install`, then `pnpm gates`.
+7. From the repository root, `pnpm install`, then `pnpm gates`.
 
 ## 🔗 Related
 
