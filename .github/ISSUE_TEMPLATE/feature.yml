@@ -85,6 +85,7 @@ body:
         `.claude/skills/README.md`, and a hook names the ones a path needs as the file is written.
       multiple: true
       options:
+        - "project-conventions — the code standard: names, function shape, control flow, comments"
         - "feature-sliced-design — layers, slices, segments, and what may import what"
         - "shadcn — adding a component to the kit and composing it"
         - "tailwind-css — Tailwind v4 syntax, tokens, and classes in a workspace package"
