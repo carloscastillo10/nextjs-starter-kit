@@ -41,7 +41,7 @@ Read the whole file around a change when the diff alone does not tell you whethe
 
 A comment that says what the line below it says is noise. It goes stale, and a stale comment is worse than no comment, because somebody will believe it.
 
-**Flag it.** The fix is deletion, not shortening. When a comment exists to explain *what*, the real fix is renaming the thing it describes.
+**Flag it.** The fix is deletion, not shortening. When a comment exists to explain _what_, the real fix is renaming the thing it describes.
 
 This holds outside source files too, where the comment check does not reach: YAML, JSON with comments, and configuration files. A step number, a label repeated from the key below it, or a path written into a comment are all the same finding.
 
