@@ -126,18 +126,6 @@ const nextBlocks = [
       "no-restricted-imports": ["error", { patterns: ROUTE_FILE_IMPORTS }],
     },
   },
-  {
-    name: "@repo/eslint-config/next/steiger-config",
-    files: ["steiger.config.ts"],
-    /*
-     * The type declarations of the Feature-Sliced Design plugin for Steiger import a
-     * package that is not published, so its exports reach this file typed as `any`.
-     */
-    rules: {
-      "@typescript-eslint/no-unsafe-argument": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
-    },
-  },
 ];
 
 export const next = [...codeStyle, ...reactBlocks, ...nextBlocks, ...closing];
