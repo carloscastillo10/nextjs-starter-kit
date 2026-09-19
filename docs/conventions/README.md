@@ -20,7 +20,7 @@ A rule nobody reads at the right moment is a rule that gets broken, so the stand
 
 ## How the rules are enforced
 
-Each document ends with an **Enforcement** table that maps its rules to a check. Formatting is Prettier's job, most rules are ESLint rules (`pnpm lint`), comment rules are split between ESLint and `pnpm lint:comments`, and the folder structure is checked by Steiger (`pnpm --filter web lint:arch`). A rule with no check in the table is a review rule.
+Each document ends with an **Enforcement** table that maps its rules to a check. Formatting is Prettier's job, most rules are ESLint rules (`pnpm lint`), comment rules are split between ESLint and `pnpm lint:comments`, and the folder structure is checked by Steiger (`pnpm lint:arch`). A rule with no check in the table is a review rule.
 
 ## Adding or changing a rule
 

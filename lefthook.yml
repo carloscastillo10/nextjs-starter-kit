@@ -98,7 +98,7 @@ pre-push:
             run: pnpm test --output-logs=errors-only
 
           - name: architecture
-            run: pnpm lint:arch --output-logs=errors-only
+            run: pnpm exec turbo run lint:arch --output-logs=errors-only
 
           - name: env
             run: pnpm env:check

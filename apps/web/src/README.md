@@ -23,6 +23,6 @@ From highest to lowest. A layer may import only from the layers below it.
 - Import a slice through its public API (`index.ts`), never a file inside it.
 - Use the `@/` alias across slices and layers (`@/_pages/home`, `@/shared/ui/button`); use relative paths inside a slice.
 - Put new code in the `_pages` slice that uses it. Move it down to `features`, `entities` or `shared` only when it is reused now, changes for its own reasons, and has one focused job.
-- Check the structure with `pnpm --filter web lint:arch` (Steiger).
+- Check the structure with `pnpm lint:arch` (Steiger).
 
 The full guide, with placement tables and step-by-step recipes, is [docs/architecture/feature-sliced-design.md](../../../docs/architecture/feature-sliced-design.md).

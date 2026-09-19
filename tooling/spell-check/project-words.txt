@@ -1,6 +1,7 @@
 backlinks
 commitlint
 Dataview
+depcruise
 eeef
 esbuild
 estree

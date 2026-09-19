@@ -25,8 +25,11 @@
       "dependsOn": ["transit"],
       "cache": false
     },
-    "lint:arch": {
-      "inputs": ["src/**", "steiger.config.ts", "package.json"]
+    "//#lint:arch": {
+      "inputs": ["steiger.config.mjs", "apps/**", "packages/**", "tooling/**"]
+    },
+    "//#lint:deps": {
+      "inputs": ["apps/**", "packages/**", "tooling/**"]
     },
     "//#lint:root": {},
     "//#lint:fix:root": {

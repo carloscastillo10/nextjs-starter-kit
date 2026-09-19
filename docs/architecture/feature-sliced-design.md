@@ -265,7 +265,7 @@ Do not create a `user` entity only to wrap the session. An entity appears when t
 2. Expose it: `src/_pages/<screen>/index.ts` with `export { <Screen>Page } from "./ui/<Screen>Page";`.
 3. Add the route: `app/<route>/page.tsx` with `export { <Screen>Page as default } from "@/_pages/<screen>";`. Re-export `metadata` or `generateMetadata` too if the slice exports them.
 4. Keep everything the screen needs inside the slice, in `ui/`, `model/`, `api/`, `lib/` or `config/` as it grows.
-5. Run `pnpm --filter web lint:arch` and `pnpm build`.
+5. Run `pnpm lint:arch` and `pnpm build`.
 
 ### Extract code to a lower layer
 
@@ -275,7 +275,7 @@ Do not create a `user` entity only to wrap the session. An entity appears when t
    - a domain model or rule goes to `entities`;
    - infrastructure with no business rules goes to `shared`.
 3. Move the code into the right segment of the new slice, export it from the slice's `index.ts`, and update the consumers to import from the public API.
-4. Run `pnpm --filter web lint:arch`. `fsd/insignificant-slice` fails if the new slice has fewer than two consumers (a slice used only from `_app` is fine).
+4. Run `pnpm lint:arch`. `fsd/insignificant-slice` fails if the new slice has fewer than two consumers (a slice used only from `_app` is fine).
 
 ### Add a global provider
 
@@ -294,7 +294,7 @@ Do not create a `user` entity only to wrap the session. An entity appears when t
 [Steiger](https://github.com/feature-sliced/steiger), the official FSD linter, checks `src/`:
 
 ```bash
-pnpm --filter web lint:arch
+pnpm lint:arch
 ```
 
 It runs `steiger ./src` with the recommended rules of `@feature-sliced/steiger-plugin`, configured in `apps/web/steiger.config.ts`. Among other things it rejects:
