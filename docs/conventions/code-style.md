@@ -39,7 +39,7 @@ Three ideas sit under every rule below:
 | Next.js route files in `apps/*/app`            | the name Next.js expects                         | `page.tsx`, `layout.tsx`, `not-found.tsx`, `route.ts`    |
 | Files the shadcn CLI generates in `packages/*` | the kebab-case name the CLI gives them           | `button.tsx`                                             |
 
-Middle extensions are not part of the name: `index.server.ts`, `format-price.test.ts` and `steiger.config.ts` are all kebab-case.
+Middle extensions are not part of the name: `index.server.ts`, `format-price.test.ts` and `vitest.config.mts` are all kebab-case.
 
 - **`.tsx` only when the file contains JSX.** A hook, a helper or a config module is `.ts`, so the extension alone tells you what the file holds.
 - **One component per file.** A piece of JSX large enough to deserve a name gets its own file in the same `ui/` segment.
@@ -54,7 +54,7 @@ Middle extensions are not part of the name: `index.server.ts`, `format-price.tes
   export const formatPrice = (amount: number) => { /* ... */ };
   ```
 
-- **Default exports exist only where a framework requires one**: Next.js route files in `app/` and tool config files (`next.config.ts`, `steiger.config.ts`). A route file re-exports the page under `default`:
+- **Default exports exist only where a framework requires one**: Next.js route files in `app/` and tool config files (`next.config.ts`, `vitest.config.mts`). A route file re-exports the page under `default`:
 
   ```tsx
   export { HomePage as default } from "@/_pages/home";
