@@ -94,8 +94,8 @@ Code breathes. A blank line separates one step from the next, sits before every 
 - No computation in JSX props, and `&&` only with a boolean; compute in the hook. A conditional class inside `cn(...)` is fine.
 - Props extend the root element's props, the rest is named `props` and spread, and `className` is composed with `cn`, never replaced.
 - No boolean props that switch behavior: build explicit variants through composition, or one union prop declared with `cva`.
-- **The UI kit first.** `Button`, `Input`, `Select`, `Textarea`, `Label` and `Dialog` come from `@repo/ui`; a missing component is added to the kit with the shadcn CLI, not written inline.
-- Styling uses the theme tokens (`bg-background`, `text-muted-foreground`). No arbitrary values, and class names stay static so Tailwind can find them.
+- **The UI kit first.** An app never writes `<button>`, `<input>`, `<select>`, `<textarea>`, `<label>` or `<dialog>` by hand: it uses the component from `@repo/ui`, and a missing one is added to the kit with the shadcn CLI. Semantic containers and headings are used directly.
+- Styling uses the theme tokens (`bg-background`, `text-muted-foreground`). In app code there are no arbitrary values, and class names stay static so Tailwind can find them; the kit keeps what the CLI generates.
 
 ## Comments
 
