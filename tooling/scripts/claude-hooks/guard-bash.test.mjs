@@ -97,6 +97,17 @@ describe("guard-bash keeps main behind a pull request", () => {
     expect(denialFor("git push", onBranch("main"))).toContain("pull request");
   });
 
+  test.each(["git push origin HEAD", "git push -u origin HEAD", "git push origin @"])(
+    "blocks %j while main is checked out",
+    (command) => {
+      expect(denialFor(command, onBranch("main"))).toContain("pull request");
+    },
+  );
+
+  test("allows HEAD from a branch of your own", () => {
+    expect(outputFor("git push origin HEAD", onBranch("feat/12-settings"))).toBeUndefined();
+  });
+
   test("allows a push with no branch named from a branch of your own", () => {
     expect(outputFor("git push", onBranch("feat/12-settings"))).toBeUndefined();
   });

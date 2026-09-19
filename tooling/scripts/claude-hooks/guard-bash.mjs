@@ -3,6 +3,8 @@ import { fileURLToPath } from "node:url";
 
 const PROTECTED = ["main"];
 
+const HEAD_ALIASES = new Set(["HEAD", "@"]);
+
 const BRANCH_SCOPE = fileURLToPath(new URL("../git/check-branch-scope.mjs", import.meta.url));
 
 const SKIPS_THE_HOOKS = /(?:^|[\s"'])--no-verify(?:[\s"']|$)|\bLEFTHOOK=(?:0|false)\b/u;
@@ -62,13 +64,6 @@ const inject = (additionalContext) => ({ additionalContext });
  */
 const withoutHeredocBodies = (command) => command.replaceAll(HEREDOC_BODY, "<<$1");
 
-const branchOf = (refspec) =>
-  refspec
-    .replaceAll(/^["'+]+|["']+$/gu, "")
-    .split(":")
-    .at(-1)
-    .replace(/^refs\/heads\//u, "");
-
 const checkedOutBranch = (cwd) => {
   try {
     return execFileSync("git", ["rev-parse", "--abbrev-ref", "HEAD"], {
@@ -79,6 +74,20 @@ const checkedOutBranch = (cwd) => {
   } catch {
     return undefined;
   }
+};
+
+/*
+ * `git push origin HEAD` is how a branch is usually published, so the name it pushes is
+ * whatever is checked out, and from main that is main.
+ */
+const branchOf = (refspec, cwd) => {
+  const named = refspec
+    .replaceAll(/^["'+]+|["']+$/gu, "")
+    .split(":")
+    .at(-1)
+    .replace(/^refs\/heads\//u, "");
+
+  return HEAD_ALIASES.has(named) ? checkedOutBranch(cwd) : named;
 };
 
 /*
@@ -93,7 +102,7 @@ const pushedBranches = (argumentsOfPush, cwd) => {
 
   if (refspecs.length === 0) return [checkedOutBranch(cwd)].filter(Boolean);
 
-  return refspecs.map(branchOf);
+  return refspecs.map((refspec) => branchOf(refspec, cwd));
 };
 
 const protectedPushIn = (command, cwd) =>
