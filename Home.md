@@ -42,7 +42,7 @@ aliases: [Home, Vault Home]
 | Architecture rules  | [`tooling/architecture`](tooling/architecture/README.md) | The FSD roots, and the rules both architecture linters read |
 | Design tokens       | [`tooling/tailwind`](tooling/tailwind/README.md)         | The Tailwind entry point and every token the theme defines  |
 | Workspace generator | [`turbo/generators`](turbo/generators/README.md)         | What `pnpm new` writes, and how to extend it                |
-| GitHub              | [`.github`](.github/README.md)                           | Issue forms, the pull request template, the workflows       |
+| GitHub              | [`.github`](.github/CONFIGURATION.md)                    | Issue forms, the pull request template, the workflows       |
 
 ### Inside `tooling/scripts`
 

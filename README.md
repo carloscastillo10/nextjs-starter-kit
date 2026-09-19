@@ -142,7 +142,7 @@ your shell outranks the file.
 | [`turbo/generators`](./turbo/generators/README.md) | The generator behind `pnpm new`                                            |
 | [`docs/`](./docs/README.md)                        | Decisions, architecture, conventions, specs and plans                      |
 | [`.claude/`](./.claude/README.md)                  | Agent configuration: skills, subagents, commands, hooks                    |
-| [`.github/`](./.github/README.md)                  | Issue forms, the pull request template, the workflows                      |
+| [`.github/`](./.github/CONFIGURATION.md)           | Issue forms, the pull request template, the workflows                      |
 
 ## ⌨️ Commands
 
