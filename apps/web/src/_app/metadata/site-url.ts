@@ -1,8 +1,13 @@
 /*
  * The origin the root metadata resolves relative URLs against. The Next.js config validates
- * NEXT_PUBLIC_SITE_URL, applies its default and builds it into the bundles, so it is missing
- * only where that config never ran, such as a test; Next.js then falls back to its own origin.
+ * NEXT_PUBLIC_SITE_URL, applies its default and builds it into the bundles, so a missing value
+ * means the app is running without that config, and relative URLs would quietly resolve against
+ * whatever origin serves the page.
  */
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
-export const SITE_URL = siteUrl === undefined ? undefined : new URL(siteUrl);
+if (siteUrl === undefined) {
+  throw new Error("NEXT_PUBLIC_SITE_URL is unset: the Next.js config that builds it in never ran.");
+}
+
+export const SITE_URL = new URL(siteUrl);
