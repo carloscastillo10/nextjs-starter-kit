@@ -1,5 +1,5 @@
 {
-  "name": "@repo/markdownlint-config",
+  "name": "@repo/spell-check-config",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -8,16 +8,13 @@
     "pnpm": ">=11.17.0 <12"
   },
   "exports": {
-    "./markdownlint.jsonc": "./markdownlint.jsonc"
+    "./cspell.json": "./cspell.json"
   },
   "scripts": {
     "clean": "git clean -xdf .turbo node_modules",
     "format": "prettier . --check --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
     "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
     "spell:check": "cspell --no-progress --gitignore ."
-  },
-  "dependencies": {
-    "markdownlint": "catalog:"
   },
   "devDependencies": {
     "cspell": "catalog:",

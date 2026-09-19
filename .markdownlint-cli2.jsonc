@@ -12,6 +12,6 @@
     "apps/*/CLAUDE.md"
   ],
   "config": {
-    "extends": "@repo/markdownlint-config/markdownlint.jsonc"
+    "extends": "@repo/markdown-config/markdownlint.jsonc"
   }
 }

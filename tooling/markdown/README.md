@@ -1,4 +1,4 @@
-# 📝 @repo/markdownlint-config
+# 📝 @repo/markdown-config
 
 > markdownlint rules for every Markdown file in the repository.
 

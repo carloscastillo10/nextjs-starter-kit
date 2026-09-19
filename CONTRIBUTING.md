@@ -56,7 +56,7 @@ Tools enforce what they can, so run them before you push:
 | `pnpm spell:check`   | cspell, over code and docs                                                                                   |
 | `pnpm lint:md`       | markdownlint, over every Markdown file                                                                       |
 
-`pnpm lint:fix` and `pnpm format:fix` apply the fixes the tools can make on their own. `pnpm lint:arch` runs only Steiger. To add a word to the spelling dictionary, edit [`tooling/cspell/project-words.txt`](tooling/cspell/project-words.txt).
+`pnpm lint:fix` and `pnpm format:fix` apply the fixes the tools can make on their own. `pnpm lint:arch` runs only Steiger. To add a word to the spelling dictionary, edit [`tooling/spell-check/project-words.txt`](tooling/spell-check/project-words.txt).
 
 Inline lint suppressions are switched off. If a rule does not fit a file, change the configuration for that file's glob and write down why.
 

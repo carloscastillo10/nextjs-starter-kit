@@ -55,8 +55,8 @@
         "$TURBO_DEFAULT$",
         "$TURBO_ROOT$/.gitignore",
         "$TURBO_ROOT$/cspell.json",
-        "$TURBO_ROOT$/tooling/cspell/cspell.json",
-        "$TURBO_ROOT$/tooling/cspell/project-words.txt"
+        "$TURBO_ROOT$/tooling/spell-check/cspell.json",
+        "$TURBO_ROOT$/tooling/spell-check/project-words.txt"
       ]
     },
     "//#spell:check:root": {},

@@ -1,5 +1,5 @@
 {
-  "extends": "@repo/markdownlint-config/markdownlint.jsonc",
+  "extends": "@repo/markdown-config/markdownlint.jsonc",
 
   // GitHub renders the pull request template as the start of a description, below the
   // pull request title, so it opens with a second-level heading.

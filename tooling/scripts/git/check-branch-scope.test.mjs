@@ -46,7 +46,7 @@ describe("check-branch-scope", () => {
     const sandbox = sandboxWithBranch([
       ...filesIn("apps/web/src", 3),
       "docs/guide.md",
-      "tooling/cspell/project-words.txt",
+      "tooling/spell-check/project-words.txt",
       "package.json",
     ]);
     const { status, stdout, stderr } = sandbox.run(SCRIPT);

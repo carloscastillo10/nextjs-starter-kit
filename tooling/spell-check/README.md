@@ -1,4 +1,4 @@
-# 🔤 @repo/cspell-config
+# 🔤 @repo/spell-check-config
 
 > Spell checking for code and docs, with the project's own word list.
 
