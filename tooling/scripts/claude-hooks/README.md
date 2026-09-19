@@ -24,21 +24,21 @@
 
 ## 🗂️ Structure
 
-| File                     | Holds                                                                                                              |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `skill-rules.mjs`        | The rules of the skill reminder: which skills govern a path, and whether the comment rule applies. No I/O          |
-| `remind-skills.mjs`      | The skill reminder hook: reads the tool call from stdin, remembers what the session has seen, prints the reminder  |
-| `guard-bash.mjs`         | The shell guard: refuses a command that skips the hooks or pushes to `main`, and hands over the pull request rules |
-| `check-written-file.mjs` | The check of a written file: runs the linters that cover it and hands back what they said                          |
+| File                                                 | Holds                                                                                                              |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| [`skill-rules.mjs`](./skill-rules.mjs)               | The rules of the skill reminder: which skills govern a path, and whether the comment rule applies. No I/O          |
+| [`remind-skills.mjs`](./remind-skills.mjs)           | The skill reminder hook: reads the tool call from stdin, remembers what the session has seen, prints the reminder  |
+| [`guard-bash.mjs`](./guard-bash.mjs)                 | The shell guard: refuses a command that skips the hooks or pushes to `main`, and hands over the pull request rules |
+| [`check-written-file.mjs`](./check-written-file.mjs) | The check of a written file: runs the linters that cover it and hands back what they said                          |
 
 Hooks declared in `.claude/settings.json`:
 
 | Script                                                     | Event         | Matcher            | Behavior                                                                                            |
 | ---------------------------------------------------------- | ------------- | ------------------ | --------------------------------------------------------------------------------------------------- |
-| `remind-skills.mjs`                                        | `PreToolUse`  | `Write\|Edit`      | Names the skills that govern the file and, on a source file, the comment rule. Never blocks a write |
+| [`remind-skills.mjs`](./remind-skills.mjs)                 | `PreToolUse`  | `Write\|Edit`      | Names the skills that govern the file and, on a source file, the comment rule. Never blocks a write |
 | [`../graphify/graph-hint.mjs`](../graphify/graph-hint.mjs) | `PreToolUse`  | `Bash\|Grep\|Glob` | Before a search, points at the code graph when one has been built. Never blocks a search            |
-| `guard-bash.mjs`                                           | `PreToolUse`  | `Bash`             | Blocks a command that skips a git hook or pushes to `main`; on `gh pr create`, injects the rules    |
-| `check-written-file.mjs`                                   | `PostToolUse` | `Write\|Edit`      | Runs the linters that cover the file just written and hands back what they said. Never blocks       |
+| [`guard-bash.mjs`](./guard-bash.mjs)                       | `PreToolUse`  | `Bash`             | Blocks a command that skips a git hook or pushes to `main`; on `gh pr create`, injects the rules    |
+| [`check-written-file.mjs`](./check-written-file.mjs)       | `PostToolUse` | `Write\|Edit`      | Runs the linters that cover the file just written and hands back what they said. Never blocks       |
 
 ## 🚀 Usage
 
@@ -196,7 +196,7 @@ The `additionalContext` in the output is what Claude receives. Run the same line
 ## 🔗 Related
 
 - [Project skills](../../../.claude/skills/README.md): what each skill covers and where it comes from
-- [Comment conventions](../../../docs/conventions/comments.md)
+- [Comment conventions](../../../docs/conventions/comments.md): the rule one of the reminders quotes
 - [@repo/scripts](../README.md): the checks lefthook and CI run
 - [Knowledge graph](../../../docs/knowledge/README.md): what the graph holds and when it is rebuilt
-- [Hooks reference](https://code.claude.com/docs/en/hooks) in the Claude Code docs
+- [Hooks reference](https://code.claude.com/docs/en/hooks): the events and the payload each one receives

@@ -14,10 +14,10 @@ yet and belongs in [`../plans/`](../plans/README.md); the reasoning behind a sha
 
 ## 🗂️ Structure
 
-| Document                                             | Covers                                                                                                                                                                                            |
-| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [feature-sliced-design.md](feature-sliced-design.md) | Feature-Sliced Design in `apps/web`: layers, import rules, public APIs, naming, the Next.js integration, where workspace packages fit, the FSD roots, the placement tables and the Steiger linter |
-| [architecture-checks.md](architecture-checks.md)     | The four checks that guard the structure: what each one owns, how to read a failure, and how to add a rule without reporting the same violation twice                                             |
+| Document                                                 | Covers                                                                                                                                                                                            |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`feature-sliced-design.md`](./feature-sliced-design.md) | Feature-Sliced Design in `apps/web`: layers, import rules, public APIs, naming, the Next.js integration, where workspace packages fit, the FSD roots, the placement tables and the Steiger linter |
+| [`architecture-checks.md`](./architecture-checks.md)     | The four checks that guard the structure: what each one owns, how to read a failure, and how to add a rule without reporting the same violation twice                                             |
 
 ## 🚀 Usage
 
@@ -52,5 +52,5 @@ with it. If the change is hard to reverse, it is also an [ADR](../adr/README.md)
 
 - [Decisions](../adr/README.md): why the architecture has this shape
 - [Conventions](../conventions/README.md): how the code inside that shape is written
-- [`tooling/architecture`](../../tooling/architecture/README.md): the roots and the rules both linters read
-- [`apps/web/src`](../../apps/web/src/README.md): the layers themselves, one README each
+- [@repo/architecture-config](../../tooling/architecture/README.md): the roots and the rules both linters read
+- [apps/web/src](../../apps/web/src/README.md): the layers themselves, one README each

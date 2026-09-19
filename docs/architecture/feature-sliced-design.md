@@ -19,26 +19,27 @@ Duplicating a little code across two pages is acceptable and is often cheaper th
 
 ```text
 apps/web/
-  app/                      Next.js App Router: routing only, thin re-exports
-    layout.tsx              root HTML shell
-    page.tsx                export { HomePage as default } from "@/_pages/home";
-  src/                      FSD root (checked by Steiger)
-    _app/                   app layer: providers, global styles, fonts, metadata, layouts, route handlers
-    _pages/                 pages layer: one slice per screen
-      home/
-        ui/HomePage.tsx
-        index.ts
-    widgets/                widgets layer (discouraged)
-    features/               features layer: reused user actions
-    entities/               entities layer: reused domain models
-    shared/                 shared layer: infrastructure without business rules
-  public/                   (when needed) static files served at fixed URLs, outside FSD
-  proxy.ts                  (when needed) Next.js proxy, outside FSD, next to app/
+├── app/                    App Router: routing only, thin re-exports
+│   ├── layout.tsx          the root HTML shell
+│   └── page.tsx            export { HomePage as default } from "@/_pages/home";
+├── src/                    the FSD root Steiger checks
+│   ├── _app/               app layer: providers, styles, fonts, metadata, layouts, route handlers
+│   ├── _pages/             pages layer: one slice per screen
+│   │   └── home/
+│   │       ├── config/
+│   │       ├── ui/
+│   │       └── index.ts    the public API the route file imports
+│   ├── widgets/            widgets layer (discouraged)
+│   ├── features/           features layer: reused user actions
+│   ├── entities/           entities layer: reused domain models
+│   └── shared/             shared layer: infrastructure without business rules
+├── public/                 static files served at fixed URLs, outside FSD
+└── proxy.ts                (when needed) the Next.js proxy, outside FSD, beside app/
 ```
 
 Each layer folder has a README with its own rules: [`_app`](../../apps/web/src/_app/README.md), [`_pages`](../../apps/web/src/_pages/README.md), [`widgets`](../../apps/web/src/widgets/README.md), [`features`](../../apps/web/src/features/README.md), [`entities`](../../apps/web/src/entities/README.md), [`shared`](../../apps/web/src/shared/README.md). The routing folder has one too: [`app/`](../../apps/web/app/README.md).
 
-A folder appears when its first file does. `_app`, `widgets`, `features`, `entities` and `shared` hold only a README until the code needs them.
+A folder appears when its first file does. `widgets`, `features`, `entities` and `shared` carry a README and nothing else until the code needs them.
 
 ## Vocabulary
 

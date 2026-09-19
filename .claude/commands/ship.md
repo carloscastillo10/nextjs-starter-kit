@@ -47,13 +47,13 @@ Each finding has exactly one destination:
 
 | What was learned | Where it goes |
 | --- | --- |
-| A rule that holds across features | `docs/business-rules.md`, as a new `BR-xx` |
+| A rule that holds across features | [`docs/business-rules.md`](../../docs/business-rules.md), as a new `BR-xx` |
 | A third party behaves differently from its own documentation | `docs/integrations/<name>.md`, **with the date and the URL** |
-| A choice that is hard to reverse | `docs/adr/`, as a new decision |
-| How code here is written, now settled | `docs/conventions/` |
-| The system changed shape | `docs/architecture/` |
-| The spec was wrong or silent | the spec in `docs/specs/`, including its `## Open questions` |
-| A token, or how the theme is meant to be used | `DESIGN.md`, alongside the stylesheet it describes |
+| A choice that is hard to reverse | [`docs/adr/`](../../docs/adr/README.md), as a new decision |
+| How code here is written, now settled | [`docs/conventions/`](../../docs/conventions/README.md) |
+| The system changed shape | [`docs/architecture/`](../../docs/architecture/README.md) |
+| The spec was wrong or silent | the spec in [`docs/specs/`](../../docs/specs/README.md), including its `## Open questions` |
+| A token, or how the theme is meant to be used | [`DESIGN.md`](../../DESIGN.md), alongside the stylesheet it describes |
 | How a workspace is used or run | that workspace's `README.md` |
 
 A folder that does not exist yet is named in the report as the place the finding belongs, rather than dropped.

@@ -78,6 +78,6 @@ dropped are worth more than the file costs.
 
 ## 🔗 Related
 
-- [`@repo/env`](../../packages/env/README.md): where a service's variables are declared and validated
+- [@repo/env](../../packages/env/README.md): where a service's variables are declared and validated
 - [Feature-Sliced Design](../architecture/feature-sliced-design.md): where the code that calls a service lives
 - [Decisions](../adr/README.md): why this vendor and not the other one

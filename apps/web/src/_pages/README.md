@@ -14,12 +14,17 @@ consumer appears, not when somebody predicts one.
 One folder per screen, kebab-case, named after the screen: `home`, `sign-in`, `user-settings`. When a topic
 has many screens, a group folder without an `index.ts` may hold them: `orders/list`, `orders/detail`.
 
+The one slice the template ships:
+
 ```text
 _pages/
-  home/
-    ui/
-      HomePage.tsx
-    index.ts          <- export { HomePage } from "./ui/HomePage";
+└── home/
+    ├── config/
+    │   └── home-links.ts      the URLs the page links out to
+    ├── ui/
+    │   ├── HomeActions.tsx
+    │   └── HomePage.tsx
+    └── index.ts               export { HomePage } from "./ui/HomePage";
 ```
 
 ## 🚀 Usage
@@ -52,6 +57,6 @@ hooks, `api/` for requests, `lib/` for pure helpers, `config/` for named values.
 
 ## 🔗 Related
 
-- [`src/`](../README.md): the six layers and the import rule between them
-- [`app/`](../../app/README.md): the route files that re-export these slices
-- [Feature-Sliced Design in `apps/web`](../../../../docs/architecture/feature-sliced-design.md): the full rules
+- [src](../README.md): the six layers and the import rule between them
+- [app](../../app/README.md): the route files that re-export these slices
+- [Feature-Sliced Design](../../../../docs/architecture/feature-sliced-design.md): the full rules

@@ -8,9 +8,9 @@ Steiger takes one folder per run, and this repository can declare several FSD ro
 
 ## 🗂️ Structure
 
-| File           | Holds                                                          |
-| -------------- | -------------------------------------------------------------- |
-| `lint-fsd.mjs` | `pnpm lint:arch`, and `lintFsdRoots({ roots, run })` behind it |
+| File                             | Holds                                                          |
+| -------------------------------- | -------------------------------------------------------------- |
+| [`lint-fsd.mjs`](./lint-fsd.mjs) | `pnpm lint:arch`, and `lintFsdRoots({ roots, run })` behind it |
 
 ## 🚀 Usage
 
@@ -32,5 +32,5 @@ Every root is linted even after one fails, so a single run reports all of them; 
 
 ## 🔗 Related
 
-- [@repo/architecture-config](../../architecture/README.md): the list and both linters' rules
+- [@repo/architecture-config](../../architecture/README.md): the list of roots and both linters' rules
 - [Architecture checks](../../../docs/architecture/architecture-checks.md): which check owns which rule

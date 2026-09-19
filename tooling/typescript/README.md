@@ -8,10 +8,10 @@ Every package type-checks with the same strict settings, so a type that compiles
 
 ## 🗂️ Structure
 
-| File          | For                                                                                                                 |
-| ------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `base.json`   | Any package: ES2023, bundler resolution, `noEmit`, and the strict flags below                                       |
-| `nextjs.json` | Next.js apps: `base.json` plus the DOM libraries, `react-jsx`, `allowJs`, incremental checks and the Next.js plugin |
+| File                           | For                                                                                                                 |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| [`base.json`](./base.json)     | Any package: ES2023, bundler resolution, `noEmit`, and the strict flags below                                       |
+| [`nextjs.json`](./nextjs.json) | Next.js apps: `base.json` plus the DOM libraries, `react-jsx`, `allowJs`, incremental checks and the Next.js plugin |
 
 Beyond `strict`, `base.json` turns on:
 
@@ -55,4 +55,4 @@ Unused variables are ESLint's job (it allows a leading `_`), and type-only impor
 
 ## 🔗 Related
 
-- [ESLint config](../eslint/README.md): the type-aware rules read these settings.
+- [@repo/eslint-config](../eslint/README.md): the type-aware rules that read these settings

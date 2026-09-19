@@ -21,15 +21,15 @@ These are the checks [lefthook](../../../lefthook.yml) runs around git itself: `
 
 ## 🗂️ Structure
 
-| File                        | Holds                                                                                                              |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `commit-rules.mjs`          | The commit convention as commitlint rules, loaded by the root `commitlint.config.mjs`                              |
-| `check-git-identity.mjs`    | `commit-msg`: refuses a commit that would not carry the global git identity                                        |
-| `check-push-authors.mjs`    | `pre-push`: refuses a commit by an address that is neither the pusher's nor already on `origin/main`               |
-| `check-author-identity.mjs` | CI, opt in: refuses a pull request with a commit whose author has no access to the repository                      |
-| `check-linked-branch.mjs`   | `pre-push`: stops the first push of an issue branch that GitHub has not linked to its issue                        |
-| `check-branch-scope.mjs`    | `pre-push`: reports a branch that mixes unrelated changes or is very large; `--strict` makes it fail               |
-| `fix-staged.mjs`            | `pre-commit`: runs ESLint or Prettier in fix mode on fully staged files and in check mode on partially staged ones |
+| File                                                       | Holds                                                                                                              |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| [`commit-rules.mjs`](./commit-rules.mjs)                   | The commit convention as commitlint rules, loaded by the root `commitlint.config.mjs`                              |
+| [`check-git-identity.mjs`](./check-git-identity.mjs)       | `commit-msg`: refuses a commit that would not carry the global git identity                                        |
+| [`check-push-authors.mjs`](./check-push-authors.mjs)       | `pre-push`: refuses a commit by an address that is neither the pusher's nor already on `origin/main`               |
+| [`check-author-identity.mjs`](./check-author-identity.mjs) | CI, opt in: refuses a pull request with a commit whose author has no access to the repository                      |
+| [`check-linked-branch.mjs`](./check-linked-branch.mjs)     | `pre-push`: stops the first push of an issue branch that GitHub has not linked to its issue                        |
+| [`check-branch-scope.mjs`](./check-branch-scope.mjs)       | `pre-push`: reports a branch that mixes unrelated changes or is very large; `--strict` makes it fail               |
+| [`fix-staged.mjs`](./fix-staged.mjs)                       | `pre-commit`: runs ESLint or Prettier in fix mode on fully staged files and in check mode on partially staged ones |
 
 ## 🚀 Usage
 
@@ -126,5 +126,5 @@ It knows two tools, `eslint` (`--fix --max-warnings 0 --no-warn-ignored`) and `p
 
 ## 🔗 Related
 
-- [Commits](../../../CONTRIBUTING.md#commits) and [Git hooks](../../../CONTRIBUTING.md#git-hooks) in the contributing guide
+- [Commits](../../../CONTRIBUTING.md#commits) and [Git hooks](../../../CONTRIBUTING.md#git-hooks): the convention these checks enforce, and when each one runs
 - [@repo/scripts](../README.md): the other checks in this package

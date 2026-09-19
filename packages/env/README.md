@@ -3,8 +3,6 @@
 > One declaration per environment variable: the file that fills it, its validation, `.env.example` and the Turborepo check all come from the same zod schema.
 
 ![zod](https://img.shields.io/badge/zod-v4-3E67B1?logo=zod&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-24-5FA04E?logo=nodedotjs&logoColor=white)
-![type](https://img.shields.io/badge/type-package-8B5CF6)
 
 ## 🧭 Table of contents
 
@@ -29,16 +27,16 @@ Every variable the repository reads is declared once, as a key in a zod schema i
 
 ## 🗂️ Structure
 
-| Path                          | Holds                                                                                           |
-| ----------------------------- | ----------------------------------------------------------------------------------------------- |
-| `src/index.ts`                | The public API: `loadEnv`, `loadEnvFile`, `activeAppEnv`, `findRepoRoot`, the shapes, the error |
-| `src/schemas/`                | One shape per area (`app.schema.ts` today) and the registry every reader uses                   |
-| `src/schemas/boolean-flag.ts` | The only accepted spellings for a flag: `true` and `false`                                      |
-| `src/loading/`                | The walk up to the workspace root, and the root env file loader                                 |
-| `src/validation/`             | `loadEnv` and the error that lists every problem without printing a value                       |
-| `src/example/`                | Renders and writes `.env.example`                                                               |
-| `src/is-required.ts`          | The one required-or-optional test the emitter uses                                              |
-| `scripts/`                    | The command-line entry points behind `env:emit` and `env:check:turbo`                           |
+| Path                                                           | Holds                                                                                           |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [`src/index.ts`](./src/index.ts)                               | The public API: `loadEnv`, `loadEnvFile`, `activeAppEnv`, `findRepoRoot`, the shapes, the error |
+| [`src/schemas/`](./src/schemas/)                               | One shape per area (`app.schema.ts` today) and the registry every reader uses                   |
+| [`src/schemas/boolean-flag.ts`](./src/schemas/boolean-flag.ts) | The only accepted spellings for a flag: `true` and `false`                                      |
+| [`src/loading/`](./src/loading/)                               | The walk up to the workspace root, and the root env file loader                                 |
+| [`src/validation/`](./src/validation/)                         | `loadEnv` and the error that lists every problem without printing a value                       |
+| [`src/example/`](./src/example/)                               | Renders and writes `.env.example`                                                               |
+| [`src/is-required.ts`](./src/is-required.ts)                   | The one required-or-optional test the emitter uses                                              |
+| [`scripts/`](./scripts/)                                       | The command-line entry points behind `env:emit` and `env:check:turbo`                           |
 
 ### Which file, and who wins
 
@@ -114,5 +112,5 @@ A new variable is a new key in a schema, and then:
 
 ## 🔗 Related
 
-- [Feature-Sliced Design guide](../../docs/architecture/feature-sliced-design.md): where a new integration's keys and code go
-- [`turbo.json`](../../turbo.json): the env declarations `env:check:turbo` reads
+- [Feature-Sliced Design](../../docs/architecture/feature-sliced-design.md): where a new integration's keys and code go
+- [turbo.json](../../turbo.json): the env declarations `env:check:turbo` reads

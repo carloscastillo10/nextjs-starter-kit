@@ -8,9 +8,9 @@ Nobody formats by hand. This package holds the options of the [code standard](..
 
 ## 🗂️ Structure
 
-| File                 | Holds                                                                                                                                                           |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `prettier.config.js` | Print width 100, double quotes, semicolons, trailing commas, parentheses around arrow parameters, LF endings, and overrides for Markdown and JSON with comments |
+| File                                         | Holds                                                                                                                                                           |
+| -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`prettier.config.js`](./prettier.config.js) | Print width 100, double quotes, semicolons, trailing commas, parentheses around arrow parameters, LF endings, and overrides for Markdown and JSON with comments |
 
 - Markdown keeps its paragraphs unwrapped and its code blocks exactly as written: some examples show code the way it should not look.
 - JSON with comments (`*.jsonc`, `tsconfig.json`) gets no trailing commas, which stricter parsers reject.
@@ -43,4 +43,4 @@ The root `package.json` declares the config once (`"prettier": "@repo/prettier-c
 
 ## 🔗 Related
 
-- [ESLint config](../eslint/README.md): `eslint-config-prettier` switches off the rules that would disagree with Prettier.
+- [@repo/eslint-config](../eslint/README.md): `eslint-config-prettier` switches off the rules that would disagree with Prettier

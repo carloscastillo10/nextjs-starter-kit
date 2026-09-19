@@ -55,10 +55,10 @@ Install either one for yourself if you want it: Obsidian records that choice in 
 
 Committed, because the vault should behave the same for everyone:
 
-| File                          | Decides                                                                                           |
-| ----------------------------- | ------------------------------------------------------------------------------------------------- |
-| `.obsidian/app.json`          | Markdown links, relative and updated on move; attachments beside the note; what search leaves out |
-| `.obsidian/core-plugins.json` | Which built-in plugins are on: search, graph, backlinks, properties, canvas, outline              |
+| File                                                               | Decides                                                                                           |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| [`.obsidian/app.json`](../../.obsidian/app.json)                   | Markdown links, relative and updated on move; attachments beside the note; what search leaves out |
+| [`.obsidian/core-plugins.json`](../../.obsidian/core-plugins.json) | Which built-in plugins are on: search, graph, backlinks, properties, canvas, outline              |
 
 Everything else in `.obsidian/` is yours and git-ignored: the pane layout (`workspace.json`), your graph view, the cache, the theme, hotkeys, and any community plugin you install. So is `.trash/`, where Obsidian can move deleted notes.
 

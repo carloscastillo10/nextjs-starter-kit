@@ -54,7 +54,7 @@ in [`.claude/skills/`](../../.claude/skills/README.md).
 
 ## 🔗 Related
 
-- [`AGENTS.md`](../../AGENTS.md): the registry of MCP servers, skills, subagents and commands
-- [`CLAUDE.md`](../../CLAUDE.md): the rules no tool can check, and what the hooks enforce for you
+- [AGENTS.md](../../AGENTS.md): the registry of MCP servers, skills, subagents and commands
+- [CLAUDE.md](../../CLAUDE.md): the rules no tool can check, and what the hooks enforce for you
 - [Conventions](../conventions/README.md): how code and documentation are written here
 - [Contributing](../../CONTRIBUTING.md): the flow, including how work is handed to an agent

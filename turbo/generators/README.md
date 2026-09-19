@@ -8,10 +8,10 @@ A workspace here is not only a `package.json`: it carries the engines, the catal
 
 ## 🗂️ Structure
 
-| Path         | Holds                                                                                                          |
-| ------------ | -------------------------------------------------------------------------------------------------------------- |
-| `config.mjs` | The prompts and the actions, whose plan lives in [`@repo/scripts`](../../tooling/scripts/generators/README.md) |
-| `templates/` | One Handlebars template per file the generator writes                                                          |
+| Path                         | Holds                                                                                                          |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| [`config.mjs`](./config.mjs) | The prompts and the actions, whose plan lives in [`@repo/scripts`](../../tooling/scripts/generators/README.md) |
+| [`templates/`](./templates/) | One Handlebars template per file the generator writes                                                          |
 
 ## 🚀 Usage
 
@@ -51,6 +51,6 @@ pnpm exec turbo gen new-workspace --args packages metrics "Counters the apps rep
 
 ## 🔗 Related
 
-- [`@repo/scripts` generators](../../tooling/scripts/generators/README.md): the plan and the FSD registration
-- [`@repo/architecture-config`](../../tooling/architecture/README.md): what an FSD root is and how it is linted
+- [@repo/scripts generators](../../tooling/scripts/generators/README.md): the plan and the FSD registration
+- [@repo/architecture-config](../../tooling/architecture/README.md): what an FSD root is and how it is linted
 - [Contributing](../../CONTRIBUTING.md): the checks a new workspace has to pass

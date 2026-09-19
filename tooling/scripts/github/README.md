@@ -18,9 +18,9 @@ The flow needs issues, labels and `gh`, and nothing else: no project board, no s
 
 ## 🗂️ Structure
 
-| File                    | Holds                                                                                                      |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `read-closing-refs.mjs` | `readClosingRefs(body)`: the issues a pull request body says it closes, for the workflow that assigns them |
+| File                                               | Holds                                                                                                      |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| [`read-closing-refs.mjs`](./read-closing-refs.mjs) | `readClosingRefs(body)`: the issues a pull request body says it closes, for the workflow that assigns them |
 
 ## 🚀 Usage
 
@@ -43,5 +43,5 @@ Issue forms, labels, the pull request template and the contributing guide descri
 
 ## 🔗 Related
 
-- [How work moves](../../../CONTRIBUTING.md#-how-work-moves) in the contributing guide
+- [How work moves](../../../CONTRIBUTING.md#-how-work-moves): the flow the workflows automate
 - [@repo/scripts](../README.md): the other checks in this package

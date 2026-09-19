@@ -13,15 +13,15 @@ marketplace and are installed once per person — the command is in [Usage](#-us
 
 ## 🗂️ Structure
 
-| Path                            | Holds                                                                                      |
-| ------------------------------- | ------------------------------------------------------------------------------------------ |
-| [`skills/`](./skills/README.md) | Nine vendored skills, one written here, and the record of what was left out and why        |
-| `agents/`                       | Thirteen subagents: three that review a change, ten that each own one area of the template |
-| `commands/`                     | Five slash commands: `/spec`, `/feature`, `/implement`, `/ship`, `/doc-review`             |
-| `settings.json`                 | The declared plugins, the MCP approval and its allowed tools, and the four hooks           |
-| `settings.local.json`           | Yours, git-ignored. Anything here overrides the shared file for your clone only            |
-| `../.mcp.json`                  | The MCP servers themselves, at the repository root where the convention puts them          |
-| `../skills-lock.json`           | Source, path and content hash per vendored skill, written by the skills CLI                |
+| Path                                         | Holds                                                                                      |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| [`skills/`](./skills/README.md)              | Nine vendored skills, one written here, and the record of what was left out and why        |
+| [`agents/`](./agents/)                       | Thirteen subagents: three that review a change, ten that each own one area of the template |
+| [`commands/`](./commands/)                   | Five slash commands: `/spec`, `/feature`, `/implement`, `/ship`, `/doc-review`             |
+| [`settings.json`](./settings.json)           | The declared plugins, the MCP approval and its allowed tools, and the four hooks           |
+| `settings.local.json`                        | Yours, git-ignored. Anything here overrides the shared file for your clone only            |
+| [`../.mcp.json`](../.mcp.json)               | The MCP servers themselves, at the repository root where the convention puts them          |
+| [`../skills-lock.json`](../skills-lock.json) | Source, path and content hash per vendored skill, written by the skills CLI                |
 
 The hook scripts are not here. They live in
 [`tooling/scripts/claude-hooks/`](../tooling/scripts/claude-hooks/README.md), with the rest of the
@@ -84,7 +84,7 @@ invoked with the Task tool or routed to by description. Commands are typed as `/
 
 ## 🔗 Related
 
-- [`AGENTS.md`](../AGENTS.md): the catalog — what each skill, subagent and command is for
-- [`CLAUDE.md`](../CLAUDE.md): the rules no tool can check, and what the hooks enforce
-- [`tooling/scripts/claude-hooks/`](../tooling/scripts/claude-hooks/README.md): the hook scripts themselves
+- [AGENTS.md](../AGENTS.md): the catalog — what each skill, subagent and command is for
+- [CLAUDE.md](../CLAUDE.md): the rules no tool can check, and what the hooks enforce
+- [Claude Code hooks](../tooling/scripts/claude-hooks/README.md): the hook scripts themselves
 - [Claude Code documentation](https://code.claude.com/docs): settings, skills, subagents, hooks

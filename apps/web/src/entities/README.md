@@ -17,9 +17,10 @@ One folder per model, kebab-case, a singular noun: `product`, `order`, `invoice`
 
 ```text
 entities/
-  product/
-    model/product.ts  <- the Product type and the isOnSale rule
-    index.ts
+└── product/               an example; the layer ships empty
+    ├── model/
+    │   └── product.ts     the Product type and the isOnSale rule
+    └── index.ts
 ```
 
 ## 🚀 Usage
@@ -49,6 +50,6 @@ What does not justify one:
 
 ## 🔗 Related
 
-- [`shared/`](../shared/README.md): where infrastructure goes instead
-- [`features/`](../features/README.md): the actions performed on these models
-- [Feature-Sliced Design in `apps/web`](../../../../docs/architecture/feature-sliced-design.md): the full rules
+- [shared](../shared/README.md): where infrastructure goes instead
+- [features](../features/README.md): the actions performed on these models
+- [Feature-Sliced Design](../../../../docs/architecture/feature-sliced-design.md): the full rules

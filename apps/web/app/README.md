@@ -13,12 +13,12 @@ anything else, so the routing folder stays a leaf of the import graph rather tha
 
 ## 🗂️ Structure
 
-| File                   | What it is                                                                                          |
-| ---------------------- | --------------------------------------------------------------------------------------------------- |
-| `layout.tsx`           | The HTML shell: imports the global stylesheet, applies the fonts, wraps `{children}` in `Providers` |
-| `page.tsx`             | One line, re-exporting the page component of a `_pages` slice                                       |
-| `route.ts`             | One line, re-exporting a handler implemented in `@/_app/api-routes`                                 |
-| `(group)/`, `[param]/` | Route groups and dynamic segments: routing concerns, so they live here                              |
+| File                         | What it is                                                                                          |
+| ---------------------------- | --------------------------------------------------------------------------------------------------- |
+| [`layout.tsx`](./layout.tsx) | The HTML shell: imports the global stylesheet, applies the fonts, wraps `{children}` in `Providers` |
+| [`page.tsx`](./page.tsx)     | One line, re-exporting the page component of a `_pages` slice                                       |
+| `route.ts`                   | One line, re-exporting a handler implemented in `@/_app/api-routes`                                 |
+| `(group)/`, `[param]/`       | Route groups and dynamic segments: routing concerns, so they live here                              |
 
 ## 🚀 Usage
 
@@ -52,6 +52,6 @@ re-export, the extra code belongs in the page slice, not here.
 
 ## 🔗 Related
 
-- [`../src/`](../src/README.md): the layers every route file re-exports from
-- [Feature-Sliced Design in `apps/web`](../../../docs/architecture/feature-sliced-design.md): the full rules
-- [`apps/web`](../README.md): the app itself, its configuration and its commands
+- [src](../src/README.md): the layers every route file re-exports from
+- [Feature-Sliced Design](../../../docs/architecture/feature-sliced-design.md): the full rules
+- [apps/web](../README.md): the app itself, its configuration and its commands

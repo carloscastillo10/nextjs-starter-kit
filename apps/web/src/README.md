@@ -58,7 +58,7 @@ guide in [the architecture document](../../../docs/architecture/feature-sliced-d
 
 ## 🔗 Related
 
-- [Feature-Sliced Design in `apps/web`](../../../docs/architecture/feature-sliced-design.md): the full guide, with placement tables and recipes
+- [Feature-Sliced Design](../../../docs/architecture/feature-sliced-design.md): the full guide, with placement tables and recipes
 - [Architecture checks](../../../docs/architecture/architecture-checks.md): which tool owns which rule
-- [`app/`](../app/README.md): the routing half
+- [app](../app/README.md): the routing half
 - [ADR 01](../../../docs/adr/01-feature-sliced-design-in-the-app-router.md) and [ADR 02](../../../docs/adr/02-one-path-alias-per-app.md): why this layout, and why one alias

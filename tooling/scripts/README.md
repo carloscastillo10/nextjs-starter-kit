@@ -77,6 +77,6 @@ The README of each folder gives the arguments that matter.
 
 ## 🔗 Related
 
-- [Commits](../../CONTRIBUTING.md#commits) and [Git hooks](../../CONTRIBUTING.md#git-hooks) in the contributing guide
-- [Comment conventions](../../docs/conventions/comments.md)
+- [Commits](../../CONTRIBUTING.md#commits) and [Git hooks](../../CONTRIBUTING.md#git-hooks): the convention these checks enforce, and when each one runs
+- [Comment conventions](../../docs/conventions/comments.md): the rule the comment checks read
 - [Knowledge graph](../../docs/knowledge/README.md): the graph these scripts rebuild

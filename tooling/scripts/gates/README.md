@@ -17,10 +17,10 @@ A second list of checks drifts from the first. `pnpm gates` therefore has no lis
 
 ## 🗂️ Structure
 
-| File             | Holds                                                                      |
-| ---------------- | -------------------------------------------------------------------------- |
-| `read-gates.mjs` | `readGates(text, job)`: the gates of a workflow job, with no I/O           |
-| `run-gates.mjs`  | `pnpm gates`: runs every gate of the `checks` job from the repository root |
+| File                                 | Holds                                                                      |
+| ------------------------------------ | -------------------------------------------------------------------------- |
+| [`read-gates.mjs`](./read-gates.mjs) | `readGates(text, job)`: the gates of a workflow job, with no I/O           |
+| [`run-gates.mjs`](./run-gates.mjs)   | `pnpm gates`: runs every gate of the `checks` job from the repository root |
 
 ## 🚀 Usage
 
@@ -47,5 +47,5 @@ The environment of a step is not copied: CI can pass secrets that a laptop does 
 
 ## 🔗 Related
 
-- [Continuous integration](../../../CONTRIBUTING.md#continuous-integration) in the contributing guide
+- [Continuous integration](../../../CONTRIBUTING.md#continuous-integration): the workflow these gates are read out of
 - [@repo/scripts](../README.md): the checks these gates call

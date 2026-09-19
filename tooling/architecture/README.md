@@ -13,12 +13,12 @@ Which check owns which rule, and what neither of them sees, is in [the architect
 
 ## 🗂️ Structure
 
-| File                           | Holds                                                                            |
-| ------------------------------ | -------------------------------------------------------------------------------- |
-| `fsd-roots.json`               | The list: one folder per FSD root, relative to the repository root               |
-| `fsd-roots.js`                 | `fsdRoots`, `readFsdRoots(source)` and `workspaceOf(root)`, with the validation  |
-| `steiger.config.js`            | The FSD ruleset, with the exemptions the Next.js layout and a shared root need   |
-| `dependency-cruiser.config.js` | The rules about the graph between workspaces: direction, cycles, and public APIs |
+| File                                                             | Holds                                                                            |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| [`fsd-roots.json`](./fsd-roots.json)                             | The list: one folder per FSD root, relative to the repository root               |
+| [`fsd-roots.js`](./fsd-roots.js)                                 | `fsdRoots`, `readFsdRoots(source)` and `workspaceOf(root)`, with the validation  |
+| [`steiger.config.js`](./steiger.config.js)                       | The FSD ruleset, with the exemptions the Next.js layout and a shared root need   |
+| [`dependency-cruiser.config.js`](./dependency-cruiser.config.js) | The rules about the graph between workspaces: direction, cycles, and public APIs |
 
 At the repository root sit only the entry points: `steiger.config.mjs`, a one-line re-export that Steiger finds by searching upwards, and the `lint:deps` script, which names the dependency-cruiser config.
 
@@ -62,4 +62,4 @@ Nothing else is registered: the Steiger exemptions and the dependency-cruiser ru
 
 - [Architecture checks](../../docs/architecture/architecture-checks.md): which check owns which rule
 - [Feature-Sliced Design](../../docs/architecture/feature-sliced-design.md): the layers themselves
-- [`lint-fsd.mjs`](../scripts/architecture/README.md): the runner that calls Steiger once per root
+- [Architecture scripts](../scripts/architecture/README.md): the runner that calls Steiger once per root

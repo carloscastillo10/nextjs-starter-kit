@@ -58,5 +58,5 @@ A change in a `tooling/*` package invalidates the cached results that depend on 
 
 ## 🔗 Related
 
-- [Contributing](../CONTRIBUTING.md): the checks to run before pushing.
-- [Code conventions](../docs/conventions/README.md): the rules these tools enforce, with an Enforcement table per document.
+- [Contributing](../CONTRIBUTING.md): the checks to run before pushing
+- [Conventions](../docs/conventions/README.md): the rules these tools enforce, with an Enforcement table per document

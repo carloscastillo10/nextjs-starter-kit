@@ -92,6 +92,6 @@ This template is deployed at <https://nextjs-starter-kit-orcin.vercel.app>.
 
 ## Related
 
-- [`README.md`](../README.md): the stack, the first run, and the build command
-- [`packages/env`](../packages/env/README.md): the schema every variable is declared in
-- [`CONTRIBUTING.md`](../CONTRIBUTING.md#continuous-integration): the checks that run before anything ships
+- [README.md](../README.md): the stack, the first run, and the build command
+- [@repo/env](../packages/env/README.md): the schema every variable is declared in
+- [Contributing](../CONTRIBUTING.md#continuous-integration): the checks that run before anything ships

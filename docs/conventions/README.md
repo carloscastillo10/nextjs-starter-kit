@@ -14,12 +14,12 @@ contradict it.
 
 ## 🗂️ Structure
 
-| Document                             | Covers                                                                                                                                                                                               |
-| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [code-style.md](code-style.md)       | TypeScript: file names and exports, where each kind of code goes inside a slice, naming, arrow functions, guard clauses, lookup maps instead of `switch`, SOLID, spacing, types, imports, formatting |
-| [comments.md](comments.md)           | When a comment earns its place, the shape it takes, what it never carries, and the comment check                                                                                                     |
-| [react.md](react.md)                 | React and Next.js: Server and Client Components, component shape, props, hooks, state and memoization, composition, data fetching, styling, accessibility                                            |
-| [documentation.md](documentation.md) | Markdown: the one README template, frontmatter, headings and anchors, badges, links, alerts and diagrams, and the prose rules                                                                        |
+| Document                                 | Covers                                                                                                                                                                                               |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`code-style.md`](./code-style.md)       | TypeScript: file names and exports, where each kind of code goes inside a slice, naming, arrow functions, guard clauses, lookup maps instead of `switch`, SOLID, spacing, types, imports, formatting |
+| [`comments.md`](./comments.md)           | When a comment earns its place, the shape it takes, what it never carries, and the comment check                                                                                                     |
+| [`react.md`](./react.md)                 | React and Next.js: Server and Client Components, component shape, props, hooks, state and memoization, composition, data fetching, styling, accessibility                                            |
+| [`documentation.md`](./documentation.md) | Markdown: the one README template, frontmatter, headings and anchors, badges, links, alerts and diagrams, and the prose rules                                                                        |
 
 ## 🚀 Usage
 
@@ -66,4 +66,4 @@ A new topic is one more Markdown file, named in kebab-case after the topic, plus
 - [Architecture](../architecture/README.md): where code lives, and the checks that hold the structure
 - [Decisions](../adr/README.md): why the repository has this shape, with the alternatives that lost
 - [Contributing](../../CONTRIBUTING.md): the flow a change follows, and the hooks it passes through
-- [`tooling/`](../../tooling/README.md): the shared configuration these commands read
+- [Tooling](../../tooling/README.md): the shared configuration these commands read
