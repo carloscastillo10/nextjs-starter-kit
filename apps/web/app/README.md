@@ -52,6 +52,6 @@ re-export, the extra code belongs in the page slice, not here.
 
 ## 🔗 Related
 
-- [`../src/`](../src/README.md): the layers every route file re-exports from
-- [Feature-Sliced Design in `apps/web`](../../../docs/architecture/feature-sliced-design.md): the full rules
-- [`apps/web`](../README.md): the app itself, its configuration and its commands
+- [src](../src/README.md): the layers every route file re-exports from
+- [Feature-Sliced Design](../../../docs/architecture/feature-sliced-design.md): the full rules
+- [apps/web](../README.md): the app itself, its configuration and its commands

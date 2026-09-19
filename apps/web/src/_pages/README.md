@@ -57,6 +57,6 @@ hooks, `api/` for requests, `lib/` for pure helpers, `config/` for named values.
 
 ## 🔗 Related
 
-- [`src/`](../README.md): the six layers and the import rule between them
-- [`app/`](../../app/README.md): the route files that re-export these slices
-- [Feature-Sliced Design in `apps/web`](../../../../docs/architecture/feature-sliced-design.md): the full rules
+- [src](../README.md): the six layers and the import rule between them
+- [app](../../app/README.md): the route files that re-export these slices
+- [Feature-Sliced Design](../../../../docs/architecture/feature-sliced-design.md): the full rules

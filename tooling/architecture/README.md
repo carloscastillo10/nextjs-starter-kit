@@ -62,4 +62,4 @@ Nothing else is registered: the Steiger exemptions and the dependency-cruiser ru
 
 - [Architecture checks](../../docs/architecture/architecture-checks.md): which check owns which rule
 - [Feature-Sliced Design](../../docs/architecture/feature-sliced-design.md): the layers themselves
-- [`lint-fsd.mjs`](../scripts/architecture/README.md): the runner that calls Steiger once per root
+- [Architecture scripts](../scripts/architecture/README.md): the runner that calls Steiger once per root

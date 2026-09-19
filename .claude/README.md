@@ -84,7 +84,7 @@ invoked with the Task tool or routed to by description. Commands are typed as `/
 
 ## 🔗 Related
 
-- [`AGENTS.md`](../AGENTS.md): the catalog — what each skill, subagent and command is for
-- [`CLAUDE.md`](../CLAUDE.md): the rules no tool can check, and what the hooks enforce
-- [`tooling/scripts/claude-hooks/`](../tooling/scripts/claude-hooks/README.md): the hook scripts themselves
+- [AGENTS.md](../AGENTS.md): the catalog — what each skill, subagent and command is for
+- [CLAUDE.md](../CLAUDE.md): the rules no tool can check, and what the hooks enforce
+- [Claude Code hooks](../tooling/scripts/claude-hooks/README.md): the hook scripts themselves
 - [Claude Code documentation](https://code.claude.com/docs): settings, skills, subagents, hooks

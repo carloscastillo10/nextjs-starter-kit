@@ -39,5 +39,5 @@ The root `.markdownlint-cli2.jsonc` extends this config and lists what to check:
 
 ## 🔗 Related
 
-- [spell-check config](../spell-check/README.md), which spell-checks the same files.
-- [Frontmatter check](../scripts/markdown/README.md), which asks each document for its `tags` and `aliases`.
+- [@repo/spell-check-config](../spell-check/README.md): the check that reads the same files for spelling
+- [Markdown checks](../scripts/markdown/README.md): the check that asks each document for its `tags` and `aliases`

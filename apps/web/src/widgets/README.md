@@ -52,6 +52,6 @@ notifications, is the typical case.
 
 ## 🔗 Related
 
-- [`features/`](../features/README.md): where a reused action goes instead
-- [`src/`](../README.md): the six layers and the import rule between them
-- [Feature-Sliced Design in `apps/web`](../../../../docs/architecture/feature-sliced-design.md): the full rules
+- [features](../features/README.md): where a reused action goes instead
+- [src](../README.md): the six layers and the import rule between them
+- [Feature-Sliced Design](../../../../docs/architecture/feature-sliced-design.md): the full rules

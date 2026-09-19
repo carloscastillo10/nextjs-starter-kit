@@ -56,7 +56,7 @@ A superseded drop moves to [`../archive/`](../archive/README.md).
 
 ## 🔗 Related
 
-- [`DESIGN.md`](../../DESIGN.md): the tokens themselves, and how to change the brand
-- [`@repo/tailwind-config`](../../tooling/tailwind/README.md): where the tokens are defined
-- [`@repo/ui`](../../packages/ui/README.md): the components that consume them
+- [DESIGN.md](../../DESIGN.md): the tokens themselves, and how to change the brand
+- [@repo/tailwind-config](../../tooling/tailwind/README.md): where the tokens are defined
+- [@repo/ui](../../packages/ui/README.md): the components that consume them
 - [React conventions](../conventions/react.md): styling rules, and the UI kit first

@@ -65,5 +65,5 @@ A new check is therefore one step in that job, with the same `if:` condition as 
 ## 🔗 Related
 
 - [Contributing](../CONTRIBUTING.md): the flow these files implement, and the repository settings
-- [`@repo/scripts`](../tooling/scripts/README.md): `pnpm gates`, and the checks that hold this folder in step
-- [`AGENTS.md`](../AGENTS.md): the commands that open these issues and pull requests
+- [@repo/scripts](../tooling/scripts/README.md): `pnpm gates`, and the checks that hold this folder in step
+- [AGENTS.md](../AGENTS.md): the commands that open these issues and pull requests

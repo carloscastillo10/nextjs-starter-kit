@@ -126,5 +126,5 @@ It knows two tools, `eslint` (`--fix --max-warnings 0 --no-warn-ignored`) and `p
 
 ## 🔗 Related
 
-- [Commits](../../../CONTRIBUTING.md#commits) and [Git hooks](../../../CONTRIBUTING.md#git-hooks) in the contributing guide
+- [Commits](../../../CONTRIBUTING.md#commits) and [Git hooks](../../../CONTRIBUTING.md#git-hooks): the convention these checks enforce, and when each one runs
 - [@repo/scripts](../README.md): the other checks in this package

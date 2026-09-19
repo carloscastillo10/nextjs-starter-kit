@@ -62,6 +62,6 @@ Proving it stays true takes two commands. With a forbidden import inside a root,
 ## References
 
 - [Feature-Sliced Design](feature-sliced-design.md): the layers Steiger checks, and the FSD roots both linters read
-- [`@repo/architecture-config`](../../tooling/architecture/README.md): the list of roots and both rulesets
+- [@repo/architecture-config](../../tooling/architecture/README.md): the list of roots and both rulesets
 - [Two architecture linters](../adr/04-two-architecture-linters.md): why there are two, and what each one is for
-- [dependency-cruiser rules reference](https://github.com/sverweij/dependency-cruiser/blob/main/doc/rules-reference.md) and [Turborepo boundaries](https://turborepo.dev/docs/reference/boundaries)
+- [dependency-cruiser rules reference](https://github.com/sverweij/dependency-cruiser/blob/main/doc/rules-reference.md) and [Turborepo boundaries](https://turborepo.dev/docs/reference/boundaries): the two rule sets, upstream

@@ -66,6 +66,6 @@ A new provider is composed inside the existing `Providers` rather than added as 
 
 ## 🔗 Related
 
-- [`src/`](../README.md): the six layers and the import rule between them
-- [Feature-Sliced Design in `apps/web`](../../../../docs/architecture/feature-sliced-design.md): the full placement table
-- [`@repo/tailwind-config`](../../../../tooling/tailwind/README.md) and [`DESIGN.md`](../../../../DESIGN.md): where the tokens live
+- [src](../README.md): the six layers and the import rule between them
+- [Feature-Sliced Design](../../../../docs/architecture/feature-sliced-design.md): the full placement table
+- [@repo/tailwind-config](../../../../tooling/tailwind/README.md) and [DESIGN.md](../../../../DESIGN.md): where the tokens live

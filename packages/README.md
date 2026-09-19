@@ -63,7 +63,7 @@ architecture linters cover it. Details in [`turbo/generators`](../turbo/generato
 
 ## 🔗 Related
 
-- [`apps/`](../apps/README.md): who imports these
-- [`tooling/`](../tooling/README.md): the other kind of workspace
-- [`pnpm new`](../turbo/generators/README.md): what a generated package contains
+- [Apps](../apps/README.md): who imports these
+- [Tooling](../tooling/README.md): the other kind of workspace
+- [pnpm new](../turbo/generators/README.md): what a generated package contains
 - [ADR 03](../docs/adr/03-shared-code-in-workspace-packages.md): why shared code lives in packages, and when it may hold layers

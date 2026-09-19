@@ -119,8 +119,8 @@ Every command runs from the repository root. `--filter web` narrows a repository
 
 ## 🔗 Related
 
-- [`app/`](./app/README.md) and [`src/`](./src/README.md): the two halves, with a README per layer
+- [app](./app/README.md) and [src](./src/README.md): the two halves, with a README per layer
 - [Feature-Sliced Design](../../docs/architecture/feature-sliced-design.md): the full guide and placement tables
-- [`@repo/ui`](../../packages/ui/README.md) and [`@repo/tailwind-config`](../../tooling/tailwind/README.md): the kit and the tokens
-- [`@repo/env`](../../packages/env/README.md): how a variable is declared, validated and reaches the build
-- [`DESIGN.md`](../../DESIGN.md): the design system this app renders
+- [@repo/ui](../../packages/ui/README.md) and [@repo/tailwind-config](../../tooling/tailwind/README.md): the kit and the tokens
+- [@repo/env](../../packages/env/README.md): how a variable is declared, validated and reaches the build
+- [DESIGN.md](../../DESIGN.md): the design system this app renders

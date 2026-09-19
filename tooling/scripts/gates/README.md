@@ -47,5 +47,5 @@ The environment of a step is not copied: CI can pass secrets that a laptop does 
 
 ## 🔗 Related
 
-- [Continuous integration](../../../CONTRIBUTING.md#continuous-integration) in the contributing guide
+- [Continuous integration](../../../CONTRIBUTING.md#continuous-integration): the workflow these gates are read out of
 - [@repo/scripts](../README.md): the checks these gates call

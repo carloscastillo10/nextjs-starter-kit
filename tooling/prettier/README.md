@@ -43,4 +43,4 @@ The root `package.json` declares the config once (`"prettier": "@repo/prettier-c
 
 ## 🔗 Related
 
-- [ESLint config](../eslint/README.md): `eslint-config-prettier` switches off the rules that would disagree with Prettier.
+- [@repo/eslint-config](../eslint/README.md): `eslint-config-prettier` switches off the rules that would disagree with Prettier

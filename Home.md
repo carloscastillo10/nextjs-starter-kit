@@ -23,9 +23,9 @@ aliases: [Home, Vault Home]
 
 ## 🤖 For an agent
 
-- [`AGENTS.md`](AGENTS.md): the registry — the MCP server, the skills, the subagents, the commands
-- [`CLAUDE.md`](CLAUDE.md): the rules no tool can check, and what the hooks enforce for you
-- [`.claude/`](.claude/README.md): the files themselves, and how to add one
+- [AGENTS.md](AGENTS.md): the registry — the MCP server, the skills, the subagents, the commands
+- [CLAUDE.md](CLAUDE.md): the rules no tool can check, and what the hooks enforce for you
+- [Claude Code configuration](.claude/README.md): the files themselves, and how to add one
 
 ## 🗺️ Maps of content
 

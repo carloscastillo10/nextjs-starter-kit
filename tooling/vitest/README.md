@@ -60,4 +60,4 @@ The package installs `vitest`, `vite`, `@repo/vitest-config` and, for React, `js
 
 ## 🔗 Related
 
-- [React conventions](../../docs/conventions/react.md): where hooks and components live, and so where their tests go.
+- [React conventions](../../docs/conventions/react.md): where hooks and components live, and so where their tests go

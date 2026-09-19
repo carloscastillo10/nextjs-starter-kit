@@ -281,9 +281,9 @@ Details in [`turbo/generators`](./turbo/generators/README.md).
 The repository is set up for [Claude Code](https://claude.com/claude-code) and reads as well to any agent that
 follows `AGENTS.md`:
 
-- [`AGENTS.md`](./AGENTS.md) is the registry: the MCP server, the skills, the subagents, the commands.
-- [`CLAUDE.md`](./CLAUDE.md) is what an agent has to obey and no tool can check.
-- [`.claude/`](./.claude/README.md) holds the files themselves, and the hooks that run around tool calls.
+- [AGENTS.md](./AGENTS.md): the registry, with the MCP server, the skills, the subagents and the commands
+- [CLAUDE.md](./CLAUDE.md): what an agent has to obey and no tool can check
+- [Claude Code configuration](./.claude/README.md): the files themselves, and the hooks that run around tool calls
 
 One command per person, once, after cloning — plugins come from an external marketplace and are not installed
 by opening the repository:
