@@ -70,6 +70,14 @@ export const COMPONENT_SYNTAX = [
       "JSXAttribute > JSXExpressionContainer > :matches(BinaryExpression, LogicalExpression[operator='??'])",
     message: "Compute the value in the hook (or a named constant), not inside a JSX prop.",
   },
+  {
+    /*
+     * `>` keeps the component itself out: there the markup hangs from the arrow, not
+     * from the declarator, and so does a map of renderers built with `useMemo`.
+     */
+    selector: "VariableDeclarator > :matches(JSXElement, JSXFragment)",
+    message: "Keep markup where it renders, or give it a component of its own.",
+  },
 ];
 
 /*
