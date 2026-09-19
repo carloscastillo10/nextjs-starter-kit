@@ -6,7 +6,7 @@
 
 The flow in [`CONTRIBUTING.md`](../CONTRIBUTING.md) is only real if GitHub asks for the right things and
 checks them. That is what this folder is: the forms that make an issue answerable, the template that makes a
-pull request reviewable, and the two workflows that run the same checks a laptop runs.
+pull request reviewable, and the three workflows that run on GitHub.
 
 **Nothing here depends on GitHub Projects.** No board, no status field, no project URL: issues, labels and
 the [GitHub CLI](https://cli.github.com) are the whole substrate.
@@ -54,7 +54,7 @@ A new check is therefore one step in that job, with the same `if:` condition as 
 - **A form field** that offers a fixed list — skills, surfaces, layers — is covered by a test in
   [`@repo/scripts`](../tooling/scripts/github/README.md) that fails when an option names something the
   repository does not have.
-- **A workflow** keeps the shape of the two that exist: `permissions` narrowed to what it needs,
+- **A workflow** keeps the shape of the three that exist: `permissions` narrowed to what it needs,
   `timeout-minutes` set, actions pinned by SHA, and `persist-credentials: false` on checkout.
 
 > [!IMPORTANT]
