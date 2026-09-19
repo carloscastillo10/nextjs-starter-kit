@@ -8,12 +8,16 @@ import type { NextConfig } from "next";
  */
 const env = loadEnv(appEnv);
 
+/*
+ * Builds the validated values, defaults included, into the bundles: a zod default never reaches
+ * process.env. The names come from the schema, so the map cannot fall behind it.
+ */
+const publicEnv = Object.fromEntries(
+  Object.entries(env).filter(([name]) => name.startsWith("NEXT_PUBLIC_")),
+);
+
 const nextConfig: NextConfig = {
-  /*
-   * Builds the validated value, default included, into the bundles: a zod default never
-   * reaches process.env.
-   */
-  env: { NEXT_PUBLIC_SITE_URL: env.NEXT_PUBLIC_SITE_URL },
+  env: publicEnv,
   transpilePackages: ["@repo/ui"],
 };
 

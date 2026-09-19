@@ -107,7 +107,7 @@ A new variable is a new key in a schema, and then:
 1. Add it to the shape that owns its area (or add a shape and register it in `src/schemas/index.ts` with its title).
 2. `pnpm env:emit` and commit the new `.env.example`. Never edit that file by hand: the next run undoes it.
 3. Declare it in `turbo.json`: `globalEnv` for a value that changes the build output, `globalPassThroughEnv` for a secret, which then stays out of every task hash. `pnpm env:check:turbo` fails until you do.
-4. Read it through `loadEnv` where the process starts (`next.config.ts` for the web app) and pass the value on, rather than importing this package deeper in the code.
+4. Read it through `loadEnv` where the process starts (`next.config.ts` for the web app) and pass the value on, rather than importing this package deeper in the code. A `NEXT_PUBLIC_` name needs no step of its own: the config builds its `env` map from the names the schema has.
 
 - **Optional vs required**: `.optional()` or `.default()` only when the app really runs without the variable. When a default fits a developer's machine but every deployment needs its own value, keep the default and add `.meta({ requiredWhenDeployed: true })`.
 - **A flag** uses `booleanFlag("false")`: `z.coerce.boolean()` reads the string `"false"` as true.
