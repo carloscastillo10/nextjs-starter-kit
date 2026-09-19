@@ -72,6 +72,29 @@ export const COMPONENT_SYNTAX = [
   },
 ];
 
+/*
+ * Only the app writes components by hand. The kit is the shadcn CLI's output, which
+ * passes objects and conditionals to props of its own primitives.
+ */
+export const APP_COMPONENT_SYNTAX = [
+  {
+    /*
+     * `>` is load-bearing: what the rule judges is the expression the prop receives, so
+     * a call keeps its arguments out of reach. `cn("tab", isActive ? "a" : "b")` and
+     * `cn(buttonVariants({ size: "lg" }), "w-full")` are the value having a name, which
+     * is what the rule asks for in the first place.
+     */
+    selector:
+      "JSXAttribute > JSXExpressionContainer > :matches(ConditionalExpression, ObjectExpression, ArrayExpression, TemplateLiteral[expressions.length>0], LogicalExpression[operator='&&'], LogicalExpression[operator='||'])",
+    message: "Compute the value in the hook (or a named constant), not inside a JSX prop.",
+  },
+  {
+    selector:
+      "JSXAttribute > JSXExpressionContainer > CallExpression[callee.property.name=/^(map|filter|reduce|sort|toSorted|slice|concat|flatMap|find)$/]",
+    message: "Build the list in the hook, not inside a JSX prop.",
+  },
+];
+
 export const SLICE_UI_SYNTAX = [
   {
     selector: `CallExpression[callee.name=/^(${HOOK_CALLS_KEPT_OUT_OF_COMPONENTS})$/]`,

@@ -3,7 +3,13 @@ import betterTailwindcss from "eslint-plugin-better-tailwindcss";
 
 import { closing, codeStyle, fileNamingRule, MODULE_FILE_NAMES } from "./base.js";
 import { reactBlocks } from "./react.js";
-import { BASE_SYNTAX, COMPONENT_SYNTAX, SLICE_UI_SYNTAX, UI_KIT_SYNTAX } from "./syntax.js";
+import {
+  APP_COMPONENT_SYNTAX,
+  BASE_SYNTAX,
+  COMPONENT_SYNTAX,
+  SLICE_UI_SYNTAX,
+  UI_KIT_SYNTAX,
+} from "./syntax.js";
 
 const SOURCE_FILES = ["src/**/*.{ts,tsx}"];
 
@@ -75,7 +81,13 @@ const nextBlocks = [
     name: "@repo/eslint-config/next/ui-kit",
     files: SOURCE_COMPONENT_FILES,
     rules: {
-      "no-restricted-syntax": ["error", ...BASE_SYNTAX, ...COMPONENT_SYNTAX, ...UI_KIT_SYNTAX],
+      "no-restricted-syntax": [
+        "error",
+        ...BASE_SYNTAX,
+        ...COMPONENT_SYNTAX,
+        ...APP_COMPONENT_SYNTAX,
+        ...UI_KIT_SYNTAX,
+      ],
     },
   },
   {
@@ -86,6 +98,7 @@ const nextBlocks = [
         "error",
         ...BASE_SYNTAX,
         ...COMPONENT_SYNTAX,
+        ...APP_COMPONENT_SYNTAX,
         ...UI_KIT_SYNTAX,
         ...SLICE_UI_SYNTAX,
       ],
