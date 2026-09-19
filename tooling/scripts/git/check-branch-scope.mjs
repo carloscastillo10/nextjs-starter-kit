@@ -11,7 +11,7 @@ const CONCERNS = [
 ];
 
 const TRAVELS_WITH_ANY_CONCERN =
-  /\.md$|^docs\/|^tooling\/cspell\/|^[^/]+\.(?:json|jsonc|ya?ml|toml|mjs|cjs|js|ts)$|^\.[^/]+$/u;
+  /\.md$|^docs\/|^tooling\/spell-check\/|^[^/]+\.(?:json|jsonc|ya?ml|toml|mjs|cjs|js|ts)$|^\.[^/]+$/u;
 
 const A_CONCERN_NEEDS_THIS_MANY_FILES = 3;
 
