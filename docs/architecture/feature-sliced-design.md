@@ -220,7 +220,7 @@ A second app does not get its own copy of a domain. When two apps need the same 
 3. Declare the package as a dependency of every app that uses it, and import it by its package name (`@repo/<name>/entities/user`), never by a relative path.
 4. Run `pnpm lint:arch` and `pnpm lint:deps`. The first now lints both roots, each under its own heading; the second guards the new package's public API.
 
-Nothing else is registered. The generator that creates a package (`pnpm new`) adds the line for you when the package has layers.
+Nothing else is registered: the Steiger exemptions and the dependency-cruiser rules for that root are derived from the list.
 
 ## Placement guide
 

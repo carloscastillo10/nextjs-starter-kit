@@ -25,4 +25,4 @@ Because a package with layers is a second FSD root, the roots are declared in on
 - The package `exports` field is the public API: one entry per slice or segment, pointing at that folder's `index.ts`. A wildcard export turns the package inside out, and `pnpm lint:deps` fails on the first import that reaches past an index.
 - `fsd/insignificant-slice` is off for roots outside `apps/`. It counts references inside the root it reads, and the consumers of a shared package are by definition outside it.
 - Code moves to a package when a second app consumes it, not in anticipation. A package with one consumer is a boundary that costs more than it returns.
-- Adding a root is one line in the list. The package generator (`pnpm new`) writes that line when the package it creates has layers.
+- Adding a root is one line in the list, and the rules that follow from it are derived rather than repeated.
