@@ -12,9 +12,9 @@
   },
   "scripts": {
     "clean": "git clean -xdf .turbo node_modules",
-    "format": "prettier . --check --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
-    "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
-    "spell:check": "cspell --no-progress --gitignore ."
+    "format": "prettier . --check --ignore-unknown",
+    "format:fix": "prettier . --write --ignore-unknown",
+    "spell:check": "cspell --no-progress --gitignore --config cspell.json ."
   },
   "dependencies": {
     "markdownlint": "catalog:"

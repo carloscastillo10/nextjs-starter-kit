@@ -1,0 +1,10 @@
+# What this workspace produces. The repository root has its own file for
+# everything outside a workspace; ignore files do not inherit.
+.next/
+.turbo/
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# Written and rewritten by the Next.js CLI
+AGENTS.md
+CLAUDE.md

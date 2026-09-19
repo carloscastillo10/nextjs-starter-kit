@@ -17,16 +17,16 @@ Nobody formats by hand. This package holds the options of the [code standard](..
 
 ## 🚀 Usage
 
-The root `package.json` declares the config once (`"prettier": "@repo/prettier-config"`), and Prettier finds it from any file below the root. A package only needs `prettier` in its `devDependencies` and the `format` scripts:
+The root `package.json` declares the config once (`"prettier": "@repo/prettier-config"`), and Prettier finds it from any file below the root. A package only needs `prettier` in its `devDependencies`, the `format` scripts and a `.prettierignore` of its own:
 
 ```json
 {
-  "format": "prettier . --check --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
-  "format:fix": "prettier . --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore"
+  "format": "prettier . --check --ignore-unknown",
+  "format:fix": "prettier . --write --ignore-unknown"
 }
 ```
 
-Prettier reads ignore files only from the directory it runs in, hence the explicit `--ignore-path` to the root ones.
+**Ignore files do not inherit.** Prettier reads `.gitignore` and `.prettierignore` from the directory it runs in and nowhere else, so each workspace lists what it produces, and the root file covers what belongs to no workspace. A workspace without one formats its own build output.
 
 ## ⌨️ Commands
 
@@ -39,7 +39,7 @@ Prettier reads ignore files only from the directory it runs in, hence the explic
 
 - Prettier is pinned to an exact version in the `catalog` of `pnpm-workspace.yaml`: a patch release can change formatting, so upgrades are deliberate and come with a `pnpm format:fix` commit.
 - An app with its own Tailwind theme points the class sorter at its stylesheet with the `tailwindStylesheet` option, in a `prettier.config.js` of its own that spreads this config.
-- Files that tools write (lockfiles, the agent notes of `next dev`) are listed in the root `.prettierignore`.
+- Files that tools write (lockfiles, the agent notes of `next dev`) belong in the `.prettierignore` of the workspace that produces them, or in the root one when they belong to none.
 
 ## 🔗 Related
 

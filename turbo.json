@@ -37,8 +37,7 @@
       "inputs": [
         "$TURBO_DEFAULT$",
         "$TURBO_ROOT$/.editorconfig",
-        "$TURBO_ROOT$/.gitignore",
-        "$TURBO_ROOT$/.prettierignore",
+        "$TURBO_ROOT$/package.json",
         "$TURBO_ROOT$/tooling/prettier/prettier.config.js"
       ]
     },
@@ -54,7 +53,6 @@
       "inputs": [
         "$TURBO_DEFAULT$",
         "$TURBO_ROOT$/.gitignore",
-        "$TURBO_ROOT$/cspell.json",
         "$TURBO_ROOT$/tooling/spell-check/cspell.json",
         "$TURBO_ROOT$/tooling/spell-check/project-words.txt"
       ]

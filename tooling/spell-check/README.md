@@ -17,13 +17,15 @@ Never checked: dependencies, build output and caches, lockfiles, generated type 
 
 ## 🚀 Usage
 
-The root `cspell.json` imports this config, and cspell finds that file from any package, so a package only needs `cspell` in its `devDependencies` and the script:
+Every workspace has a `cspell.json` that imports this one, and the root `cspell.json` covers the files that belong to no workspace. A workspace needs `cspell` in its `devDependencies` and the script:
 
 ```json
 {
-  "spell:check": "cspell --no-progress --gitignore ."
+  "spell:check": "cspell --no-progress --gitignore --config cspell.json ."
 }
 ```
+
+cspell also resolves the nearest config for each file it is given, so a word declared in a workspace is known when the pre-commit hook checks that file from the repository root.
 
 ## ⌨️ Commands
 
@@ -33,10 +35,10 @@ The root `cspell.json` imports this config, and cspell finds that file from any 
 
 ## 🧩 Extending
 
-- **A word is flagged but correct**: add it to `project-words.txt`, one per line, in alphabetical order. Case does not matter.
+- **A word is flagged but correct and only one workspace uses it**: add it to the `words` of that workspace's `cspell.json`. A word the whole repository uses, or one that appears in the files at the root, goes in `project-words.txt`, one per line, in alphabetical order. Case does not matter either way.
 - **A word is flagged and wrong**: fix the typo. The list is for real words, not for silencing a report.
 - **A file should never be checked**: add a `**/`-prefixed glob to `ignorePaths` in `cspell.json`.
 
 ## 🔗 Related
 
-- [markdownlint config](../markdownlint/README.md), the other check that reads the docs.
+- [markdownlint config](../markdown/README.md), the other check that reads the docs.
