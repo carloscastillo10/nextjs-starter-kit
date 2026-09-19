@@ -48,8 +48,10 @@ renumber, so a pointer in a comment is a stale pointer waiting to happen. Write 
 with `passWithNoTests`, so the first one you write runs without touching any config. A test that asserts a
 component rendered its own props back costs maintenance and catches nothing.
 
-**No demo content.** The app is empty on purpose. Adding a sample page, sample data or a theme toggle to
-"show how it works" is a change somebody else has to delete.
+**No demo content.** `apps/web` renders the landing page `create-next-app` ships, adapted to the theme and
+the UI kit, and that page is the starting point somebody replaces rather than an example of anything. What
+the template carries no trace of is product: a second screen, sample data, a fake API, a theme toggle added
+to "show how it works". Each of those is a change somebody else has to delete before they can start.
 
 **English, everywhere that is committed**: code, comments, documentation, commit messages, issue and pull
 request text.
@@ -97,7 +99,7 @@ an empty folder with a README is a feature and a half-finished example is a defe
 
 | Where                                      | State                                                                                                      |
 | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| [`apps/web`](./apps/web/README.md)         | One Next.js app rendering one blank page. Routing in `app/`, code in `src/` as FSD layers                  |
+| [`apps/web`](./apps/web/README.md)         | One Next.js app rendering the default landing page. Routing in `app/`, code in `src/` as FSD layers        |
 | [`packages/ui`](./packages/ui/README.md)   | The shadcn/ui kit: `Button`, `cn`, the stylesheet that registers the kit with Tailwind                     |
 | [`packages/env`](./packages/env/README.md) | The environment: zod schemas, the loader, and the generated `.env.example`                                 |
 | `tooling/*`                                | Shared configuration and the repository's own scripts, one workspace each                                  |

@@ -39,7 +39,7 @@ apps/web/
 
 Each layer folder has a README with its own rules: [`_app`](../../apps/web/src/_app/README.md), [`_pages`](../../apps/web/src/_pages/README.md), [`widgets`](../../apps/web/src/widgets/README.md), [`features`](../../apps/web/src/features/README.md), [`entities`](../../apps/web/src/entities/README.md), [`shared`](../../apps/web/src/shared/README.md). The routing folder has one too: [`app/`](../../apps/web/app/README.md).
 
-A folder appears when its first file does. `widgets`, `features` and `entities` hold only a README until the code needs them, and so does `shared`.
+A folder appears when its first file does. `widgets`, `features`, `entities` and `shared` carry a README and nothing else until the code needs them.
 
 ## Vocabulary
 
