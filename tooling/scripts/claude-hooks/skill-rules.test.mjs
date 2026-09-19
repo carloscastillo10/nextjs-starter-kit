@@ -71,16 +71,6 @@ describe("findSkillRule", () => {
     expect(findSkillRule(file)).toBeUndefined();
   });
 
-  test("names the code standard on every rule that covers source files", () => {
-    const withoutTheStandard = SKILL_RULES.filter(
-      ({ id, skills }) =>
-        ["ui-kit", "route-file", "app-ui", "app-code", "source"].includes(id) &&
-        !skills.includes("project-conventions"),
-    );
-
-    expect(withoutTheStandard).toEqual([]);
-  });
-
   test("names only skills that ship with the project", () => {
     const missing = SKILL_RULES.flatMap(({ skills }) => skills).filter(
       (skill) => !existsSync(new URL(`${skill}/SKILL.md`, PROJECT_SKILLS)),
@@ -93,6 +83,21 @@ describe("findSkillRule", () => {
     const ids = SKILL_RULES.map(({ id }) => id);
 
     expect(new Set(ids).size).toBe(ids.length);
+  });
+});
+
+describe("the code standard", () => {
+  test.each([
+    "apps/web/app/layout.tsx",
+    "apps/web/src/_pages/home/ui/HomePage.tsx",
+    "apps/web/src/_app/metadata/site-url.ts",
+    "packages/ui/src/components/button.tsx",
+    "packages/env/src/index.ts",
+    "tooling/tailwind/postcss.config.js",
+    "tooling/eslint/next.js",
+    "commitlint.config.mjs",
+  ])("reaches %s, wherever it lives", (file) => {
+    expect(findSkillRule(file)?.skills).toContain("project-conventions");
   });
 });
 

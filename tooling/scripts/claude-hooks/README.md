@@ -67,7 +67,7 @@ Each reminder above appears once per session.
 | `design-md`  | `DESIGN.md`                                                                   | `design-md`                                                                                                  |
 | `prose`      | Any other Markdown file                                                       | `stop-slop`                                                                                                  |
 | `monorepo`   | `package.json` and `turbo.json` at any level, `pnpm-workspace.yaml`, `turbo/` | `turborepo`                                                                                                  |
-| `theme`      | `tooling/tailwind/`                                                           | `tailwind-css`, `design-md`                                                                                  |
+| `theme`      | The stylesheets in `tooling/tailwind/`                                        | `tailwind-css`, `design-md`                                                                                  |
 | `ui-kit`     | `packages/ui/`, any `components.json`                                         | `project-conventions`, `shadcn`, `tailwind-css`                                                              |
 | `stylesheet` | Any other `.css` file                                                         | `tailwind-css`                                                                                               |
 | `route-file` | `apps/*/app/`                                                                 | `project-conventions`, `feature-sliced-design`, `vercel-react-best-practices`                                |

@@ -31,7 +31,7 @@ export const SKILL_RULES = [
   },
   {
     id: "theme",
-    when: /^tooling\/tailwind\//u,
+    when: /^tooling\/tailwind\/.+\.css$/u,
     skills: ["tailwind-css", "design-md"],
     why: "the design tokens live here in Tailwind v4 syntax and DESIGN.md documents each of them, so a token changes in both places",
   },
