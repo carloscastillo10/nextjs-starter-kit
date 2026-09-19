@@ -31,6 +31,7 @@ describe("readGates", () => {
       "pnpm test",
       "pnpm spell:check",
       "pnpm lint:md",
+      "pnpm lint:frontmatter",
       "pnpm env:check",
       "pnpm env:check:turbo",
       "pnpm build",

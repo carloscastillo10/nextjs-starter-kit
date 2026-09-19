@@ -25,6 +25,7 @@
     "lint:comments": "node tooling/scripts/comments/check-comments.mjs",
     "lint:fix": "turbo run lint:fix lint:fix:root --continue",
     "lint:fix:root": "eslint \"*.{js,mjs,cjs}\" --fix",
+    "lint:frontmatter": "node tooling/scripts/markdown/check-frontmatter.mjs",
     "lint:md": "markdownlint-cli2",
     "lint:root": "eslint \"*.{js,mjs,cjs}\"",
     "spell:check": "turbo run spell:check spell:check:root --continue",

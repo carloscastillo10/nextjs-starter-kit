@@ -1,3 +1,8 @@
+---
+tags: [conventions, comments]
+aliases: [Comments, Comment conventions]
+---
+
 # Comments
 
 How this repository writes comments in code, and the check that holds the mechanical part of it. Markdown documents are prose and follow their own rules; this document is about comments inside source files (`.ts`, `.tsx`, `.js`, `.mjs` and the rest).

@@ -53,6 +53,10 @@ pre-commit:
             glob: "*.md"
             run: pnpm lint:md
 
+          - name: frontmatter
+            glob: "*.md"
+            run: pnpm lint:frontmatter {staged_files}
+
           # Types belong to a whole project, so this runs the full check; Turborepo
           # replays every package whose files did not change from its cache.
           - name: types

@@ -25,6 +25,7 @@ One folder per subject, each with its own README:
 | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | [`git/`](git/README.md)                   | The commit convention, the identity of an author, and what a branch may carry                                         |
 | [`comments/`](comments/README.md)         | The comment convention: citations that rot, changes that are mostly comment, comments echoing a document              |
+| [`markdown/`](markdown/README.md)         | The frontmatter every document carries, so the vault and a search can index it                                        |
 | [`gates/`](gates/README.md)               | `pnpm gates`: every check CI runs, read out of the workflow itself                                                    |
 | [`github/`](github/README.md)             | What the workflows read out of a pull request, and the agreement between the files that describe the flow             |
 | [`graphify/`](graphify/README.md)         | The code graph rebuild: the git hook trigger, the detached worker behind it, and the hint Claude gets before a search |
@@ -39,7 +40,7 @@ At the root of the package sit only the files that belong to the package as a wh
 | Moment                        | Checks                                                                                 |
 | ----------------------------- | -------------------------------------------------------------------------------------- |
 | Before Claude writes a file   | The skill reminder, the shell guard                                                    |
-| `pre-commit`                  | The fixers, then the comment, spelling, Markdown and type checks                       |
+| `pre-commit`                  | The fixers, then the comment, spelling, Markdown, frontmatter and type checks          |
 | `commit-msg`                  | The commit convention, the git identity                                                |
 | `pre-push`                    | The push authors, the linked branch, the branch scope, then the tests and whole checks |
 | `post-commit` and its friends | The code graph rebuild                                                                 |
@@ -61,6 +62,7 @@ The README of each folder gives the arguments that matter.
 | --------------------------------------------------- | ----------------------------------------- |
 | `pnpm gates`                                        | Run every check CI runs                   |
 | `pnpm lint:comments [files...]`                     | Run the comment check                     |
+| `pnpm lint:frontmatter [files...]`                  | Run the frontmatter check                 |
 | `printf '%s\n' "<message>" \| pnpm exec commitlint` | Check a commit message without committing |
 | `pnpm graph`                                        | Rebuild the code graph and its notes      |
 | `pnpm --filter @repo/scripts test`                  | Run the scripts' tests                    |

@@ -5,6 +5,7 @@ eeef
 esbuild
 estree
 fbca
+frontmatter
 gitmoji
 graphify
 graphifyignore

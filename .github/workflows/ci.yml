@@ -81,6 +81,10 @@ jobs:
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: pnpm lint:md
 
+      - name: Frontmatter
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: pnpm lint:frontmatter
+
       - name: Env example
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: pnpm env:check

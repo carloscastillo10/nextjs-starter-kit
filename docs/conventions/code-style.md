@@ -1,3 +1,8 @@
+---
+tags: [conventions, code-style, typescript]
+aliases: [Code style, TypeScript conventions]
+---
+
 # Code style
 
 The TypeScript standard for every workspace in this repository. Comments have their own document, [comments.md](comments.md), and so do React and Next.js, [react.md](react.md). This one covers everything else. Where a tool checks a rule, the [Enforcement](#enforcement) table names the check.
