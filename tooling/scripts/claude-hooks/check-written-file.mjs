@@ -1,4 +1,4 @@
-import { execFile } from "node:child_process";
+import { execFile, execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -104,8 +104,25 @@ const reportOf = async (check) => {
 const writtenPathIn = (payload) =>
   payload?.tool_response?.filePath ?? payload?.tool_input?.file_path ?? null;
 
+// Whatever git is told to ignore belongs to a tool or to one person, not to the repository.
+const isIgnoredByGit = (relative) => {
+  try {
+    execFileSync("git", ["check-ignore", "--quiet", "--", relative], {
+      cwd: root,
+      stdio: "ignore",
+    });
+
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 const isOwned = (relative) =>
-  relative !== "" && !relative.startsWith("..") && !UNOWNED.test(relative);
+  relative !== "" &&
+  !relative.startsWith("..") &&
+  !UNOWNED.test(relative) &&
+  !isIgnoredByGit(relative);
 
 const targetIn = (payload) => {
   const written = writtenPathIn(payload);

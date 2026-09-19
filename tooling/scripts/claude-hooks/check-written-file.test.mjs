@@ -1,4 +1,4 @@
-import { spawnSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -97,6 +97,18 @@ describe("check-written-file, on what it looks at", () => {
     installTools(root);
 
     expect(runHook(root, wrote(root, file)).context).toBe("");
+  });
+
+  test("says nothing about a file git is told to ignore", () => {
+    const root = createProject({
+      ".gitignore": "secrets/\n",
+      "secrets/notes.md": "# Notes\n",
+    });
+
+    execFileSync("git", ["init", "--quiet"], { cwd: root });
+    installTools(root);
+
+    expect(runHook(root, wrote(root, "secrets/notes.md")).context).toBe("");
   });
 
   test("reads the path the tool reports back as well as the one it was given", () => {

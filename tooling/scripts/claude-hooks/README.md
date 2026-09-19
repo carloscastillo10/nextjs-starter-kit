@@ -131,7 +131,7 @@ After Claude writes or edits a file, `check-written-file.mjs` runs the checks th
 | `.css`, `.json`, `.yml` and kin      | Prettier, cspell                                             |
 | Anything else                        | Prettier, which decides for itself whether it knows the file |
 
-**This is the one hook that repeats work lefthook already does**, and it repeats it on purpose. The same report costs nothing at the moment the file is open and the reason for writing it that way is still in context; at commit time it costs a second trip through the file and a fresh reading of why it looked like that. A check missing from `node_modules` is skipped rather than reported, so a fresh clone before `pnpm install` stays quiet.
+**This is the one hook that repeats work lefthook already does**, and it repeats it on purpose. The same report costs nothing at the moment the file is open and the reason for writing it that way is still in context; at commit time it costs a second trip through the file and a fresh reading of why it looked like that. A check missing from `node_modules` is skipped rather than reported, so a fresh clone before `pnpm install` stays quiet, and a file git is told to ignore is left alone: it belongs to a tool or to one person, not to the repository.
 
 The comment check reports either way, because its density and length findings are judgement to weigh rather than rules to obey, and they never reach the agent through an exit code.
 
