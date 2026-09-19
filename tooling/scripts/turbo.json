@@ -14,6 +14,8 @@
         "$TURBO_ROOT$/.claude/settings.json",
         "$TURBO_ROOT$/.claude/skills/*/SKILL.md",
         "$TURBO_ROOT$/docs/conventions/*.md",
+        "$TURBO_ROOT$/docs/architecture/*.md",
+        "$TURBO_ROOT$/DESIGN.md",
         "$TURBO_ROOT$/lefthook.yml"
       ]
     }
