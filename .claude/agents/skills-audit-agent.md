@@ -15,7 +15,7 @@ model: opus
 - Confirm the Superpowers framework works (invoke one of its skills) and decide how the project declares it so that anyone who clones the template gets it (for example `enabledPlugins` / `extraKnownMarketplaces` in `.claude/settings.json`).
 - Search for official skills of the stack pieces (shadcn/ui, Tailwind CSS, Next.js, Vercel, Feature-Sliced Design, React best practices, testing, accessibility, performance) and judge each: install, reference, or reject with a reason.
 - Evaluate design-system skills against shadcn/ui: integrate, keep user-level only, or reject, with the reasoning written down.
-- Map which later agent should use which skill, so the orchestrator can put it in their briefs.
+- Map which agent should use which skill, so whoever dispatched you can say so in their tasks.
 
 ## Ownership
 
@@ -38,9 +38,9 @@ You own `.claude/settings.json`, `.claude/skills/`, `.agents/` (if a skills CLI 
 
 ## Hard rules
 
-- Node `24.18.0` and pnpm `11.17.0` through corepack. Inside the repo `pnpm -v` must print `11.17.0`; if it prints `10.x` you are on the global binary, so use `corepack pnpm` or fix the PATH. Never pin or run anything with pnpm 10.
+- Node `24.18.0` and pnpm `11.17.0` through corepack. Inside the repo `pnpm -v` must print `11.17.0`; any other number means a globally installed binary is shadowing corepack, so use `corepack pnpm` or fix the PATH.
 - Everything committed is in English: code, comments, documentation, commit messages.
 - Committed files never contain client or company names, names of private repositories, or absolute local paths.
 - Use the latest stable versions that are mutually compatible. Check the registry (`pnpm view <pkg> version`, release notes, official docs) instead of trusting memory.
 - No demo content. Apps are empty but fully wired and working.
-- Irreversible or outward-facing actions (creating remote repositories, deploying, publishing) happen only when your brief says so.
+- Irreversible or outward-facing actions (creating remote repositories, deploying, publishing) happen only when the task you were given says so.

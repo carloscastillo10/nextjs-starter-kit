@@ -37,9 +37,9 @@ You own the FSD folder structure in `apps/*/src`, its config (for example `steig
 
 ## Hard rules
 
-- Node `24.18.0` and pnpm `11.17.0` through corepack. Inside the repo `pnpm -v` must print `11.17.0`; if it prints `10.x` you are on the global binary, so use `corepack pnpm` or fix the PATH. Never pin or run anything with pnpm 10.
+- Node `24.18.0` and pnpm `11.17.0` through corepack. Inside the repo `pnpm -v` must print `11.17.0`; any other number means a globally installed binary is shadowing corepack, so use `corepack pnpm` or fix the PATH.
 - Everything committed is in English: code, comments, documentation, commit messages.
 - Committed files never contain client or company names, names of private repositories, or absolute local paths.
 - Use the latest stable versions that are mutually compatible. Check the registry (`pnpm view <pkg> version`, release notes, official docs) instead of trusting memory.
 - No demo content. Apps are empty but fully wired and working.
-- Irreversible or outward-facing actions (creating remote repositories, deploying, publishing) happen only when your brief says so.
+- Irreversible or outward-facing actions (creating remote repositories, deploying, publishing) happen only when the task you were given says so.
