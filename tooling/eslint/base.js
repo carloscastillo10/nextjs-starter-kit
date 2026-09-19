@@ -83,6 +83,18 @@ const CLIPPED_NAMES = [
   "str",
   "num",
   "idx",
+  "ctx",
+  "cfg",
+  "fn",
+  "opts",
+  "acc",
+  "btn",
+  "msg",
+  "ov",
+  "st",
+  "elem",
+  "attrs",
+  "param",
 ];
 
 const CODE_STYLE_RULES = {
