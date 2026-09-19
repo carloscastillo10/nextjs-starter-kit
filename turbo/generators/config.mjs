@@ -1,13 +1,19 @@
 import { spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
 import path from "node:path";
 
 import { FSD_ROOTS_FILE, registerFsdRoot } from "@repo/scripts/register-fsd-root";
-import { isWorkspaceName, planWorkspace } from "@repo/scripts/workspace-plan";
+import { isWorkspaceName, planWorkspace, WORKSPACE_KINDS } from "@repo/scripts/workspace-plan";
 
-const KIND_CHOICES = [
-  { name: "packages: code an app imports", value: "packages" },
-  { name: "tooling: configuration the workspaces share", value: "tooling" },
-];
+const KIND_HELP = {
+  packages: "code an app imports",
+  tooling: "configuration the workspaces share",
+};
+
+const KIND_CHOICES = WORKSPACE_KINDS.map((kind) => ({
+  name: `${kind}: ${KIND_HELP[kind]}`,
+  value: kind,
+}));
 
 const PROMPTS = [
   { choices: KIND_CHOICES, message: "Where does it go?", name: "kind", type: "list" },
@@ -39,6 +45,18 @@ const write = (plan) =>
     type: "add",
   }));
 
+/*
+ * Without this, a name already taken fails halfway through: the first files are
+ * written and the one that exists stops the run, leaving half a workspace behind.
+ */
+const refuseTakenFolder = (plan) => (_answers, _config, plop) => {
+  if (existsSync(path.join(plop.getDestBasePath(), plan.folder))) {
+    throw new Error(`${plan.folder} already exists. Pick another name, or delete it first.`);
+  }
+
+  return `${plan.folder} is free`;
+};
+
 const registerRoot = (plan) => (_answers, _config, plop) => {
   const file = path.join(plop.getDestBasePath(), FSD_ROOTS_FILE);
   const roots = registerFsdRoot({ file, root: plan.fsdRoot });
@@ -48,12 +66,12 @@ const registerRoot = (plan) => (_answers, _config, plop) => {
 
 /*
  * The templates are written for a reader, not for Prettier, and the answers change the
- * width of what they render. Formatting the result is what keeps `pnpm format` green
- * whoever edits a template.
+ * width of what they render. Formatting the result is what keeps the `Format` gate
+ * green whoever lays a template out by hand.
  */
 const format = (plan) => (_answers, _config, plop) => {
   const base = plop.getDestBasePath();
-  const targets = [plan.folder, ...(plan.fsdRoot ? [FSD_ROOTS_FILE] : [])];
+  const targets = [plan.folder, ...(plan.fsdRoot === null ? [] : [FSD_ROOTS_FILE])];
   const prettier = path.join(base, "node_modules", ".bin", "prettier");
   const { error, status } = spawnSync(prettier, ["--write", "--log-level", "warn", ...targets], {
     cwd: base,
@@ -61,7 +79,9 @@ const format = (plan) => (_answers, _config, plop) => {
   });
 
   if (error || status !== 0) {
-    throw new Error(`Prettier did not format ${targets.join(" ")}. Run pnpm format:fix.`);
+    throw new Error(
+      `Prettier did not format ${targets.join(" ")}. Run pnpm install, then pnpm format:fix.`,
+    );
   }
 
   return `${targets.join(", ")} formatted`;
@@ -73,6 +93,7 @@ export default (plop) => {
       const plan = planWorkspace(answers ?? {});
 
       return [
+        refuseTakenFolder(plan),
         ...write(plan),
         ...(plan.fsdRoot === null ? [] : [registerRoot(plan)]),
         format(plan),
