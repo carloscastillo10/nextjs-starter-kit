@@ -27,6 +27,7 @@ vendors, but it can decide in advance where each of them goes, so the first one 
 | [`plans/`](plans/README.md)               | Implementation plans too long to live in an issue                       | Empty      |
 | [`specs/`](specs/README.md)               | The behavior a feature is built against, before it is built             | Empty      |
 | [`business-rules.md`](business-rules.md)  | The `BR-xx` catalog: rules that cross every feature                     | A seed     |
+| [`deployment.md`](deployment.md)          | What the host runs, measured on a real production build                 | Filled in  |
 
 Outside this folder, and part of the same written record: [`README.md`](../README.md) for the repository,
 [`CONTRIBUTING.md`](../CONTRIBUTING.md) for the flow, [`CLAUDE.md`](../CLAUDE.md) and

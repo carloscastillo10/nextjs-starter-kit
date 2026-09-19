@@ -354,7 +354,7 @@ A repository created from this template does not copy the settings of this one. 
 
 ### The name in the tree
 
-"Use this template" copies the files as they are, so this template's name travels into the copy. Five places carry it, and the first commit of a new repository is the moment to rewrite them:
+"Use this template" copies the files as they are, so this template's name travels into the copy. Six places carry it, and the first commit of a new repository is the moment to rewrite them:
 
 | Place                                                                    | What carries the name                                                                                                  |
 | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
@@ -363,6 +363,7 @@ A repository created from this template does not copy the settings of this one. 
 | [`DESIGN.md`](DESIGN.md)                                                 | `name` in the frontmatter, and the tagline                                                                             |
 | [`apps/web/app/layout.tsx`](apps/web/app/layout.tsx)                     | `metadata.title`, which is the `<title>` of every page                                                                 |
 | [`.github/ISSUE_TEMPLATE/config.yml`](.github/ISSUE_TEMPLATE/config.yml) | The four `contact_links`, which point at this template until you rewrite them: GitHub accepts only absolute URLs there |
+| [`docs/deployment.md`](docs/deployment.md)                               | The settings and the URL of this template's own deployment, which your copy replaces with its own                      |
 
 The first two settings in one command, run from a clone of the new repository:
 

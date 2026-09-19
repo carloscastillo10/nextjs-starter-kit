@@ -205,7 +205,7 @@ subject follows `type(scope): <gitmoji> Message` — [ADR 08](./docs/adr/08-gith
 > [!TIP]
 > A repository created from this template does not inherit this one's settings. The squash-only merge, the
 > branch ruleset and the six labels are four commands, in
-> [`CONTRIBUTING.md`](./CONTRIBUTING.md#repository-settings), which also lists the five files that still
+> [`CONTRIBUTING.md`](./CONTRIBUTING.md#repository-settings), which also lists the six files that still
 > carry this template's name.
 
 ## 🛠️ Tooling
@@ -302,8 +302,9 @@ The app is a standard Next.js build, so any host that runs Node 24 serves it. On
 `http://localhost:3000`, and that is what relative Open Graph and canonical URLs resolve against.
 
 > [!NOTE]
-> No deployment has been made from this repository yet, so the host settings above are what the build needs
-> rather than what a run confirmed. `pnpm build` is the same build the host runs, and it passes here.
+> A production build on Vercel confirmed it: Node `v24.19.0` in the container and `pnpm v11.17.0` from
+> `packageManager`, with no corepack flag needed. [`docs/deployment.md`](./docs/deployment.md) has the
+> settings, the log and the traps.
 
 ```bash
 pnpm build     # the same build the host runs

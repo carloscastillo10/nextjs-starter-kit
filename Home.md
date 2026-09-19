@@ -73,6 +73,7 @@ aliases: [Home, Vault Home]
 | [`plans`](docs/plans/README.md)               | Implementation plans too long to live in an issue                       |
 | [`specs`](docs/specs/README.md)               | The behavior a feature is built against, before it is built             |
 | [`business-rules.md`](docs/business-rules.md) | The `BR-xx` catalog: rules that cross every feature                     |
+| [`deployment.md`](docs/deployment.md)         | What the host runs, measured on a real production build                 |
 
 ## 🧠 Code graph
 
