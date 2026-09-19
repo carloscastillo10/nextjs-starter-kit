@@ -35,7 +35,7 @@ Three mechanisms, chosen per item:
 | --------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | `project-conventions` | The code standard in short form: names, exports, function shape, control flow, unit size, comments, React and Next.js | [`docs/conventions/`](../../docs/conventions/README.md), which wins whenever the two disagree |
 
-The skill is the version that stays in an agent's context while it writes; the documents are where a rule is argued, exemplified and mapped to the check that enforces it. Change the document first, then bring the one-line form here. The review agent [`code-steward`](../agents/code-steward.md) reads the same standard from the other end, after the code exists.
+The skill is the version that stays in an agent's context while it writes; the documents are where a rule is argued, exemplified and mapped to the check that enforces it. Change the document first, then bring the one-line form here. Two review agents read the same standard from the other end, after the code exists: [`code-steward`](../agents/code-steward.md) on the code, [`doc-steward`](../agents/doc-steward.md) on what the change left stale.
 
 ### Vendored skills
 
@@ -71,7 +71,7 @@ The upstream commit is the repository HEAD at install time, or for the last thre
 | [`project-conventions/`](./project-conventions/SKILL.md)                              | The one skill written here, kept in step with `docs/conventions/`                                           |
 | [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md)                                  | Copyright and license notices for the vendored skills                                                       |
 | [`../settings.json`](../settings.json)                                                | The declared plugins, the approval of the `next-devtools` MCP server and its read-only tools, and the hooks |
-| [`../agents/`](../agents/code-steward.md)                                             | The review agents, `code-steward` among them                                                                |
+| [`../agents/`](../README.md)                                                          | The subagents: `code-steward` and `doc-steward` on a diff, `tech-lead` on a direction                       |
 | [`../../tooling/scripts/claude-hooks/`](../../tooling/scripts/claude-hooks/README.md) | The hook scripts `settings.json` runs, such as the skill reminder                                           |
 | [`../../skills-lock.json`](../../skills-lock.json)                                    | Source, path and content hash of each vendored skill, written by the CLI                                    |
 | [`../../.mcp.json`](../../.mcp.json)                                                  | The Next.js DevTools MCP server                                                                             |
@@ -167,6 +167,30 @@ Also:
 
 > [!NOTE]
 > Tailwind Labs publishes no agent skill, plugin, MCP server or `llms.txt`, and the Tailwind documentation is not under an open-source license. Do not add skills or servers that bundle, index or embed a copy of the docs; `tailwind-css` links to the official pages instead. To catch Tailwind v3 class names, rely on the linter: `eslint-plugin-better-tailwindcss` reports deprecated, unknown, conflicting and non-canonical classes.
+
+### Optional skills
+
+One skill is **deliberately not installed and still worth naming**, because the project built on this
+template may want it and the reasons it is absent are reasons, not an oversight.
+
+[`design-taste-frontend`](https://github.com/Leonxlnx/taste-skill) (MIT) is a visual-direction skill for
+work the template itself never does: a landing page, a portfolio, a marketing site, or the redesign of one.
+It reads a brief, picks a design language and tunes three dials rather than applying a fixed aesthetic.
+
+It is not here because its own scope excludes product UI — dashboards, data tables, multi-step flows — which
+is what this template is for; its recipes reach for arbitrary Tailwind values, which the lint rules in
+`apps/*/src/**` reject; and `frontend-design`, already declared, covers the same ground from the official
+marketplace. Vendoring it would also freeze a copy under a name its author keeps moving.
+
+Add it to a derived project that has a marketing surface:
+
+```sh
+npx -y skills@1.7.0 add Leonxlnx/taste-skill --skill design-taste-frontend -a claude-code -y
+```
+
+The same repository ships `high-end-visual-design`, `minimalist-ui`, `industrial-brutalist-ui` and
+`redesign-existing-projects`. Each fixes one aesthetic, so the choice belongs to the product, not to the
+template.
 
 ### Left out on purpose
 
