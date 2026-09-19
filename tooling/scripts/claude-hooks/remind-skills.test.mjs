@@ -97,11 +97,11 @@ describe("remind-skills gives context", () => {
     expect(context).not.toContain("Comments explain why");
   });
 
-  test("gives a source file no skill rule covers the comment rule alone", () => {
+  test("gives a source file outside the app the code standard and the comment rule", () => {
     const context = createProject().contextFor("tooling/eslint/next.js");
 
+    expect(context).toContain("Load `project-conventions` before you continue");
     expect(context).toContain("Comments explain why");
-    expect(context).not.toContain("Load ");
   });
 });
 

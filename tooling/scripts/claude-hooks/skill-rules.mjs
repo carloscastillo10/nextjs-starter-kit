@@ -7,7 +7,8 @@ const SOURCE_FILE = /\.[cm]?[jt]sx?$/u;
 const SKIPPED_BY_COMMENT_CHECK =
   /(?:^|\/)(?:node_modules|\.next|\.turbo|dist|build|coverage|\.claude|\.agents)\/|\.d\.[cm]?ts$/u;
 
-const NOT_WRITTEN_BY_HAND = /^(?:\.claude\/skills|\.agents)\/|(?:^|\/)node_modules\//u;
+const NOT_WRITTEN_BY_HAND =
+  /^(?:\.claude\/skills|\.agents)\/|(?:^|\/)(?:node_modules|\.next|\.turbo|dist|build|coverage)\/|\.d\.[cm]?ts$/u;
 
 export const SKILL_RULES = [
   {
@@ -37,8 +38,8 @@ export const SKILL_RULES = [
   {
     id: "ui-kit",
     when: /^packages\/ui\/|(?:^|\/)components\.json$/u,
-    skills: ["shadcn", "tailwind-css"],
-    why: "the kit comes from the shadcn CLI, run from apps/web, so a component is added or updated through the CLI rather than written from scratch",
+    skills: ["project-conventions", "shadcn", "tailwind-css"],
+    why: "the kit comes from the shadcn CLI, run from apps/web, so a component is added or updated through the CLI rather than written from scratch, and the standard decides the shape of the code around it",
   },
   {
     id: "stylesheet",
@@ -49,20 +50,31 @@ export const SKILL_RULES = [
   {
     id: "route-file",
     when: /^apps\/[^/]+\/app\//u,
-    skills: ["feature-sliced-design", "vercel-react-best-practices"],
-    why: "a route file only re-exports from the page and app layers, and route segment config is the one thing written in place",
+    skills: ["project-conventions", "feature-sliced-design", "vercel-react-best-practices"],
+    why: "a route file only re-exports from the page and app layers, route segment config is the one thing written in place, and even there the standard asks for an arrow assigned to a constant",
   },
   {
     id: "app-ui",
     when: /^apps\/[^/]+\/src\/.+\.[jt]sx$/u,
-    skills: ["feature-sliced-design", "vercel-react-best-practices", "vercel-composition-patterns"],
-    why: "the layer decides what a component may import, and render cost and prop design are cheaper to get right now than in review",
+    skills: [
+      "project-conventions",
+      "feature-sliced-design",
+      "vercel-react-best-practices",
+      "vercel-composition-patterns",
+    ],
+    why: "the layer decides what a component may import, the standard decides where its state and handlers live, and render cost and prop design are cheaper to get right now than in review",
   },
   {
     id: "app-code",
     when: /^apps\/[^/]+\/src\//u,
-    skills: ["feature-sliced-design", "vercel-react-best-practices"],
-    why: "the layer, slice and segment decide where this code goes and what it may import, and fetching on the server has patterns that avoid waterfalls",
+    skills: ["project-conventions", "feature-sliced-design", "vercel-react-best-practices"],
+    why: "the layer, slice and segment decide where this code goes and what it may import, the standard decides its shape, and fetching on the server has patterns that avoid waterfalls",
+  },
+  {
+    id: "source",
+    when: SOURCE_FILE,
+    skills: ["project-conventions"],
+    why: "the standard holds in every workspace: arrow functions, guard clauses, a lookup map instead of `switch`, one responsibility per unit, and a comment only where the code cannot carry the reason",
   },
 ];
 

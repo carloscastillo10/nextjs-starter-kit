@@ -50,9 +50,10 @@ Before Claude writes or edits a file, `remind-skills.mjs` adds a note to its con
 ```text
 You are about to write apps/web/src/_pages/home/ui/HomePage.tsx.
 
-Load `feature-sliced-design`, `vercel-react-best-practices`, and `vercel-composition-patterns`
-before you continue, unless they are already loaded: the layer decides what a component may
-import, and render cost and prop design are cheaper to get right now than in review. …
+Load `project-conventions`, `feature-sliced-design`, `vercel-react-best-practices`, and
+`vercel-composition-patterns` before you continue, unless they are already loaded: the layer
+decides what a component may import, the standard decides where its state and handlers live,
+and render cost and prop design are cheaper to get right now than in review. …
 
 **Comments explain why, never what** (docs/conventions/comments.md). …
 
@@ -61,26 +62,27 @@ Each reminder above appears once per session.
 
 #### Rules, first match wins
 
-| Rule         | Paths                                                                         | Skills                                                                                |
-| ------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `design-md`  | `DESIGN.md`                                                                   | `design-md`                                                                           |
-| `prose`      | Any other Markdown file                                                       | `stop-slop`                                                                           |
-| `monorepo`   | `package.json` and `turbo.json` at any level, `pnpm-workspace.yaml`, `turbo/` | `turborepo`                                                                           |
-| `theme`      | `tooling/tailwind/`                                                           | `tailwind-css`, `design-md`                                                           |
-| `ui-kit`     | `packages/ui/`, any `components.json`                                         | `shadcn`, `tailwind-css`                                                              |
-| `stylesheet` | Any other `.css` file                                                         | `tailwind-css`                                                                        |
-| `route-file` | `apps/*/app/`                                                                 | `feature-sliced-design`, `vercel-react-best-practices`                                |
-| `app-ui`     | `.jsx` and `.tsx` files under `apps/*/src/`                                   | `feature-sliced-design`, `vercel-react-best-practices`, `vercel-composition-patterns` |
-| `app-code`   | Anything else under `apps/*/src/`                                             | `feature-sliced-design`, `vercel-react-best-practices`                                |
+| Rule         | Paths                                                                         | Skills                                                                                                       |
+| ------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `design-md`  | `DESIGN.md`                                                                   | `design-md`                                                                                                  |
+| `prose`      | Any other Markdown file                                                       | `stop-slop`                                                                                                  |
+| `monorepo`   | `package.json` and `turbo.json` at any level, `pnpm-workspace.yaml`, `turbo/` | `turborepo`                                                                                                  |
+| `theme`      | `tooling/tailwind/`                                                           | `tailwind-css`, `design-md`                                                                                  |
+| `ui-kit`     | `packages/ui/`, any `components.json`                                         | `project-conventions`, `shadcn`, `tailwind-css`                                                              |
+| `stylesheet` | Any other `.css` file                                                         | `tailwind-css`                                                                                               |
+| `route-file` | `apps/*/app/`                                                                 | `project-conventions`, `feature-sliced-design`, `vercel-react-best-practices`                                |
+| `app-ui`     | `.jsx` and `.tsx` files under `apps/*/src/`                                   | `project-conventions`, `feature-sliced-design`, `vercel-react-best-practices`, `vercel-composition-patterns` |
+| `app-code`   | Anything else under `apps/*/src/`                                             | `project-conventions`, `feature-sliced-design`, `vercel-react-best-practices`                                |
+| `source`     | Any other TypeScript or JavaScript file, in any workspace                     | `project-conventions`                                                                                        |
 
-**Order is the design.** The rules run from narrow to wide, and the first one that matches is the only one that speaks, so `packages/ui/README.md` gets the prose rule and `packages/ui/package.json` gets the monorepo rule. Paths are read from the root of the checkout that holds the file, so a worktree nested inside the project resolves the same way. Nothing fires for `.claude/skills/`, `.agents/` or `node_modules/`: nobody writes those by hand.
+**Order is the design.** The rules run from narrow to wide, and the first one that matches is the only one that speaks, so `packages/ui/README.md` gets the prose rule and `packages/ui/package.json` gets the monorepo rule. The last rule is the widest: the code standard holds in every workspace, so a script in `tooling/` hears about it too. Paths are read from the root of the checkout that holds the file, so a worktree nested inside the project resolves the same way. Nothing fires for `.claude/skills/`, `.agents/`, `node_modules/` or build output (`dist/`, `build/`, `coverage/`, `.next/`, `.turbo/`, `*.d.ts`): nobody writes those by hand.
 
 **The comment rule** comes with every source file the [comment check](../comments/README.md#the-comment-check) covers, whether a skill rule matched or not. A skill has to be loaded to be obeyed, and the comment convention is the one most often broken by whoever did not load one.
 
 **Once per session, per reminder.** The hook leaves an empty marker file for each reminder it gives, under `claude-skill-reminders/<session>/` in the system temporary folder, and stays silent about a reminder the session already had. Without that, the same paragraphs would land on every edit of a file, which is how a useful hook becomes one people switch off. The skill rule and the comment rule are tracked apart, so moving on to a file under another rule brings only the new rule.
 
 > [!NOTE]
-> A rule names only skills vendored in [`.claude/skills/`](../../../.claude/skills/README.md), never a plugin: a fresh clone has every vendored skill, while a plugin may not be installed yet. A test fails when a rule names a skill with no folder there, so removing a skill means removing it from the rules too.
+> A rule names only skills that live in [`.claude/skills/`](../../../.claude/skills/README.md), vendored or written here, never a plugin: a fresh clone has every one of them, while a plugin may not be installed yet. A test fails when a rule names a skill with no folder there, so removing a skill means removing it from the rules too.
 
 ### The graph hint
 

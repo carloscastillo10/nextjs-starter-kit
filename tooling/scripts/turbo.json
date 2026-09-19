@@ -13,6 +13,7 @@
         "$TURBO_ROOT$/.github/workflows/*.yml",
         "$TURBO_ROOT$/.claude/settings.json",
         "$TURBO_ROOT$/.claude/skills/*/SKILL.md",
+        "$TURBO_ROOT$/docs/conventions/*.md",
         "$TURBO_ROOT$/lefthook.yml"
       ]
     }

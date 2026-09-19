@@ -49,20 +49,36 @@ describe("findSkillRule", () => {
     ["apps/web/app/api/health/route.ts", "route-file"],
     ["apps/web/src/_pages/home/ui/HomePage.tsx", "app-ui"],
     ["apps/web/src/_app/metadata/site-url.ts", "app-code"],
+    ["apps/web/next.config.ts", "source"],
+    ["packages/env/src/index.ts", "source"],
+    ["tooling/eslint/next.js", "source"],
+    ["tooling/scripts/gates/run-gates.mjs", "source"],
+    ["commitlint.config.mjs", "source"],
   ])("%s goes to %s", (file, id) => {
     expect(findSkillRule(file)?.id).toBe(id);
   });
 
   test.each([
-    "apps/web/next.config.ts",
-    "packages/env/src/index.ts",
-    "tooling/eslint/next.js",
     ".github/workflows/ci.yml",
     ".claude/skills/shadcn/SKILL.md",
+    ".claude/skills/shadcn/example.ts",
     ".agents/skills/shadcn/SKILL.md",
     "apps/web/node_modules/next/dist/docs/index.md",
+    "apps/web/next-env.d.ts",
+    "packages/ui/dist/index.js",
+    "apps/web/.next/server/app.js",
   ])("%s has no skill rule", (file) => {
     expect(findSkillRule(file)).toBeUndefined();
+  });
+
+  test("names the code standard on every rule that covers source files", () => {
+    const withoutTheStandard = SKILL_RULES.filter(
+      ({ id, skills }) =>
+        ["ui-kit", "route-file", "app-ui", "app-code", "source"].includes(id) &&
+        !skills.includes("project-conventions"),
+    );
+
+    expect(withoutTheStandard).toEqual([]);
   });
 
   test("names only skills that ship with the project", () => {
@@ -105,7 +121,7 @@ describe("remindersFor", () => {
 
     expect(reminders.map(({ key }) => key)).toEqual(["app-ui", "comments"]);
     expect(reminders[0].text).toContain(
-      "Load `feature-sliced-design`, `vercel-react-best-practices`, and " +
+      "Load `project-conventions`, `feature-sliced-design`, `vercel-react-best-practices`, and " +
         "`vercel-composition-patterns` before you continue",
     );
     expect(reminders[1].text).toContain("Comments explain why, never what");
@@ -131,8 +147,11 @@ describe("remindersFor", () => {
     expect(several.text).toContain("before you continue, unless they are already loaded:");
   });
 
-  test("gives a source file no rule covers the comment rule alone", () => {
-    expect(remindersFor("tooling/eslint/next.js").map(({ key }) => key)).toEqual(["comments"]);
+  test("gives a source file outside the app the standard and the comment rule", () => {
+    const reminders = remindersFor("tooling/eslint/next.js");
+
+    expect(reminders.map(({ key }) => key)).toEqual(["source", "comments"]);
+    expect(reminders[0].text).toContain("Load `project-conventions` before you continue");
   });
 
   test("has nothing for a file no rule covers", () => {
@@ -149,6 +168,20 @@ describe("formatReminders", () => {
       expect.stringContaining("Load `design-md` before you continue"),
       "Each reminder above appears once per session.",
     ]);
+  });
+});
+
+describe("the conventions skill", () => {
+  const SKILL = new URL("project-conventions/SKILL.md", PROJECT_SKILLS);
+  const ROOT = new URL("../../../", import.meta.url);
+
+  test("points only at documents that exist", () => {
+    const documents = [...readFileSync(SKILL, "utf8").matchAll(/`([\w./-]+\.md)`/gu)].map(
+      ([, document]) => document,
+    );
+
+    expect(documents.length).toBeGreaterThan(0);
+    expect(documents.filter((document) => !existsSync(new URL(document, ROOT)))).toEqual([]);
   });
 });
 
