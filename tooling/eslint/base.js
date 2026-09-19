@@ -11,7 +11,11 @@ import { BASE_SYNTAX } from "./syntax.js";
 
 const JAVASCRIPT_FILES = ["**/*.{js,mjs,cjs}"];
 
-const CONFIG_FILES = ["**/*.config.{ts,mts,cts,js,mjs,cjs}"];
+/*
+ * A tool that fixes the name of the file it reads, such as plop for the generators, leaves
+ * no room for the `<tool>.config` spelling, so a file named `config` counts as one too.
+ */
+const CONFIG_FILES = ["**/*.config.{ts,mts,cts,js,mjs,cjs}", "**/config.{ts,mts,cts,js,mjs,cjs}"];
 
 export const MODULE_FILE_NAMES = { "**/*.{ts,mts,cts,js,mjs,cjs}": "KEBAB_CASE" };
 
