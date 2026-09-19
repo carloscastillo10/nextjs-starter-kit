@@ -10,9 +10,9 @@ Two kinds of rules govern an agent here, and they live in different places on pu
   already written: [`AGENTS.md`](../../AGENTS.md) is the registry,
   [`CLAUDE.md`](../../CLAUDE.md) holds the rules no tool can check, and
   [`../conventions/`](../conventions/README.md) holds the standard. None of that is repeated here.
-- **What your product means** is nobody else's to write. The words your domain uses, how your issue tracker is
-  actually run, which label means what: that is what this folder is for, and it ships empty because a template
-  cannot know any of it.
+- **What your product means** is nobody else's to write. The words your domain uses, the state an issue has
+  to reach before somebody picks it up, which label means what: that is what this folder is for, and it ships
+  empty because a template cannot know any of it.
 
 ## 🗂️ Structure
 
