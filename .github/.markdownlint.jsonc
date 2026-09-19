@@ -3,5 +3,10 @@
 
   // GitHub renders the pull request template as the start of a description, below the
   // pull request title, so it opens with a second-level heading.
-  "MD041": false
+  "MD041": false,
+
+  // A pull request description is the one place a collapsed block earns its keeping: the
+  // reasoning behind the sections stays available without pushing the checklist off screen,
+  // and Markdown has no other way to fold it. Inline HTML stays banned everywhere else.
+  "MD033": false
 }
