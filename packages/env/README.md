@@ -3,8 +3,6 @@
 > One declaration per environment variable: the file that fills it, its validation, `.env.example` and the Turborepo check all come from the same zod schema.
 
 ![zod](https://img.shields.io/badge/zod-v4-3E67B1?logo=zod&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-24-5FA04E?logo=nodedotjs&logoColor=white)
-![type](https://img.shields.io/badge/type-package-8B5CF6)
 
 ## 🧭 Table of contents
 
