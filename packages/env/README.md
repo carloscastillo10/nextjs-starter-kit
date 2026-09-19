@@ -6,6 +6,17 @@
 ![Node.js](https://img.shields.io/badge/Node.js-24-5FA04E?logo=nodedotjs&logoColor=white)
 ![type](https://img.shields.io/badge/type-package-8B5CF6)
 
+## 🧭 Table of contents
+
+- [🎯 Purpose](#-purpose)
+- [🗂️ Structure](#️-structure)
+  - [Which file, and who wins](#which-file-and-who-wins)
+  - [When it fails](#when-it-fails)
+- [🚀 Usage](#-usage)
+- [⌨️ Commands](#️-commands)
+- [🧩 Extending](#-extending)
+- [🔗 Related](#-related)
+
 ## 🎯 Purpose
 
 Every variable the repository reads is declared once, as a key in a zod schema in this package. From that declaration:

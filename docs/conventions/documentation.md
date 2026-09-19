@@ -63,9 +63,14 @@ Rules for the template:
 - **The order is fixed**, and a section that does not apply is left out rather than moved or emptied.
 - **No section is invented between them.** A subject that needs its own heading goes under the section it
   belongs to, as an `###` without an emoji.
-- **A README over about eighty lines opens with a table of contents**, `## 🧭 Table of contents`, right after
-  the tagline and the badges, listing every `##` and `###`.
+- **A README whose sections scroll out of view opens with a table of contents**, `## 🧭 Table of contents`,
+  right after the tagline and the badges, listing every `##` and `###`. In practice that is past about a
+  hundred lines, or sooner when it has `###` subsections somebody would jump to.
 - **No frontmatter**, ever. See [Frontmatter](#frontmatter).
+- **The root `README.md` is the one exception to the section list.** It is the landing page rather than a
+  folder guide, so its headings are the questions a newcomer asks in order — getting started, the stack, the
+  layout, the commands — and it keeps everything else: the emoji headings, the tagline, the badges, the
+  table of contents and the relative links.
 - **It is self-sufficient.** Somebody who has read nothing else can work in the folder after reading it: what
   it holds, how it is used, which commands apply, and where the related files are. If a question can only be
   answered by asking a person, the README is incomplete.
@@ -128,14 +133,17 @@ changing this table is a single commit.
 
 Badges come from [shields.io](https://shields.io) and sit between the tagline and the first heading.
 
-**The root `README.md` is the only place that carries version badges**, because it is the only page somebody
-reads before deciding whether to use the repository at all. They sit directly above the stack table that
-repeats the same numbers, so one read checks both against each other.
+A badge earns its place when it answers something a reader wants **before** reading the page and it changes
+rarely: a major version (`v4`, `19`), a kind (`type-package`, `scaffold`), a count, a license. Nothing checks
+a badge, so anything that changes often is a lie waiting to happen.
 
-**A workspace README carries no version badge.** The version lives in the `catalog` of
-[`pnpm-workspace.yaml`](../../pnpm-workspace.yaml) and nothing would check a second copy of it; a badge that
-lies is worse than no badge. An index may carry a badge for something it counts, such as how many skills are
-vendored, because the number is visible in the same file.
+- **An exact version belongs only to the root `README.md`**, where the badge row sits directly above the
+  stack table that repeats the same numbers, so one read checks both against each other. A workspace README
+  states a major version at most; the resolved version lives in the `catalog` of
+  [`pnpm-workspace.yaml`](../../pnpm-workspace.yaml).
+- **A count belongs to an index** that also shows what it counted, such as the number of vendored skills in
+  [`.claude/skills/README.md`](../../.claude/skills/README.md).
+- **Bump a badge in the commit that bumps what it names.** `doc-steward` reports one that no longer matches.
 
 ## Links
 
