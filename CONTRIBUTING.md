@@ -177,7 +177,7 @@ pnpm install
 
 Four questions — `packages` or `tooling`, the name, one sentence of purpose, and whether it holds
 Feature-Sliced Design layers — and the generator writes the manifest with the right engines and catalog
-versions, the four tooling configs, its own `cspell.json` and `.prettierignore`, an entry point, and a README
+versions, the TypeScript, ESLint and Vitest configs, its own `cspell.json` and `.prettierignore`, an entry point, and a README
 in the house template. A package with layers is registered as an FSD root, so both architecture linters cover
 it from the first commit. [`turbo/generators`](turbo/generators/README.md) is the detail, including how to
 pass the answers in without a terminal.

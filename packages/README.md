@@ -50,7 +50,7 @@ pnpm install
 ```
 
 The generator asks where it goes, its name, one sentence of purpose, and whether it holds Feature-Sliced
-Design layers, then writes the manifest, the four tooling configs, its own `cspell.json` and
+Design layers, then writes the manifest, the TypeScript, ESLint and Vitest configs, its own `cspell.json` and
 `.prettierignore`, an entry point and a README. A package with layers is registered as an FSD root, so both
 architecture linters cover it. Details in [`turbo/generators`](../turbo/generators/README.md).
 

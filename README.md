@@ -265,8 +265,8 @@ pnpm install
 ```
 
 Four questions — where it goes, its name, one sentence of purpose, and whether it holds Feature-Sliced Design
-layers — and the generator writes the `package.json` with the right engines and catalog versions, the four
-tooling configs, its own `cspell.json` and `.prettierignore`, an entry point and a README in the house
+layers — and the generator writes the `package.json` with the right engines and catalog versions, the TypeScript,
+ESLint and Vitest configs, its own `cspell.json` and `.prettierignore`, an entry point and a README in the house
 template. A package with layers is also registered as an FSD root, so both architecture linters cover it.
 Details in [`turbo/generators`](./turbo/generators/README.md).
 

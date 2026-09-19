@@ -4,7 +4,7 @@
 
 ## 🎯 Purpose
 
-A workspace here is not only a `package.json`: it carries the engines, the catalog versions, the four tooling configs, its own `cspell.json` and `.prettierignore`, and a README in the shape the rest of the repository uses. Written by hand, one of them is always forgotten, and the gate that catches it runs much later. `pnpm new` writes all of them, registers a Feature-Sliced Design root when the package holds layers, and formats what it wrote.
+A workspace here is not only a `package.json`: it carries the engines, the catalog versions, the TypeScript, ESLint and Vitest configs, its own `cspell.json` and `.prettierignore`, and a README in the shape the rest of the repository uses. Written by hand, one of them is always forgotten, and the gate that catches it runs much later. `pnpm new` writes all of them, registers a Feature-Sliced Design root when the package holds layers, and formats what it wrote.
 
 ## 🗂️ Structure
 
