@@ -40,7 +40,9 @@ claude plugin install frontend-design@claude-plugins-official --scope project
 
 The MCP server is approved in `settings.json`, and that approval only takes effect after you accept the
 **workspace trust dialog** the first time you open the repository in Claude Code. A folder you have not
-trusted ignores a committed approval and asks, which is the point.
+trusted ignores a committed approval and asks, which is the point. Once trusted, a session starts
+`npx -y next-devtools-mcp@0.4.0`, which npm downloads on first use; the version is pinned so a new release
+cannot arrive unannounced. To keep it off, set `"enabledMcpjsonServers": []` in your `settings.local.json`.
 
 Skills load themselves when their description matches the work, and can be called by name. Subagents are
 invoked with the Task tool or routed to by description. Commands are typed as `/name`.
@@ -61,7 +63,8 @@ invoked with the Task tool or routed to by description. Commands are typed as `/
 - **Plugins**: `claude plugin update <plugin>@claude-plugins-official` moves you to the version the
   marketplace lists. `settings.json` names them and never pins them.
 - **Agents, commands and settings** are edited by hand and reviewed like any other file. markdownlint and
-  cspell read `agents/` and `commands/`; Prettier does not, so a table here is aligned by hand.
+  cspell read `agents/` and `commands/`; Prettier reads only `skills/project-conventions/`, the skill written
+  here, so a table in the rest of this folder is aligned by hand.
 
 ## 🧩 Extending
 
