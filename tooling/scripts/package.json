@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./commit-rules": "./git/commit-rules.mjs"
+    "./commit-rules": "./git/commit-rules.mjs",
+    "./register-fsd-root": "./generators/register-fsd-root.mjs",
+    "./workspace-plan": "./generators/workspace-plan.mjs"
   },
   "engines": {
     "node": ">=24.18.0 <25",

@@ -30,6 +30,7 @@ One folder per subject, each with its own README:
 | [`github/`](github/README.md)             | What the workflows read out of a pull request, and the agreement between the files that describe the flow             |
 | [`graphify/`](graphify/README.md)         | The code graph rebuild: the git hook trigger, the detached worker behind it, and the hint Claude gets before a search |
 | [`claude-hooks/`](claude-hooks/README.md) | The hooks Claude Code runs around its own tool calls: the skill reminder and the shell guard                          |
+| [`generators/`](generators/README.md)     | What `pnpm new` writes into a new workspace, and how a new FSD root joins the list                                    |
 
 At the root of the package sit only the files that belong to the package as a whole: `package.json`, its `turbo.json`, `eslint.config.mjs`, `vitest.config.mjs`, `cspell.json` and `.prettierignore`.
 

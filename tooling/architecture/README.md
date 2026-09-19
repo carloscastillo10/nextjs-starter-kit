@@ -28,6 +28,8 @@ At the repository root sit only the entry points: `steiger.config.mjs`, a one-li
 
 A root is a folder holding FSD layers. The template ships with one, `apps/web/src`; a package that shares layers between apps is the second case.
 
+`pnpm new` does the three steps below for a package that answers yes to the layers question. By hand:
+
 1. Create the package with its layers, and export them through the package `exports` field, one entry per slice or segment, each pointing at that folder's `index.ts`.
 2. Add the folder to `fsd-roots.json`:
 
