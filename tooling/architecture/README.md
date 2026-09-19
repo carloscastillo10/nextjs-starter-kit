@@ -2,8 +2,8 @@
 
 > One list of Feature-Sliced Design roots, and the two architecture linters that read it.
 
-![steiger](https://img.shields.io/badge/steiger-0.6.0-0F172A)
-![dependency-cruiser](https://img.shields.io/badge/dependency--cruiser-18.3.1-1E40AF)
+![steiger](https://img.shields.io/badge/steiger-v0-0F172A)
+![dependency-cruiser](https://img.shields.io/badge/dependency--cruiser-v18-1E40AF)
 
 ## 🎯 Purpose
 

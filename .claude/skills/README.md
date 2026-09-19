@@ -2,7 +2,7 @@
 
 > Agent skills and plugins that Claude Code loads for everyone who opens this repository.
 
-![skills CLI](https://img.shields.io/badge/skills%20CLI-1.7.0-000000)
+![skills CLI](https://img.shields.io/badge/skills%20CLI-v1-000000)
 ![vendored skills](https://img.shields.io/badge/vendored%20skills-9-2ea44f)
 ![written here](https://img.shields.io/badge/written%20here-1-0969da)
 ![declared plugins](https://img.shields.io/badge/declared%20plugins-3-D97757)
