@@ -20,7 +20,7 @@ Which check owns which rule, and what neither of them sees, is in [the architect
 | `steiger.config.js`            | The FSD ruleset, with the exemptions the Next.js layout and a shared root need   |
 | `dependency-cruiser.config.js` | The rules about the graph between workspaces: direction, cycles, and public APIs |
 
-The configuration files at the repository root are two lines: `steiger.config.mjs` re-exports the Steiger config, and the `lint:deps` script points at the dependency-cruiser one.
+At the repository root sit only the entry points: `steiger.config.mjs`, a one-line re-export that Steiger finds by searching upwards, and the `lint:deps` script, which names the dependency-cruiser config.
 
 ## 🚀 Usage
 

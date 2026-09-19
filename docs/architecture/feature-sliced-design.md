@@ -341,7 +341,7 @@ The config exempts three cases, each limited to the paths involved:
 
 `fsd/import-locality` (relative imports inside a slice, alias across slices) is disabled in the recommended config and stays disabled: inside `shared` it would reject the alias imports that the shadcn CLI generates. The convention still applies; code review enforces it.
 
-Steiger only reads the FSD roots. The rule that route files in `app/` import only from `_pages` and `_app` is a convention outside its reach, and so is everything between workspaces, which `pnpm lint:deps` covers instead. [Architecture checks](architecture-checks.md) says which check owns which rule.
+Steiger only reads the FSD roots. Route files sit outside them, so the rule that they import only from `_pages` and `_app` is an ESLint rule instead (`no-restricted-imports`, in the Next.js preset), and everything between workspaces belongs to `pnpm lint:deps`. [Architecture checks](architecture-checks.md) says which check owns which rule.
 
 ## References
 

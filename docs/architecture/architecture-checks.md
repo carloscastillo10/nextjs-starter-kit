@@ -41,7 +41,7 @@ Proving it stays true takes two commands. With a forbidden import inside a root,
 
 ## What no check sees
 
-- **A route file importing something other than `_pages` or `_app`.** Steiger only reads the FSD roots, and `app/` is not one of them. Review catches this.
+- **How a page slice is put together.** Steiger reads folders and imports; whether a screen's logic belongs in `ui/` or `model/`, and whether a slice earned its layer, is a review question. The route files are the one thing outside the roots that is checked anyway: ESLint restricts their imports to `@/_pages/*` and `@/_app/*`.
 - **A cycle written with the `@/` alias.** dependency-cruiser resolves package and relative imports, not the alias of each app, so a cycle between two segments of `shared` or `_app` written as `@/shared/api` is invisible to it. Inside a slice, use relative imports, which it does resolve. Between slices the alias is required, and a cycle there is already a layer or cross-import violation that Steiger reports.
 - **Whether a slice earns its layer.** `fsd/insignificant-slice` counts references, which is a proxy for the judgement in the [extraction rule](feature-sliced-design.md); the rule is off for roots that a package shares between apps, where the consumers live outside the root.
 
