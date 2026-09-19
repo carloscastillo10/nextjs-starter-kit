@@ -20,6 +20,7 @@
   - [Continuous integration](#continuous-integration)
   - [Pull requests](#pull-requests)
   - [Repository settings](#repository-settings)
+  - [The name in the tree](#the-name-in-the-tree)
 
 ## 🎨 Code style
 
