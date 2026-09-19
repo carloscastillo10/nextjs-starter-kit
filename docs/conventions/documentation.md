@@ -145,6 +145,11 @@ a badge, so anything that changes often is a lie waiting to happen.
   stack table that repeats the same numbers, so one read checks both against each other. A workspace README
   states a major version at most; the resolved version lives in the `catalog` of
   [`pnpm-workspace.yaml`](../../pnpm-workspace.yaml).
+- **A workspace earns a badge for a third-party major its consumer has to match**, and for nothing else: the
+  shadcn/ui registry style, the Tailwind major, the zod major, a linter major, plus at most one badge naming
+  how the package is configured. The runtime and the package manager belong to the root row and are not
+  repeated per workspace, and a badge that states a kind says nothing the folder does not already say. That
+  is why most workspaces carry none.
 - **A count belongs to an index** that also shows what it counted, such as the number of vendored skills in
   [`.claude/skills/README.md`](../../.claude/skills/README.md).
 - **Bump a badge in the commit that bumps what it names.** `doc-steward` reports one that no longer matches.
