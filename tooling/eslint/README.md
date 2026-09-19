@@ -95,5 +95,5 @@ The `next` preset asks for `PascalCase` on a `.tsx` under `src/`, `kebab-case` u
 
 ## 🔗 Related
 
-- [Code style enforcement](../../docs/conventions/code-style.md#enforcement) and [React enforcement](../../docs/conventions/react.md#enforcement)
-- [TypeScript config](../typescript/README.md), which the type-aware rules read
+- [Code style](../../docs/conventions/code-style.md#enforcement) and [React conventions](../../docs/conventions/react.md#enforcement): the rules this package turns on, and what each one is for
+- [@repo/typescript-config](../typescript/README.md): the compiler settings the type-aware rules read

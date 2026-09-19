@@ -51,6 +51,6 @@ pnpm exec turbo gen new-workspace --args packages metrics "Counters the apps rep
 
 ## 🔗 Related
 
-- [`@repo/scripts` generators](../../tooling/scripts/generators/README.md): the plan and the FSD registration
-- [`@repo/architecture-config`](../../tooling/architecture/README.md): what an FSD root is and how it is linted
+- [@repo/scripts generators](../../tooling/scripts/generators/README.md): the plan and the FSD registration
+- [@repo/architecture-config](../../tooling/architecture/README.md): what an FSD root is and how it is linted
 - [Contributing](../../CONTRIBUTING.md): the checks a new workspace has to pass

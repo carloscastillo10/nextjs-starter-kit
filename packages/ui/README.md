@@ -99,4 +99,4 @@ After `shadcn add`, bring the new file in line with the code standard before com
 - [@repo/tailwind-config](../../tooling/tailwind/README.md): the tokens these components use
 - [DESIGN.md](../../DESIGN.md): the design system, value by value
 - [React conventions](../../docs/conventions/react.md): the UI kit first, props and styling rules
-- [shadcn/ui monorepo docs](https://ui.shadcn.com/docs/monorepo)
+- [shadcn/ui monorepo docs](https://ui.shadcn.com/docs/monorepo): how the CLI writes into a package

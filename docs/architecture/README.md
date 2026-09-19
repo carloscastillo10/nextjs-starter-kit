@@ -52,5 +52,5 @@ with it. If the change is hard to reverse, it is also an [ADR](../adr/README.md)
 
 - [Decisions](../adr/README.md): why the architecture has this shape
 - [Conventions](../conventions/README.md): how the code inside that shape is written
-- [`tooling/architecture`](../../tooling/architecture/README.md): the roots and the rules both linters read
-- [`apps/web/src`](../../apps/web/src/README.md): the layers themselves, one README each
+- [@repo/architecture-config](../../tooling/architecture/README.md): the roots and the rules both linters read
+- [apps/web/src](../../apps/web/src/README.md): the layers themselves, one README each

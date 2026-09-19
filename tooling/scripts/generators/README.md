@@ -35,5 +35,5 @@ pnpm new
 
 ## 🔗 Related
 
-- [`pnpm new`](../../../turbo/generators/README.md): the prompts, the templates and what the generated workspace looks like
+- [pnpm new](../../../turbo/generators/README.md): the prompts, the templates and what the generated workspace looks like
 - [@repo/architecture-config](../../architecture/README.md): the list of FSD roots and what a root may look like

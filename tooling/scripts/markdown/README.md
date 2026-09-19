@@ -79,5 +79,5 @@ Extra keys are welcome. `DESIGN.md` carries its design tokens in the same block,
 ## 🔗 Related
 
 - [Knowledge graph](../../../docs/knowledge/README.md): the vault these keys feed
-- [markdownlint config](../../markdown/README.md): the other check that reads the documents
+- [@repo/markdown-config](../../markdown/README.md): the other check that reads the documents
 - [@repo/scripts](../README.md): the other checks in this package

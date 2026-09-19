@@ -52,6 +52,6 @@ What does not belong here:
 
 ## 🔗 Related
 
-- [`entities/`](../entities/README.md): the models a feature acts on
-- [`_pages/`](../_pages/README.md): where an action lives until a second page needs it
-- [Feature-Sliced Design in `apps/web`](../../../../docs/architecture/feature-sliced-design.md): the full rules
+- [entities](../entities/README.md): the models a feature acts on
+- [\_pages](../_pages/README.md): where an action lives until a second page needs it
+- [Feature-Sliced Design](../../../../docs/architecture/feature-sliced-design.md): the full rules

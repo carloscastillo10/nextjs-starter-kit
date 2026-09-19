@@ -166,11 +166,12 @@ a badge, so anything that changes often is a lie waiting to happen.
   - [Label](../path/to/README.md): what the reader finds there
   ```
 
-  `Label` is the name of the target: a document by its title with the emoji dropped (`Contributing`,
-  `Feature-Sliced Design`), a workspace or folder by the name the page already uses for it and with no
-  trailing slash (`@repo/env`, `apps/web`, `shared`), a root file everybody knows by its filename by that
-  filename (`README.md`, `CLAUDE.md`, `AGENTS.md`, `DESIGN.md`). The description starts lower-case and ends
-  without a period, and two links share one item only when a single description covers both.
+  `Label` is the name of the target: a document by its title with the emoji dropped or by one of its
+  `aliases` (`Contributing`, `Comment conventions`), a workspace by its package name (`@repo/env`), a folder
+  by the name the page already uses for it and with no trailing slash (`apps/web`, `shared`), a root file
+  everybody knows by its filename by that filename (`README.md`, `CLAUDE.md`, `AGENTS.md`, `DESIGN.md`). The
+  description starts lower-case and ends without a period, and two links share one item only when a single
+  description covers both.
 
 ## Tables, alerts and diagrams
 

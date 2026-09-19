@@ -196,7 +196,7 @@ The `additionalContext` in the output is what Claude receives. Run the same line
 ## 🔗 Related
 
 - [Project skills](../../../.claude/skills/README.md): what each skill covers and where it comes from
-- [Comment conventions](../../../docs/conventions/comments.md)
+- [Comment conventions](../../../docs/conventions/comments.md): the rule one of the reminders quotes
 - [@repo/scripts](../README.md): the checks lefthook and CI run
 - [Knowledge graph](../../../docs/knowledge/README.md): what the graph holds and when it is rebuilt
-- [Hooks reference](https://code.claude.com/docs/en/hooks) in the Claude Code docs
+- [Hooks reference](https://code.claude.com/docs/en/hooks): the events and the payload each one receives

@@ -42,4 +42,4 @@ cspell also resolves the nearest config for each file it is given, so a word dec
 
 ## 🔗 Related
 
-- [markdownlint config](../markdown/README.md), the other check that reads the docs.
+- [@repo/markdown-config](../markdown/README.md): the other check that reads the same documents

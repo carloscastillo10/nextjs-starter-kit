@@ -114,5 +114,5 @@ A new variable is a new key in a schema, and then:
 
 ## 🔗 Related
 
-- [Feature-Sliced Design guide](../../docs/architecture/feature-sliced-design.md): where a new integration's keys and code go
-- [`turbo.json`](../../turbo.json): the env declarations `env:check:turbo` reads
+- [Feature-Sliced Design](../../docs/architecture/feature-sliced-design.md): where a new integration's keys and code go
+- [turbo.json](../../turbo.json): the env declarations `env:check:turbo` reads

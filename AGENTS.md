@@ -171,7 +171,7 @@ which is a choice you make for yourself and not for the repository.
 
 ## Related
 
-- [`CLAUDE.md`](./CLAUDE.md): the rules no tool can check, and what is enforced for you
-- [`.claude/`](./.claude/README.md): the files themselves, and how to add one
-- [`.claude/skills/README.md`](./.claude/skills/README.md): provenance, licenses, refresh commands, and what was left out
-- [`CONTRIBUTING.md`](./CONTRIBUTING.md): the flow these commands implement
+- [CLAUDE.md](./CLAUDE.md): the rules no tool can check, and what is enforced for you
+- [Claude Code configuration](./.claude/README.md): the files themselves, and how to add one
+- [Project skills](./.claude/skills/README.md): provenance, licenses, refresh commands, and what was left out
+- [Contributing](./CONTRIBUTING.md): the flow these commands implement

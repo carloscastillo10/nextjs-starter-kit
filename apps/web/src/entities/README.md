@@ -50,6 +50,6 @@ What does not justify one:
 
 ## 🔗 Related
 
-- [`shared/`](../shared/README.md): where infrastructure goes instead
-- [`features/`](../features/README.md): the actions performed on these models
-- [Feature-Sliced Design in `apps/web`](../../../../docs/architecture/feature-sliced-design.md): the full rules
+- [shared](../shared/README.md): where infrastructure goes instead
+- [features](../features/README.md): the actions performed on these models
+- [Feature-Sliced Design](../../../../docs/architecture/feature-sliced-design.md): the full rules

@@ -61,7 +61,7 @@ What does not belong here:
 
 ## 🔗 Related
 
-- [`src/`](../README.md): the six layers and the import rule between them
-- [`@repo/ui`](../../../../packages/ui/README.md): the kit every app shares, outside the layers
-- [Feature-Sliced Design in `apps/web`](../../../../docs/architecture/feature-sliced-design.md): the full rules
+- [src](../README.md): the six layers and the import rule between them
+- [@repo/ui](../../../../packages/ui/README.md): the kit every app shares, outside the layers
+- [Feature-Sliced Design](../../../../docs/architecture/feature-sliced-design.md): the full rules
 - [ADR 03](../../../../docs/adr/03-shared-code-in-workspace-packages.md): when shared code becomes a package

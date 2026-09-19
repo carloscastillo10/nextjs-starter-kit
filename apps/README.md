@@ -66,7 +66,7 @@ Then, before it works here:
 
 ## 🔗 Related
 
-- [`apps/web`](./web/README.md): the app that ships, and the shape a second one copies
+- [apps/web](./web/README.md): the app that ships, and the shape a second one copies
 - [Feature-Sliced Design](../docs/architecture/feature-sliced-design.md): the layers inside an app
-- [`packages/`](../packages/README.md): what an app is allowed to import
+- [Packages](../packages/README.md): what an app is allowed to import
 - [Contributing](../CONTRIBUTING.md): the checks a new workspace has to pass

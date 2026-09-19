@@ -55,4 +55,4 @@ Unused variables are ESLint's job (it allows a leading `_`), and type-only impor
 
 ## 🔗 Related
 
-- [ESLint config](../eslint/README.md): the type-aware rules read these settings.
+- [@repo/eslint-config](../eslint/README.md): the type-aware rules that read these settings
