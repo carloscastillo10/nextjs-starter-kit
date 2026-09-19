@@ -10,7 +10,7 @@ Tests run the same way in every package: explicit imports from `vitest` (no glob
 
 | File                     | Export  | For                                                                              |
 | ------------------------ | ------- | -------------------------------------------------------------------------------- |
-| `base.js`, `base.d.ts`   | `base`  | Node code: the `node` environment and the test file pattern                      |
+| `base.js`, `base.d.ts`   | `base`  | Node code: the `node` environment, the test file pattern, and passing with none  |
 | `react.js`, `react.d.ts` | `react` | React code: `base` plus `jsdom` and the `paths` of the package's `tsconfig.json` |
 
 Vite 8 compiles TSX on its own and resolves `tsconfig` paths natively, so neither `@vitejs/plugin-react` nor `vite-tsconfig-paths` is needed.
