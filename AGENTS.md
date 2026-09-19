@@ -112,41 +112,41 @@ about work in progress, the rest maintain one area of the template itself.
 
 ### On a change
 
-| Agent          | Use it for                                                                                                                                                                                                 |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `code-steward` | The code lens on a diff: comments that restate the code, tests that assert wiring, scope nobody asked for, placement no linter judges, an abstraction with one caller. Reports, never writes code          |
-| `doc-steward`  | The documentation lens on the same diff: what the change made untrue in the conventions, the architecture guide, an index, a README or a link. What [`/doc-review`](./.claude/commands/doc-review.md) runs |
-| `tech-lead`    | Direction, not conventions: which of two ways to build something, whether a change is hard to reverse, whether it contradicts a [decision](./docs/adr/README.md)                                           |
+| Agent                                              | Use it for                                                                                                                                                                                                 |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`code-steward`](./.claude/agents/code-steward.md) | The code lens on a diff: comments that restate the code, tests that assert wiring, scope nobody asked for, placement no linter judges, an abstraction with one caller. Reports, never writes code          |
+| [`doc-steward`](./.claude/agents/doc-steward.md)   | The documentation lens on the same diff: what the change made untrue in the conventions, the architecture guide, an index, a README or a link. What [`/doc-review`](./.claude/commands/doc-review.md) runs |
+| [`tech-lead`](./.claude/agents/tech-lead.md)       | Direction, not conventions: which of two ways to build something, whether a change is hard to reverse, whether it contradicts a [decision](./docs/adr/README.md)                                           |
 
 ### On the template itself
 
 Each owns one area and its documentation, and refuses to change another's:
 
-| Agent                | Owns                                                                                    |
-| -------------------- | --------------------------------------------------------------------------------------- |
-| `repo-architect`     | The monorepo skeleton: workspaces, the Turborepo pipeline, the pinned Node and pnpm     |
-| `architecture-agent` | Feature-Sliced Design inside the apps, and the two architecture linters                 |
-| `code-style-agent`   | The code standard in `docs/conventions/`, and which rules a linter can take             |
-| `tooling-agent`      | ESLint, Prettier, TypeScript, Vitest, cspell, markdownlint and the repository's scripts |
-| `git-workflow-agent` | lefthook, commitlint, the branching model, CI and the contribution flow                 |
-| `ui-agent`           | shadcn/ui, Tailwind CSS v4, the design tokens and `DESIGN.md`                           |
-| `knowledge-agent`    | The code graph and the Obsidian vault                                                   |
-| `docs-agent`         | Every README, the `docs/` tree, this file and `CLAUDE.md`                               |
-| `skills-audit-agent` | What belongs in `.claude/`: skills, plugins, MCP servers                                |
-| `qa-release-agent`   | The gates, the release checklist and the deploy                                         |
+| Agent                                                          | Owns                                                                                    |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| [`repo-architect`](./.claude/agents/repo-architect.md)         | The monorepo skeleton: workspaces, the Turborepo pipeline, the pinned Node and pnpm     |
+| [`architecture-agent`](./.claude/agents/architecture-agent.md) | Feature-Sliced Design inside the apps, and the two architecture linters                 |
+| [`code-style-agent`](./.claude/agents/code-style-agent.md)     | The code standard in `docs/conventions/`, and which rules a linter can take             |
+| [`tooling-agent`](./.claude/agents/tooling-agent.md)           | ESLint, Prettier, TypeScript, Vitest, cspell, markdownlint and the repository's scripts |
+| [`git-workflow-agent`](./.claude/agents/git-workflow-agent.md) | lefthook, commitlint, the branching model, CI and the contribution flow                 |
+| [`ui-agent`](./.claude/agents/ui-agent.md)                     | shadcn/ui, Tailwind CSS v4, the design tokens and `DESIGN.md`                           |
+| [`knowledge-agent`](./.claude/agents/knowledge-agent.md)       | The code graph and the Obsidian vault                                                   |
+| [`docs-agent`](./.claude/agents/docs-agent.md)                 | Every README, the `docs/` tree, this file and `CLAUDE.md`                               |
+| [`skills-audit-agent`](./.claude/agents/skills-audit-agent.md) | What belongs in `.claude/`: skills, plugins, MCP servers                                |
+| [`qa-release-agent`](./.claude/agents/qa-release-agent.md)     | The gates, the release checklist and the deploy                                         |
 
 ## Commands
 
-Project slash commands in [`.claude/commands/`](./.claude/commands). The first four are the flow in
+Project slash commands in [`.claude/commands/`](./.claude/README.md). The first four are the flow in
 [`CONTRIBUTING.md`](./CONTRIBUTING.md#the-flow), one per stage, and each refuses to do the next one's job.
 
-| Command                   | Runs                                                                                                                                                                                                                      |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/spec <topic>`           | The rare first step: drafts a spec into [`docs/specs/`](./docs/specs/README.md) against the architecture guide, the ADRs and the business rules, and leaves what only the product owner can answer in `## Open questions` |
-| `/feature <topic>`        | Writes the issue — scope, the vertical slice layer by layer, acceptance criteria, what is out of scope — and offers the branch through `gh issue develop`                                                                 |
-| `/implement <issue>`      | Builds the slice layer by layer, loading the skills the issue names. Refuses an issue with no acceptance criteria                                                                                                         |
-| `/ship [issue]`           | Runs `pnpm gates`, both review lenses, answers each acceptance criterion with its evidence, and opens the pull request into `main`                                                                                        |
-| `/doc-review [pr \| ref]` | The documentation lens on its own, through `doc-steward`. No argument means the current changes against `main`                                                                                                            |
+| Command                                                       | Runs                                                                                                                                                                                                                      |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`/spec <topic>`](./.claude/commands/spec.md)                 | The rare first step: drafts a spec into [`docs/specs/`](./docs/specs/README.md) against the architecture guide, the ADRs and the business rules, and leaves what only the product owner can answer in `## Open questions` |
+| [`/feature <topic>`](./.claude/commands/feature.md)           | Writes the issue — scope, the vertical slice layer by layer, acceptance criteria, what is out of scope — and offers the branch through `gh issue develop`                                                                 |
+| [`/implement <issue>`](./.claude/commands/implement.md)       | Builds the slice layer by layer, loading the skills the issue names. Refuses an issue with no acceptance criteria                                                                                                         |
+| [`/ship [issue]`](./.claude/commands/ship.md)                 | Runs `pnpm gates`, both review lenses, answers each acceptance criterion with its evidence, and opens the pull request into `main`                                                                                        |
+| [`/doc-review [pr \| ref]`](./.claude/commands/doc-review.md) | The documentation lens on its own, through `doc-steward`. No argument means the current changes against `main`                                                                                                            |
 
 They need [GitHub CLI](https://cli.github.com) authenticated (`gh auth status`) and an issue tracker that is
 GitHub Issues. **Nothing depends on GitHub Projects**: no board, no status field, no project URL.
@@ -154,8 +154,10 @@ GitHub Issues. **Nothing depends on GitHub Projects**: no board, no status field
 ## Hooks
 
 Declared in [`.claude/settings.json`](./.claude/settings.json), written in
-[`tooling/scripts/claude-hooks/`](./tooling/scripts/claude-hooks/README.md). They run for everybody, in every
-session, which is why they are the part that does not depend on an agent choosing to comply.
+[`tooling/scripts/claude-hooks/`](./tooling/scripts/claude-hooks/README.md), except `graph-hint`, which lives
+with the [graph scripts](./tooling/scripts/graphify/README.md) because it changes with them. They run for
+everybody, in every session, which is why they are the part that does not depend on an agent choosing to
+comply.
 
 | Hook                 | When                      | What it does                                                                                               |
 | -------------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------- |
