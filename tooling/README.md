@@ -34,7 +34,7 @@ A change in a `tooling/*` package invalidates the cached results that depend on 
 > Files that belong to no package (the root files, `docs/`, and loose files such as this README) are covered by root tasks, `lint:root`, `format:root` and `spell:check:root`, which run in the same Turbo run as the package tasks.
 
 > [!IMPORTANT]
-> Every tool skips `.claude/` and `.agents/`: they hold agent configuration and vendored agent skills, which ship their own example code.
+> No tool reads `.agents/` or the vendored skills under `.claude/skills/`: they ship their own example code. All three read `.claude/skills/project-conventions/`, the skill written here. The rest of `.claude/` is read by markdownlint and cspell but not by Prettier, which is why its tables are aligned by hand.
 
 ## ⌨️ Commands
 

@@ -6,8 +6,8 @@
     "**/node_modules/**",
     ".agents/**",
 
-    // Vendored from other repositories, and a worktree is another checkout of this one
-    ".claude/skills/*.md",
+    // Vendored from other repositories, unlike the skill written here; a worktree is
+    // another checkout of this one
     ".claude/skills/!(project-conventions)/**",
     ".claude/worktrees/**",
 
