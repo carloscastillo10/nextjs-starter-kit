@@ -22,7 +22,7 @@ the [GitHub CLI](https://cli.github.com) are the whole substrate.
 | `labels.yml`                                             | The six labels, with the reason the taxonomy stops at six                                                                     |
 | `workflows/ci.yml`                                       | `Checks`, every gate; and `Author identity`, off unless a variable turns it on                                                |
 | `workflows/pr-title.yml`                                 | The pull request title, against the same commit rules                                                                         |
-| `workflows/assign-on-open.yml`                           | Assigns a new pull request to its author, and the issues its body closes                                                      |
+| `workflows/assign-on-open.yml`                           | Assigns a new pull request to its author, and the issues its body closes. Branches of this repository only                    |
 | `dependabot.yml`                                         | One grouped pull request a month for the workflow actions                                                                     |
 | `.markdownlint.jsonc`                                    | Lets the pull request template open with a second-level heading and use `<details>`. Inline HTML stays banned everywhere else |
 

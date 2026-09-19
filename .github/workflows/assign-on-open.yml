@@ -20,8 +20,12 @@ permissions:
 jobs:
   assign:
     name: Assign
-    # A bot opens pull requests it does not own, and assigning them says nothing.
-    if: github.event.pull_request.user.type != 'Bot'
+    # A bot opens pull requests it does not own, and assigning them says nothing. A pull request
+    # from a fork carries a read-only token whatever the permissions above ask for, so every
+    # assignment would fail and a contribution that is fine would collect a red check.
+    if: >-
+      github.event.pull_request.user.type != 'Bot' &&
+      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
