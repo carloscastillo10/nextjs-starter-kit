@@ -36,9 +36,14 @@ Thumbs.db
 !.vscode/settings.json
 !.vscode/extensions.json
 
-# Claude Code: personal settings and the internal orchestration workspace
+# Claude Code: personal settings, and what a session writes while it runs. A worktree
+# under .claude/worktrees/ is another checkout of this repository.
 .claude/settings.local.json
 .claude/orchestration/
+.claude/worktrees/
+.claude/state/
+.claude/sessions/
+.claude/memory/
 CLAUDE.local.md
 
 # Knowledge graph: graphify writes the graph, its report and the Obsidian notes per

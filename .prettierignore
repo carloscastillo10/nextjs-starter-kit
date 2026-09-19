@@ -8,3 +8,6 @@ apps/*/CLAUDE.md
 # Agent configuration and vendored agent skills
 .claude/
 .agents/
+
+# Generator templates: Prettier reads .hbs as an Ember template and rewrites it
+*.hbs
