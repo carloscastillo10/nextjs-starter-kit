@@ -84,8 +84,9 @@ export const COMPONENT_SYNTAX = [
 ];
 
 /*
- * Only the app writes components by hand. The kit is the shadcn CLI's output, which
- * passes objects and conditionals to props of its own primitives.
+ * Selectors for components written by hand, which is why only the `next` preset spreads
+ * them. The kit is the shadcn CLI's output, and nothing constrains the shapes the CLI
+ * writes; the rules that do reach it are the ones a fixer can apply on its own.
  */
 export const APP_COMPONENT_SYNTAX = [
   {
