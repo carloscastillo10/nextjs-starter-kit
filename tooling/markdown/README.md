@@ -22,7 +22,9 @@ The docs style works with these rules as they are: YAML front matter, emoji in h
 
 ## 🚀 Usage
 
-The root `.markdownlint-cli2.jsonc` extends this config and lists what to check: every `*.md` outside `.gitignore`, `.claude/`, `.agents/` and the agent notes that `next dev` writes.
+The root `.markdownlint-cli2.jsonc` extends this config and lists what to check: every `*.md` outside `.gitignore`, the skills vendored into `.claude/skills/`, the worktrees of `.claude/worktrees/`, `.agents/` and the agent notes that `next dev` writes. The agent definitions and slash commands of `.claude/` are checked, because their wording is this repository's own.
+
+`.github/.markdownlint.jsonc` extends this config and switches off two rules for that folder alone: `MD041`, because the pull request template opens below the title GitHub renders, and `MD033`, because Markdown has no way to fold a block and the template needs one.
 
 ## ⌨️ Commands
 
@@ -37,4 +39,5 @@ The root `.markdownlint-cli2.jsonc` extends this config and lists what to check:
 
 ## 🔗 Related
 
-- [cspell config](../cspell/README.md), which spell-checks the same files.
+- [spell-check config](../spell-check/README.md), which spell-checks the same files.
+- [Frontmatter check](../scripts/markdown/README.md), which asks each document for its `tags` and `aliases`.

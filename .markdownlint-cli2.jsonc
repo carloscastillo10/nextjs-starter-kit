@@ -4,8 +4,11 @@
   "gitignore": true,
   "ignores": [
     "**/node_modules/**",
-    ".claude/**",
     ".agents/**",
+
+    // Vendored from other repositories, and a worktree is another checkout of this one
+    ".claude/skills/**",
+    ".claude/worktrees/**",
 
     // Written and rewritten by `next dev`
     "apps/*/AGENTS.md",

@@ -13,7 +13,7 @@ Typos in names, messages and docs get caught before review. cspell reads identif
 | `cspell.json`       | Language, the project dictionary, and the paths never checked                                    |
 | `project-words.txt` | Words the built-in dictionaries do not know: product and library names, terms of the conventions |
 
-Never checked: dependencies, build output and caches, lockfiles, generated type files, `.claude/` and `.agents/`.
+Never checked: dependencies, build output and caches, lockfiles, generated type files, vendored skills under `.claude/skills/`, the worktrees of `.claude/worktrees/` and `.agents/`. The agent definitions and slash commands of `.claude/` are checked, with the words that belong to them alone in `.claude/cspell.json`.
 
 ## 🚀 Usage
 
