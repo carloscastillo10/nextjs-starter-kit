@@ -1,8 +1,10 @@
 backlinks
 commitlint
 Dataview
+eeef
 esbuild
 estree
+fbca
 gitmoji
 graphify
 graphifyignore

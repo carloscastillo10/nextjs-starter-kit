@@ -5,6 +5,13 @@
 ## 🧭 Table of contents
 
 - [🎨 Code style](#-code-style)
+- [🔁 How work moves](#-how-work-moves)
+  - [The flow](#the-flow)
+  - [Issues](#issues)
+  - [Where the plan lives](#where-the-plan-lives)
+  - [What the branch learned](#what-the-branch-learned)
+  - [Definition of done](#definition-of-done)
+  - [Working with an agent](#working-with-an-agent)
 - [🌿 Git workflow](#-git-workflow)
   - [Branches](#branches)
   - [Commits](#commits)
@@ -52,6 +59,101 @@ Tools enforce what they can, so run them before you push:
 `pnpm lint:fix` and `pnpm format:fix` apply the fixes the tools can make on their own. `pnpm lint:arch` runs only Steiger. To add a word to the spelling dictionary, edit [`tooling/cspell/project-words.txt`](tooling/cspell/project-words.txt).
 
 Inline lint suppressions are switched off. If a rule does not fit a file, change the configuration for that file's glob and write down why.
+
+## 🔁 How work moves
+
+### The flow
+
+```text
+/spec   →   /feature   →   /implement   →   /ship   →   review   →   squash into main
+(rare)       the issue      layer by layer   gates and the pull request
+```
+
+Four commands in [`.claude/commands/`](.claude/commands), one per stage, and each one refuses to do the next one's job: `/feature` plans and stops, `/implement` builds and stops, `/ship` proves and stops. Doing it by hand follows the same steps; the commands are that flow written down.
+
+**0. A spec comes first, when there is behavior to decide.** Most changes need none: a dependency bump, a bug with a failing test, a screen the design already describes. When the product should behave in a way nothing written says it does, `/spec` drafts it into `docs/specs/` and **it merges as its own `docs` pull request, before the implementation issue exists**. Implementing against a spec that does not exist is drift on day one, and a question only the product owner can answer stays in `## Open questions` rather than being settled by inference on the way past.
+
+**1. The issue is the unit of work**, and it carries its own plan: scope, the vertical slice layer by layer, acceptance criteria, what is out of scope. [`feature.yml`](.github/ISSUE_TEMPLATE/feature.yml) asks for exactly that, and `/feature` fills it in.
+
+**2. Branch from the issue, not from your shell**, so GitHub links the two: [Branches](#branches) has the command and what the link buys.
+
+**3. Implement the slice** in the layer order of [Feature-Sliced Design](docs/architecture/feature-sliced-design.md), one layer at a time with its tests passing before the next one starts. Nothing outward is reached from inward, which is what lets two people, or a person and an agent, produce the same shape.
+
+**4. Run the gates** before opening anything: `pnpm gates` runs what CI runs, from one place.
+
+**5. Open the pull request into `main`.** The title is the commit subject, because the squash makes it one, so it obeys the [commit convention](#commits) and CI checks it. The body carries `Closes #<issue>`, which closes the issue on merge and is also what [`assign-on-open.yml`](.github/workflows/assign-on-open.yml) reads to give that issue an owner. GitHub does neither by itself for an unassigned issue, so leaving the number off costs both.
+
+**6. Review through two lenses**, in parallel, because each sees what the other cannot. `/doc-review` drives the `doc-steward` agent over the diff and reports where the change leaves the written record contradicted or stale; `code-steward` reads the same diff for what no linter can express: comments that restate the code, tests that assert wiring instead of behavior, scope nobody asked for, an abstraction with one caller. Every finding is fixed in the branch or filed as an issue, and the pull request says which.
+
+**7. Squash merge into `main`** and delete the branch. One change is one commit, which is what keeps the history of `main` readable.
+
+### Issues
+
+**One issue is one pull request, and one pull request is one thing.** A vertical slice counts as one thing however many layers it crosses: the component, the page that renders it and the documentation that describes it are the same change, and splitting them across three reviews loses the agreement between them. The repository's own tooling and its delivery are not that: they are reviewed on different evidence, so they travel in their own pull requests.
+
+The measure is not lines. A rename across two hundred files is one thing; a feature with a CI overhaul bolted onto it is two, at forty. `check-branch-scope` says which it looks like at push and again when the pull request is opened, and it **reports without ever refusing**, because a scaffold, a generated drop and a tree-wide rename are all legitimately enormous and nothing mechanical tells them from a branch that quietly grew a second subject. When it fires, either split the branch, which is cheap while it is still a branch, or say in the body why it is one thing.
+
+An issue nobody can check off is not ready: label it `needs-info` and say what is missing. The labels are declared in [`.github/labels.yml`](.github/labels.yml) and created once per repository, as [Repository settings](#repository-settings) explains.
+
+### Where the plan lives
+
+| What it is                                  | Where it goes                                           | How long it lives                       |
+| ------------------------------------------- | ------------------------------------------------------- | --------------------------------------- |
+| The plan for one issue                      | The issue                                               | Until its pull request merges           |
+| A plan long enough to need its own document | `docs/plans/`, written with `superpowers:writing-plans` | Until it has been carried out           |
+| A design the work produced that outlives it | `docs/specs/`, written with `/spec`                     | Until it is wrong                       |
+| A decision that is hard to reverse          | `docs/adr/`                                             | Forever, superseded rather than deleted |
+| Behavior, and the rules that cross features | `docs/specs/` and `docs/business-rules.md`              | They are the source of truth            |
+
+**A plan never goes in [`docs/architecture/`](docs/architecture/README.md).** That folder describes the system as it is; a plan describes a system that does not exist yet, and mixing the two manufactures exactly the drift this flow exists to prevent.
+
+### What the branch learned
+
+Two different things keep documentation honest, and only one of them can be automated.
+
+**Drift is caught for you.** `/doc-review` reads the diff and reports where the change contradicts a rule, a convention or an architecture guide, or leaves an index, a README or a link stale. A tool can do that much, because the fact already reached a file.
+
+**Discovery cannot be, and never will be.** What you found out while building — an API that does not behave the way its own documentation says, an answer that finally arrived, a trap that ate an afternoon — exists only in your head until you write it down. No diff contains it, so no lens can find it. This is where documentation actually rots, so the pull request answers it explicitly, and each finding has exactly one destination:
+
+| What you learned                                         | Where it goes                                            |
+| -------------------------------------------------------- | -------------------------------------------------------- |
+| A rule that holds across features                        | `docs/business-rules.md`, as a new `BR-xx`               |
+| A third party behaves differently from its documentation | `docs/integrations/<name>.md`, with the date and the URL |
+| A choice that is hard to reverse                         | `docs/adr/`                                              |
+| How code here is written, now settled                    | [`docs/conventions/`](docs/conventions/README.md)        |
+| The system changed shape                                 | [`docs/architecture/`](docs/architecture/README.md)      |
+| The spec was wrong or silent                             | The spec in `docs/specs/`, including its open questions  |
+| A token, or how the theme is meant to be used            | [`DESIGN.md`](DESIGN.md)                                 |
+| How a workspace is used or run                           | That workspace's `README.md`                             |
+
+**An answer somebody gave in conversation is not documentation.** Record who said it and when, and mark it unverified until it appears in a published reference. Writing "nothing new" is a valid answer and the required one when the branch taught nothing: an empty section reads as a skipped step, which is worse than an honest no.
+
+### Definition of done
+
+Not "the code is written". All of it:
+
+- Every acceptance criterion in the issue is observably met, each with its evidence in the pull request.
+- `pnpm gates` passes locally and CI is green.
+- Both lenses ran, and every finding is fixed in the branch or filed as an issue.
+- What the branch learned is written into the files above, or the pull request says "nothing new".
+- A README, index or spec the change outdated is updated **in the same branch**. Keeping it current is part of the change, not a follow-up.
+- A decision that is hard to reverse is an ADR.
+
+### Working with an agent
+
+The tooling splits three ways, and the split is not cosmetic:
+
+|               | What it is for                                | Why that shape                                                                                   |
+| ------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **Skills**    | The rules that hold while the code is written | Whoever writes the code needs them in their own context; a subagent cannot hand conventions back |
+| **Subagents** | A large, read-only surface                    | It spends its own context and returns a conclusion, keeping a whole reference out of yours       |
+| **Commands**  | A ritual whose order is the value             | Procedure rather than knowledge                                                                  |
+
+What exists is catalogued in [`.claude/skills/README.md`](.claude/skills/README.md), and [`tooling/scripts/hooks/`](tooling/scripts/hooks/README.md) holds the part that does not depend on an agent choosing to comply:
+
+- **Load the skills the issue names before the first line.** A convention read after review produces a rewrite, not a review. A hook names the skills that govern a file as it is about to be written, which is a reminder rather than a substitute.
+- **Review is where parallel belongs.** `/doc-review` and `code-steward` read the same diff independently; implementation is not split that way, because a context boundary in the middle of a slice loses what keeps its halves in step.
+- **An agent cannot skip a git hook or push to `main`.** The shell guard refuses `--no-verify`, `LEFTHOOK=0` and a push that lands on `main`, and on `gh pr create` it hands over the template and the title rule instead. The escape hatches below stay open for a person.
 
 ## 🌿 Git workflow
 
@@ -208,13 +310,33 @@ A repository created from this template does not copy the settings of this one. 
 | Merge methods                   | Settings → General → Pull Requests                     | Only **Allow squash merging**, with the default message **Pull request title and commit details**                                                       |
 | Branch cleanup                  | Settings → General → Pull Requests                     | **Automatically delete head branches**                                                                                                                  |
 | Branch ruleset for `main`       | Settings → Rules → Rulesets                            | Require a pull request, require the status checks `Checks` and `PR title`, block force pushes, require linear history                                   |
+| Labels                          | Issues → Labels                                        | The six in [`.github/labels.yml`](.github/labels.yml). A form that asks for a label that does not exist applies nothing and warns nobody                |
 | Author identity check, optional | Settings → Secrets and variables → Actions → Variables | `ENFORCE_AUTHOR_IDENTITY` set to `true`, then add `Author identity` to the required checks. Only in a repository that takes no pull requests from forks |
 
-The first two in one command, run from a clone of the new repository:
+One thing in the tree changes with the repository too: the four `contact_links` in [`.github/ISSUE_TEMPLATE/config.yml`](.github/ISSUE_TEMPLATE/config.yml) still point at this template, because GitHub accepts only absolute URLs there.
+
+The first two settings in one command, run from a clone of the new repository:
 
 ```bash
 gh repo edit --enable-squash-merge --squash-merge-commit-message pr-title-commits \
   --enable-merge-commit=false --enable-rebase-merge=false --delete-branch-on-merge
+```
+
+The labels, from the same clone. `--force` updates the color and description of a label GitHub created with the repository, so running the block twice is safe:
+
+```bash
+gh label create bug --color d73a4a --force \
+  --description "Behaves differently from what is written down"
+gh label create enhancement --color a2eeef --force \
+  --description "One unit of work, with acceptance criteria"
+gh label create documentation --color 0075ca --force \
+  --description "Only the documentation changes"
+gh label create needs-triage --color fbca04 --force \
+  --description "Opened and not yet read. Every form applies this"
+gh label create needs-info --color d876e3 --force \
+  --description "Nobody can check this off until a question is answered"
+gh label create wontfix --color ffffff --force \
+  --description "Understood, and deliberately not being done"
 ```
 
 The variable, from the same clone:

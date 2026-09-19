@@ -6,7 +6,12 @@
       "inputs": [
         "$TURBO_DEFAULT$",
         "$TURBO_ROOT$/commitlint.config.mjs",
-        "$TURBO_ROOT$/.github/workflows/ci.yml",
+        "$TURBO_ROOT$/CONTRIBUTING.md",
+        "$TURBO_ROOT$/.github/labels.yml",
+        "$TURBO_ROOT$/.github/pull_request_template.md",
+        "$TURBO_ROOT$/.github/ISSUE_TEMPLATE/*.yml",
+        "$TURBO_ROOT$/.github/workflows/*.yml",
+        "$TURBO_ROOT$/.claude/settings.json",
         "$TURBO_ROOT$/.claude/skills/*/SKILL.md",
         "$TURBO_ROOT$/lefthook.yml"
       ]
