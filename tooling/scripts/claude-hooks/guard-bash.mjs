@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 
 const PROTECTED = ["main"];
 
-const BRANCH_SCOPE = fileURLToPath(new URL("../check-branch-scope.mjs", import.meta.url));
+const BRANCH_SCOPE = fileURLToPath(new URL("../git/check-branch-scope.mjs", import.meta.url));
 
 const SKIPS_THE_HOOKS = /(?:^|[\s"'])--no-verify(?:[\s"']|$)|\bLEFTHOOK=(?:0|false)\b/u;
 

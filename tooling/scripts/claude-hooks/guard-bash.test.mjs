@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 
 import { describe, expect, test } from "vitest";
 
-import { createSandbox } from "../git-sandbox.mjs";
+import { createSandbox } from "../git/git-sandbox.mjs";
 
 const SCRIPT = fileURLToPath(new URL("guard-bash.mjs", import.meta.url));
 

@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 
 import { describe, expect, test } from "vitest";
 
-import { isCheckedSource } from "../comment-rules.mjs";
+import { isCheckedSource } from "../comments/comment-rules.mjs";
 import {
   findSkillRule,
   formatReminders,
@@ -83,7 +83,7 @@ describe("findSkillRule", () => {
 describe("isCommentChecked", () => {
   test.each([
     "apps/web/src/_pages/home/ui/HomePage.tsx",
-    "tooling/scripts/run-gates.mjs",
+    "tooling/scripts/gates/run-gates.mjs",
     "commitlint.config.mjs",
     "packages/env/src/index.ts",
     "apps/web/next.config.ts",

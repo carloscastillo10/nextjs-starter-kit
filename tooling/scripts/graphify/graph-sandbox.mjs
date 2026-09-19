@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { createSandbox } from "../git-sandbox.mjs";
+import { createSandbox } from "../git/git-sandbox.mjs";
 import { statePaths } from "./graph-lock.mjs";
 import { findExecutable } from "./graph-rules.mjs";
 

@@ -62,7 +62,7 @@ graphify summary                            # a compact orientation to start fro
 graphify check-update                       # says whether the graph matches HEAD
 ```
 
-`.graphify/GRAPH_REPORT.md` is the same material to read rather than query. Claude Code gets a reminder of both before it searches, from the [graph hint hook](../../tooling/scripts/hooks/README.md#the-graph-hint).
+`.graphify/GRAPH_REPORT.md` is the same material to read rather than query. Claude Code gets a reminder of both before it searches, from the [graph hint hook](../../tooling/scripts/claude-hooks/README.md#the-graph-hint).
 
 ### Live rebuilds while you work
 

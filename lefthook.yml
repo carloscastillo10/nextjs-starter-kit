@@ -23,16 +23,16 @@ min_version: 2.1.14
 # through fix-staged too.
 pre-commit:
   setup:
-    - run: node tooling/scripts/fix-staged.mjs --record
+    - run: node tooling/scripts/git/fix-staged.mjs --record
 
   jobs:
     - name: eslint
       glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"
-      run: node tooling/scripts/fix-staged.mjs eslint {staged_files}
+      run: node tooling/scripts/git/fix-staged.mjs eslint {staged_files}
       stage_fixed: true
 
     - name: prettier
-      run: node tooling/scripts/fix-staged.mjs prettier {staged_files}
+      run: node tooling/scripts/git/fix-staged.mjs prettier {staged_files}
       stage_fixed: true
 
     - name: checks
@@ -70,7 +70,7 @@ commit-msg:
       run: pnpm exec commitlint --edit {1}
 
     - name: identity
-      run: node tooling/scripts/check-git-identity.mjs
+      run: node tooling/scripts/git/check-git-identity.mjs
 
 # The guards run one after the other, so the branch report prints on its own; a
 # failure does not stop the jobs after it. Then the checks that read the whole
@@ -78,13 +78,13 @@ commit-msg:
 pre-push:
   jobs:
     - name: authors
-      run: node tooling/scripts/check-push-authors.mjs
+      run: node tooling/scripts/git/check-push-authors.mjs
 
     - name: linked
-      run: node tooling/scripts/check-linked-branch.mjs
+      run: node tooling/scripts/git/check-linked-branch.mjs
 
     - name: scope
-      run: node tooling/scripts/check-branch-scope.mjs
+      run: node tooling/scripts/git/check-branch-scope.mjs
 
     - name: checks
       group:

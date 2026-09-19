@@ -20,16 +20,16 @@ aliases: [Home, Vault Home]
 
 ## 🗺️ Maps of content
 
-| Area              | Start at                                                         | Holds                                                       |
-| ----------------- | ---------------------------------------------------------------- | ----------------------------------------------------------- |
-| App code          | [`apps/web/src`](apps/web/src/README.md)                         | The layers of the Next.js app, one README each              |
-| Routes            | [`apps/web/app`](apps/web/app/README.md)                         | Route files, which only re-export pages                     |
-| UI kit            | [`packages/ui`](packages/ui/README.md)                           | The shadcn/ui components every app shares                   |
-| Environment       | [`packages/env`](packages/env/README.md)                         | One zod schema per variable, and the generated example file |
-| Tooling           | [`tooling`](tooling/README.md)                                   | Shared configuration for the build and quality tools        |
-| Repository checks | [`tooling/scripts`](tooling/scripts/README.md)                   | The checks the git hooks and CI run                         |
-| Graph scripts     | [`tooling/scripts/graphify`](tooling/scripts/graphify/README.md) | The background rebuild of the code graph                    |
-| Claude Code hooks | [`tooling/scripts/hooks`](tooling/scripts/hooks/README.md)       | The hooks that run around Claude Code's tool calls          |
+| Area              | Start at                                                                 | Holds                                                       |
+| ----------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| App code          | [`apps/web/src`](apps/web/src/README.md)                                 | The layers of the Next.js app, one README each              |
+| Routes            | [`apps/web/app`](apps/web/app/README.md)                                 | Route files, which only re-export pages                     |
+| UI kit            | [`packages/ui`](packages/ui/README.md)                                   | The shadcn/ui components every app shares                   |
+| Environment       | [`packages/env`](packages/env/README.md)                                 | One zod schema per variable, and the generated example file |
+| Tooling           | [`tooling`](tooling/README.md)                                           | Shared configuration for the build and quality tools        |
+| Repository checks | [`tooling/scripts`](tooling/scripts/README.md)                           | The checks the git hooks and CI run                         |
+| Graph scripts     | [`tooling/scripts/graphify`](tooling/scripts/graphify/README.md)         | The background rebuild of the code graph                    |
+| Claude Code hooks | [`tooling/scripts/claude-hooks`](tooling/scripts/claude-hooks/README.md) | The hooks that run around Claude Code's tool calls          |
 
 ## 🧠 Code graph
 

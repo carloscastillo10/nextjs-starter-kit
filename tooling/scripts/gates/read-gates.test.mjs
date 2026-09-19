@@ -6,7 +6,7 @@ import { describe, expect, test } from "vitest";
 import { readGates } from "./read-gates.mjs";
 
 const CI = readFileSync(
-  fileURLToPath(new URL("../../.github/workflows/ci.yml", import.meta.url)),
+  fileURLToPath(new URL("../../../.github/workflows/ci.yml", import.meta.url)),
   "utf8",
 );
 

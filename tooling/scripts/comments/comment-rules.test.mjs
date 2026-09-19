@@ -12,7 +12,7 @@ describe("isCheckedSource", () => {
   test.each([
     "apps/web/src/_pages/home/ui/HomePage.tsx",
     "apps/web/next.config.ts",
-    "tooling/scripts/check-comments.mjs",
+    "tooling/scripts/comments/check-comments.mjs",
     "packages/ui/src/button.jsx",
     "tooling/eslint/base.js",
     "config/legacy.cjs",

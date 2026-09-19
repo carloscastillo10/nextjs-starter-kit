@@ -72,7 +72,7 @@ Each reminder above appears once per session.
 
 **Order is the design.** The rules run from narrow to wide, and the first one that matches is the only one that speaks, so `packages/ui/README.md` gets the prose rule and `packages/ui/package.json` gets the monorepo rule. Paths are read from the root of the checkout that holds the file, so a worktree nested inside the project resolves the same way. Nothing fires for `.claude/skills/`, `.agents/` or `node_modules/`: nobody writes those by hand.
 
-**The comment rule** comes with every source file the [comment check](../README.md#the-comment-check) covers, whether a skill rule matched or not. A skill has to be loaded to be obeyed, and the comment convention is the one most often broken by whoever did not load one.
+**The comment rule** comes with every source file the [comment check](../comments/README.md#the-comment-check) covers, whether a skill rule matched or not. A skill has to be loaded to be obeyed, and the comment convention is the one most often broken by whoever did not load one.
 
 **Once per session, per reminder.** The hook leaves an empty marker file for each reminder it gives, under `claude-skill-reminders/<session>/` in the system temporary folder, and stays silent about a reminder the session already had. Without that, the same paragraphs would land on every edit of a file, which is how a useful hook becomes one people switch off. The skill rule and the comment rule are tracked apart, so moving on to a file under another rule brings only the new rule.
 
@@ -100,7 +100,7 @@ It speaks only when `.graphify/GRAPH_REPORT.md` exists in the checkout that hold
 | `--no-verify`, `git commit -n`, `LEFTHOOK=0` or `LEFTHOOK=false`            | Denied. `LEFTHOOK_EXCLUDE=<job>` still works, so a single job, such as `graph`, can be left out |
 | A `git push` that lands on `main`, named or by being the checked-out branch | Denied, with the pull request as the way in                                                     |
 
-The rest is not a block. On `gh pr create` it hands back the four sections of the pull request template, the rule the title has to pass, and what [`check-branch-scope`](../README.md#the-branch-checks) makes of the branch:
+The rest is not a block. On `gh pr create` it hands back the four sections of the pull request template, the rule the title has to pass, and what [`check-branch-scope`](../git/README.md#the-branch-checks) makes of the branch:
 
 ```text
   This branch against origin/main:
@@ -128,7 +128,7 @@ Each script is one entry in the array of its event, with its own matcher:
     {
       "type": "command",
       "command": "node",
-      "args": ["${CLAUDE_PROJECT_DIR}/tooling/scripts/hooks/<script>.mjs"],
+      "args": ["${CLAUDE_PROJECT_DIR}/tooling/scripts/claude-hooks/<script>.mjs"],
       "timeout": 10,
       "statusMessage": "What the spinner says while the hook runs"
     }
@@ -147,7 +147,7 @@ A hook reads its payload as JSON on stdin, so pipe one in:
 
 ```bash
 echo '{"session_id":"try-1","tool_name":"Write","tool_input":{"file_path":"'"$PWD"'/apps/web/src/_pages/home/ui/HomePage.tsx"}}' \
-  | node tooling/scripts/hooks/remind-skills.mjs
+  | node tooling/scripts/claude-hooks/remind-skills.mjs
 ```
 
 The `additionalContext` in the output is what Claude receives. Run the same line again and it prints nothing, because session `try-1` already had both reminders; change the `session_id` to see them again. Silence with exit code `0` always means the hook let the call through.
@@ -159,12 +159,12 @@ The `additionalContext` in the output is what Claude receives. Run the same line
 
 ## ⌨️ Commands
 
-| Command                                                            | What it does                                    |
-| ------------------------------------------------------------------ | ----------------------------------------------- |
-| `pnpm --filter @repo/scripts test`                                 | Runs the hook tests with the other script tests |
-| `echo '<payload>' \| node tooling/scripts/hooks/remind-skills.mjs` | Runs the skill reminder on one payload          |
-| `echo '<payload>' \| node tooling/scripts/graphify/graph-hint.mjs` | Runs the graph hint on one payload              |
-| `echo '<payload>' \| node tooling/scripts/hooks/guard-bash.mjs`    | Runs the shell guard on one payload             |
+| Command                                                                   | What it does                                    |
+| ------------------------------------------------------------------------- | ----------------------------------------------- |
+| `pnpm --filter @repo/scripts test`                                        | Runs the hook tests with the other script tests |
+| `echo '<payload>' \| node tooling/scripts/claude-hooks/remind-skills.mjs` | Runs the skill reminder on one payload          |
+| `echo '<payload>' \| node tooling/scripts/graphify/graph-hint.mjs`        | Runs the graph hint on one payload              |
+| `echo '<payload>' \| node tooling/scripts/claude-hooks/guard-bash.mjs`    | Runs the shell guard on one payload             |
 
 ## 🧩 Extending
 

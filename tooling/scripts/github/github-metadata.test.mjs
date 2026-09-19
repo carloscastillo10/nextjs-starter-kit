@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
 import { parse } from "yaml";
 
-const ROOT = fileURLToPath(new URL("../..", import.meta.url));
+const ROOT = fileURLToPath(new URL("../../..", import.meta.url));
 
 const read = (file) => readFileSync(path.join(ROOT, file), "utf8");
 
@@ -87,7 +87,7 @@ describe("the pull request template", () => {
   const template = read(".github/pull_request_template.md");
 
   test("carries the four sections the shell guard hands over", () => {
-    const guard = read("tooling/scripts/hooks/guard-bash.mjs");
+    const guard = read("tooling/scripts/claude-hooks/guard-bash.mjs");
     const headings = [...template.matchAll(/^## (?<heading>.+)$/gmu)].map(
       (match) => match.groups.heading,
     );

@@ -42,7 +42,7 @@ jobs:
         id: refs
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
-        run: echo "numbers=$(node tooling/scripts/read-closing-refs.mjs)" >> "$GITHUB_OUTPUT"
+        run: echo "numbers=$(node tooling/scripts/github/read-closing-refs.mjs)" >> "$GITHUB_OUTPUT"
 
       - name: Give them an owner
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0

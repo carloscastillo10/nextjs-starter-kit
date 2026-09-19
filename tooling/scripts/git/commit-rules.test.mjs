@@ -4,7 +4,7 @@ import lint from "@commitlint/lint";
 import load from "@commitlint/load";
 import { describe, expect, test } from "vitest";
 
-const ROOT = fileURLToPath(new URL("../../", import.meta.url));
+const ROOT = fileURLToPath(new URL("../../../", import.meta.url));
 
 const config = await load({}, { cwd: ROOT });
 

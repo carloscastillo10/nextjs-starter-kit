@@ -22,7 +22,7 @@
           {
             "type": "command",
             "command": "node",
-            "args": ["${CLAUDE_PROJECT_DIR}/tooling/scripts/hooks/remind-skills.mjs"],
+            "args": ["${CLAUDE_PROJECT_DIR}/tooling/scripts/claude-hooks/remind-skills.mjs"],
             "timeout": 10,
             "statusMessage": "Checking which skills govern this file"
           }
@@ -46,7 +46,7 @@
           {
             "type": "command",
             "command": "node",
-            "args": ["${CLAUDE_PROJECT_DIR}/tooling/scripts/hooks/guard-bash.mjs"],
+            "args": ["${CLAUDE_PROJECT_DIR}/tooling/scripts/claude-hooks/guard-bash.mjs"],
             "timeout": 15,
             "statusMessage": "Checking the command against the git workflow"
           }
