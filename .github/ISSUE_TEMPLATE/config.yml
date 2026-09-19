@@ -1,0 +1,17 @@
+# Every issue arrives through a form, so it arrives with the fields the flow reads. The links
+# below are absolute because GitHub requires it here; a repository created from this template
+# points them at its own copy, as CONTRIBUTING.md says under Repository settings.
+blank_issues_enabled: false
+contact_links:
+  - name: 🔀 How work moves through this repository
+    url: https://github.com/carloscastillo10/nextjs-starter-kit/blob/main/CONTRIBUTING.md
+    about: The flow from a spec to a merged pull request, and the commands that drive it
+  - name: 🧭 How code here is written
+    url: https://github.com/carloscastillo10/nextjs-starter-kit/blob/main/docs/conventions/README.md
+    about: File names, comments, React, and the check that holds each rule
+  - name: 🏗️ Where code lives
+    url: https://github.com/carloscastillo10/nextjs-starter-kit/blob/main/docs/architecture/feature-sliced-design.md
+    about: Layers, slices and import rules. Read this before proposing a different shape
+  - name: 🧰 Getting the repository running
+    url: https://github.com/carloscastillo10/nextjs-starter-kit/blob/main/README.md
+    about: The toolchain, the first run, and the commands this repository ships

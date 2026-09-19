@@ -1,0 +1,88 @@
+name: 🐛 Bug
+description: Something behaves differently from what is written down
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ![type](https://img.shields.io/badge/type-bug-DC2626?style=for-the-badge) &nbsp;![needs](https://img.shields.io/badge/needs-what%20it%20contradicts-F59E0B?style=for-the-badge) &nbsp;![triage](https://img.shields.io/badge/lands%20in-triage-64748B?style=for-the-badge)
+
+        > [!IMPORTANT]
+        > **A bug is a gap against something written down.** When no spec, acceptance criterion,
+        > convention or README says it should behave otherwise, this is a change request: open a
+        > **🚀 Feature** instead, and it will be taken just as seriously.
+
+  - type: dropdown
+    id: surface
+    attributes:
+      label: 📍 Where
+      options:
+        - 🌐 apps/web, the application
+        - 🧩 packages/ui, the component kit
+        - 📦 Another package under packages
+        - 🔧 tooling, the checks and the git hooks
+        - 🚀 .github, the workflows and CI
+        - 📄 docs and the READMEs
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 🔁 Steps
+      description: What you did, in the order you did it. Numbered, so a reader can follow along.
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: ✅ Expected, and what says so
+      description: |
+        **Name the file and the section.** Quote the line when you have it: that quote is what
+        turns a disagreement into a defect.
+      placeholder: |
+        docs/conventions/react.md, Server and Client Components: a page stays a Server Component
+        until something in it needs the browser.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 💥 Actual
+      description: What happened instead. One sentence, then the evidence below.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 📋 Error, log or stack trace
+      description: Paste it raw. Screenshots go in the box above this one.
+      render: console
+
+  - type: input
+    id: build
+    attributes:
+      label: 🏷️ Build
+      description: Branch and commit, plus where it ran
+      placeholder: main @ 7fbb255, dev server on Node 24.18.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: reproducible
+    attributes:
+      label: 🎲 Reproducible
+      description: An intermittent bug is worth reporting. Say so rather than waiting to pin it down.
+      options:
+        - Every time
+        - Sometimes, no pattern found yet
+        - Once, and not since
+    validations:
+      required: true

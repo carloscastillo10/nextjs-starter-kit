@@ -1,0 +1,145 @@
+name: 🚀 Feature
+description: One unit of work, with the slice it cuts and the criteria it is judged by
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ![type](https://img.shields.io/badge/type-feature-0EA5E9?style=for-the-badge) &nbsp;![unit](https://img.shields.io/badge/one%20issue-one%20pull%20request-6C5CE7?style=for-the-badge) &nbsp;![carries](https://img.shields.io/badge/carries%20its%20own-plan-16A34A?style=for-the-badge)
+
+        This issue **is** the unit of work and it carries its own plan. It is born with the
+        branch and it dies with the pull request.
+
+        > [!TIP]
+        > `/feature` fills most of this in for you, and the checkbox sections are quicker to tick
+        > than to type. The flow the commands follow is in `CONTRIBUTING.md`.
+
+  - type: markdown
+    attributes:
+      value: |
+        > [!IMPORTANT]
+        > **The title of this issue becomes a commit subject.** `/ship` makes it the pull request
+        > title and the squash merge makes that the commit on `main`, so write it as
+        > `type(scope): <gitmoji> Imperative message`: scope required, 50 characters or fewer.
+        > The rules are in `CONTRIBUTING.md` under *Commits*, and CI checks them.
+        > `printf '%s\n' "<title>" | pnpm exec commitlint` answers before you paste it here.
+
+  - type: input
+    id: spec
+    attributes:
+      label: 📄 What says this should exist
+      description: |
+        The file and section this implements: a spec in `docs/specs/`, a convention, an
+        architecture guide, or a design in `DESIGN.md`. **Behavior nobody has written down is
+        specified first** — run `/spec`, merge that as its own `docs` pull request, then come
+        back. Write "none needed" for a change whose behavior is self-evident, such as a
+        dependency bump or a fix with a failing test.
+      placeholder: docs/specs/2026-05-04-settings-page.md, the tab state section
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: 🎯 Scope
+      description: What someone can do once this merges that they could not do before. Not a list of files.
+      placeholder: A visitor can change the theme from the settings page and it survives a reload.
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+  - type: textarea
+    id: slice
+    attributes:
+      label: 🍰 The vertical slice
+      description: |
+        Every layer this touches, outermost last. **Leave a cell empty when the slice does not
+        reach it**: an empty layer is information, while a deleted row is a question a reviewer
+        has to ask. The layers are described in `docs/architecture/feature-sliced-design.md`.
+      value: |
+        | Layer | This issue |
+        | --- | --- |
+        | 🧱 shared | |
+        | 🧬 entities | |
+        | ⚙️ features | |
+        | 🧩 widgets | |
+        | 📄 \_pages | |
+        | 🚏 app route file | |
+        | 🎨 packages/ui | |
+        | ✅ tests | |
+        | 📚 docs | |
+    validations:
+      required: true
+
+  - type: dropdown
+    id: skills
+    attributes:
+      label: 🧰 Skills to load before writing code
+      description: |
+        **Load these first, not after review.** A convention has to be in the context of whoever
+        writes the code; read afterwards it produces a rewrite, not a review. The catalog is
+        `.claude/skills/README.md`, and a hook names the ones a path needs as the file is written.
+      multiple: true
+      options:
+        - "feature-sliced-design — layers, slices, segments, and what may import what"
+        - "shadcn — adding a component to the kit and composing it"
+        - "tailwind-css — Tailwind v4 syntax, tokens, and classes in a workspace package"
+        - "vercel-react-best-practices — Server and Client Components, data fetching, render cost"
+        - "vercel-composition-patterns — component APIs, compound components, context"
+        - "web-design-guidelines — accessibility and interface behavior"
+        - "design-md — DESIGN.md and the theme tokens"
+        - "turborepo — tasks, caching, and adding a workspace"
+        - "stop-slop — prose for docs and READMEs"
+        - "frontend-design (plugin) — visual direction for a surface that has none yet"
+        - "modern-web-guidance (plugin) — what the web platform can do today"
+        - "None of these, and I read the list"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: ✅ Acceptance criteria
+      description: |
+        Observable, one per line, each one a reviewer can check off. They are the definition of
+        done, and `/ship` answers them one by one with evidence.
+      value: |
+        - [ ]
+        - [ ]
+        - [ ]
+      placeholder: |
+        - [ ] The settings page renders the theme control and the test covers both themes
+        - [ ] A reload keeps the chosen theme, with no flash of the previous one
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+  - type: textarea
+    id: out
+    attributes:
+      label: 🚫 Out of scope
+      description: |
+        What a reader will reasonably assume is included and is not. **This is the section that
+        stops an issue growing while it is being built.**
+    validations:
+      required: true
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: ⚠️ Blocked or unverified
+      description: |
+        Anything that could stop this midway: a decision nobody has taken, a credential nobody
+        has, an API whose behavior nobody confirmed. Write "nothing" when that is true.
+      placeholder: |
+        The theme control needs a token the theme does not define yet, so DESIGN.md changes first.
+    validations:
+      required: true

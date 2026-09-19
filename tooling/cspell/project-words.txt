@@ -11,6 +11,7 @@ lefthook
 Liskov
 lockfiles
 lucide
+nbsp
 nextjs
 NOSYSTEM
 nvmrc
