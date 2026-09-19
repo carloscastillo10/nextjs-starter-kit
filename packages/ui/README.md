@@ -44,8 +44,23 @@ An app depends on `@repo/ui`, lists it in `transpilePackages` in `next.config.ts
 @import "@repo/ui/globals.css";
 ```
 
-> [!NOTE]
-> The components use Base UI. To render a `Button` as a link, pass `render={<Link href="/docs" />}` and `nativeButton={false}`; there is no `asChild`.
+> [!IMPORTANT]
+> **For navigation, style a link; do not turn a button into one.** Base UI's `render` prop keeps the button
+> semantics of the component it replaces, so `<Button render={<Link />} nativeButton={false}>` produces
+> `<a role="button">`: a screen reader announces a button, and the browser behaviors of a link go with it. Apply the
+> variants to the link instead:
+>
+> ```tsx
+> import { buttonVariants } from "@repo/ui/components/button";
+> import Link from "next/link";
+>
+> <Link className={buttonVariants({ variant: "outline" })} href="/docs">
+>   Docs
+> </Link>;
+> ```
+>
+> `render` is the right tool when the element really is a button and only the tag changes. There is no
+> `asChild` in Base UI.
 
 ## ⌨️ Commands
 
