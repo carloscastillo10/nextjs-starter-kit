@@ -27,8 +27,6 @@
     "yaml": "catalog:"
   },
   "devDependencies": {
-    "@commitlint/lint": "catalog:",
-    "@commitlint/load": "catalog:",
     "@repo/architecture-config": "workspace:*",
     "@repo/eslint-config": "workspace:*",
     "@repo/vitest-config": "workspace:*",
