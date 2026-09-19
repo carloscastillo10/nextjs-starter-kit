@@ -4,7 +4,7 @@
   "import": ["@repo/spell-check-config/cspell.json"],
   "overrides": [
     {
-      "filename": ".claude/settings.json",
+      "filename": [".claude/settings.json", ".claude/README.md"],
       "words": ["Mcpjson"]
     },
     {

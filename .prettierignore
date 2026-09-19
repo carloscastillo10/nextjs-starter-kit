@@ -5,8 +5,12 @@ apps/*/AGENTS.md
 apps/*/CLAUDE.md
 .obsidian/
 
-# Agent configuration and vendored agent skills
-.claude/
+# Agent configuration and vendored agent skills. The skill this repository writes is checked,
+# which takes re-including it one folder at a time
+.claude/*
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/project-conventions/
 .agents/
 
 # Generator templates: Prettier reads .hbs as an Ember template and rewrites it
