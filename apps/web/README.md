@@ -1,6 +1,6 @@
 # 🌐 web
 
-> The Next.js application: an empty page, fully wired, with the layers a feature goes into already in place.
+> The Next.js application: the page Next.js ships, fully wired, with the layers a feature goes into in place.
 
 ## 🧭 Table of contents
 
@@ -16,10 +16,10 @@
 
 ## 🎯 Purpose
 
-One Next.js App Router application, on React Server Components by default. It renders `<main />` and nothing
-else, on purpose: what the template provides is the shape around it — the routing convention, the six
-Feature-Sliced Design layers with a README each, the theme, the UI kit, and the checks that keep all of it
-honest.
+One Next.js App Router application, on React Server Components by default. It renders the landing page
+`create-next-app` ships and nothing else, on purpose: what the template provides is the shape around it — the
+routing convention, the six Feature-Sliced Design layers with a README each, the theme, the UI kit, and the
+checks that keep all of it honest.
 
 **Routing and application code are separate folders.** `app/` holds nothing but thin route files that
 re-export from `src/`, which is what keeps a page a slice you can move rather than a file the framework owns.
@@ -30,6 +30,7 @@ re-export from `src/`, which is what keeps a page a slice you can move rather th
 | -------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | [`app/`](./app/README.md)              | Next.js routing: `layout.tsx`, `page.tsx`, and route files that only re-export                     |
 | [`src/`](./src/README.md)              | The application code, as Feature-Sliced Design layers, reached through the `@/` alias              |
+| `public/`                              | Static files served at a fixed URL: the two logos the home page renders                            |
 | `components.json`                      | shadcn CLI configuration: it writes components into `@repo/ui` and variables into the shared theme |
 | `next.config.ts`                       | Loads and validates the environment before Next.js reads it, and compiles `@repo/ui` with the app  |
 | `postcss.config.mjs`                   | Re-exports the PostCSS config of `@repo/tailwind-config`                                           |
@@ -40,7 +41,7 @@ re-export from `src/`, which is what keeps a page a slice you can move rather th
 | `AGENTS.md`, `CLAUDE.md`               | Written and rewritten by `next dev`. Committed as they are, and excluded from the formatters       |
 
 Files that Next.js only finds beside `app/` — `proxy.ts`, `instrumentation.ts` — go in this folder, not in
-`src/`. Static files served at a fixed URL go in `public/`, which is created when the first one arrives.
+`src/`.
 
 ## 🚀 Usage
 
