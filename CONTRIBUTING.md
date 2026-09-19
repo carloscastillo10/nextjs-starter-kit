@@ -48,21 +48,21 @@ The standard reaches a change three times: the `project-conventions` skill puts 
 
 Tools enforce what they can, so run them before you push:
 
-| Command                 | Checks                                                                                                       |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `pnpm lint`             | ESLint (the rules in the Enforcement tables of each convention document) and Steiger (Feature-Sliced Design) |
-| `pnpm lint:comments`    | Comment citations, one-line block comments and lint directives fail; comment density and shape are reported  |
-| `pnpm format`           | Prettier formatting                                                                                          |
-| `pnpm types:check`      | TypeScript in strict mode                                                                                    |
-| `pnpm test`             | Vitest                                                                                                       |
-| `pnpm spell:check`      | cspell, over code and docs                                                                                   |
-| `pnpm lint:md`          | markdownlint, over every Markdown file                                                                       |
-| `pnpm lint:frontmatter` | The `tags` and `aliases` every document carries, and the `status` of a decision record                       |
-| `pnpm lint:ws`          | sherif: versions and fields that disagree between the workspaces                                             |
-| `pnpm lint:boundaries`  | Turborepo: imports that leave a package without a dependency on it                                           |
-| `pnpm lint:echo`        | Comments that repeat prose the same branch writes                                                            |
+| Command                 | Checks                                                                                                                                                          |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm lint`             | ESLint (the rules in the Enforcement tables of each convention document), Steiger (Feature-Sliced Design) and dependency-cruiser (the graph between workspaces) |
+| `pnpm lint:comments`    | Comment citations, one-line block comments and lint directives fail; comment density and shape are reported                                                     |
+| `pnpm format`           | Prettier formatting                                                                                                                                             |
+| `pnpm types:check`      | TypeScript in strict mode                                                                                                                                       |
+| `pnpm test`             | Vitest                                                                                                                                                          |
+| `pnpm spell:check`      | cspell, over code and docs                                                                                                                                      |
+| `pnpm lint:md`          | markdownlint, over every Markdown file                                                                                                                          |
+| `pnpm lint:frontmatter` | The `tags` and `aliases` every document carries, and the `status` of a decision record                                                                          |
+| `pnpm lint:ws`          | sherif: versions and fields that disagree between the workspaces                                                                                                |
+| `pnpm lint:boundaries`  | Turborepo: imports that leave a package without a dependency on it                                                                                              |
+| `pnpm lint:echo`        | Comments that repeat prose the same branch writes                                                                                                               |
 
-`pnpm lint:fix` and `pnpm format:fix` apply the fixes the tools can make on their own. `pnpm lint:arch` runs only Steiger. To add a word to the spelling dictionary, edit [`tooling/spell-check/project-words.txt`](tooling/spell-check/project-words.txt).
+`pnpm lint:fix` and `pnpm format:fix` apply the fixes the tools can make on their own. `pnpm lint:arch` runs only Steiger and `pnpm lint:deps` only dependency-cruiser; [which check owns which rule](docs/architecture/architecture-checks.md) tells them apart. To add a word to the spelling dictionary, edit [`tooling/spell-check/project-words.txt`](tooling/spell-check/project-words.txt).
 
 Inline lint suppressions are switched off. If a rule does not fit a file, change the configuration for that file's glob and write down why.
 
@@ -267,7 +267,7 @@ printf '%s\n' "feat(web): ✨ Add the settings page" | pnpm exec commitlint
 | `pre-push`   | `linked`        | Stops the first push of an issue branch whose issue has no linked branch on GitHub            | The branch is named `<type>/<issue>-…`    |
 | `pre-push`   | `scope`         | Reports, without failing, a branch that mixes the app, delivery and tooling, or is very large | Always                                    |
 | `pre-push`   | `tests`         | `pnpm test`                                                                                   | Always                                    |
-| `pre-push`   | `architecture`  | `pnpm lint:arch` (Steiger)                                                                    | Always                                    |
+| `pre-push`   | `architecture`  | `pnpm lint:arch` (Steiger) and `pnpm lint:deps` (dependency-cruiser)                          | Always                                    |
 | `pre-push`   | `env`           | `pnpm env:check`: the committed `.env.example` matches the env schemas                        | Always                                    |
 | `pre-push`   | `env-turbo`     | `pnpm env:check:turbo`: Turborepo declares every variable the schemas read                    | Always                                    |
 | `pre-push`   | `echo`          | `pnpm lint:echo`: a comment repeating prose the branch also writes                            | Always                                    |
@@ -288,11 +288,11 @@ On the empty template, a commit of code spends about 3 seconds in its hooks, a c
 
 Two workflows in [`.github/workflows/`](.github/workflows), both on the Node.js version in [`.nvmrc`](.nvmrc) and the pnpm version that `packageManager` names in [`package.json`](package.json):
 
-| Workflow       | Job               | Runs on                                                                    | Checks                                                                                                                                                                                                |
-| -------------- | ----------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ci.yml`       | `Checks`          | Every pull request and every push to `main`                                | `pnpm format`, `lint` (with `lint:arch`), `lint:ws`, `lint:boundaries`, `lint:comments`, `types:check`, `test`, `spell:check`, `lint:md`, `lint:frontmatter`, `env:check`, `env:check:turbo`, `build` |
-| `ci.yml`       | `Author identity` | Pull requests, once [switched on](#repository-settings)                    | Every commit author is an account with access to the repository                                                                                                                                       |
-| `pr-title.yml` | `PR title`        | A pull request opened, edited, reopened or pushed to, except by Dependabot | The pull request title, with commitlint and the same [commit rules](#commits)                                                                                                                         |
+| Workflow       | Job               | Runs on                                                                    | Checks                                                                                                                                                                                                                |
+| -------------- | ----------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ci.yml`       | `Checks`          | Every pull request and every push to `main`                                | `pnpm format`, `lint` (with `lint:arch` and `lint:deps`), `lint:ws`, `lint:boundaries`, `lint:comments`, `types:check`, `test`, `spell:check`, `lint:md`, `lint:frontmatter`, `env:check`, `env:check:turbo`, `build` |
+| `ci.yml`       | `Author identity` | Pull requests, once [switched on](#repository-settings)                    | Every commit author is an account with access to the repository                                                                                                                                                       |
+| `pr-title.yml` | `PR title`        | A pull request opened, edited, reopened or pushed to, except by Dependabot | The pull request title, with commitlint and the same [commit rules](#commits)                                                                                                                                         |
 
 - **`pnpm gates` runs the same checks on your machine.** It reads the `Checks` job out of `ci.yml`, runs every step that is marked to run after a failure (`if: ${{ !cancelled() … }}`), and sums them up, so the list of checks lives in one place. Run it before you open a pull request; on the empty template it takes about 20 seconds.
 - **A new check is one step.** Add it to the `Checks` job with the same `if:` as the others, and both CI and `pnpm gates` run it.

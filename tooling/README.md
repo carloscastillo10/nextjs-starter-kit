@@ -8,16 +8,17 @@ Every app and package in the monorepo is linted, formatted, type-checked, tested
 
 ## 🗂️ Structure
 
-| Folder                                    | Package                    | Tool                                   | Used through                                                                                         |
-| ----------------------------------------- | -------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| [`eslint/`](./eslint/README.md)           | `@repo/eslint-config`      | ESLint                                 | an `eslint.config.mjs` in each package                                                               |
-| [`prettier/`](./prettier/README.md)       | `@repo/prettier-config`    | Prettier                               | the `prettier` key of the root `package.json`, plus a `.prettierignore` per workspace                |
-| [`typescript/`](./typescript/README.md)   | `@repo/typescript-config`  | TypeScript                             | `extends` in each `tsconfig.json`                                                                    |
-| [`vitest/`](./vitest/README.md)           | `@repo/vitest-config`      | Vitest                                 | a `vitest.config.*` in each package with tests                                                       |
-| [`spell-check/`](./spell-check/README.md) | `@repo/spell-check-config` | cspell                                 | a `cspell.json` per workspace, importing the shared one                                              |
-| [`markdown/`](./markdown/README.md)       | `@repo/markdown-config`    | markdownlint                           | the root `.markdownlint-cli2.jsonc`                                                                  |
-| [`tailwind/`](./tailwind/README.md)       | `@repo/tailwind-config`    | Tailwind CSS (theme and design tokens) | the global stylesheet and `postcss.config.mjs` of each app                                           |
-| [`scripts/`](./scripts/README.md)         | `@repo/scripts`            | checks written for this repo           | root scripts, the git hooks in `lefthook.yml`, the CI workflows and the root `commitlint.config.mjs` |
+| Folder                                      | Package                     | Tool                                   | Used through                                                                                         |
+| ------------------------------------------- | --------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| [`eslint/`](./eslint/README.md)             | `@repo/eslint-config`       | ESLint                                 | an `eslint.config.mjs` in each package                                                               |
+| [`prettier/`](./prettier/README.md)         | `@repo/prettier-config`     | Prettier                               | the `prettier` key of the root `package.json`, plus a `.prettierignore` per workspace                |
+| [`typescript/`](./typescript/README.md)     | `@repo/typescript-config`   | TypeScript                             | `extends` in each `tsconfig.json`                                                                    |
+| [`vitest/`](./vitest/README.md)             | `@repo/vitest-config`       | Vitest                                 | a `vitest.config.*` in each package with tests                                                       |
+| [`spell-check/`](./spell-check/README.md)   | `@repo/spell-check-config`  | cspell                                 | a `cspell.json` per workspace, importing the shared one                                              |
+| [`markdown/`](./markdown/README.md)         | `@repo/markdown-config`     | markdownlint                           | the root `.markdownlint-cli2.jsonc`                                                                  |
+| [`tailwind/`](./tailwind/README.md)         | `@repo/tailwind-config`     | Tailwind CSS (theme and design tokens) | the global stylesheet and `postcss.config.mjs` of each app                                           |
+| [`scripts/`](./scripts/README.md)           | `@repo/scripts`             | checks written for this repo           | root scripts, the git hooks in `lefthook.yml`, the CI workflows and the root `commitlint.config.mjs` |
+| [`architecture/`](./architecture/README.md) | `@repo/architecture-config` | Steiger and dependency-cruiser         | the root `steiger.config.mjs` and the `lint:deps` script                                             |
 
 ## 🚀 Usage
 
@@ -37,17 +38,18 @@ A change in a `tooling/*` package invalidates the cached results that depend on 
 
 ## ⌨️ Commands
 
-| Command                          | What it does                                                              |
-| -------------------------------- | ------------------------------------------------------------------------- |
-| `pnpm lint`                      | ESLint in every package and on the root files, and Steiger in the web app |
-| `pnpm lint:fix`                  | ESLint with the fixes it can make on its own                              |
-| `pnpm lint:arch`                 | Steiger only (Feature-Sliced Design structure)                            |
-| `pnpm lint:comments [files...]`  | The comment check, over every tracked source file or over the files named |
-| `pnpm lint:md`                   | markdownlint over every Markdown file                                     |
-| `pnpm format`, `pnpm format:fix` | Prettier: check, or write                                                 |
-| `pnpm types:check`               | `tsc --noEmit` (after `next typegen` in Next.js apps)                     |
-| `pnpm test`                      | Vitest                                                                    |
-| `pnpm spell:check`               | cspell over code and docs                                                 |
+| Command                          | What it does                                                                  |
+| -------------------------------- | ----------------------------------------------------------------------------- |
+| `pnpm lint`                      | ESLint in every package and on the root files, Steiger and dependency-cruiser |
+| `pnpm lint:fix`                  | ESLint with the fixes it can make on its own                                  |
+| `pnpm lint:arch`                 | Steiger only, over every Feature-Sliced Design root                           |
+| `pnpm lint:deps`                 | dependency-cruiser only (the graph between workspaces)                        |
+| `pnpm lint:comments [files...]`  | The comment check, over every tracked source file or over the files named     |
+| `pnpm lint:md`                   | markdownlint over every Markdown file                                         |
+| `pnpm format`, `pnpm format:fix` | Prettier: check, or write                                                     |
+| `pnpm types:check`               | `tsc --noEmit` (after `next typegen` in Next.js apps)                         |
+| `pnpm test`                      | Vitest                                                                        |
+| `pnpm spell:check`               | cspell over code and docs                                                     |
 
 ## 🧩 Extending
 

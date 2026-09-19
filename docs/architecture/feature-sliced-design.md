@@ -32,7 +32,6 @@ apps/web/
     features/               features layer: reused user actions
     entities/               entities layer: reused domain models
     shared/                 shared layer: infrastructure without business rules
-  steiger.config.ts         architecture linter config
   public/                   (when needed) static files served at fixed URLs, outside FSD
   proxy.ts                  (when needed) Next.js proxy, outside FSD, next to app/
 ```
@@ -196,6 +195,33 @@ The monorepo can hold shared workspace packages under `packages/*`, named `@repo
 - Code moves from `src/shared` into a package only when a second app needs it. Moving it earlier adds a package boundary with no second consumer.
 - Do not wrap package exports in `src/shared` just to re-export them. Import `@repo/ui/components/button` directly; add a component to `src/shared/ui` only when it adds something app-specific.
 
+## FSD roots
+
+An FSD root is a folder that holds the layers. This repository declares its roots in one file, [`tooling/architecture/fsd-roots.json`](../../tooling/architecture/fsd-roots.json), and both architecture linters read it: Steiger lints every root, and dependency-cruiser derives from the same list which folders are interiors it must not rule on. The template ships with one root, `apps/web/src`.
+
+### Sharing layers between apps
+
+A second app does not get its own copy of a domain. When two apps need the same entities or features, they move into a package that holds FSD layers of its own, which the [official FSD guidance for monorepos](https://feature-sliced.design/blog/frontend-monorepo-explained) describes as using the monorepo to share packages and FSD to structure what is inside each one.
+
+- **What is worth sharing:** `shared`, `entities` and `features`. What is not: `_app` and `_pages`, which are the app's initialization and its screens, and belong to the app that routes them.
+- **The package is a consumer boundary, not a dumping ground.** A layer moves there when a second app consumes it, for the same reasons the [extraction rule](#feature-sliced-design-in-appsweb) gives inside an app. One app with a package of shared layers is a package with one consumer.
+- **The public API is the package `exports` field.** Name one entry per slice or segment, each pointing at that folder's `index.ts` (`"./entities/*": "./src/entities/*/index.ts"`). A wildcard that exposes every file (`"./*": "./src/*"`) turns the package inside out: `pnpm lint:deps` then fails on the first import that reaches past an `index.ts`.
+- **Inside the package, the layer rules are the same**, and Steiger checks them. The only rule that cannot work there is `fsd/insignificant-slice`, which counts references inside the root while the consumers of a shared package are outside it; the shared Steiger config switches it off for roots that live outside `apps/`.
+
+### Adding a root
+
+1. Create the package with its layers, and give its `package.json` an `exports` entry per slice or segment.
+2. Add the folder to the `roots` list:
+
+   ```json
+   { "roots": ["apps/web/src", "packages/<name>/src"] }
+   ```
+
+3. Declare the package as a dependency of every app that uses it, and import it by its package name (`@repo/<name>/entities/user`), never by a relative path.
+4. Run `pnpm lint:arch` and `pnpm lint:deps`. The first now lints both roots, each under its own heading; the second guards the new package's public API.
+
+Nothing else is registered. The generator that creates a package (`pnpm new`) adds the line for you when the package has layers.
+
 ## Placement guide
 
 | What                                                 | Where                                                                                             |
@@ -253,7 +279,7 @@ The template ships without authentication. When you add a provider, its pieces g
 | Webhooks from the provider                                 | `src/_app/api-routes/`, re-exported by `app/api/webhooks/<name>/route.ts`                                                                         |
 | The provider's keys                                        | a schema in `@repo/env`, then `pnpm env:emit` and a `turbo.json` entry                                                                            |
 
-Each page, Route Handler and Server Action that needs a signed-in user checks the session itself, first thing. A check in the proxy alone is not enough: Server Actions are called by ID, so a path matcher never sees them, and proxy checks have been bypassed before.
+**The proxy reads the session; it does not authorize.** Each page, Route Handler and Server Action that needs a signed-in user checks the session itself, first thing, because the proxy cannot do it for them: Server Actions are called by ID, so a path matcher never sees them, and proxy checks have been bypassed before. What belongs there is refreshing the session and redirecting an anonymous visitor away from a private path, as a convenience on top of the checks, never instead of them.
 
 Do not create a `user` entity only to wrap the session. An entity appears when the product has user-domain rules that several slices must share.
 
@@ -291,13 +317,13 @@ Do not create a `user` entity only to wrap the session. An entity appears when t
 
 ## Architecture linter
 
-[Steiger](https://github.com/feature-sliced/steiger), the official FSD linter, checks `src/`:
+[Steiger](https://github.com/feature-sliced/steiger), the official FSD linter, checks every FSD root:
 
 ```bash
 pnpm lint:arch
 ```
 
-It runs `steiger ./src` with the recommended rules of `@feature-sliced/steiger-plugin`, configured in `apps/web/steiger.config.ts`. Among other things it rejects:
+It runs once per root, with the recommended rules of `@feature-sliced/steiger-plugin` and the exemptions in [`tooling/architecture`](../../tooling/architecture/README.md). Among other things it rejects:
 
 - imports from a higher layer or from a sibling slice (`fsd/forbidden-imports`);
 - imports that bypass a public API (`fsd/no-public-api-sidestep`);
@@ -307,18 +333,20 @@ It runs `steiger ./src` with the recommended rules of `@feature-sliced/steiger-p
 - features, entities and widgets with fewer than two consumers (`fsd/insignificant-slice`);
 - slices without segments, too many ungrouped slices, and similar structural issues.
 
-The config exempts two cases, each limited to the paths involved:
+The config exempts three cases, each limited to the paths involved:
 
 - `fsd/typo-in-layer-name` is off for `src/_app` and `src/_pages`. The rule compares the raw folder name and reports the underscore prefix that the FSD guide for Next.js prescribes as a typo.
 - `fsd/segments-by-purpose` is off for `src/_app/providers`. The rule's list of banned names includes `providers`, which the FSD guide for Next.js uses for the app-wide provider segment.
+- `fsd/insignificant-slice` is off for roots outside `apps/`, where every slice is consumed from another workspace and would be reported as unused.
 
 `fsd/import-locality` (relative imports inside a slice, alias across slices) is disabled in the recommended config and stays disabled: inside `shared` it would reject the alias imports that the shadcn CLI generates. The convention still applies; code review enforces it.
 
-Steiger only reads `src/`. The rule that route files in `app/` import only from `_pages` and `_app` is a convention outside its reach.
+Steiger only reads the FSD roots. The rule that route files in `app/` import only from `_pages` and `_app` is a convention outside its reach, and so is everything between workspaces, which `pnpm lint:deps` covers instead. [Architecture checks](architecture-checks.md) says which check owns which rule.
 
 ## References
 
 - [FSD documentation](https://fsd.how) and [layer reference](https://fsd.how/docs/reference/layers/)
 - [FSD guide for Next.js](https://fsd.how/docs/guides/tech/with-nextjs/)
-- [Steiger](https://github.com/feature-sliced/steiger)
+- [Steiger](https://github.com/feature-sliced/steiger), and [Architecture checks](architecture-checks.md) for the checks around it
+- [FSD in a monorepo](https://feature-sliced.design/blog/frontend-monorepo-explained)
 - Official FSD agent skill, vendored in `.claude/skills/feature-sliced-design/`
