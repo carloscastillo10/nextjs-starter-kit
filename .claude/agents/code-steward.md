@@ -109,7 +109,7 @@ Group by severity, highest first, and lead with what changes behavior. One findi
   say which second caller is coming. Its own issue.
 ```
 
-Each finding carries the file as a path from the repository root, the line, what is wrong in one sentence, the fix, and **whether the fix belongs in this branch or in an issue of its own** — that is the choice `/ship` has to declare for every finding.
+Each finding carries the file as a path from the repository root, never an absolute path from the machine you ran on, the line, what is wrong in one sentence, the fix, and **whether the fix belongs in this branch or in an issue of its own** — that is the choice `/ship` has to declare for every finding.
 
 **Say plainly when a diff is clean.** A review that always finds something teaches people to ignore it. If the only findings are matters of taste, report no findings and say the diff is clean.
 
