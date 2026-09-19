@@ -103,6 +103,7 @@ The folder structure is Feature-Sliced Design, described in [docs/architecture/f
 
 - **Booleans read as a yes-or-no question**: `isOpen`, `hasItems`, `shouldRetry`, `canEdit`, `didLoad`, `willExpire`.
 - **Names are words, not fragments.** `event`, not `e`; `error`, not `err`; `request`, not `req`; `(link) => link.href`, not `(l) => l.href`. The exceptions are `i` for a plain loop index, `x` and `y` for coordinates, and `_` for a parameter that is deliberately unused.
+- The linter rejects the clipped forms that keep coming back, wherever they are declared, parameters and object keys included: `err`, `evt`, `cb`, `el`, `res`, `req`, `val`, `tmp`, `obj`, `arr`, `str`, `num`, `idx`, `ctx`, `cfg`, `fn`, `opts`, `acc`, `btn`, `msg`, `ov`, `st`, `elem`, `attrs`, `param`.
 - **Name by purpose, not by type**: `activeUsers`, not `userArray`.
 - **If a thing needs a comment to explain what it is, rename it.**
 
@@ -326,7 +327,7 @@ Inline ESLint directives (`// eslint-disable-next-line`, `/* eslint-disable */`)
 | Named exports only; defaults in route files and config files | `no-restricted-exports` (switched off for `app/**` and `*.config.*`)                                                                   |
 | No `export *`                                                | `no-restricted-syntax` (`ExportAllDeclaration`)                                                                                        |
 | Naming formats and boolean prefixes                          | `@typescript-eslint/naming-convention`                                                                                                 |
-| No clipped names                                             | `id-length`, `id-denylist`                                                                                                             |
+| No clipped names                                             | `id-length` (two characters), `id-denylist` (the list in [Naming](#naming))                                                            |
 | Arrow functions                                              | `func-style`, `prefer-arrow-callback`, `no-restricted-syntax` (`FunctionExpression`, `ExportDefaultDeclaration > FunctionDeclaration`) |
 | At most three parameters                                     | `@typescript-eslint/max-params`                                                                                                        |
 | No `switch`                                                  | `no-restricted-syntax` (`SwitchStatement`)                                                                                             |

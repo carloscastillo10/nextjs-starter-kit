@@ -89,7 +89,15 @@ export const LoginForm = ({ className, onSubmit, ...props }: LoginFormProps) => 
 
   The same applies to `redirect`, `permanentRedirect`, `forbidden` and `unauthorized`.
 
-- **No computation in JSX props.** `width={base + extra}`, `disabled={count === 0}` and `label={title ?? fallback}` are logic; compute them in the hook, or name them as a constant. A conditional class inside `cn(...)` is the accepted exception: `className={cn("tab", isActive ? "text-primary" : "text-muted-foreground")}`.
+- **No computation in JSX props.** Arithmetic and comparisons (`width={base + extra}`, `disabled={count === 0}`), a fallback (`label={title ?? fallback}`), an object or an array written in place (`style={{ width }}`, `items={[first, second]}`), a ternary (`aria-label={isOpen ? "Close" : "Open"}`), a template literal with an expression, `&&`, `||`, and a list built there (`rows={items.map(toRow)}`) are all logic: compute them in the hook, or name them as a constant.
+
+  What the rule asks for is that the value the prop receives carries a name, so a call to a named function is one. A conditional class inside `cn(...)` stays the way to write a conditional class, and so does the kit's variant call:
+
+  ```tsx
+  <span className={cn("tab", isActive ? "text-primary" : "text-muted-foreground")} />
+  <a className={cn(buttonVariants({ size: "lg" }), "w-full rounded-full")} href={href} />
+  ```
+
 - **`&&` only with a boolean.** `{count && <Badge />}` renders `0` when the count is zero. Use a ternary, or compare first in the hook.
 - **Never define a component inside another component.** It remounts on every render and loses its state.
 - **A large conditional sub-tree becomes its own component**, in its own file.
@@ -116,7 +124,7 @@ export const LoginForm = ({ className, onSubmit, ...props }: LoginFormProps) => 
 - **Props extend the props of the root element**, so callers can pass any native attribute: `ComponentProps<"div">` for an HTML element, `ComponentProps<typeof Button>` for a wrapped component. Add the component's own props with `&`, and use `Omit` for an inherited prop whose meaning changes.
 - **The rest is called `props` and is spread on the root element** (`...props`, never `...rest`).
 - **`className` is composed, never replaced**: `cn("base classes", className)`.
-- **Order: `className` first, then data, then callbacks**, in the props type, in the destructuring and when passing props in JSX. The linter fixes the JSX order.
+- **Order: `className` first, then data, then callbacks**, in the props type, in the destructuring, when passing props in JSX and in what a hook returns. The linter fixes all four; the kit's generated components keep the order the shadcn CLI wrote.
 - **Each component declares its own `XProps`**, next to it, unexported. Another component that needs the same shape derives it: `ComponentProps<typeof LoginForm>`. What gets shared between components is a callback type, not a props type.
 - **A closed component is the exception.** A component that takes full control of its root, renames or wraps the root's props and forwards nothing (a dialog that owns its open state and close behavior, for example) does not extend `ComponentProps`. A presentational wrapper around an element is never closed.
 - **No boolean props that switch behavior** (`isEditing`, `isThread`). Build explicit variants through [composition](#composition). A visual variant is a single union prop (`variant: "default" | "outline"`), declared with `cva` next to the component, the way the UI kit does it.
@@ -269,10 +277,14 @@ In addition to the checks in [code-style.md](code-style.md#enforcement):
 | Missing effect dependencies (warning)                                                                   | `react-hooks/exhaustive-deps`                                                                                                           |
 | No state or effect hooks in slice `ui/` files                                                           | `no-restricted-syntax` (hook calls in `src/{_pages,widgets,features,entities}/**/ui/**/*.tsx`)                                          |
 | No `if` in a component body except navigation guards                                                    | `no-restricted-syntax` (for `*.tsx`)                                                                                                    |
-| No computation in JSX props                                                                             | `no-restricted-syntax` (`JSXAttribute > JSXExpressionContainer > BinaryExpression`, `??`)                                               |
+| No computation in JSX props: arithmetic, comparisons and `??`                                           | `no-restricted-syntax` (for `*.tsx`)                                                                                                    |
+| No computation in JSX props: objects, arrays, ternaries, template literals, `&&`, `\|\|`, array methods | `no-restricted-syntax` (for `src/**/*.tsx`; what the prop receives, so a call keeps its arguments out of reach)                         |
+| No JSX stored in a constant                                                                             | `no-restricted-syntax` (`VariableDeclarator > JSXElement`, `JSXFragment`)                                                               |
+| A props type is never exported                                                                          | `no-restricted-syntax` (for `src/**/*.tsx`, both export forms)                                                                          |
 | The rest of the props is named `props`                                                                  | `no-restricted-syntax` (for `*.tsx`)                                                                                                    |
 | `useState` typed, hooks without a return type                                                           | `no-restricted-syntax`                                                                                                                  |
 | `className` first and callbacks last in JSX                                                             | `perfectionist/sort-jsx-props`                                                                                                          |
+| `className` first and callbacks last in the props type, the destructuring and a hook's return           | `perfectionist/sort-object-types`, `perfectionist/sort-objects` (switched off for the kit's generated components)                       |
 | `&&` only with a boolean                                                                                | `@eslint-react/no-leaked-conditional-rendering`                                                                                         |
 | No component defined inside another                                                                     | `@eslint-react/no-nested-component-definitions`, `react-hooks/static-components`                                                        |
 | No index as `key`                                                                                       | `@eslint-react/no-array-index-key`                                                                                                      |
