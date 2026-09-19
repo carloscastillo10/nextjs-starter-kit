@@ -32,6 +32,10 @@
   "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
 
+  // LICENSE has no extension and opens as Markdown, which reports a missing top-level heading on a file
+  // that has to stay the exact MIT text
+  "files.associations": { "LICENSE": "plaintext" },
+
   "files.exclude": {
     "**/.turbo": true,
     "**/.next": true,
