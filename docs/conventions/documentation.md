@@ -92,12 +92,15 @@ aliases: [Comments, Comment conventions]
 | Any other `.md` in the repository root | **Required**  | —               |
 | Everything under `docs/`               | **Required**  | —               |
 | `docs/adr/*.md`                        | **Required**  | `status`        |
-| An index or map of content             | **Required**  | `moc` in `tags` |
+| An index that is not a `README.md`     | **Required**  | `moc` in `tags` |
 | Anywhere else                          | Optional      | —               |
 
 - `tags` is a non-empty list of lower-case words. `aliases` is a list of other names the document goes by, and
   it may be empty (`aliases: []`) when the title is the only name it has.
 - `status` on a decision record is one of `proposed`, `accepted`, `superseded`, `deprecated`.
+- An index named `README.md`, such as [`docs/README.md`](../README.md), is still a README and carries no
+  frontmatter. The `moc` tag belongs to the indexes that are not: [`Home.md`](../../Home.md) is the one this
+  repository ships.
 - **The two files a visitor lands on carry none.** GitHub renders a frontmatter block as a table above the
   first heading, so a `README.md` and `CONTRIBUTING.md` would open with metadata instead of with their title.
   Obsidian still indexes them by title and by the links that reach them.

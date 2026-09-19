@@ -68,4 +68,4 @@ flowchart LR
 - [Knowledge graph](../../../docs/knowledge/README.md): what the graph holds, how to read it, and how to turn it off
 - [Obsidian setup](../../../docs/knowledge/obsidian-setup.md): opening the repository as a vault
 - [@repo/scripts](../README.md): the other checks lefthook and CI run
-- [Claude Code hooks](../hooks/README.md): the hooks that run around Claude's tool calls
+- [Claude Code hooks](../claude-hooks/README.md): the hooks that run around Claude's tool calls
