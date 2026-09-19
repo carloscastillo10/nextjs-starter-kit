@@ -25,8 +25,7 @@ marketplace and are installed once per person — the command is in [Usage](#-us
 
 The hook scripts are not here. They live in
 [`tooling/scripts/claude-hooks/`](../tooling/scripts/claude-hooks/README.md), with the rest of the
-repository's scripts and their tests, because they are ordinary Node programs that happen to be called by an
-agent.
+repository's scripts, because they are ordinary Node programs that happen to be called by an agent.
 
 ## 🚀 Usage
 
@@ -77,7 +76,7 @@ invoked with the Task tool or routed to by description. Commands are typed as `/
   candidates that were turned down, so nobody re-evaluates them from scratch.
 - **A hook** is declared in `settings.json` and written in
   [`tooling/scripts/claude-hooks/`](../tooling/scripts/claude-hooks/README.md), which has the recipe and the
-  table of what already runs. A hook runs for everybody, so it needs tests.
+  table of what already runs. A hook runs for everybody, so it stays cheap and says why it stopped you.
 
 > [!IMPORTANT]
 > Every linter, formatter, spell checker and the knowledge graph skip `skills/`: vendored skills ship example
@@ -87,5 +86,5 @@ invoked with the Task tool or routed to by description. Commands are typed as `/
 
 - [`AGENTS.md`](../AGENTS.md): the catalog — what each skill, subagent and command is for
 - [`CLAUDE.md`](../CLAUDE.md): the rules no tool can check, and what the hooks enforce
-- [`tooling/scripts/claude-hooks/`](../tooling/scripts/claude-hooks/README.md): the hook scripts and their tests
+- [`tooling/scripts/claude-hooks/`](../tooling/scripts/claude-hooks/README.md): the hook scripts themselves
 - [Claude Code documentation](https://code.claude.com/docs): settings, skills, subagents, hooks

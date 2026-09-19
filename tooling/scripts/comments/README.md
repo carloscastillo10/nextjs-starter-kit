@@ -76,10 +76,9 @@ pnpm lint:echo origin/release  # against another base
 
 ## ⌨️ Commands
 
-| Command                            | What it does                            |
-| ---------------------------------- | --------------------------------------- |
-| `pnpm lint:comments [files...]`    | Run the comment check                   |
-| `pnpm --filter @repo/scripts test` | Run these checks' tests with the others |
+| Command                         | What it does          |
+| ------------------------------- | --------------------- |
+| `pnpm lint:comments [files...]` | Run the comment check |
 
 ## 🧩 Extending
 

@@ -44,10 +44,9 @@ the field above.
 **A comment cites nothing** — not a file path, not a numbered section, not a ticket. Paths move and numbers
 renumber, so a pointer in a comment is a stale pointer waiting to happen. Write the reason itself.
 
-**Test the machinery, not the content.** The scripts, the rules and the generators that ship with this
-template have tests because they are what breaks silently. `apps/web` and `packages/ui` have none, and
-Vitest is configured with `passWithNoTests` so the first real test runs without touching any config. A test
-that asserts a component rendered its own props costs maintenance and catches nothing.
+**Test behavior, not wiring.** The template ships no tests of its own: Vitest is wired in every workspace
+with `passWithNoTests`, so the first one you write runs without touching any config. A test that asserts a
+component rendered its own props back costs maintenance and catches nothing.
 
 **No demo content.** The app is empty on purpose. Adding a sample page, sample data or a theme toggle to
 "show how it works" is a change somebody else has to delete.

@@ -4,7 +4,7 @@
 
 ## 🎯 Purpose
 
-`pnpm new` runs [the generator at the root of the repository](../../../turbo/generators/README.md), which asks four questions and writes files. The answers become a plan here, so the generator stays a list of `add` actions and the decisions behind it — where the workspace goes, which files it needs, whether it joins the FSD roots — are covered by tests instead of by running the generator.
+`pnpm new` runs [the generator at the root of the repository](../../../turbo/generators/README.md), which asks four questions and writes files. The answers become a plan here, so the generator stays a list of `add` actions and the decisions behind it — where the workspace goes, which files it needs, whether it joins the FSD roots — can be read without running it.
 
 ## 🗂️ Structure
 
@@ -25,15 +25,13 @@ pnpm new
 
 ## ⌨️ Commands
 
-| Command                            | What it does                            |
-| ---------------------------------- | --------------------------------------- |
-| `pnpm new`                         | Create a workspace                      |
-| `pnpm --filter @repo/scripts test` | Run these checks' tests with the others |
+| Command    | What it does       |
+| ---------- | ------------------ |
+| `pnpm new` | Create a workspace |
 
 ## 🧩 Extending
 
-- **A file every workspace needs** is a template in [the generator's folder](../../../turbo/generators/README.md) plus a line in `FILES`; the test that every planned file names a template that exists fails until both are there.
-- The tests read the templates, which is why `turbo.json` names that folder as an input of the test task.
+- **A file every workspace needs** is a template in [the generator's folder](../../../turbo/generators/README.md) plus a line in `FILES`. A planned file whose template is missing is written empty, so the two halves land together.
 
 ## 🔗 Related
 

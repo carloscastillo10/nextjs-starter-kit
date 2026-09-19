@@ -69,11 +69,10 @@ Extra keys are welcome. `DESIGN.md` carries its design tokens in the same block,
 | ---------------------------------- | ---------------------------------------- |
 | `pnpm lint:frontmatter [files...]` | Run the frontmatter check                |
 | `pnpm lint:md`                     | Run markdownlint over the same documents |
-| `pnpm --filter @repo/scripts test` | Run these checks' tests with the others  |
 
 ## 🧩 Extending
 
-- **A new folder of documents** is one pattern in `INDEXED` and its cases in `frontmatter-rules.test.mjs`. Keep the folder out of `IGNORED` only if something else really does own the file's frontmatter, the way Claude Code owns the block on an agent definition.
+- **A new folder of documents** is one pattern in `INDEXED`. Keep the folder out of `IGNORED` only if something else really does own the file's frontmatter, the way Claude Code owns the block on an agent definition.
 - **A new required key** goes in `listFailures`, with the reason in its message. A message that only names the key teaches nothing; a message that says why the key exists gets it filled in properly.
 - The rules are pure and the command is thin on purpose, so a hook can classify one file without spawning a process.
 

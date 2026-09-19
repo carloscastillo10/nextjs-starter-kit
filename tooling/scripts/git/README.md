@@ -30,7 +30,6 @@ These are the checks [lefthook](../../../lefthook.yml) runs around git itself: `
 | `check-linked-branch.mjs`   | `pre-push`: stops the first push of an issue branch that GitHub has not linked to its issue                        |
 | `check-branch-scope.mjs`    | `pre-push`: reports a branch that mixes unrelated changes or is very large; `--strict` makes it fail               |
 | `fix-staged.mjs`            | `pre-commit`: runs ESLint or Prettier in fix mode on fully staged files and in check mode on partially staged ones |
-| `git-sandbox.mjs`           | Test helper: a temporary repository with its own global git config, and fake commands on its `PATH`                |
 
 ## 🚀 Usage
 
@@ -118,12 +117,11 @@ It knows two tools, `eslint` (`--fix --max-warnings 0 --no-warn-ignored`) and `p
 | --------------------------------------------------- | ----------------------------------------- |
 | `printf '%s\n' "<message>" \| pnpm exec commitlint` | Check a commit message without committing |
 | `pnpm exec lefthook run pre-push`                   | Run the push guards without pushing       |
-| `pnpm --filter @repo/scripts test`                  | Run these checks' tests with the others   |
 
 ## 🧩 Extending
 
-- A new commit rule is a function in `commit-rules.mjs` that receives the parsed commit and returns `[passes, message]`, registered in `commitRulesPlugin` and turned on in `commitlint.config.mjs`. Give it cases in `commit-rules.test.mjs`, which lints them through the real config.
-- A check that only reads git can be one command, tested against a sandbox from `git-sandbox.mjs`; keep the pure rules apart as soon as there is a decision worth testing without a process.
+- A new commit rule is a function in `commit-rules.mjs` that receives the parsed commit and returns `[passes, message]`, registered in `commitRulesPlugin` and turned on in `commitlint.config.mjs`. Try it with `pnpm exec commitlint`, which lints a message through the real config.
+- A check that only reads git can be one command; keep the pure rules apart as soon as there is a decision worth exercising without a process.
 - A guard that stops a push names the way forward in its message. A denial that only says no gets worked around.
 
 ## 🔗 Related

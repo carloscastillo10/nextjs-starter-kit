@@ -8,10 +8,10 @@ A workspace here is not only a `package.json`: it carries the engines, the catal
 
 ## 🗂️ Structure
 
-| Path         | Holds                                                                                                            |
-| ------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `config.mjs` | The prompts and the actions, which [`@repo/scripts`](../../tooling/scripts/generators/README.md) plans and tests |
-| `templates/` | One Handlebars template per file the generator writes                                                            |
+| Path         | Holds                                                                                                          |
+| ------------ | -------------------------------------------------------------------------------------------------------------- |
+| `config.mjs` | The prompts and the actions, whose plan lives in [`@repo/scripts`](../../tooling/scripts/generators/README.md) |
+| `templates/` | One Handlebars template per file the generator writes                                                          |
 
 ## 🚀 Usage
 
@@ -45,12 +45,12 @@ pnpm exec turbo gen new-workspace --args packages metrics "Counters the apps rep
 
 ## 🧩 Extending
 
-- **A file every workspace should carry** is a template here plus a line in `FILES` in [`workspace-plan.mjs`](../../tooling/scripts/generators/workspace-plan.mjs). A test fails while either half is missing.
+- **A file every workspace should carry** is a template here plus a line in `FILES` in [`workspace-plan.mjs`](../../tooling/scripts/generators/workspace-plan.mjs). A planned file whose template is missing is written empty, so the two halves land together.
 - **A new app** is not generated here: `pnpm create next-app` writes it, and its own `pnpm-workspace.yaml` has to be deleted afterwards, because this repository declares the workspaces once at the root.
 - **A template** is Handlebars. `{{name}}`, `{{packageName}}`, `{{emoji}}`, `{{typeLabel}}` and `{{entry}}` come from the plan; `{{{summary}}}` is triple-braced because it is prose and would otherwise be HTML-escaped.
 
 ## 🔗 Related
 
-- [`@repo/scripts` generators](../../tooling/scripts/generators/README.md): the plan, the FSD registration and their tests
+- [`@repo/scripts` generators](../../tooling/scripts/generators/README.md): the plan and the FSD registration
 - [`@repo/architecture-config`](../../tooling/architecture/README.md): what an FSD root is and how it is linted
 - [Contributing](../../CONTRIBUTING.md): the checks a new workspace has to pass

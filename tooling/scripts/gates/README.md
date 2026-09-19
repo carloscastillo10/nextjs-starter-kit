@@ -36,15 +36,14 @@ The environment of a step is not copied: CI can pass secrets that a laptop does 
 
 ## ⌨️ Commands
 
-| Command                            | What it does                            |
-| ---------------------------------- | --------------------------------------- |
-| `pnpm gates`                       | Run every check CI runs                 |
-| `pnpm --filter @repo/scripts test` | Run these checks' tests with the others |
+| Command      | What it does            |
+| ------------ | ----------------------- |
+| `pnpm gates` | Run every check CI runs |
 
 ## 🧩 Extending
 
 - **A gate is added to `ci.yml`, not here.** Give the step a `name`, a `run` and the same `if:` the others carry.
-- `read-gates.test.mjs` asserts the exact list the workflow declares, so a new gate is one line there as well. That test is the drift alarm between the workflow and the documentation that names the gates.
+- `pnpm gates` reads the list out of the workflow itself, so a gate added there is a gate this command runs, and the documentation that names the gates is the only copy that can drift.
 
 ## 🔗 Related
 

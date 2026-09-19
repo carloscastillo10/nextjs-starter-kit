@@ -30,7 +30,6 @@
 | `remind-skills.mjs`      | The skill reminder hook: reads the tool call from stdin, remembers what the session has seen, prints the reminder  |
 | `guard-bash.mjs`         | The shell guard: refuses a command that skips the hooks or pushes to `main`, and hands over the pull request rules |
 | `check-written-file.mjs` | The check of a written file: runs the linters that cover it and hands back what they said                          |
-| `*.test.mjs`             | Tests: the rules directly, the hook as a real process against a temporary project                                  |
 
 Hooks declared in `.claude/settings.json`:
 
@@ -83,7 +82,7 @@ Each reminder above appears once per session.
 **Once per session, per reminder.** The hook leaves an empty marker file for each reminder it gives, under `claude-skill-reminders/<session>/` in the system temporary folder, and stays silent about a reminder the session already had. Without that, the same paragraphs would land on every edit of a file, which is how a useful hook becomes one people switch off. The skill rule and the comment rule are tracked apart, so moving on to a file under another rule brings only the new rule.
 
 > [!NOTE]
-> A rule names only skills that live in [`.claude/skills/`](../../../.claude/skills/README.md), vendored or written here, never a plugin: a fresh clone has every one of them, while a plugin may not be installed yet. A test fails when a rule names a skill with no folder there, so removing a skill means removing it from the rules too.
+> A rule names only skills that live in [`.claude/skills/`](../../../.claude/skills/README.md), vendored or written here, never a plugin: a fresh clone has every one of them, while a plugin may not be installed yet. Removing a skill means removing it from the rules too.
 
 ### The graph hint
 
@@ -180,17 +179,16 @@ The `additionalContext` in the output is what Claude receives. Run the same line
 
 ## ⌨️ Commands
 
-| Command                                                                        | What it does                                    |
-| ------------------------------------------------------------------------------ | ----------------------------------------------- |
-| `pnpm --filter @repo/scripts test`                                             | Runs the hook tests with the other script tests |
-| `echo '<payload>' \| node tooling/scripts/claude-hooks/remind-skills.mjs`      | Runs the skill reminder on one payload          |
-| `echo '<payload>' \| node tooling/scripts/graphify/graph-hint.mjs`             | Runs the graph hint on one payload              |
-| `echo '<payload>' \| node tooling/scripts/claude-hooks/guard-bash.mjs`         | Runs the shell guard on one payload             |
-| `echo '<payload>' \| node tooling/scripts/claude-hooks/check-written-file.mjs` | Runs the file check on one payload              |
+| Command                                                                        | What it does                           |
+| ------------------------------------------------------------------------------ | -------------------------------------- |
+| `echo '<payload>' \| node tooling/scripts/claude-hooks/remind-skills.mjs`      | Runs the skill reminder on one payload |
+| `echo '<payload>' \| node tooling/scripts/graphify/graph-hint.mjs`             | Runs the graph hint on one payload     |
+| `echo '<payload>' \| node tooling/scripts/claude-hooks/guard-bash.mjs`         | Runs the shell guard on one payload    |
+| `echo '<payload>' \| node tooling/scripts/claude-hooks/check-written-file.mjs` | Runs the file check on one payload     |
 
 ## 🧩 Extending
 
-- **A new skill rule** is an `id`, a `when` pattern on the path from the repository root, the `skills` it names and a `why` that completes the sentence "Load … before you continue, unless … already loaded: …". Place it above any wider rule that would also match, add its row to the table above (a test compares the two), and give it cases in `skill-rules.test.mjs`.
+- **A new skill rule** is an `id`, a `when` pattern on the path from the repository root, the `skills` it names and a `why` that completes the sentence "Load … before you continue, unless … already loaded: …". Place it above any wider rule that would also match, and add its row to the table above, which is what a reader trusts.
 - **A `Write|Edit` hook never blocks.** A refused write reads as a broken tool rather than wrong content, and an agent that cannot write a file cannot fix it either. lefthook is still the wall at commit time; these hooks are the handrail before it.
 - **A hook repeats a lefthook job only where the earlier answer is worth the wall clock.** The check of a written file does, because a report lands while the file is still open. A check of the whole repository does not: it would pay for every file on every write.
 - **Something worth blocking is worth denying with a way out.** The shell guard refuses two commands and each denial names what to do instead; a denial that only says no gets worked around, which is worse than not having it.

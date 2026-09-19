@@ -1,6 +1,6 @@
 # 🧭 Architecture
 
-> The runner that lints every Feature-Sliced Design root, and the tests that keep the list honest.
+> The runner that lints every Feature-Sliced Design root declared in the list.
 
 ## 🎯 Purpose
 
@@ -8,10 +8,9 @@ Steiger takes one folder per run, and this repository can declare several FSD ro
 
 ## 🗂️ Structure
 
-| File                 | Holds                                                                                   |
-| -------------------- | --------------------------------------------------------------------------------------- |
-| `lint-fsd.mjs`       | `pnpm lint:arch`, and `lintFsdRoots({ roots, run })` behind it                          |
-| `fsd-roots.test.mjs` | The validation of `fsd-roots.json`: what a root may look like, and that each one exists |
+| File           | Holds                                                          |
+| -------------- | -------------------------------------------------------------- |
+| `lint-fsd.mjs` | `pnpm lint:arch`, and `lintFsdRoots({ roots, run })` behind it |
 
 ## 🚀 Usage
 
@@ -23,15 +22,13 @@ Every root is linted even after one fails, so a single run reports all of them; 
 
 ## ⌨️ Commands
 
-| Command                            | What it does                            |
-| ---------------------------------- | --------------------------------------- |
-| `pnpm lint:arch`                   | Steiger over every FSD root             |
-| `pnpm --filter @repo/scripts test` | Run these checks' tests with the others |
+| Command          | What it does                |
+| ---------------- | --------------------------- |
+| `pnpm lint:arch` | Steiger over every FSD root |
 
 ## 🧩 Extending
 
 - **A root is added to `fsd-roots.json`**, never here. [The config package](../../architecture/README.md) has the steps.
-- The tests read that file, which is why `turbo.json` names it as an input of the test task.
 
 ## 🔗 Related
 

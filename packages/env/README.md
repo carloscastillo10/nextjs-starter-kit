@@ -38,7 +38,6 @@ Every variable the repository reads is declared once, as a key in a zod schema i
 | `src/validation/`             | `loadEnv` and the error that lists every problem without printing a value                       |
 | `src/example/`                | Renders and writes `.env.example`                                                               |
 | `src/is-required.ts`          | The one required-or-optional test the emitter uses                                              |
-| `src/testing/`                | Fixtures the tests share                                                                        |
 | `scripts/`                    | The command-line entry points behind `env:emit` and `env:check:turbo`                           |
 
 ### Which file, and who wins

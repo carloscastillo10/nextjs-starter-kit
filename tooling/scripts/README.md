@@ -15,7 +15,7 @@
 
 ## 🎯 Purpose
 
-Holds the checks written for this repository, each with its tests. [lefthook](../../lefthook.yml), the [CI workflows](../../.github/CONFIGURATION.md) and [`.claude/settings.json`](../../.claude/settings.json) call them, so a rule the team agreed on is enforced by the repository rather than remembered by a person.
+Holds the checks written for this repository. [lefthook](../../lefthook.yml), the [CI workflows](../../.github/CONFIGURATION.md) and [`.claude/settings.json`](../../.claude/settings.json) call them, so a rule the team agreed on is enforced by the repository rather than remembered by a person.
 
 ## 🗂️ Structure
 
@@ -33,20 +33,20 @@ One folder per subject, each with its own README:
 | [`claude-hooks/`](claude-hooks/README.md) | The hooks Claude Code runs around its own tool calls: the skill reminder and the shell guard                          |
 | [`generators/`](generators/README.md)     | What `pnpm new` writes into a new workspace, and how a new FSD root joins the list                                    |
 
-At the root of the package sit only the files that belong to the package as a whole: `package.json`, its `turbo.json`, `eslint.config.mjs`, `vitest.config.mjs`, `cspell.json` and `.prettierignore`.
+At the root of the package sit only the files that belong to the package as a whole: `package.json`, `eslint.config.mjs`, `vitest.config.mjs`, `cspell.json` and `.prettierignore`.
 
 ## 🚀 Usage
 
 ### Where a check runs
 
-| Moment                        | Checks                                                                                 |
-| ----------------------------- | -------------------------------------------------------------------------------------- |
-| Before Claude writes a file   | The skill reminder, the shell guard                                                    |
-| `pre-commit`                  | The fixers, then the comment, spelling, Markdown, frontmatter and type checks          |
-| `commit-msg`                  | The commit convention, the git identity                                                |
-| `pre-push`                    | The push authors, the linked branch, the branch scope, then the tests and whole checks |
-| `post-commit` and its friends | The code graph rebuild                                                                 |
-| CI                            | Every gate of the `checks` job, which `pnpm gates` also runs                           |
+| Moment                        | Checks                                                                               |
+| ----------------------------- | ------------------------------------------------------------------------------------ |
+| Before Claude writes a file   | The skill reminder, the shell guard                                                  |
+| `pre-commit`                  | The fixers, then the comment, spelling, Markdown, frontmatter and type checks        |
+| `commit-msg`                  | The commit convention, the git identity                                              |
+| `pre-push`                    | The push authors, the linked branch, the branch scope, then the whole-project checks |
+| `post-commit` and its friends | The code graph rebuild                                                               |
+| CI                            | Every gate of the `checks` job, which `pnpm gates` also runs                         |
 
 ### Running one by hand
 
@@ -68,14 +68,12 @@ The README of each folder gives the arguments that matter.
 | `pnpm lint:echo [base]`                             | Run the comment echo check                |
 | `printf '%s\n' "<message>" \| pnpm exec commitlint` | Check a commit message without committing |
 | `pnpm graph`                                        | Rebuild the code graph and its notes      |
-| `pnpm --filter @repo/scripts test`                  | Run the scripts' tests                    |
 
 ## 🧩 Extending
 
 - **Put the check in the folder of its subject**, and give that folder's README a row and a section. A subject with no folder yet gets one, with a README in this shape.
-- Keep a check in two parts when it has real logic, as the comment check does: a module of pure rules and a small command around it, so the rules can be tested without spawning processes. A check that only reads git can be one command, tested in a temporary repository.
+- Keep a check in two parts when it has real logic, as the comment check does: a module of pure rules and a small command around it, so the rules can be read and exercised without spawning processes. A check that only reads git can be one command.
 - Add the root script that runs it to the root `package.json`, and the hook or CI step that calls it.
-- If a test reads a file outside this package, add it to the `inputs` in `turbo.json`, or a change to that file replays a stale test result from the cache.
 
 ## 🔗 Related
 

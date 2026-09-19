@@ -51,9 +51,9 @@ A new check is therefore one step in that job, with the same `if:` condition as 
 - **A label** is a row in `labels.yml` **and** a `gh label create` line in
   [`CONTRIBUTING.md`](../CONTRIBUTING.md#repository-settings). Labels do not travel with "Use this template",
   so the commands are how a new repository gets them.
-- **A form field** that offers a fixed list — skills, surfaces, layers — is covered by a test in
-  [`@repo/scripts`](../tooling/scripts/github/README.md) that fails when an option names something the
-  repository does not have.
+- **A form field** that offers a fixed list — skills, surfaces, layers — may only name something the
+  repository has: a skill with a folder under `.claude/skills/`, a label that exists in `labels.yml`.
+  [`@repo/scripts`](../tooling/scripts/github/README.md) says which files have to agree.
 - **A workflow** keeps the shape of the three that exist: `permissions` narrowed to what it needs,
   `timeout-minutes` set, actions pinned by SHA, and `persist-credentials: false` on checkout.
 
@@ -65,5 +65,5 @@ A new check is therefore one step in that job, with the same `if:` condition as 
 ## 🔗 Related
 
 - [Contributing](../CONTRIBUTING.md): the flow these files implement, and the repository settings
-- [`@repo/scripts`](../tooling/scripts/README.md): `pnpm gates`, and the tests that hold this folder in step
+- [`@repo/scripts`](../tooling/scripts/README.md): `pnpm gates`, and the checks that hold this folder in step
 - [`AGENTS.md`](../AGENTS.md): the commands that open these issues and pull requests

@@ -16,8 +16,6 @@
 | `graph-lock.mjs`    | The request file and the lock, both under `.graphify/`                                                     |
 | `graph-rebuild.mjs` | The command: the hook trigger, the detached worker it starts, and the rebuild by hand                      |
 | `graph-hint.mjs`    | A Claude Code `PreToolUse` hook: before a search, points at the graph. Declared in `.claude/settings.json` |
-| `graph-sandbox.mjs` | Test helper: a git sandbox whose PATH carries a fake graphify that logs its calls                          |
-| `*.test.mjs`        | Tests: the rules and the lock directly, the command as a real process, and the jobs under a real lefthook  |
 
 ## 🚀 Usage
 
@@ -50,16 +48,15 @@ flowchart LR
 
 ## ⌨️ Commands
 
-| Command                                                            | What it does                                 |
-| ------------------------------------------------------------------ | -------------------------------------------- |
-| `pnpm graph`                                                       | Rebuilds now, in the foreground              |
-| `pnpm graph:watch`                                                 | Rebuilds the graph on every code change      |
-| `pnpm --filter @repo/scripts test`                                 | Runs these tests with the other script tests |
-| `echo '<payload>' \| node tooling/scripts/graphify/graph-hint.mjs` | Runs the graph hint on one payload           |
+| Command                                                            | What it does                            |
+| ------------------------------------------------------------------ | --------------------------------------- |
+| `pnpm graph`                                                       | Rebuilds now, in the foreground         |
+| `pnpm graph:watch`                                                 | Rebuilds the graph on every code change |
+| `echo '<payload>' \| node tooling/scripts/graphify/graph-hint.mjs` | Runs the graph hint on one payload      |
 
 ## 🧩 Extending
 
-- **A new trigger** is a hook key in [`lefthook.yml`](../../../lefthook.yml) with a `graph` job that calls the script with `{0}`, plus its case in `EVENTS` in `graph-rules.mjs`. A test reads the real config, so the two cannot drift.
+- **A new trigger** is a hook key in [`lefthook.yml`](../../../lefthook.yml) with a `graph` job that calls the script with `{0}`, plus its case in `EVENTS` in `graph-rules.mjs`, which is the list the trigger reads.
 - **A change to the rebuild itself** belongs in `REBUILD_STEPS`, one array of arguments per step, run in order until one fails. The steps carry `--force`, `--no-description` and `--no-label` for the reasons written next to them.
 - **Slow or hung rebuilds** are bounded by the step timeout, after which the lock is freed rather than held for good.
 
