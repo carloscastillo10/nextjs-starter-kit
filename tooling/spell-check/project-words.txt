@@ -23,6 +23,7 @@ sentropic
 shadcn
 Steiger
 tsconfck
+Turbopack
 Turborepo
 vercel
 vite
