@@ -169,7 +169,7 @@ comply.
 `{"disableAllHooks": true}` in a git-ignored `.claude/settings.local.json` turns them off for your clone,
 which is a choice you make for yourself and not for the repository.
 
-## 🔗 Related
+## Related
 
 - [`CLAUDE.md`](./CLAUDE.md): the rules no tool can check, and what is enforced for you
 - [`.claude/`](./.claude/README.md): the files themselves, and how to add one

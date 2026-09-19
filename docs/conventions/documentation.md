@@ -122,8 +122,11 @@ changing this table is a single commit.
 ## Headings and anchors
 
 - **One `#` per file**, first line after the frontmatter, carrying the emoji.
-- **`##` headings in a README carry the emoji from the template.** Everywhere else they are plain, and so is
-  every `###`.
+- **`##` headings carry the emoji from the README template** in a README and in the four documents written
+  to the same shape: [`CONTRIBUTING.md`](../../CONTRIBUTING.md), [`Home.md`](../../Home.md),
+  [`.github/CONFIGURATION.md`](../../.github/CONFIGURATION.md) and
+  [`obsidian-setup.md`](../knowledge/obsidian-setup.md). In `CLAUDE.md`, `AGENTS.md` and the reference
+  documents under `docs/`, `##` is plain; `###` is plain everywhere.
 - **An anchor is derived from the heading**, so changing a heading breaks every link to it. Emoji are dropped
   and the remaining spaces become hyphens: `## 🎯 Purpose` is `#-purpose`, `## 🗂️ Structure` is `#️-structure`
   because the variation selector survives. markdownlint fails a link to an anchor that does not exist, which
