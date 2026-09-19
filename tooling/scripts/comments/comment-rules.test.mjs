@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import { inspectComments, isCheckedSource } from "./comment-rules.mjs";
+import { countAddedComments, inspectComments, isCheckedSource } from "./comment-rules.mjs";
 
 const failuresIn = (code, file = "src/lib/format.ts") =>
   inspectComments({ code, file }).failures.map(({ line, rule }) => ({ line, rule }));
@@ -216,5 +216,50 @@ describe("reports", () => {
     const { failures } = inspectComments({ code: "// const total = 1;", file: "total.ts" });
 
     expect(failures).toEqual([]);
+  });
+});
+
+describe("countAddedComments", () => {
+  const diffOf = (files) =>
+    Object.entries(files)
+      .flatMap(([file, lines]) => [`+++ b/${file}`, ...lines])
+      .join("\n");
+
+  test("counts the comment lines and the code lines a change adds", () => {
+    const diff = diffOf({
+      "src/retry.ts": ["+// The provider drops the first request.", "+export const retries = 2;"],
+    });
+
+    expect(countAddedComments(diff)).toEqual({ comments: 1, total: 2 });
+  });
+
+  test("counts every line of a block comment", () => {
+    const diff = diffOf({
+      "src/retry.ts": ["+/*", "+ * A reason.", "+ */", "+export const retries = 2;"],
+    });
+
+    expect(countAddedComments(diff)).toEqual({ comments: 3, total: 4 });
+  });
+
+  test("ignores the lines a change removes and the blank ones it adds", () => {
+    const diff = diffOf({
+      "src/retry.ts": ["-// gone", "+", "+export const retries = 2;"],
+    });
+
+    expect(countAddedComments(diff)).toEqual({ comments: 0, total: 1 });
+  });
+
+  test("ignores a file the comment check does not read", () => {
+    const diff = diffOf({
+      "docs/a.md": ["+// not code"],
+      "apps/web/next-env.d.ts": ["+// generated"],
+      "src/retry.ts": ["+export const retries = 2;"],
+    });
+
+    expect(countAddedComments(diff)).toEqual({ comments: 0, total: 1 });
+  });
+
+  test("reads an empty diff as nothing added", () => {
+    expect(countAddedComments("")).toEqual({ comments: 0, total: 0 });
   });
 });

@@ -23,6 +23,7 @@
     "lint": "turbo run lint lint:root lint:arch --continue",
     "lint:arch": "turbo run lint:arch",
     "lint:comments": "node tooling/scripts/comments/check-comments.mjs",
+    "lint:echo": "node tooling/scripts/comments/check-comment-echo.mjs",
     "lint:fix": "turbo run lint:fix lint:fix:root --continue",
     "lint:fix:root": "eslint \"*.{js,mjs,cjs}\" --fix",
     "lint:frontmatter": "node tooling/scripts/markdown/check-frontmatter.mjs",

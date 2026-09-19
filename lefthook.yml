@@ -106,6 +106,12 @@ pre-push:
           - name: env-turbo
             run: pnpm env:check:turbo
 
+          - name: echo
+            run: pnpm lint:echo
+
+          - name: comment-share
+            run: pnpm lint:comments --changed origin/main
+
 # The code graph follows HEAD: after a commit, a branch checkout, a merge or a pull, and
 # a rebase, which runs neither of the first two for the commits it replays. The script
 # does nothing without graphify on the PATH, never fails, and returns at once, leaving

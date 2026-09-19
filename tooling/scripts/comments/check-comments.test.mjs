@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 
 import { describe, expect, onTestFinished, test } from "vitest";
 
+import { createSandbox } from "../git/git-sandbox.mjs";
+
 const SCRIPT = fileURLToPath(new URL("check-comments.mjs", import.meta.url));
 
 const createWorkspace = (files) => {
@@ -122,5 +124,63 @@ describe("check-comments without arguments", () => {
       status: 0,
       output: "check-comments: 0 files, 0 failures\n",
     });
+  });
+});
+
+describe("check-comments --changed", () => {
+  const branchWith = (lines) => {
+    const sandbox = createSandbox();
+
+    sandbox.write("README.md", "# Sandbox\n");
+    sandbox.git(["add", "."]);
+    sandbox.git(["commit", "--quiet", "--message", "chore(repo): 🎉 Start"]);
+    sandbox.git(["branch", "origin/main", "HEAD"]);
+    sandbox.git(["switch", "--quiet", "--create", "feat/comments"]);
+    sandbox.write("src/wide.ts", lines.join("\n"));
+    sandbox.git(["add", "."]);
+    sandbox.git(["commit", "--quiet", "--message", "feat(app): ✨ Add the module"]);
+
+    return sandbox;
+  };
+
+  const code = (count) =>
+    Array.from({ length: count }, (_, index) => `export const value${index} = ${index};`);
+
+  const comment = (count) => Array.from({ length: count }, (_, index) => `// Reason ${index}.`);
+
+  const runChanged = (sandbox, base = "origin/main") => {
+    const { status, stdout, stderr } = sandbox.run(SCRIPT, ["--changed", base]);
+
+    return { status, output: `${stdout}${stderr}` };
+  };
+
+  test("fails a large change that is mostly comment", () => {
+    const sandbox = branchWith([...comment(40), ...code(300)]);
+    const { status, output } = runChanged(sandbox);
+
+    expect(status).toBe(1);
+    expect(output).toContain("12% comment");
+  });
+
+  test("passes a large change with few comments", () => {
+    const sandbox = branchWith([...comment(5), ...code(300)]);
+    const { status, output } = runChanged(sandbox);
+
+    expect(status).toBe(0);
+    expect(output).toContain("5 of 305 added lines");
+  });
+
+  test("passes a small change however dense, because the share says nothing there", () => {
+    const sandbox = branchWith([...comment(10), ...code(10)]);
+
+    expect(runChanged(sandbox).status).toBe(0);
+  });
+
+  test("says so and passes when there is no base to fork from", () => {
+    const sandbox = branchWith(code(1));
+    const { status, output } = runChanged(sandbox, "origin/nowhere");
+
+    expect(status).toBe(0);
+    expect(output).toContain("origin/nowhere");
   });
 });

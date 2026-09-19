@@ -66,6 +66,51 @@ const DOC_MIN_EXPORTS = 3;
 
 export const isCheckedSource = (file) => SOURCE_FILE.test(file) && !SKIPPED_FILE.test(file);
 
+const ADDED_FILE = /^\+\+\+ b\/(?<file>.*)$/u;
+
+const COMMENT_START = /^(?:\/\/|\/\*|\*)/u;
+
+const BLOCK_ENDS = /\*\/$/u;
+
+export const countAddedComments = (diff) => {
+  let file = "";
+  let comments = 0;
+  let code = 0;
+  let inBlock = false;
+
+  for (const raw of diff.split("\n")) {
+    const header = ADDED_FILE.exec(raw);
+
+    if (header !== null) {
+      file = header.groups.file;
+      inBlock = false;
+      continue;
+    }
+
+    if (!raw.startsWith("+") || raw.startsWith("+++") || !isCheckedSource(file)) continue;
+
+    const line = raw.slice(1).trim();
+
+    if (line === "") continue;
+
+    if (inBlock) {
+      comments += 1;
+      inBlock = !BLOCK_ENDS.test(line);
+      continue;
+    }
+
+    if (COMMENT_START.test(line)) {
+      comments += 1;
+      inBlock = line.startsWith("/*") && !BLOCK_ENDS.test(line);
+      continue;
+    }
+
+    code += 1;
+  }
+
+  return { comments, total: comments + code };
+};
+
 const parseSource = ({ code, file }) =>
   parse(code, { comment: true, loc: true, range: true, jsx: JSX_ALLOWED.test(file) });
 

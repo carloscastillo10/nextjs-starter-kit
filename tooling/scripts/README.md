@@ -63,6 +63,7 @@ The README of each folder gives the arguments that matter.
 | `pnpm gates`                                        | Run every check CI runs                   |
 | `pnpm lint:comments [files...]`                     | Run the comment check                     |
 | `pnpm lint:frontmatter [files...]`                  | Run the frontmatter check                 |
+| `pnpm lint:echo [base]`                             | Run the comment echo check                |
 | `printf '%s\n' "<message>" \| pnpm exec commitlint` | Check a commit message without committing |
 | `pnpm graph`                                        | Rebuild the code graph and its notes      |
 | `pnpm --filter @repo/scripts test`                  | Run the scripts' tests                    |
