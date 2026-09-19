@@ -78,7 +78,7 @@ Inline lint suppressions are switched off. If a rule does not fit a file, change
 (rare)       the issue      layer by layer   gates and the pull request
 ```
 
-Four commands in [`.claude/commands/`](.claude/commands), one per stage, and each one refuses to do the next one's job: `/feature` plans and stops, `/implement` builds and stops, `/ship` proves and stops. Doing it by hand follows the same steps; the commands are that flow written down.
+Four of the commands in [`.claude/commands/`](.claude/README.md), one per stage, and each one refuses to do the next one's job: `/feature` plans and stops, `/implement` builds and stops, `/ship` proves and stops. Doing it by hand follows the same steps; the commands are that flow written down.
 
 **0. A spec comes first, when there is behavior to decide.** Most changes need none: a dependency bump, a bug with a failing test, a screen the design already describes. When the product should behave in a way nothing written says it does, `/spec` drafts it into `docs/specs/` and **it merges as its own `docs` pull request, before the implementation issue exists**. Implementing against a spec that does not exist is drift on day one, and a question only the product owner can answer stays in `## Open questions` rather than being settled by inference on the way past.
 

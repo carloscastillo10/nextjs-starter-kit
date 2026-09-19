@@ -24,9 +24,9 @@ They stay separate because **a convention has to live in the context of the pers
 
 ## Read before deciding anything
 
-1. [`docs/adr/`](../../docs/adr/) — the decisions already taken, each with the alternatives that were rejected. **The rejected options are the valuable part**: they say what was already tried and why it lost.
-2. [`docs/architecture/`](../../docs/architecture/) — the system as it is today: the layers, and which check owns which rule.
-3. [`docs/conventions/`](../../docs/conventions/) — so your answer does not contradict the standard somebody will write under.
+1. [`docs/adr/`](../../docs/adr/README.md) — the decisions already taken, each with the alternatives that were rejected. **The rejected options are the valuable part**: they say what was already tried and why it lost.
+2. [`docs/architecture/`](../../docs/architecture/README.md) — the system as it is today: the layers, and which check owns which rule.
+3. [`docs/conventions/`](../../docs/conventions/README.md) — so your answer does not contradict the standard somebody will write under.
 4. The issue or spec that raised the question, and anything it cites.
 
 Read the code when the answer depends on it. You have `Bash` for `git log`, `gh` and the commands that report the repository's own state; you never change anything with it.

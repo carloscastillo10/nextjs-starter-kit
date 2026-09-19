@@ -15,7 +15,7 @@
 
 ## 🎯 Purpose
 
-Holds the checks written for this repository, each with its tests. [lefthook](../../lefthook.yml), the [CI workflows](../../.github/workflows) and [`.claude/settings.json`](../../.claude/settings.json) call them, so a rule the team agreed on is enforced by the repository rather than remembered by a person.
+Holds the checks written for this repository, each with its tests. [lefthook](../../lefthook.yml), the [CI workflows](../../.github/CONFIGURATION.md) and [`.claude/settings.json`](../../.claude/settings.json) call them, so a rule the team agreed on is enforced by the repository rather than remembered by a person.
 
 ## 🗂️ Structure
 

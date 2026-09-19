@@ -36,7 +36,7 @@ The graph is **per clone and out of git**: it is rebuilt from the checkout in ab
 | `.graphify/.rebuild.lock`                  | the rebuild, `graphify watch` | The process id of whoever is rebuilding                                      |
 | `.graphify/.rebuild.pending`               | the git hooks                 | A rebuild asked for and not yet done                                         |
 | [`.graphifyignore`](../../.graphifyignore) | you                           | What stays out of the graph: vendored skills, build output, lockfiles        |
-| [`.obsidian/`](../../.obsidian)            | you and Obsidian              | The shared vault settings; everything personal is git-ignored                |
+| [`.obsidian/`](obsidian-setup.md)          | you and Obsidian              | The shared vault settings; everything personal is git-ignored                |
 | [`Home.md`](../../Home.md)                 | you                           | The map of the documentation vault                                           |
 
 Everything under `.graphify/` is git-ignored, and so is every note the export writes: it is generated, it is rewritten in full on each rebuild, and it is kept out of markdownlint, cspell and Prettier for the same reason.
