@@ -49,16 +49,12 @@ const readPayload = async () => {
   }
 };
 
-const respond = (hookSpecificOutput) => {
-  process.stdout.write(
-    JSON.stringify({ hookSpecificOutput: { hookEventName: "PreToolUse", ...hookSpecificOutput } }),
-  );
-};
+const deny = (permissionDecisionReason) => ({
+  permissionDecision: "deny",
+  permissionDecisionReason,
+});
 
-const deny = (permissionDecisionReason) =>
-  respond({ permissionDecision: "deny", permissionDecisionReason });
-
-const inject = (additionalContext) => respond({ additionalContext });
+const inject = (additionalContext) => ({ additionalContext });
 
 /*
  * A file written through a heredoc is content, not a command: a guide that mentions the flag
@@ -118,46 +114,51 @@ const scopeReport = (cwd) => {
   }
 };
 
-const payload = await readPayload();
-const command = payload?.tool_input?.command;
+const decisionFor = (executed, cwd) => {
+  if (SKIPS_THE_HOOKS.test(executed) || SKIPS_THE_HOOKS_ON_A_COMMIT.test(executed)) {
+    return deny(
+      "Blocked: the git hooks are the only check that runs before code leaves this machine, and " +
+        "skipping one moves the same failure to the pull request. Fix what the hook reports; if " +
+        "the hook itself is broken, say so and fix the hook. To skip one job rather than every " +
+        "hook, name it: LEFTHOOK_EXCLUDE=<job>, such as LEFTHOOK_EXCLUDE=graph for the code graph.",
+    );
+  }
 
-if (typeof command !== "string") process.exit(0);
+  const pushedTo = protectedPushIn(executed, cwd);
 
-const cwd = typeof payload.cwd === "string" ? payload.cwd : process.cwd();
-const executed = withoutHeredocBodies(command);
+  if (pushedTo !== undefined) {
+    return deny(
+      `Blocked: pushing straight to ${pushedTo}. Every change gets there through a pull request, ` +
+        `so push the branch you are on and open one against ${pushedTo}.`,
+    );
+  }
 
-if (SKIPS_THE_HOOKS.test(executed) || SKIPS_THE_HOOKS_ON_A_COMMIT.test(executed)) {
-  deny(
-    "Blocked: the git hooks are the only check that runs before code leaves this machine, and " +
-      "skipping one moves the same failure to the pull request. Fix what the hook reports; if " +
-      "the hook itself is broken, say so and fix the hook. To skip one job rather than every " +
-      "hook, name it: LEFTHOOK_EXCLUDE=<job>, such as LEFTHOOK_EXCLUDE=graph for the code graph.",
-  );
-  process.exit(0);
-}
+  if (!/\bgh\s+pr\s+create\b/u.test(executed)) return undefined;
 
-const pushedTo = protectedPushIn(executed, cwd);
-
-if (pushedTo !== undefined) {
-  deny(
-    `Blocked: pushing straight to ${pushedTo}. Every change gets there through a pull request, ` +
-      `so push the branch you are on and open one against ${pushedTo}.`,
-  );
-  process.exit(0);
-}
-
-if (/\bgh\s+pr\s+create\b/u.test(executed)) {
   const report = scopeReport(cwd);
-  const carriesTheTemplate = /--body-file[\s=]/u.test(executed);
 
-  inject(
+  return inject(
     [
       ...(report === "" ? [] : [report, "", ...SPLIT_IT_NOW]),
       ...PULL_REQUEST_RULES,
       "",
-      carriesTheTemplate
+      /--body-file[\s=]/u.test(executed)
         ? "You are passing --body-file, so read the template first and follow its headings."
         : "You are not passing --body-file. Write the body to a file that follows the template.",
     ].join("\n"),
   );
+};
+
+const payload = await readPayload();
+const command = payload?.tool_input?.command;
+
+if (typeof command === "string") {
+  const cwd = typeof payload.cwd === "string" ? payload.cwd : process.cwd();
+  const decision = decisionFor(withoutHeredocBodies(command), cwd);
+
+  if (decision !== undefined) {
+    process.stdout.write(
+      JSON.stringify({ hookSpecificOutput: { hookEventName: "PreToolUse", ...decision } }),
+    );
+  }
 }
