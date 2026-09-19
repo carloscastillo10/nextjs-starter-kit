@@ -41,6 +41,7 @@ describe("findSkillRule", () => {
     ["packages/ui/package.json", "monorepo"],
     ["turbo/generators/config.ts", "monorepo"],
     ["tooling/tailwind/theme.css", "theme"],
+    ["tooling/tailwind/postcss.config.js", "theme-config"],
     ["packages/ui/src/components/button.tsx", "ui-kit"],
     ["packages/ui/src/styles/globals.css", "ui-kit"],
     ["apps/web/components.json", "ui-kit"],

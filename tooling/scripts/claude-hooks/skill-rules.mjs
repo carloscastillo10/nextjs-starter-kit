@@ -1,14 +1,20 @@
 const SOURCE_FILE = /\.[cm]?[jt]sx?$/u;
 
+const GENERATED_OUTPUT = String.raw`(?:^|\/)(?:node_modules|\.next|\.turbo|dist|build|coverage)\/|\.d\.[cm]?ts$`;
+
 /*
  * The same folders the comment check skips, kept here instead of imported: loading
  * the comment check brings the TypeScript parser, which would slow down every write.
  */
-const SKIPPED_BY_COMMENT_CHECK =
-  /(?:^|\/)(?:node_modules|\.next|\.turbo|dist|build|coverage|\.claude|\.agents)\/|\.d\.[cm]?ts$/u;
+const SKIPPED_BY_COMMENT_CHECK = new RegExp(
+  String.raw`(?:^|\/)(?:\.claude|\.agents)\/|${GENERATED_OUTPUT}`,
+  "u",
+);
 
-const NOT_WRITTEN_BY_HAND =
-  /^(?:\.claude\/skills|\.agents)\/|(?:^|\/)(?:node_modules|\.next|\.turbo|dist|build|coverage)\/|\.d\.[cm]?ts$/u;
+const NOT_WRITTEN_BY_HAND = new RegExp(
+  String.raw`^(?:\.claude\/skills|\.agents)\/|${GENERATED_OUTPUT}`,
+  "u",
+);
 
 export const SKILL_RULES = [
   {
@@ -34,6 +40,12 @@ export const SKILL_RULES = [
     when: /^tooling\/tailwind\/.+\.css$/u,
     skills: ["tailwind-css", "design-md"],
     why: "the design tokens live here in Tailwind v4 syntax and DESIGN.md documents each of them, so a token changes in both places",
+  },
+  {
+    id: "theme-config",
+    when: /^tooling\/tailwind\//u,
+    skills: ["project-conventions", "tailwind-css"],
+    why: "this is what wires Tailwind into a build, so the version and the plugin names have to match the theme it compiles",
   },
   {
     id: "ui-kit",

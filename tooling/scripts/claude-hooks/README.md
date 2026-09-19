@@ -62,18 +62,19 @@ Each reminder above appears once per session.
 
 #### Rules, first match wins
 
-| Rule         | Paths                                                                         | Skills                                                                                                       |
-| ------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `design-md`  | `DESIGN.md`                                                                   | `design-md`                                                                                                  |
-| `prose`      | Any other Markdown file                                                       | `stop-slop`                                                                                                  |
-| `monorepo`   | `package.json` and `turbo.json` at any level, `pnpm-workspace.yaml`, `turbo/` | `turborepo`                                                                                                  |
-| `theme`      | The stylesheets in `tooling/tailwind/`                                        | `tailwind-css`, `design-md`                                                                                  |
-| `ui-kit`     | `packages/ui/`, any `components.json`                                         | `project-conventions`, `shadcn`, `tailwind-css`                                                              |
-| `stylesheet` | Any other `.css` file                                                         | `tailwind-css`                                                                                               |
-| `route-file` | `apps/*/app/`                                                                 | `project-conventions`, `feature-sliced-design`, `vercel-react-best-practices`                                |
-| `app-ui`     | `.jsx` and `.tsx` files under `apps/*/src/`                                   | `project-conventions`, `feature-sliced-design`, `vercel-react-best-practices`, `vercel-composition-patterns` |
-| `app-code`   | Anything else under `apps/*/src/`                                             | `project-conventions`, `feature-sliced-design`, `vercel-react-best-practices`                                |
-| `source`     | Any other TypeScript or JavaScript file, in any workspace                     | `project-conventions`                                                                                        |
+| Rule           | Paths                                                                         | Skills                                                                                                       |
+| -------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `design-md`    | `DESIGN.md`                                                                   | `design-md`                                                                                                  |
+| `prose`        | Any other Markdown file                                                       | `stop-slop`                                                                                                  |
+| `monorepo`     | `package.json` and `turbo.json` at any level, `pnpm-workspace.yaml`, `turbo/` | `turborepo`                                                                                                  |
+| `theme`        | The stylesheets in `tooling/tailwind/`                                        | `tailwind-css`, `design-md`                                                                                  |
+| `theme-config` | Anything else in `tooling/tailwind/`                                          | `project-conventions`, `tailwind-css`                                                                        |
+| `ui-kit`       | `packages/ui/`, any `components.json`                                         | `project-conventions`, `shadcn`, `tailwind-css`                                                              |
+| `stylesheet`   | Any other `.css` file                                                         | `tailwind-css`                                                                                               |
+| `route-file`   | `apps/*/app/`                                                                 | `project-conventions`, `feature-sliced-design`, `vercel-react-best-practices`                                |
+| `app-ui`       | `.jsx` and `.tsx` files under `apps/*/src/`                                   | `project-conventions`, `feature-sliced-design`, `vercel-react-best-practices`, `vercel-composition-patterns` |
+| `app-code`     | Anything else under `apps/*/src/`                                             | `project-conventions`, `feature-sliced-design`, `vercel-react-best-practices`                                |
+| `source`       | Any other TypeScript or JavaScript file, in any workspace                     | `project-conventions`                                                                                        |
 
 **Order is the design.** The rules run from narrow to wide, and the first one that matches is the only one that speaks, so `packages/ui/README.md` gets the prose rule and `packages/ui/package.json` gets the monorepo rule. The last rule is the widest: the code standard holds in every workspace, so a script in `tooling/` hears about it too. Paths are read from the root of the checkout that holds the file, so a worktree nested inside the project resolves the same way. Nothing fires for `.claude/skills/`, `.agents/`, `node_modules/` or build output (`dist/`, `build/`, `coverage/`, `.next/`, `.turbo/`, `*.d.ts`): nobody writes those by hand.
 
