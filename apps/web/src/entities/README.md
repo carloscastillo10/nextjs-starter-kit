@@ -17,9 +17,10 @@ One folder per model, kebab-case, a singular noun: `product`, `order`, `invoice`
 
 ```text
 entities/
-  product/
-    model/product.ts  <- the Product type and the isOnSale rule
-    index.ts
+└── product/               an example; the layer ships empty
+    ├── model/
+    │   └── product.ts     the Product type and the isOnSale rule
+    └── index.ts
 ```
 
 ## 🚀 Usage

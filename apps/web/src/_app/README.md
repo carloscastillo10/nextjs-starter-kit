@@ -21,21 +21,29 @@ It has no slices. It is split into segments, and a segment is created when its f
 | `layouts/`    | App-wide chrome rendered on every route, such as a site header                                                                            |
 | `api-routes/` | Route Handler implementations. `app/api/<name>/route.ts` re-exports them                                                                  |
 
+Four of the six segments exist today:
+
+```text
+_app/
+├── fonts/
+│   ├── index.ts
+│   └── sans.ts            Geist, as the --font-sans variable
+├── metadata/
+│   ├── index.ts
+│   └── site-url.ts        the origin relative metadata resolves against
+├── providers/
+│   ├── Providers.tsx
+│   └── index.ts           export { Providers } from "./Providers";
+└── styles/
+    └── globals.css        the Tailwind entry point and the @source lines
+```
+
 > [!NOTE]
 > The **design tokens are not here.** Colors, radii and fonts are defined once in
 > [`@repo/tailwind-config`](../../../../tooling/tailwind/README.md); `styles/globals.css` imports that theme
 > and the UI kit, and adds only what belongs to this app.
 
 ## 🚀 Usage
-
-```text
-_app/
-  providers/
-    Providers.tsx
-    index.ts          <- export { Providers } from "./Providers";
-  styles/
-    globals.css
-```
 
 Imports:
 
