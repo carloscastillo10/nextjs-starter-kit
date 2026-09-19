@@ -63,6 +63,6 @@ by itself. Leaving the number off costs both.
 
 **"Nothing new" is a valid answer** in the third section and the required one when the branch
 taught nothing. An empty section reads as a step that was skipped. The flow this sits inside is
-[`CONTRIBUTING.md`](../blob/main/CONTRIBUTING.md).
+`CONTRIBUTING.md`, under _How work moves_.
 
 </details>

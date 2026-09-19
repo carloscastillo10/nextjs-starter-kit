@@ -6,7 +6,7 @@ allowed-tools: Read, Grep, Glob, Edit, Write, Bash, Skill, Task
 
 # Implement
 
-Build what the issue promises and nothing else. Step 2 of the flow in `CONTRIBUTING.md`, between `/feature` and `/ship`.
+Build what the issue promises and nothing else. Step 3 of the flow in `CONTRIBUTING.md`, between `/feature` and `/ship`.
 
 Issue: `$ARGUMENTS`, or the number in the branch name when empty.
 

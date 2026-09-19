@@ -6,7 +6,7 @@ allowed-tools: Read, Grep, Glob, Bash, Task
 
 # Ship
 
-Take a finished branch through the gates and into a pull request. Steps 3 to 6 of the flow in `CONTRIBUTING.md`. It does not write features and it does not merge.
+Take a finished branch through the gates and into a pull request. Steps 4 to 6 of the flow in `CONTRIBUTING.md`. It does not write features and it does not merge.
 
 Issue: `$ARGUMENTS`, or the number in the branch name when empty.
 
