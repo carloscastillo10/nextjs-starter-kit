@@ -61,6 +61,14 @@ jobs:
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: pnpm lint
 
+      - name: Workspaces
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: pnpm lint:ws
+
+      - name: Boundaries
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: pnpm lint:boundaries
+
       - name: Comments
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: pnpm lint:comments

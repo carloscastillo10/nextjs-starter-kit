@@ -78,6 +78,7 @@ catalog:
   react: ^19.3.0
   react-dom: ^19.3.0
   shadcn: ^4.21.0
+  sherif: ^1.13.0
   steiger: ^0.6.0
   tailwindcss: ^4.3.3
   tsx: ^4.23.13

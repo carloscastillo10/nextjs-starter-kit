@@ -26,6 +26,8 @@ describe("readGates", () => {
     expect(readGates(CI).map(({ run }) => run)).toEqual([
       "pnpm format",
       "pnpm lint",
+      "pnpm lint:ws",
+      "pnpm lint:boundaries",
       "pnpm lint:comments",
       "pnpm types:check",
       "pnpm test",
