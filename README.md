@@ -248,12 +248,12 @@ Any other editor still gets indentation, line endings and final newlines from
 
 Managed by [lefthook](https://lefthook.dev) and installed by `pnpm install`.
 
-| Hook                                                         | What it does                                                                                                                       |
-| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `pre-commit`                                                 | Fixes the staged files with ESLint and Prettier and restages them, then checks comments, spelling, Markdown, frontmatter and types |
-| `commit-msg`                                                 | The commit convention, and that the commit carries your own git identity                                                           |
-| `pre-push`                                                   | Who authored the branch, whether the issue is linked, the branch scope, then tests, architecture and the environment checks        |
-| `post-commit`, `post-checkout`, `post-merge`, `post-rewrite` | Rebuild the code graph in the background, and do nothing at all without graphify installed                                         |
+| Hook                                                         | What it does                                                                                                                                    |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pre-commit`                                                 | Fixes the staged files with ESLint and Prettier and restages them, then checks comments, spelling, Markdown, frontmatter and types              |
+| `commit-msg`                                                 | The commit convention, and that the commit carries your own git identity                                                                        |
+| `pre-push`                                                   | Who authored the branch, whether the issue is linked, the branch scope, then tests, architecture, the comment checks and the environment checks |
+| `post-commit`, `post-checkout`, `post-merge`, `post-rewrite` | Rebuild the code graph in the background, and do nothing at all without graphify installed                                                      |
 
 A commit of code spends about 3 seconds in its hooks and a push about 3 seconds. The full table, the timings
 and the escape hatches are in [`CONTRIBUTING.md`](./CONTRIBUTING.md#git-hooks).
