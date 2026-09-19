@@ -1,0 +1,97 @@
+name: Assign on open
+
+# Creating a branch from an issue links the two without assigning anyone, and GitHub does not
+# assign a pull request to its own author either, so work that somebody is holding can look
+# like work nobody has started.
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  assign:
+    name: Assign
+    # A bot opens pull requests it does not own, and assigning them says nothing.
+    if: github.event.pull_request.user.type != 'Bot'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+
+      # The body reaches the script as an environment variable, never as part of the command:
+      # a pull request description is text anybody can write.
+      - name: Read the closing references
+        id: refs
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: echo "numbers=$(node tooling/scripts/read-closing-refs.mjs)" >> "$GITHUB_OUTPUT"
+
+      - name: Give them an owner
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          NUMBERS: ${{ steps.refs.outputs.numbers }}
+        with:
+          script: |
+            const pullRequest = context.payload.pull_request;
+            const author = pullRequest.user.login;
+            const numbers = (process.env.NUMBERS ?? "").split(" ").filter(Boolean).map(Number);
+
+            if (pullRequest.assignees.length === 0) {
+              await github.rest.issues.addAssignees({
+                ...context.repo,
+                issue_number: pullRequest.number,
+                assignees: [author],
+              });
+              core.notice(`#${pullRequest.number} assigned to ${author}.`);
+            }
+
+            if (numbers.length === 0) {
+              core.notice(`#${pullRequest.number} names no issue, so nothing else was assigned.`);
+              return;
+            }
+
+            /* One number nobody can resolve must not strand the ones after it. */
+            for (const issue_number of numbers) {
+              try {
+                const { data: issue } = await github.rest.issues.get({ ...context.repo, issue_number });
+
+                if (issue.pull_request) {
+                  core.warning(`#${issue_number} is a pull request, not an issue. Skipped.`);
+                  continue;
+                }
+
+                /* Filling a gap, never taking somebody's work off them. */
+                if (issue.assignees.length > 0) {
+                  const held = issue.assignees.map((assignee) => assignee.login).join(", ");
+                  core.notice(`#${issue_number} is already ${held}'s. Left alone.`);
+                  continue;
+                }
+
+                await github.rest.issues.addAssignees({
+                  ...context.repo,
+                  issue_number,
+                  assignees: [author],
+                });
+                core.notice(`#${issue_number} assigned to ${author}.`);
+              } catch (error) {
+                core.warning(`#${issue_number} could not be assigned: ${error.message}`);
+              }
+            }

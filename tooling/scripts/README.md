@@ -12,6 +12,7 @@
   - [The branch checks](#the-branch-checks)
   - [Fixing the staged files](#fixing-the-staged-files)
   - [The CI gates on your machine](#the-ci-gates-on-your-machine)
+  - [Who owns a pull request](#who-owns-a-pull-request)
   - [The comment check](#the-comment-check)
   - [Rebuilding the code graph](#rebuilding-the-code-graph)
 - [⌨️ Commands](#️-commands)
@@ -33,6 +34,7 @@ Holds the checks written for this repository, each with its tests. [lefthook](..
 | `check-linked-branch.mjs`         | `pre-push`: stops the first push of an issue branch that GitHub has not linked to its issue                           |
 | `check-branch-scope.mjs`          | `pre-push`: reports a branch that mixes unrelated changes or is very large; `--strict` makes it fail                  |
 | `fix-staged.mjs`                  | `pre-commit`: runs ESLint or Prettier in fix mode on fully staged files and in check mode on partially staged ones    |
+| `read-closing-refs.mjs`           | `readClosingRefs(body)`: the issues a pull request body says it closes, for the workflow that assigns them            |
 | `read-gates.mjs`                  | `readGates(text, job)`: the gates of a workflow job, with no I/O                                                      |
 | `run-gates.mjs`                   | `pnpm gates`: runs every gate of the `Checks` job in `ci.yml` and sums them up                                        |
 | `git-sandbox.mjs`                 | Test helper: a temporary repository with its own global git config, and fake commands on its `PATH`                   |
@@ -131,6 +133,14 @@ pnpm gates
 `run-gates.mjs` reads the `checks` job of `.github/workflows/ci.yml` and runs, from the repository root, every step whose `if:` calls `cancelled()`: the marker that lets a step run after an earlier one failed. Setup steps do not carry it, which tells a gate from a setup step without naming either. A gate added to the workflow reaches `pnpm gates` with no edit here, and **finding no gate at all is an error rather than a pass**, because a check that silently matches nothing reports success. It keeps going after a failing gate and prints a summary; the exit code is 1 when a gate failed and 2 when it could not read the workflow.
 
 The environment of a step is not copied: CI can pass secrets that a laptop does not have, so each gate runs with the environment of your shell.
+
+### Who owns a pull request
+
+```bash
+PR_BODY="$(gh pr view 12 --json body -q .body)" node tooling/scripts/read-closing-refs.mjs
+```
+
+`readClosingRefs` returns the issues a description says it closes, and `assign-on-open.yml` gives each of them the same owner as the pull request. It reads `Closes`, `Fixes` and `Resolves` in every form GitHub accepts, honours one inside a blockquote and ignores one inside code, so a description that shows the keyword as an example closes nothing. An issue somebody already holds is left alone: the workflow fills a gap, it never moves work off a person.
 
 ### The comment check
 
