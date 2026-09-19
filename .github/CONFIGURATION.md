@@ -13,18 +13,18 @@ the [GitHub CLI](https://cli.github.com) are the whole substrate.
 
 ## 🗂️ Structure
 
-| Path                                                     | Holds                                                                                                                         |
-| -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `ISSUE_TEMPLATE/bug.yml`                                 | A bug: what happens, what should happen, where, and how to reproduce it                                                       |
-| `ISSUE_TEMPLATE/feature.yml`                             | One unit of work: the slice layer by layer, acceptance criteria, the skills it needs                                          |
-| `ISSUE_TEMPLATE/config.yml`                              | The links beside the forms. **Absolute URLs**, which a new repository points at itself                                        |
-| [`pull_request_template.md`](./pull_request_template.md) | What changed, how it was verified, what the branch learned, and the checklist                                                 |
-| `labels.yml`                                             | The six labels, with the reason the taxonomy stops at six                                                                     |
-| `workflows/ci.yml`                                       | `Checks`, every gate; and `Author identity`, off unless a variable turns it on                                                |
-| `workflows/pr-title.yml`                                 | The pull request title, against the same commit rules                                                                         |
-| `workflows/assign-on-open.yml`                           | Assigns a new pull request to its author, and the issues its body closes. Branches of this repository only                    |
-| `dependabot.yml`                                         | One grouped pull request a month for the workflow actions                                                                     |
-| `.markdownlint.jsonc`                                    | Lets the pull request template open with a second-level heading and use `<details>`. Inline HTML stays banned everywhere else |
+| Path                                                             | Holds                                                                                                                         |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| [`ISSUE_TEMPLATE/bug.yml`](./ISSUE_TEMPLATE/bug.yml)             | A bug: what happens, what should happen, where, and how to reproduce it                                                       |
+| [`ISSUE_TEMPLATE/feature.yml`](./ISSUE_TEMPLATE/feature.yml)     | One unit of work: the slice layer by layer, acceptance criteria, the skills it needs                                          |
+| [`ISSUE_TEMPLATE/config.yml`](./ISSUE_TEMPLATE/config.yml)       | The links beside the forms. **Absolute URLs**, which a new repository points at itself                                        |
+| [`pull_request_template.md`](./pull_request_template.md)         | What changed, how it was verified, what the branch learned, and the checklist                                                 |
+| [`labels.yml`](./labels.yml)                                     | The six labels, with the reason the taxonomy stops at six                                                                     |
+| [`workflows/ci.yml`](./workflows/ci.yml)                         | `Checks`, every gate; and `Author identity`, off unless a variable turns it on                                                |
+| [`workflows/pr-title.yml`](./workflows/pr-title.yml)             | The pull request title, against the same commit rules                                                                         |
+| [`workflows/assign-on-open.yml`](./workflows/assign-on-open.yml) | Assigns a new pull request to its author, and the issues its body closes. Branches of this repository only                    |
+| [`dependabot.yml`](./dependabot.yml)                             | One grouped pull request a month for the workflow actions                                                                     |
+| [`.markdownlint.jsonc`](./.markdownlint.jsonc)                   | Lets the pull request template open with a second-level heading and use `<details>`. Inline HTML stays banned everywhere else |
 
 ## 🚀 Usage
 

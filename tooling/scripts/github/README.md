@@ -18,9 +18,9 @@ The flow needs issues, labels and `gh`, and nothing else: no project board, no s
 
 ## 🗂️ Structure
 
-| File                    | Holds                                                                                                      |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `read-closing-refs.mjs` | `readClosingRefs(body)`: the issues a pull request body says it closes, for the workflow that assigns them |
+| File                                               | Holds                                                                                                      |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| [`read-closing-refs.mjs`](./read-closing-refs.mjs) | `readClosingRefs(body)`: the issues a pull request body says it closes, for the workflow that assigns them |
 
 ## 🚀 Usage
 

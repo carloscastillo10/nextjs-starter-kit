@@ -8,12 +8,12 @@ One place for every lint rule of the [code conventions](../../docs/conventions/R
 
 ## 🗂️ Structure
 
-| File        | Export                                                                | For                                                                                                                 |
-| ----------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `base.js`   | `base`                                                                | Any TypeScript or JavaScript package                                                                                |
-| `react.js`  | `react`                                                               | React libraries: `base` plus React, hooks and accessibility rules                                                   |
-| `next.js`   | `next`                                                                | Next.js apps: `react` plus Next.js rules, the Feature-Sliced Design limits, the UI kit first and the Tailwind rules |
-| `syntax.js` | `BASE_SYNTAX`, `COMPONENT_SYNTAX`, `SLICE_UI_SYNTAX`, `UI_KIT_SYNTAX` | Selector lists for `no-restricted-syntax`, composed by the presets                                                  |
+| File                       | Export                                                                | For                                                                                                                 |
+| -------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| [`base.js`](./base.js)     | `base`                                                                | Any TypeScript or JavaScript package                                                                                |
+| [`react.js`](./react.js)   | `react`                                                               | React libraries: `base` plus React, hooks and accessibility rules                                                   |
+| [`next.js`](./next.js)     | `next`                                                                | Next.js apps: `react` plus Next.js rules, the Feature-Sliced Design limits, the UI kit first and the Tailwind rules |
+| [`syntax.js`](./syntax.js) | `BASE_SYNTAX`, `COMPONENT_SYNTAX`, `SLICE_UI_SYNTAX`, `UI_KIT_SYNTAX` | Selector lists for `no-restricted-syntax`, composed by the presets                                                  |
 
 Each preset is `base`'s rules, its own blocks, and a closing set: JavaScript files without type information, `eslint-config-prettier`, and `curly` after it. Every block has a `name`, so `pnpm exec eslint --inspect-config` shows where a rule comes from.
 

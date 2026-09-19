@@ -12,14 +12,14 @@ It has no slices. It is split into segments, and a segment is created when its f
 
 ## 🗂️ Structure
 
-| Segment       | Holds                                                                                                                                     |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `providers/`  | Context providers mounted once for the whole app. `index.ts` exposes a single `Providers` that `app/layout.tsx` wraps around `{children}` |
-| `styles/`     | `globals.css`: the Tailwind entry point, the `@source` lines, and the app's own styles. Imported once, from `app/layout.tsx`              |
-| `fonts/`      | `next/font` definitions, applied to `<html>` or `<body>` in `app/layout.tsx`                                                              |
-| `metadata/`   | Values the root metadata reads, such as the site URL that relative Open Graph and canonical URLs resolve against                          |
-| `layouts/`    | App-wide chrome rendered on every route, such as a site header                                                                            |
-| `api-routes/` | Route Handler implementations. `app/api/<name>/route.ts` re-exports them                                                                  |
+| Segment                      | Holds                                                                                                                                     |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| [`providers/`](./providers/) | Context providers mounted once for the whole app. `index.ts` exposes a single `Providers` that `app/layout.tsx` wraps around `{children}` |
+| [`styles/`](./styles/)       | `globals.css`: the Tailwind entry point, the `@source` lines, and the app's own styles. Imported once, from `app/layout.tsx`              |
+| [`fonts/`](./fonts/)         | `next/font` definitions, applied to `<html>` or `<body>` in `app/layout.tsx`                                                              |
+| [`metadata/`](./metadata/)   | Values the root metadata reads, such as the site URL that relative Open Graph and canonical URLs resolve against                          |
+| `layouts/`                   | App-wide chrome rendered on every route, such as a site header                                                                            |
+| `api-routes/`                | Route Handler implementations. `app/api/<name>/route.ts` re-exports them                                                                  |
 
 Four of the six segments exist today:
 

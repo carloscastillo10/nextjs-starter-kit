@@ -44,17 +44,17 @@ it still describes reality.
 Run all of them. **Each is checked when it exists and skipped with a one-line note when it does not**, never
 treated as an error: this template ships several of these files empty on purpose.
 
-| Where                                  | What drift looks like there                                                                                  |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `docs/business-rules.md`               | A change that contradicts a `BR-xx` rule, or implements a cross-cutting rule nobody wrote down               |
-| `docs/specs/`                          | The behavior shipped is not the behavior the spec describes, or its open questions were answered in code     |
-| `docs/adr/`                            | A decision taken in this diff that an ADR already settled differently, or one that needs an ADR and has none |
-| `docs/conventions/`                    | Code that contradicts a written convention, or a convention the change silently changed                      |
-| `docs/architecture/`                   | The system moved and the description of it did not                                                           |
-| `DESIGN.md`                            | Tokens or theme usage changed in the stylesheet and not in the document that describes them                  |
-| `Home.md`, `docs/README.md`, any index | A new document nothing links to, or an index entry pointing at something that moved                          |
-| Workspace `README.md` files            | A command, a script, a path or a version that no longer matches what the README says                         |
-| Links                                  | A relative link that no longer resolves, in either direction                                                 |
+| Where                                                                           | What drift looks like there                                                                                  |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| [`docs/business-rules.md`](../../docs/business-rules.md)                        | A change that contradicts a `BR-xx` rule, or implements a cross-cutting rule nobody wrote down               |
+| [`docs/specs/`](../../docs/specs/README.md)                                     | The behavior shipped is not the behavior the spec describes, or its open questions were answered in code     |
+| [`docs/adr/`](../../docs/adr/README.md)                                         | A decision taken in this diff that an ADR already settled differently, or one that needs an ADR and has none |
+| [`docs/conventions/`](../../docs/conventions/README.md)                         | Code that contradicts a written convention, or a convention the change silently changed                      |
+| [`docs/architecture/`](../../docs/architecture/README.md)                       | The system moved and the description of it did not                                                           |
+| [`DESIGN.md`](../../DESIGN.md)                                                  | Tokens or theme usage changed in the stylesheet and not in the document that describes them                  |
+| [`Home.md`](../../Home.md), [`docs/README.md`](../../docs/README.md), any index | A new document nothing links to, or an index entry pointing at something that moved                          |
+| Workspace `README.md` files                                                     | A command, a script, a path or a version that no longer matches what the README says                         |
+| Links                                                                           | A relative link that no longer resolves, in either direction                                                 |
 
 Two more that belong to you because no tool covers them:
 

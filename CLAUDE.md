@@ -95,14 +95,14 @@ this is on your memory:
 A **template**, which changes what "done" means: somebody will copy this tree and build a product in it, so
 an empty folder with a README is a feature and a half-finished example is a defect.
 
-| Where              | State                                                                                                      |
-| ------------------ | ---------------------------------------------------------------------------------------------------------- |
-| `apps/web`         | One Next.js app rendering one blank page. Routing in `app/`, code in `src/` as FSD layers                  |
-| `packages/ui`      | The shadcn/ui kit: `Button`, `cn`, the stylesheet that registers the kit with Tailwind                     |
-| `packages/env`     | The environment: zod schemas, the loader, and the generated `.env.example`                                 |
-| `tooling/*`        | Shared configuration and the repository's own scripts, one workspace each                                  |
-| `docs/`            | Mostly empty by design, with a README per folder saying what goes in it                                    |
-| **Authentication** | **Not here.** Each product picks a provider — [ADR 09](./docs/adr/09-no-authentication-in-the-template.md) |
+| Where                                      | State                                                                                                      |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| [`apps/web`](./apps/web/README.md)         | One Next.js app rendering one blank page. Routing in `app/`, code in `src/` as FSD layers                  |
+| [`packages/ui`](./packages/ui/README.md)   | The shadcn/ui kit: `Button`, `cn`, the stylesheet that registers the kit with Tailwind                     |
+| [`packages/env`](./packages/env/README.md) | The environment: zod schemas, the loader, and the generated `.env.example`                                 |
+| `tooling/*`                                | Shared configuration and the repository's own scripts, one workspace each                                  |
+| [`docs/`](./docs/README.md)                | Mostly empty by design, with a README per folder saying what goes in it                                    |
+| **Authentication**                         | **Not here.** Each product picks a provider — [ADR 09](./docs/adr/09-no-authentication-in-the-template.md) |
 
 Every workspace carries a `README.md`, and updating it is part of the change that outdated it. `pnpm new`
 refuses to create a workspace without one.

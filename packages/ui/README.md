@@ -15,13 +15,13 @@ The package holds only primitives with no knowledge of any app. Colors, radius a
 
 ## 🗂️ Structure
 
-| Path                        | Export                       | Holds                                                                 |
-| --------------------------- | ---------------------------- | --------------------------------------------------------------------- |
-| `src/components/button.tsx` | `@repo/ui/components/button` | `Button` and `buttonVariants`                                         |
-| `src/lib/utils.ts`          | `@repo/ui/lib/utils`         | `cn`, which joins class names and resolves conflicts between them     |
-| `src/styles/globals.css`    | `@repo/ui/globals.css`       | The kit's files, registered with Tailwind so their classes are built  |
-| `src/hooks/`                | `@repo/ui/hooks/<name>`      | Hooks the CLI adds with some components (created on first use)        |
-| `components.json`           | none                         | shadcn CLI config: Base UI (`base-nova`), Lucide icons, shared tokens |
+| Path                                                       | Export                       | Holds                                                                 |
+| ---------------------------------------------------------- | ---------------------------- | --------------------------------------------------------------------- |
+| [`src/components/button.tsx`](./src/components/button.tsx) | `@repo/ui/components/button` | `Button` and `buttonVariants`                                         |
+| [`src/lib/utils.ts`](./src/lib/utils.ts)                   | `@repo/ui/lib/utils`         | `cn`, which joins class names and resolves conflicts between them     |
+| [`src/styles/globals.css`](./src/styles/globals.css)       | `@repo/ui/globals.css`       | The kit's files, registered with Tailwind so their classes are built  |
+| `src/hooks/`                                               | `@repo/ui/hooks/<name>`      | Hooks the CLI adds with some components (created on first use)        |
+| [`components.json`](./components.json)                     | none                         | shadcn CLI config: Base UI (`base-nova`), Lucide icons, shared tokens |
 
 `Button` variants: `default`, `outline`, `secondary`, `ghost`, `destructive`, `link`. Sizes: `default`, `xs`, `sm`, `lg`, `icon`, `icon-xs`, `icon-sm`, `icon-lg`.
 

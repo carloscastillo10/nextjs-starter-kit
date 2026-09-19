@@ -14,10 +14,10 @@ yet and belongs in [`../plans/`](../plans/README.md); the reasoning behind a sha
 
 ## 🗂️ Structure
 
-| Document                                             | Covers                                                                                                                                                                                            |
-| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [feature-sliced-design.md](feature-sliced-design.md) | Feature-Sliced Design in `apps/web`: layers, import rules, public APIs, naming, the Next.js integration, where workspace packages fit, the FSD roots, the placement tables and the Steiger linter |
-| [architecture-checks.md](architecture-checks.md)     | The four checks that guard the structure: what each one owns, how to read a failure, and how to add a rule without reporting the same violation twice                                             |
+| Document                                                 | Covers                                                                                                                                                                                            |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`feature-sliced-design.md`](./feature-sliced-design.md) | Feature-Sliced Design in `apps/web`: layers, import rules, public APIs, naming, the Next.js integration, where workspace packages fit, the FSD roots, the placement tables and the Steiger linter |
+| [`architecture-checks.md`](./architecture-checks.md)     | The four checks that guard the structure: what each one owns, how to read a failure, and how to add a rule without reporting the same violation twice                                             |
 
 ## 🚀 Usage
 

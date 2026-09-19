@@ -17,10 +17,10 @@ A second list of checks drifts from the first. `pnpm gates` therefore has no lis
 
 ## 🗂️ Structure
 
-| File             | Holds                                                                      |
-| ---------------- | -------------------------------------------------------------------------- |
-| `read-gates.mjs` | `readGates(text, job)`: the gates of a workflow job, with no I/O           |
-| `run-gates.mjs`  | `pnpm gates`: runs every gate of the `checks` job from the repository root |
+| File                                 | Holds                                                                      |
+| ------------------------------------ | -------------------------------------------------------------------------- |
+| [`read-gates.mjs`](./read-gates.mjs) | `readGates(text, job)`: the gates of a workflow job, with no I/O           |
+| [`run-gates.mjs`](./run-gates.mjs)   | `pnpm gates`: runs every gate of the `checks` job from the repository root |
 
 ## 🚀 Usage
 

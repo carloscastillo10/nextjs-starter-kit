@@ -8,9 +8,9 @@ Steiger takes one folder per run, and this repository can declare several FSD ro
 
 ## 🗂️ Structure
 
-| File           | Holds                                                          |
-| -------------- | -------------------------------------------------------------- |
-| `lint-fsd.mjs` | `pnpm lint:arch`, and `lintFsdRoots({ roots, run })` behind it |
+| File                             | Holds                                                          |
+| -------------------------------- | -------------------------------------------------------------- |
+| [`lint-fsd.mjs`](./lint-fsd.mjs) | `pnpm lint:arch`, and `lintFsdRoots({ roots, run })` behind it |
 
 ## 🚀 Usage
 

@@ -29,16 +29,16 @@ Every variable the repository reads is declared once, as a key in a zod schema i
 
 ## 🗂️ Structure
 
-| Path                          | Holds                                                                                           |
-| ----------------------------- | ----------------------------------------------------------------------------------------------- |
-| `src/index.ts`                | The public API: `loadEnv`, `loadEnvFile`, `activeAppEnv`, `findRepoRoot`, the shapes, the error |
-| `src/schemas/`                | One shape per area (`app.schema.ts` today) and the registry every reader uses                   |
-| `src/schemas/boolean-flag.ts` | The only accepted spellings for a flag: `true` and `false`                                      |
-| `src/loading/`                | The walk up to the workspace root, and the root env file loader                                 |
-| `src/validation/`             | `loadEnv` and the error that lists every problem without printing a value                       |
-| `src/example/`                | Renders and writes `.env.example`                                                               |
-| `src/is-required.ts`          | The one required-or-optional test the emitter uses                                              |
-| `scripts/`                    | The command-line entry points behind `env:emit` and `env:check:turbo`                           |
+| Path                                                           | Holds                                                                                           |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [`src/index.ts`](./src/index.ts)                               | The public API: `loadEnv`, `loadEnvFile`, `activeAppEnv`, `findRepoRoot`, the shapes, the error |
+| [`src/schemas/`](./src/schemas/)                               | One shape per area (`app.schema.ts` today) and the registry every reader uses                   |
+| [`src/schemas/boolean-flag.ts`](./src/schemas/boolean-flag.ts) | The only accepted spellings for a flag: `true` and `false`                                      |
+| [`src/loading/`](./src/loading/)                               | The walk up to the workspace root, and the root env file loader                                 |
+| [`src/validation/`](./src/validation/)                         | `loadEnv` and the error that lists every problem without printing a value                       |
+| [`src/example/`](./src/example/)                               | Renders and writes `.env.example`                                                               |
+| [`src/is-required.ts`](./src/is-required.ts)                   | The one required-or-optional test the emitter uses                                              |
+| [`scripts/`](./scripts/)                                       | The command-line entry points behind `env:emit` and `env:check:turbo`                           |
 
 ### Which file, and who wins
 

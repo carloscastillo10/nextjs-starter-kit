@@ -189,8 +189,11 @@ a badge, so anything that changes often is a lie waiting to happen.
   markdownlint is configured to allow it there and nowhere else.
 - **A column of paths is in code from its first row to its last**, and every cell git tracks is also a
   relative link: to the folder's `README.md` when it has one, to the folder itself when it does not, since
-  GitHub renders a folder listing. A path that does not exist yet, and one git ignores, stays in code with no
-  link, because that link would answer 404. Linking half the column is what makes the table look unfinished.
+  GitHub renders a folder listing. Linking half the column is what makes the table look unfinished.
+- **Three kinds of path take no link**, and they are the only ones: a path that does not exist yet
+  (`src/hooks/`, a segment created on first use), a glob or a placeholder (`tooling/*`,
+  `docs/integrations/<name>.md`), and a path git ignores (`.graphify/graph.json`). Each would answer 404 on
+  GitHub, and the cell beside it says why the file is not there.
 
 ## Structure blocks
 

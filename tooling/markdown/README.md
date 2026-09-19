@@ -8,9 +8,9 @@ Docs stay consistent and their links stay valid: heading levels in order, a lang
 
 ## 🗂️ Structure
 
-| File                 | Holds                                           |
-| -------------------- | ----------------------------------------------- |
-| `markdownlint.jsonc` | Every default rule, minus the ones listed below |
+| File                                         | Holds                                           |
+| -------------------------------------------- | ----------------------------------------------- |
+| [`markdownlint.jsonc`](./markdownlint.jsonc) | Every default rule, minus the ones listed below |
 
 | Rule                          | Setting       | Why                                                              |
 | ----------------------------- | ------------- | ---------------------------------------------------------------- |

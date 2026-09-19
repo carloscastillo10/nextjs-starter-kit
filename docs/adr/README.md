@@ -44,13 +44,13 @@ Read a decision before changing what it decided. `/spec` and `/feature` read thi
 
 Where a piece of writing belongs:
 
-| What it is                                  | Where it goes                                           | How long it lives                       |
-| ------------------------------------------- | ------------------------------------------------------- | --------------------------------------- |
-| The plan for one issue                      | The issue                                               | Until its pull request merges           |
-| A plan long enough to need its own document | `docs/plans/`, written with `superpowers:writing-plans` | Until it has been carried out           |
-| A design the work produced that outlives it | `docs/specs/`, written with `/spec`                     | Until it is wrong                       |
-| A decision that is hard to reverse          | Here                                                    | Forever, superseded rather than deleted |
-| Behavior, and the rules that cross features | `docs/specs/` and `docs/business-rules.md`              | They are the source of truth            |
+| What it is                                  | Where it goes                                                                            | How long it lives                       |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------- |
+| The plan for one issue                      | The issue                                                                                | Until its pull request merges           |
+| A plan long enough to need its own document | [`docs/plans/`](../plans/README.md), written with `superpowers:writing-plans`            | Until it has been carried out           |
+| A design the work produced that outlives it | [`docs/specs/`](../specs/README.md), written with `/spec`                                | Until it is wrong                       |
+| A decision that is hard to reverse          | Here                                                                                     | Forever, superseded rather than deleted |
+| Behavior, and the rules that cross features | [`docs/specs/`](../specs/README.md) and [`docs/business-rules.md`](../business-rules.md) | They are the source of truth            |
 
 **A plan never goes in [`../architecture/`](../architecture/README.md)**, and neither does a decision: that
 folder says what the system is, this one says why.

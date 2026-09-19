@@ -12,10 +12,10 @@ Colors, radius and fonts are defined once, in `theme.css`, and every workspace r
 
 ## 🗂️ Structure
 
-| File                | Export                                 | Holds                                                                                                                                                                                       |
-| ------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `theme.css`         | `@repo/tailwind-config/theme.css`      | `@import "tailwindcss"`, `tw-animate-css` and the shadcn variants; the `dark` variant; the token values (`:root` and `.dark`, OKLCH); the `@theme inline` mapping to utilities; base styles |
-| `postcss.config.js` | `@repo/tailwind-config/postcss-config` | The PostCSS config with `@tailwindcss/postcss`                                                                                                                                              |
+| File                                       | Export                                 | Holds                                                                                                                                                                                       |
+| ------------------------------------------ | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`theme.css`](./theme.css)                 | `@repo/tailwind-config/theme.css`      | `@import "tailwindcss"`, `tw-animate-css` and the shadcn variants; the `dark` variant; the token values (`:root` and `.dark`, OKLCH); the `@theme inline` mapping to utilities; base styles |
+| [`postcss.config.js`](./postcss.config.js) | `@repo/tailwind-config/postcss-config` | The PostCSS config with `@tailwindcss/postcss`                                                                                                                                              |
 
 The tokens follow the shadcn/ui naming: every color is a pair, `--name` for the surface and `--name-foreground` for the text on it, mapped to utilities such as `bg-primary` and `text-primary-foreground`. [DESIGN.md](../../DESIGN.md) lists every value and when to use it.
 

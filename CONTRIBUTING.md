@@ -26,12 +26,12 @@
 
 The full standard lives in [`docs/conventions/`](docs/conventions/README.md), one document per topic, each with bad and good examples and a table of the checks that enforce it:
 
-| Document                                              | Covers                                                                                                     |
-| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [code-style.md](docs/conventions/code-style.md)       | TypeScript: files and exports, naming, functions, control flow, SOLID, spacing, types, imports, formatting |
-| [comments.md](docs/conventions/comments.md)           | When a comment earns its place, its shape, and the comment check                                           |
-| [react.md](docs/conventions/react.md)                 | React and Next.js: components, props, hooks, state, composition, data fetching, styling, accessibility     |
-| [documentation.md](docs/conventions/documentation.md) | Markdown: the one README template, frontmatter, headings, badges, links, alerts and the prose rules        |
+| Document                                                | Covers                                                                                                     |
+| ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| [`code-style.md`](docs/conventions/code-style.md)       | TypeScript: files and exports, naming, functions, control flow, SOLID, spacing, types, imports, formatting |
+| [`comments.md`](docs/conventions/comments.md)           | When a comment earns its place, its shape, and the comment check                                           |
+| [`react.md`](docs/conventions/react.md)                 | React and Next.js: components, props, hooks, state, composition, data fetching, styling, accessibility     |
+| [`documentation.md`](docs/conventions/documentation.md) | Markdown: the one README template, frontmatter, headings, badges, links, alerts and the prose rules        |
 
 Where code lives is decided by Feature-Sliced Design, described in [`docs/architecture/feature-sliced-design.md`](docs/architecture/feature-sliced-design.md).
 
@@ -107,13 +107,13 @@ An issue nobody can check off is not ready: label it `needs-info` and say what i
 
 ### Where the plan lives
 
-| What it is                                  | Where it goes                                           | How long it lives                       |
-| ------------------------------------------- | ------------------------------------------------------- | --------------------------------------- |
-| The plan for one issue                      | The issue                                               | Until its pull request merges           |
-| A plan long enough to need its own document | `docs/plans/`, written with `superpowers:writing-plans` | Until it has been carried out           |
-| A design the work produced that outlives it | `docs/specs/`, written with `/spec`                     | Until it is wrong                       |
-| A decision that is hard to reverse          | `docs/adr/`                                             | Forever, superseded rather than deleted |
-| Behavior, and the rules that cross features | `docs/specs/` and `docs/business-rules.md`              | They are the source of truth            |
+| What it is                                  | Where it goes                                                                                | How long it lives                       |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------- |
+| The plan for one issue                      | The issue                                                                                    | Until its pull request merges           |
+| A plan long enough to need its own document | [`docs/plans/`](docs/plans/README.md), written with `superpowers:writing-plans`              | Until it has been carried out           |
+| A design the work produced that outlives it | [`docs/specs/`](docs/specs/README.md), written with `/spec`                                  | Until it is wrong                       |
+| A decision that is hard to reverse          | [`docs/adr/`](docs/adr/README.md)                                                            | Forever, superseded rather than deleted |
+| Behavior, and the rules that cross features | [`docs/specs/`](docs/specs/README.md) and [`docs/business-rules.md`](docs/business-rules.md) | They are the source of truth            |
 
 **A plan never goes in [`docs/architecture/`](docs/architecture/README.md).** That folder describes the system as it is; a plan describes a system that does not exist yet, and mixing the two manufactures exactly the drift this flow exists to prevent.
 
@@ -125,16 +125,16 @@ Two different things keep documentation honest, and only one of them can be auto
 
 **Discovery cannot be, and never will be.** What you found out while building — an API that does not behave the way its own documentation says, an answer that finally arrived, a trap that ate an afternoon — exists only in your head until you write it down. No diff contains it, so no lens can find it. This is where documentation actually rots, so the pull request answers it explicitly, and each finding has exactly one destination:
 
-| What you learned                                         | Where it goes                                            |
-| -------------------------------------------------------- | -------------------------------------------------------- |
-| A rule that holds across features                        | `docs/business-rules.md`, as a new `BR-xx`               |
-| A third party behaves differently from its documentation | `docs/integrations/<name>.md`, with the date and the URL |
-| A choice that is hard to reverse                         | `docs/adr/`                                              |
-| How code here is written, now settled                    | [`docs/conventions/`](docs/conventions/README.md)        |
-| The system changed shape                                 | [`docs/architecture/`](docs/architecture/README.md)      |
-| The spec was wrong or silent                             | The spec in `docs/specs/`, including its open questions  |
-| A token, or how the theme is meant to be used            | [`DESIGN.md`](DESIGN.md)                                 |
-| How a workspace is used or run                           | That workspace's `README.md`                             |
+| What you learned                                         | Where it goes                                                                   |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| A rule that holds across features                        | [`docs/business-rules.md`](docs/business-rules.md), as a new `BR-xx`            |
+| A third party behaves differently from its documentation | `docs/integrations/<name>.md`, with the date and the URL                        |
+| A choice that is hard to reverse                         | [`docs/adr/`](docs/adr/README.md)                                               |
+| How code here is written, now settled                    | [`docs/conventions/`](docs/conventions/README.md)                               |
+| The system changed shape                                 | [`docs/architecture/`](docs/architecture/README.md)                             |
+| The spec was wrong or silent                             | The spec in [`docs/specs/`](docs/specs/README.md), including its open questions |
+| A token, or how the theme is meant to be used            | [`DESIGN.md`](DESIGN.md)                                                        |
+| How a workspace is used or run                           | That workspace's `README.md`                                                    |
 
 **An answer somebody gave in conversation is not documentation.** Record who said it and when, and mark it unverified until it appears in a published reference. Writing "nothing new" is a valid answer and the required one when the branch taught nothing: an empty section reads as a skipped step, which is worse than an honest no.
 

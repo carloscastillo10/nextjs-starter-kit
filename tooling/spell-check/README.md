@@ -8,10 +8,10 @@ Typos in names, messages and docs get caught before review. cspell reads identif
 
 ## 🗂️ Structure
 
-| File                | Holds                                                                                            |
-| ------------------- | ------------------------------------------------------------------------------------------------ |
-| `cspell.json`       | Language, the project dictionary, and the paths never checked                                    |
-| `project-words.txt` | Words the built-in dictionaries do not know: product and library names, terms of the conventions |
+| File                                       | Holds                                                                                            |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| [`cspell.json`](./cspell.json)             | Language, the project dictionary, and the paths never checked                                    |
+| [`project-words.txt`](./project-words.txt) | Words the built-in dictionaries do not know: product and library names, terms of the conventions |
 
 Never checked: dependencies, build output and caches, lockfiles, generated type files, vendored skills under `.claude/skills/`, the worktrees of `.claude/worktrees/` and `.agents/`. The agent definitions and slash commands of `.claude/` are checked, because their wording is this repository's own.
 
