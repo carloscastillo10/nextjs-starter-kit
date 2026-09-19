@@ -24,11 +24,12 @@
 
 The full standard lives in [`docs/conventions/`](docs/conventions/README.md), one document per topic, each with bad and good examples and a table of the checks that enforce it:
 
-| Document                                        | Covers                                                                                                     |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [code-style.md](docs/conventions/code-style.md) | TypeScript: files and exports, naming, functions, control flow, SOLID, spacing, types, imports, formatting |
-| [comments.md](docs/conventions/comments.md)     | When a comment earns its place, its shape, and the comment check                                           |
-| [react.md](docs/conventions/react.md)           | React and Next.js: components, props, hooks, state, composition, data fetching, styling, accessibility     |
+| Document                                              | Covers                                                                                                     |
+| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| [code-style.md](docs/conventions/code-style.md)       | TypeScript: files and exports, naming, functions, control flow, SOLID, spacing, types, imports, formatting |
+| [comments.md](docs/conventions/comments.md)           | When a comment earns its place, its shape, and the comment check                                           |
+| [react.md](docs/conventions/react.md)                 | React and Next.js: components, props, hooks, state, composition, data fetching, styling, accessibility     |
+| [documentation.md](docs/conventions/documentation.md) | Markdown: the one README template, frontmatter, headings, badges, links, alerts and the prose rules        |
 
 Where code lives is decided by Feature-Sliced Design, described in [`docs/architecture/feature-sliced-design.md`](docs/architecture/feature-sliced-design.md).
 

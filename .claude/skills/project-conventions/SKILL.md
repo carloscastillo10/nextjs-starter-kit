@@ -23,6 +23,7 @@ The rules every change in this repository follows. This is the short form, meant
 | TypeScript: files, names, functions, control flow, SOLID, spacing, imports | `docs/conventions/code-style.md`             |
 | When a comment earns its place, and what it never carries                  | `docs/conventions/comments.md`               |
 | React and Next.js: components, props, hooks, state, data fetching, styling | `docs/conventions/react.md`                  |
+| Markdown: the README template, frontmatter, links, alerts                  | `docs/conventions/documentation.md`          |
 | Where code goes: layers, slices, segments, import rules                    | `docs/architecture/feature-sliced-design.md` |
 | Design tokens and how the theme is meant to be used                        | `DESIGN.md`                                  |
 
