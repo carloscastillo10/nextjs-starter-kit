@@ -15,14 +15,14 @@ slice on its own layer.** That is what keeps a change local, and `pnpm lint:arch
 
 From highest to lowest:
 
-| Layer    | Folder                            | Holds                                                                            |
-| -------- | --------------------------------- | -------------------------------------------------------------------------------- |
-| App      | [`_app/`](_app/README.md)         | Providers, global styles, fonts, app-wide layouts, Route Handler implementations |
-| Pages    | [`_pages/`](_pages/README.md)     | One slice per screen; its UI, data fetching and page logic                       |
-| Widgets  | [`widgets/`](widgets/README.md)   | Discouraged; large UI blocks several pages share                                 |
-| Features | [`features/`](features/README.md) | User actions reused by several pages                                             |
-| Entities | [`entities/`](entities/README.md) | Business domain models reused by several slices                                  |
-| Shared   | [`shared/`](shared/README.md)     | Infrastructure with no business rules                                            |
+| Layer    | Folder                            | Holds                                                                                  |
+| -------- | --------------------------------- | -------------------------------------------------------------------------------------- |
+| App      | [`_app/`](_app/README.md)         | Providers, global styles, fonts, root metadata, layouts, Route Handler implementations |
+| Pages    | [`_pages/`](_pages/README.md)     | One slice per screen; its UI, data fetching and page logic                             |
+| Widgets  | [`widgets/`](widgets/README.md)   | Discouraged; large UI blocks several pages share                                       |
+| Features | [`features/`](features/README.md) | User actions reused by several pages                                                   |
+| Entities | [`entities/`](entities/README.md) | Business domain models reused by several slices                                        |
+| Shared   | [`shared/`](shared/README.md)     | Infrastructure with no business rules                                                  |
 
 `_app` and `_pages` start with an underscore so they never collide with the Next.js `app/` and `pages/`
 routing folders. This is the naming the Feature-Sliced Design guide for Next.js prescribes.

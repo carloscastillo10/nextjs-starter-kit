@@ -23,7 +23,7 @@ apps/web/
     layout.tsx              root HTML shell
     page.tsx                export { HomePage as default } from "@/_pages/home";
   src/                      FSD root (checked by Steiger)
-    _app/                   app layer: providers, global styles, fonts, app-wide layouts, route handlers
+    _app/                   app layer: providers, global styles, fonts, metadata, layouts, route handlers
     _pages/                 pages layer: one slice per screen
       home/
         ui/HomePage.tsx
@@ -118,20 +118,20 @@ export {
 
 From highest to lowest. A module may import only from layers strictly below its own.
 
-| Layer    | Folder         | Holds                                                                            | May import from                                       |
-| -------- | -------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------- |
-| App      | `src/_app`     | Providers, global styles, fonts, app-wide layouts, Route Handler implementations | `_pages`, `widgets`, `features`, `entities`, `shared` |
-| Pages    | `src/_pages`   | One slice per screen with its UI, data fetching, state and page-specific rules   | `widgets`, `features`, `entities`, `shared`           |
-| Widgets  | `src/widgets`  | Discouraged. Large blocks several pages render that compose several features     | `features`, `entities`, `shared`                      |
-| Features | `src/features` | Complete user actions (UI, request, state) reused by several consumers           | `entities`, `shared`                                  |
-| Entities | `src/entities` | Domain models and rules several slices must agree on                             | `shared`                                              |
-| Shared   | `src/shared`   | Infrastructure specific to this app, with no business rules                      | nothing in `src/`                                     |
+| Layer    | Folder         | Holds                                                                                  | May import from                                       |
+| -------- | -------------- | -------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| App      | `src/_app`     | Providers, global styles, fonts, root metadata, layouts, Route Handler implementations | `_pages`, `widgets`, `features`, `entities`, `shared` |
+| Pages    | `src/_pages`   | One slice per screen with its UI, data fetching, state and page-specific rules         | `widgets`, `features`, `entities`, `shared`           |
+| Widgets  | `src/widgets`  | Discouraged. Large blocks several pages render that compose several features           | `features`, `entities`, `shared`                      |
+| Features | `src/features` | Complete user actions (UI, request, state) reused by several consumers                 | `entities`, `shared`                                  |
+| Entities | `src/entities` | Domain models and rules several slices must agree on                                   | `shared`                                              |
+| Shared   | `src/shared`   | Infrastructure specific to this app, with no business rules                            | nothing in `src/`                                     |
 
 Every layer may also import third-party libraries and the workspace packages (`@repo/*`).
 
 ### Notes per layer
 
-- **`_app`** has no slices. Expected segments: `providers/`, `styles/`, `fonts/`, `layouts/`, `api-routes/`. It must not have a `ui/` segment (Steiger `fsd/no-ui-in-app`); app-wide chrome such as a header goes in `layouts/`.
+- **`_app`** has no slices. Expected segments: `providers/`, `styles/`, `fonts/`, `metadata/`, `layouts/`, `api-routes/`. It must not have a `ui/` segment (Steiger `fsd/no-ui-in-app`); app-wide chrome such as a header goes in `layouts/`.
 - **`_pages`** holds most of the code in a young project. A page slice may contain large UI blocks, forms, validation, requests and business rules that only it uses.
 - **`widgets`** is discouraged by the FSD v2.1 layer reference, because UI blocks carry logic and blur into `features`. Put a screen-specific composition in the page, a reused action in `features`, context-free UI in `shared/ui` or `@repo/ui`, and app-wide chrome in `_app/layouts`. Create a widget only when several pages render the same block, it composes several features or entities, and wiring them from each page would duplicate non-trivial logic.
 - **`features`** are named after the user action (`like-post`, `sign-out`), not after where they appear (`header`).
