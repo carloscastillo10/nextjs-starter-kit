@@ -18,10 +18,12 @@ One folder per action, kebab-case, named after **the action rather than where it
 
 ```text
 features/
-  like-post/
-    ui/LikeButton.tsx
-    api/toggle-like.ts
-    index.ts          <- export { LikeButton } from "./ui/LikeButton";
+└── like-post/             an example; the layer ships empty
+    ├── api/
+    │   └── toggle-like.ts
+    ├── ui/
+    │   └── LikeButton.tsx
+    └── index.ts           export { LikeButton } from "./ui/LikeButton";
 ```
 
 ## 🚀 Usage

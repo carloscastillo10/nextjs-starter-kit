@@ -17,9 +17,10 @@ One folder per block, kebab-case, named after the block:
 
 ```text
 widgets/
-  dashboard-sidebar/
-    ui/DashboardSidebar.tsx
-    index.ts
+└── dashboard-sidebar/     an example; the layer ships empty, on purpose
+    ├── ui/
+    │   └── DashboardSidebar.tsx
+    └── index.ts
 ```
 
 ## 🚀 Usage

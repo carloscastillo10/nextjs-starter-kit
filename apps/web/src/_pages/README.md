@@ -14,12 +14,17 @@ consumer appears, not when somebody predicts one.
 One folder per screen, kebab-case, named after the screen: `home`, `sign-in`, `user-settings`. When a topic
 has many screens, a group folder without an `index.ts` may hold them: `orders/list`, `orders/detail`.
 
+The one slice the template ships:
+
 ```text
 _pages/
-  home/
-    ui/
-      HomePage.tsx
-    index.ts          <- export { HomePage } from "./ui/HomePage";
+└── home/
+    ├── config/
+    │   └── home-links.ts      the URLs the page links out to
+    ├── ui/
+    │   ├── HomeActions.tsx
+    │   └── HomePage.tsx
+    └── index.ts               export { HomePage } from "./ui/HomePage";
 ```
 
 ## 🚀 Usage
