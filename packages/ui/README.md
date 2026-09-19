@@ -68,7 +68,7 @@ An app depends on `@repo/ui`, lists it in `transpilePackages` in `next.config.ts
 | -------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | `cd apps/web && pnpm dlx shadcn@latest add <component>`        | Add a component: it lands in `src/components/`, its CSS variables in the shared theme |
 | `cd apps/web && pnpm dlx shadcn@latest add <component> --diff` | Compare a component with the current upstream version                                 |
-| `pnpm --filter @repo/ui test`                                  | Vitest                                                                                |
+| `pnpm --filter @repo/ui test`                                  | Vitest, in the `node` environment                                                     |
 | `pnpm --filter @repo/ui lint`                                  | ESLint                                                                                |
 | `pnpm --filter @repo/ui types:check`                           | TypeScript                                                                            |
 
@@ -77,6 +77,11 @@ An app depends on `@repo/ui`, lists it in `transpilePackages` in `next.config.ts
 Components are copied, not installed, so they change only when you run the CLI. Before taking an upstream change, run `add <component> --diff` from `apps/web` and merge by hand what you want to keep. Dependencies of the components (Base UI, `class-variance-authority`, Lucide) are versioned in the `catalog` of `pnpm-workspace.yaml`.
 
 ## 🧩 Extending
+
+The Vitest config of this package merges the `base` preset, which runs in Node. A test that renders a
+component needs the `react` preset of [`@repo/vitest-config`](../../tooling/vitest/README.md) and the
+`jsdom`, `@testing-library/react` and `@testing-library/dom` devDependencies the preset expects; without them
+the first render fails on a missing `document`.
 
 After `shadcn add`, bring the new file in line with the code standard before committing:
 
