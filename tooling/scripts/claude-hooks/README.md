@@ -10,6 +10,7 @@
   - [The skill reminder](#the-skill-reminder)
   - [The graph hint](#the-graph-hint)
   - [The shell guard](#the-shell-guard)
+  - [The check of a written file](#the-check-of-a-written-file)
   - [Declaring a hook](#declaring-a-hook)
   - [Trying a hook by hand](#trying-a-hook-by-hand)
   - [Two things that will bite](#two-things-that-will-bite)
@@ -23,20 +24,22 @@
 
 ## 🗂️ Structure
 
-| File                | Holds                                                                                                              |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `skill-rules.mjs`   | The rules of the skill reminder: which skills govern a path, and whether the comment rule applies. No I/O          |
-| `remind-skills.mjs` | The skill reminder hook: reads the tool call from stdin, remembers what the session has seen, prints the reminder  |
-| `guard-bash.mjs`    | The shell guard: refuses a command that skips the hooks or pushes to `main`, and hands over the pull request rules |
-| `*.test.mjs`        | Tests: the rules directly, the hook as a real process against a temporary project                                  |
+| File                     | Holds                                                                                                              |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `skill-rules.mjs`        | The rules of the skill reminder: which skills govern a path, and whether the comment rule applies. No I/O          |
+| `remind-skills.mjs`      | The skill reminder hook: reads the tool call from stdin, remembers what the session has seen, prints the reminder  |
+| `guard-bash.mjs`         | The shell guard: refuses a command that skips the hooks or pushes to `main`, and hands over the pull request rules |
+| `check-written-file.mjs` | The check of a written file: runs the linters that cover it and hands back what they said                          |
+| `*.test.mjs`             | Tests: the rules directly, the hook as a real process against a temporary project                                  |
 
 Hooks declared in `.claude/settings.json`:
 
-| Script                                                     | Event        | Matcher            | Behavior                                                                                            |
-| ---------------------------------------------------------- | ------------ | ------------------ | --------------------------------------------------------------------------------------------------- |
-| `remind-skills.mjs`                                        | `PreToolUse` | `Write\|Edit`      | Names the skills that govern the file and, on a source file, the comment rule. Never blocks a write |
-| [`../graphify/graph-hint.mjs`](../graphify/graph-hint.mjs) | `PreToolUse` | `Bash\|Grep\|Glob` | Before a search, points at the code graph when one has been built. Never blocks a search            |
-| `guard-bash.mjs`                                           | `PreToolUse` | `Bash`             | Blocks a command that skips a git hook or pushes to `main`; on `gh pr create`, injects the rules    |
+| Script                                                     | Event         | Matcher            | Behavior                                                                                            |
+| ---------------------------------------------------------- | ------------- | ------------------ | --------------------------------------------------------------------------------------------------- |
+| `remind-skills.mjs`                                        | `PreToolUse`  | `Write\|Edit`      | Names the skills that govern the file and, on a source file, the comment rule. Never blocks a write |
+| [`../graphify/graph-hint.mjs`](../graphify/graph-hint.mjs) | `PreToolUse`  | `Bash\|Grep\|Glob` | Before a search, points at the code graph when one has been built. Never blocks a search            |
+| `guard-bash.mjs`                                           | `PreToolUse`  | `Bash`             | Blocks a command that skips a git hook or pushes to `main`; on `gh pr create`, injects the rules    |
+| `check-written-file.mjs`                                   | `PostToolUse` | `Write\|Edit`      | Runs the linters that cover the file just written and hands back what they said. Never blocks       |
 
 ## 🚀 Usage
 
@@ -117,6 +120,21 @@ Two things it deliberately gets wrong in the safe direction. It **reads the text
 
 **The escape hatches stay open for a person.** `CONTRIBUTING.md` explains when skipping a hook is reasonable, and none of that changes: the guard only runs inside a Claude Code session, where the honest move is to fix what the hook reported.
 
+### The check of a written file
+
+After Claude writes or edits a file, `check-written-file.mjs` runs the checks that cover that extension and hands back what they said:
+
+| Extension                            | Checks                                                       |
+| ------------------------------------ | ------------------------------------------------------------ |
+| `.ts`, `.tsx`, `.js`, `.mjs` and kin | ESLint, Prettier, cspell, and the comment check              |
+| `.md`                                | markdownlint, the frontmatter check, Prettier, cspell        |
+| `.css`, `.json`, `.yml` and kin      | Prettier, cspell                                             |
+| Anything else                        | Prettier, which decides for itself whether it knows the file |
+
+**This is the one hook that repeats work lefthook already does**, and it repeats it on purpose. The same report costs nothing at the moment the file is open and the reason for writing it that way is still in context; at commit time it costs a second trip through the file and a fresh reading of why it looked like that. A check missing from `node_modules` is skipped rather than reported, so a fresh clone before `pnpm install` stays quiet.
+
+The comment check reports either way, because its density and length findings are judgement to weigh rather than rules to obey, and they never reach the agent through an exit code.
+
 ### Declaring a hook
 
 Each script is one entry in the array of its event, with its own matcher:
@@ -159,18 +177,19 @@ The `additionalContext` in the output is what Claude receives. Run the same line
 
 ## ⌨️ Commands
 
-| Command                                                                   | What it does                                    |
-| ------------------------------------------------------------------------- | ----------------------------------------------- |
-| `pnpm --filter @repo/scripts test`                                        | Runs the hook tests with the other script tests |
-| `echo '<payload>' \| node tooling/scripts/claude-hooks/remind-skills.mjs` | Runs the skill reminder on one payload          |
-| `echo '<payload>' \| node tooling/scripts/graphify/graph-hint.mjs`        | Runs the graph hint on one payload              |
-| `echo '<payload>' \| node tooling/scripts/claude-hooks/guard-bash.mjs`    | Runs the shell guard on one payload             |
+| Command                                                                        | What it does                                    |
+| ------------------------------------------------------------------------------ | ----------------------------------------------- |
+| `pnpm --filter @repo/scripts test`                                             | Runs the hook tests with the other script tests |
+| `echo '<payload>' \| node tooling/scripts/claude-hooks/remind-skills.mjs`      | Runs the skill reminder on one payload          |
+| `echo '<payload>' \| node tooling/scripts/graphify/graph-hint.mjs`             | Runs the graph hint on one payload              |
+| `echo '<payload>' \| node tooling/scripts/claude-hooks/guard-bash.mjs`         | Runs the shell guard on one payload             |
+| `echo '<payload>' \| node tooling/scripts/claude-hooks/check-written-file.mjs` | Runs the file check on one payload              |
 
 ## 🧩 Extending
 
 - **A new skill rule** is an `id`, a `when` pattern on the path from the repository root, the `skills` it names and a `why` that completes the sentence "Load … before you continue, unless … already loaded: …". Place it above any wider rule that would also match, add its row to the table above (a test compares the two), and give it cases in `skill-rules.test.mjs`.
 - **A `Write|Edit` hook never blocks.** A refused write reads as a broken tool rather than wrong content, and an agent that cannot write a file cannot fix it either. lefthook is still the wall at commit time; these hooks are the handrail before it.
-- **A hook does not repeat a lefthook job.** Formatting and the commit message checks already run on staged files, and running them on every write slows each one down for nothing.
+- **A hook repeats a lefthook job only where the earlier answer is worth the wall clock.** The check of a written file does, because a report lands while the file is still open. A check of the whole repository does not: it would pay for every file on every write.
 - **Something worth blocking is worth denying with a way out.** The shell guard refuses two commands and each denial names what to do instead; a denial that only says no gets worked around, which is worse than not having it.
 
 ## 🔗 Related
