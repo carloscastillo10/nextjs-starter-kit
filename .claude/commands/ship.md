@@ -53,7 +53,7 @@ Each finding has exactly one destination:
 | How code here is written, now settled | [`docs/conventions/`](../../docs/conventions/README.md) |
 | The system changed shape | [`docs/architecture/`](../../docs/architecture/README.md) |
 | The spec was wrong or silent | the spec in [`docs/specs/`](../../docs/specs/README.md), including its `## Open questions` |
-| A token, or how the theme is meant to be used | `DESIGN.md`, alongside the stylesheet it describes |
+| A token, or how the theme is meant to be used | [`DESIGN.md`](../../DESIGN.md), alongside the stylesheet it describes |
 | How a workspace is used or run | that workspace's `README.md` |
 
 A folder that does not exist yet is named in the report as the place the finding belongs, rather than dropped.
