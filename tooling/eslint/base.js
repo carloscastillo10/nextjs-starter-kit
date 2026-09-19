@@ -3,6 +3,7 @@ import stylistic from "@stylistic/eslint-plugin";
 import prettier from "eslint-config-prettier";
 import checkFile from "eslint-plugin-check-file";
 import perfectionist from "eslint-plugin-perfectionist";
+import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
@@ -82,6 +83,7 @@ const CLIPPED_NAMES = [
 
 const CODE_STYLE_RULES = {
   "func-style": ["error", "expression"],
+  "prefer-arrow-functions/prefer-arrow-functions": ["error", { allowObjectProperties: true }],
   "prefer-arrow-callback": ["error", { allowNamedFunctions: false }],
   "no-restricted-exports": [
     "error",
@@ -171,7 +173,12 @@ export const codeStyle = [
   },
   {
     name: "@repo/eslint-config/code-style",
-    plugins: { "@stylistic": stylistic, "check-file": checkFile, perfectionist },
+    plugins: {
+      "@stylistic": stylistic,
+      "check-file": checkFile,
+      perfectionist,
+      "prefer-arrow-functions": preferArrowFunctions,
+    },
     rules: CODE_STYLE_RULES,
   },
   {

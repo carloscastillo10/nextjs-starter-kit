@@ -66,6 +66,22 @@ A Next.js app also sets the `better-tailwindcss` settings above and has `tailwin
 | `pnpm lint:fix`                     | Same, applying the fixes ESLint can make |
 | `pnpm exec eslint --inspect-config` | Open the config inspector in a package   |
 
+### Function shapes, and the one rule that fixes them
+
+Three rules speak about a function that is not an arrow, and each covers something the others do not:
+
+| Rule                                            | Covers                                                                                 | Fixes |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------- | ----- |
+| `func-style`                                    | Every function declaration, generators included                                        | no    |
+| `no-restricted-syntax` (`BASE_SYNTAX`)          | A function expression outside a method, with the reason in its message                 | no    |
+| `prefer-arrow-functions/prefer-arrow-functions` | A declaration or an expression it can rewrite; object and class methods are left alone | yes   |
+
+The overlap is deliberate. The shadcn CLI writes `function Badge({ … })`, so without a fixable rule every `shadcn add` costs a hand edit; with one, `pnpm lint:fix` in the pre-commit hook turns the generated component into the repository's shape and the two unfixable rules go quiet on their own.
+
+### File names in the app
+
+The `next` preset asks for `PascalCase` on a `.tsx` under `src/`, `kebab-case` under `app/`, and `kebab-case` for everything else. `src/shared/ui/` is the exception, because a primitive dropped there is the CLI's output with its imports rewritten, and renaming it costs the next `shadcn add --diff` its match.
+
 ## 🧩 Extending
 
 - **Change a rule** in the preset block that sets it, and update the Enforcement table of the convention document it belongs to.

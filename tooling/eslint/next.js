@@ -16,6 +16,8 @@ const SOURCE_COMPONENT_FILES = ["src/**/*.tsx"];
  */
 const ARBITRARY_VALUE = "-\\[(?!calc\\()[^\\]]*\\](?:\\/[^/]+)?!?$";
 
+const KIT_COMPONENT_FILES = ["src/shared/ui/**/*.tsx"];
+
 const SLICE_UI_FILES = ["src/{_pages,widgets,features,entities}/**/ui/**/*.tsx"];
 
 const ROUTE_FILES = ["app/**/*.{ts,tsx}"];
@@ -51,6 +53,20 @@ const nextBlocks = [
       "check-file/filename-naming-convention": fileNamingRule({
         "**/src/**/*.tsx": "PASCAL_CASE",
         "**/app/**/*.tsx": "KEBAB_CASE",
+        ...MODULE_FILE_NAMES,
+      }),
+    },
+  },
+  {
+    /*
+     * The shadcn CLI writes kebab case, and a primitive dropped here is its output with
+     * the imports rewritten. Renaming it costs the next `add --diff` its match.
+     */
+    name: "@repo/eslint-config/next/kit-file-names",
+    files: KIT_COMPONENT_FILES,
+    rules: {
+      "check-file/filename-naming-convention": fileNamingRule({
+        "**/*.tsx": "KEBAB_CASE",
         ...MODULE_FILE_NAMES,
       }),
     },
