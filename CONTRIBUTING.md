@@ -12,6 +12,7 @@
   - [What the branch learned](#what-the-branch-learned)
   - [Definition of done](#definition-of-done)
   - [Working with an agent](#working-with-an-agent)
+  - [Adding a workspace](#adding-a-workspace)
 - [🌿 Git workflow](#-git-workflow)
   - [Branches](#branches)
   - [Commits](#commits)
@@ -62,6 +63,7 @@ Tools enforce what they can, so run them before you push:
 | `pnpm lint:ws`          | sherif: versions and fields that disagree between the workspaces                                                                                                |
 | `pnpm lint:boundaries`  | Turborepo: imports that leave a package without a dependency on it                                                                                              |
 | `pnpm lint:echo`        | Comments that repeat prose the same branch writes                                                                                                               |
+| `pnpm gates`            | All of the above and the build, read out of the CI workflow, in one command                                                                                     |
 
 `pnpm lint:fix` and `pnpm format:fix` apply the fixes the tools can make on their own. `pnpm lint:arch` runs only Steiger and `pnpm lint:deps` only dependency-cruiser; [which check owns which rule](docs/architecture/architecture-checks.md) tells them apart. To add a word to the spelling dictionary, edit [`tooling/spell-check/project-words.txt`](tooling/spell-check/project-words.txt).
 
@@ -160,7 +162,28 @@ What exists is catalogued in [`.claude/skills/README.md`](.claude/skills/README.
 
 - **Load the skills the issue names before the first line.** A convention read after review produces a rewrite, not a review. A hook names the skills that govern a file as it is about to be written, which is a reminder rather than a substitute.
 - **Review is where parallel belongs.** `/doc-review` and `code-steward` read the same diff independently; implementation is not split that way, because a context boundary in the middle of a slice loses what keeps its halves in step.
+- **The tools an agent may reach for are decided here, not per person.** `.claude/settings.json` approves the
+  `next-devtools` MCP server and its four read-only tools, and that approval takes effect once you accept the
+  workspace trust dialog the first time you open the repository. A folder you have not trusted ignores it and
+  asks, which is why nothing has to be approved by hand in a clone you do trust.
 - **An agent cannot skip a git hook or push to `main`.** The shell guard refuses `--no-verify`, `LEFTHOOK=0` and a push that lands on `main`, and on `gh pr create` it hands over the template and the title rule instead. The escape hatches below stay open for a person.
+
+### Adding a workspace
+
+```bash
+pnpm new
+pnpm install
+```
+
+Four questions — `packages` or `tooling`, the name, one sentence of purpose, and whether it holds
+Feature-Sliced Design layers — and the generator writes the manifest with the right engines and catalog
+versions, the four tooling configs, its own `cspell.json` and `.prettierignore`, an entry point, and a README
+in the house template. A package with layers is registered as an FSD root, so both architecture linters cover
+it from the first commit. [`turbo/generators`](turbo/generators/README.md) is the detail, including how to
+pass the answers in without a terminal.
+
+**An app is not generated.** It comes from `create-next-app`, and [`apps/README.md`](apps/README.md) carries
+the checklist that makes it a citizen of this repository.
 
 ## 🌿 Git workflow
 
@@ -253,26 +276,27 @@ printf '%s\n' "feat(web): ✨ Add the settings page" | pnpm exec commitlint
 
 [lefthook](https://lefthook.dev) runs the hooks defined in [`lefthook.yml`](lefthook.yml). `pnpm install` installs them through the postinstall script of lefthook, which pnpm runs because `allowBuilds` in [`pnpm-workspace.yaml`](pnpm-workspace.yaml) lists it. The script does nothing when the `CI` variable is set.
 
-| Hook         | Job             | What it does                                                                                  | Runs when                                 |
-| ------------ | --------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| `pre-commit` | `eslint`        | ESLint with `--fix` on the staged files, and stages the fixes                                 | A JS or TS file is staged                 |
-| `pre-commit` | `prettier`      | Prettier with `--write` on the staged files, and stages the fixes                             | Always                                    |
-| `pre-commit` | `comments`      | `pnpm lint:comments` on the staged files                                                      | A JS or TS file is staged                 |
-| `pre-commit` | `spelling`      | cspell on the staged files                                                                    | Always                                    |
-| `pre-commit` | `markdown`      | `pnpm lint:md`, over every Markdown file                                                      | A Markdown file is staged                 |
-| `pre-commit` | `frontmatter`   | `pnpm lint:frontmatter` on the staged files                                                   | A Markdown file is staged                 |
-| `pre-commit` | `types`         | `pnpm types:check`                                                                            | A TS or JSON file is staged               |
-| `commit-msg` | `commitlint`    | The message, against the [commit convention](#commits)                                        | Always                                    |
-| `commit-msg` | `identity`      | Refuses a commit that would not carry your global git identity                                | Always, merges and empty commits included |
-| `pre-push`   | `authors`       | Refuses a commit by an address that is neither your global one nor already on `origin/main`   | Always                                    |
-| `pre-push`   | `linked`        | Stops the first push of an issue branch whose issue has no linked branch on GitHub            | The branch is named `<type>/<issue>-…`    |
-| `pre-push`   | `scope`         | Reports, without failing, a branch that mixes the app, delivery and tooling, or is very large | Always                                    |
-| `pre-push`   | `tests`         | `pnpm test`                                                                                   | Always                                    |
-| `pre-push`   | `architecture`  | `pnpm lint:arch` (Steiger) and `pnpm lint:deps` (dependency-cruiser)                          | Always                                    |
-| `pre-push`   | `env`           | `pnpm env:check`: the committed `.env.example` matches the env schemas                        | Always                                    |
-| `pre-push`   | `env-turbo`     | `pnpm env:check:turbo`: Turborepo declares every variable the schemas read                    | Always                                    |
-| `pre-push`   | `echo`          | `pnpm lint:echo`: a comment repeating prose the branch also writes                            | Always                                    |
-| `pre-push`   | `comment-share` | `pnpm lint:comments --changed origin/main`: a branch that is mostly comment                   | Always                                    |
+| Hook                                                         | Job             | What it does                                                                                      | Runs when                                                                                     |
+| ------------------------------------------------------------ | --------------- | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `pre-commit`                                                 | `eslint`        | ESLint with `--fix` on the staged files, and stages the fixes                                     | A JS or TS file is staged                                                                     |
+| `pre-commit`                                                 | `prettier`      | Prettier with `--write` on the staged files, and stages the fixes                                 | Always                                                                                        |
+| `pre-commit`                                                 | `comments`      | `pnpm lint:comments` on the staged files                                                          | A JS or TS file is staged                                                                     |
+| `pre-commit`                                                 | `spelling`      | cspell on the staged files                                                                        | Always                                                                                        |
+| `pre-commit`                                                 | `markdown`      | `pnpm lint:md`, over every Markdown file                                                          | A Markdown file is staged                                                                     |
+| `pre-commit`                                                 | `frontmatter`   | `pnpm lint:frontmatter` on the staged files                                                       | A Markdown file is staged                                                                     |
+| `pre-commit`                                                 | `types`         | `pnpm types:check`                                                                                | A TS or JSON file is staged                                                                   |
+| `commit-msg`                                                 | `commitlint`    | The message, against the [commit convention](#commits)                                            | Always                                                                                        |
+| `commit-msg`                                                 | `identity`      | Refuses a commit that would not carry your global git identity                                    | Always, merges and empty commits included                                                     |
+| `pre-push`                                                   | `authors`       | Refuses a commit by an address that is neither your global one nor already on `origin/main`       | Always                                                                                        |
+| `pre-push`                                                   | `linked`        | Stops the first push of an issue branch whose issue has no linked branch on GitHub                | The branch is named `<type>/<issue>-…`                                                        |
+| `pre-push`                                                   | `scope`         | Reports, without failing, a branch that mixes the app, delivery and tooling, or is very large     | Always                                                                                        |
+| `pre-push`                                                   | `tests`         | `pnpm test`                                                                                       | Always                                                                                        |
+| `pre-push`                                                   | `architecture`  | `pnpm lint:arch` (Steiger) and `pnpm lint:deps` (dependency-cruiser)                              | Always                                                                                        |
+| `pre-push`                                                   | `env`           | `pnpm env:check`: the committed `.env.example` matches the env schemas                            | Always                                                                                        |
+| `pre-push`                                                   | `env-turbo`     | `pnpm env:check:turbo`: Turborepo declares every variable the schemas read                        | Always                                                                                        |
+| `pre-push`                                                   | `echo`          | `pnpm lint:echo`: a comment repeating prose the branch also writes                                | Always                                                                                        |
+| `pre-push`                                                   | `comment-share` | `pnpm lint:comments --changed origin/main`: a branch that is mostly comment                       | Always                                                                                        |
+| `post-commit`, `post-checkout`, `post-merge`, `post-rewrite` | `graph`         | Asks for a rebuild of the code graph and returns immediately, leaving a detached process to do it | graphify is installed; a checkout only when the branch changed, a rewrite only after a rebase |
 
 On the empty template, a commit of code spends about 3 seconds in its hooks, a commit of docs about 1.5, and a push about 3 seconds, or under a second when Turborepo already holds the results. In `pre-commit` the two fixers run first, one after the other, and the checks then run in parallel on the fixed files; in `pre-push` the three guards run first, then the checks in parallel. A failing job does not stop the jobs after it, so one run reports every problem.
 
@@ -280,6 +304,9 @@ On the empty template, a commit of code spends about 3 seconds in its hooks, a c
 - **A partially staged file is checked, not rewritten.** While `pre-commit` runs, lefthook hides the unstaged part of a partially staged file, so every job reads exactly what the commit will contain. Rewriting such a file can collide with its hidden lines, and lefthook 2.1.14 then discards the unstaged changes of every file in the repository ([lefthook issue 1480](https://github.com/evilmartians/lefthook/issues/1480)). So [`fix-staged`](tooling/scripts/git/README.md#fixing-the-staged-files) only checks those files and says so; to have one fixed, stage all of it or run `pnpm format:fix` or `pnpm lint:fix`, then commit again.
 - **Identity.** `identity` compares the identity git would stamp on the commit with your global `user.name` and `user.email`. It runs in `commit-msg` because `pre-commit` skips every job when nothing is staged, and a merge or a message-only amend would slip past it. `authors` checks every commit the branch adds before it leaves your machine. Both explain the fix when they refuse, and both are described in [`tooling/scripts/git`](tooling/scripts/git/README.md#who-a-commit-says-it-came-from).
 - **Whole projects.** `types`, `tests`, `architecture` and the env checks read whole projects from disk, so unstaged changes in other files still count. Markdown is linted as a whole because markdownlint-cli2 reads a file argument as a glob, and a path inside a Next.js folder such as `[slug]` or `(group)` would match nothing.
+- **The graph hooks never block and never fail.** They return in about a tenth of a second and do nothing at
+  all on a machine without graphify, which is the normal case. `LEFTHOOK_EXCLUDE=graph git commit …` skips
+  the rebuild for one command; [`docs/knowledge/`](docs/knowledge/README.md) is the whole picture.
 - **Missing hooks.** If `ls .git/hooks` shows only `*.sample` files, run `pnpm exec lefthook install`. A `pnpm install` with nothing new to install does not run the postinstall script again. The hooks need lefthook 2.1.14 or later: a hook script runs the first `lefthook` on your `PATH` before the one `pnpm install` brings, so an older global install stops with a version error; upgrade or remove it.
 
 > [!IMPORTANT]

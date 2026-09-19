@@ -23,6 +23,7 @@ One folder per subject, each with its own README:
 
 | Folder                                    | Holds                                                                                                                 |
 | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [`architecture/`](architecture/README.md) | The Steiger runner that lints every Feature-Sliced Design root in the list                                            |
 | [`git/`](git/README.md)                   | The commit convention, the identity of an author, and what a branch may carry                                         |
 | [`comments/`](comments/README.md)         | The comment convention: citations that rot, changes that are mostly comment, comments echoing a document              |
 | [`markdown/`](markdown/README.md)         | The frontmatter every document carries, so the vault and a search can index it                                        |
