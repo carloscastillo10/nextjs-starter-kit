@@ -16,7 +16,7 @@ vendors, but it can decide in advance where each of them goes, so the first one 
 
 | Folder                                    | Holds                                                                   | Ships with |
 | ----------------------------------------- | ----------------------------------------------------------------------- | ---------- |
-| [`adr/`](adr/README.md)                   | One decision per file, with the alternatives that lost                  | Four       |
+| [`adr/`](adr/README.md)                   | One decision per file, with the alternatives that lost                  | Nine       |
 | [`agents/`](agents/README.md)             | The rules your product gives an AI agent: domain words, tracker, triage | Empty      |
 | [`architecture/`](architecture/README.md) | How the code is organized, and the checks that hold the structure       | Two        |
 | [`archive/`](archive/README.md)           | Specs and plans that are done or superseded, kept rather than deleted   | Empty      |
