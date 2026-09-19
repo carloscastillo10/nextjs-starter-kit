@@ -10,12 +10,12 @@
 
 ## 🗂️ Structure
 
-| File                | Holds                                                                                                      |
-| ------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `graph-rules.mjs`   | Which hook events call for a rebuild, the graphify commands, and finding graphify on the PATH. No state    |
-| `graph-lock.mjs`    | The request file and the lock, both under `.graphify/`                                                     |
-| `graph-rebuild.mjs` | The command: the hook trigger, the detached worker it starts, and the rebuild by hand                      |
-| `graph-hint.mjs`    | A Claude Code `PreToolUse` hook: before a search, points at the graph. Declared in `.claude/settings.json` |
+| File                                       | Holds                                                                                                      |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| [`graph-rules.mjs`](./graph-rules.mjs)     | Which hook events call for a rebuild, the graphify commands, and finding graphify on the PATH. No state    |
+| [`graph-lock.mjs`](./graph-lock.mjs)       | The request file and the lock, both under `.graphify/`                                                     |
+| [`graph-rebuild.mjs`](./graph-rebuild.mjs) | The command: the hook trigger, the detached worker it starts, and the rebuild by hand                      |
+| [`graph-hint.mjs`](./graph-hint.mjs)       | A Claude Code `PreToolUse` hook: before a search, points at the graph. Declared in `.claude/settings.json` |
 
 ## 🚀 Usage
 

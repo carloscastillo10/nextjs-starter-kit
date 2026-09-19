@@ -8,10 +8,10 @@ A workspace here is not only a `package.json`: it carries the engines, the catal
 
 ## 🗂️ Structure
 
-| Path         | Holds                                                                                                          |
-| ------------ | -------------------------------------------------------------------------------------------------------------- |
-| `config.mjs` | The prompts and the actions, whose plan lives in [`@repo/scripts`](../../tooling/scripts/generators/README.md) |
-| `templates/` | One Handlebars template per file the generator writes                                                          |
+| Path                         | Holds                                                                                                          |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| [`config.mjs`](./config.mjs) | The prompts and the actions, whose plan lives in [`@repo/scripts`](../../tooling/scripts/generators/README.md) |
+| [`templates/`](./templates/) | One Handlebars template per file the generator writes                                                          |
 
 ## 🚀 Usage
 

@@ -228,13 +228,13 @@ This file follows the [DESIGN.md format](https://github.com/google-labs-code/des
 
 The template ships a deliberately plain theme: the shadcn/ui `base-nova` style on Base UI components, the `neutral` base color, Geist, and a light and a dark mode that follow the system setting. It carries no brand. A product built on the template replaces the values and keeps the names, so every component keeps working.
 
-| What                          | Where                                                                                    |
-| ----------------------------- | ---------------------------------------------------------------------------------------- |
-| Token values and base styles  | [`tooling/tailwind/theme.css`](./tooling/tailwind/theme.css) (`@repo/tailwind-config`)   |
-| Components                    | [`packages/ui`](./packages/ui/README.md) (`@repo/ui`)                                    |
-| Font                          | `apps/web/src/_app/fonts/sans.ts` (`next/font`)                                          |
-| Theme switching (light, dark) | `apps/web/src/_app/providers/Providers.tsx` (`next-themes`)                              |
-| Browser toolbar color         | `apps/web/app/layout.tsx`, whose `themeColor` repeats `background` and `background-dark` |
+| What                          | Where                                                                                                                 |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Token values and base styles  | [`tooling/tailwind/theme.css`](./tooling/tailwind/theme.css) (`@repo/tailwind-config`)                                |
+| Components                    | [`packages/ui`](./packages/ui/README.md) (`@repo/ui`)                                                                 |
+| Font                          | [`apps/web/src/_app/fonts/sans.ts`](./apps/web/src/_app/fonts/sans.ts) (`next/font`)                                  |
+| Theme switching (light, dark) | [`apps/web/src/_app/providers/Providers.tsx`](./apps/web/src/_app/providers/Providers.tsx) (`next-themes`)            |
+| Browser toolbar color         | [`apps/web/app/layout.tsx`](./apps/web/app/layout.tsx), whose `themeColor` repeats `background` and `background-dark` |
 
 ## Colors
 

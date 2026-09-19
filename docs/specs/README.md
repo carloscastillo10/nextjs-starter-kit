@@ -51,13 +51,13 @@ contradicts one of them is a decision, and a decision belongs in an ADR.
 
 Where a piece of writing belongs:
 
-| What it is                                  | Where it goes                                           | How long it lives                       |
-| ------------------------------------------- | ------------------------------------------------------- | --------------------------------------- |
-| The plan for one issue                      | The issue                                               | Until its pull request merges           |
-| A plan long enough to need its own document | `docs/plans/`, written with `superpowers:writing-plans` | Until it has been carried out           |
-| A design the work produced that outlives it | Here                                                    | Until it is wrong                       |
-| A decision that is hard to reverse          | `docs/adr/`                                             | Forever, superseded rather than deleted |
-| Behavior, and the rules that cross features | Here and `docs/business-rules.md`                       | They are the source of truth            |
+| What it is                                  | Where it goes                                                                 | How long it lives                       |
+| ------------------------------------------- | ----------------------------------------------------------------------------- | --------------------------------------- |
+| The plan for one issue                      | The issue                                                                     | Until its pull request merges           |
+| A plan long enough to need its own document | [`docs/plans/`](../plans/README.md), written with `superpowers:writing-plans` | Until it has been carried out           |
+| A design the work produced that outlives it | Here                                                                          | Until it is wrong                       |
+| A decision that is hard to reverse          | [`docs/adr/`](../adr/README.md)                                               | Forever, superseded rather than deleted |
+| Behavior, and the rules that cross features | Here and [`docs/business-rules.md`](../business-rules.md)                     | They are the source of truth            |
 
 **A plan never goes in [`../architecture/`](../architecture/README.md).** That folder describes the system as
 it is.

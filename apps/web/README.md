@@ -26,19 +26,19 @@ re-export from `src/`, which is what keeps a page a slice you can move rather th
 
 ## 🗂️ Structure
 
-| Path                                   | Holds                                                                                              |
-| -------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| [`app/`](./app/README.md)              | Next.js routing: `layout.tsx`, `page.tsx`, and route files that only re-export                     |
-| [`src/`](./src/README.md)              | The application code, as Feature-Sliced Design layers, reached through the `@/` alias              |
-| `public/`                              | Static files served at a fixed URL: the two logos the home page renders                            |
-| `components.json`                      | shadcn CLI configuration: it writes components into `@repo/ui` and variables into the shared theme |
-| `next.config.ts`                       | Loads and validates the environment before Next.js reads it, and compiles `@repo/ui` with the app  |
-| `postcss.config.mjs`                   | Re-exports the PostCSS config of `@repo/tailwind-config`                                           |
-| `prettier.config.mjs`                  | The shared Prettier config, plus the stylesheet its Tailwind plugin sorts classes against          |
-| `eslint.config.mjs`                    | The shared flat config, plus the paths `better-tailwindcss` needs                                  |
-| `tsconfig.json`                        | Extends `@repo/typescript-config/nextjs.json`; declares the one alias, `@/*` → `./src/*`           |
-| `vitest.config.mts`, `vitest.setup.ts` | Vitest with a jsdom environment, ready for the first test                                          |
-| `AGENTS.md`, `CLAUDE.md`               | Written and rewritten by `next dev`. Committed as they are, and excluded from the formatters       |
+| Path                                                                               | Holds                                                                                              |
+| ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [`app/`](./app/README.md)                                                          | Next.js routing: `layout.tsx`, `page.tsx`, and route files that only re-export                     |
+| [`src/`](./src/README.md)                                                          | The application code, as Feature-Sliced Design layers, reached through the `@/` alias              |
+| [`public/`](./public/)                                                             | Static files served at a fixed URL: the two logos the home page renders                            |
+| [`components.json`](./components.json)                                             | shadcn CLI configuration: it writes components into `@repo/ui` and variables into the shared theme |
+| [`next.config.ts`](./next.config.ts)                                               | Loads and validates the environment before Next.js reads it, and compiles `@repo/ui` with the app  |
+| [`postcss.config.mjs`](./postcss.config.mjs)                                       | Re-exports the PostCSS config of `@repo/tailwind-config`                                           |
+| [`prettier.config.mjs`](./prettier.config.mjs)                                     | The shared Prettier config, plus the stylesheet its Tailwind plugin sorts classes against          |
+| [`eslint.config.mjs`](./eslint.config.mjs)                                         | The shared flat config, plus the paths `better-tailwindcss` needs                                  |
+| [`tsconfig.json`](./tsconfig.json)                                                 | Extends `@repo/typescript-config/nextjs.json`; declares the one alias, `@/*` → `./src/*`           |
+| [`vitest.config.mts`](./vitest.config.mts), [`vitest.setup.ts`](./vitest.setup.ts) | Vitest with a jsdom environment, ready for the first test                                          |
+| [`AGENTS.md`](./AGENTS.md), [`CLAUDE.md`](./CLAUDE.md)                             | Written and rewritten by `next dev`. Committed as they are, and excluded from the formatters       |
 
 Files that Next.js only finds beside `app/` — `proxy.ts`, `instrumentation.ts` — go in this folder, not in
 `src/`.

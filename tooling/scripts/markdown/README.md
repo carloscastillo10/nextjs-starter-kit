@@ -21,10 +21,10 @@ The opposite case matters as much. GitHub renders a frontmatter block as a table
 
 ## 🗂️ Structure
 
-| File                    | Holds                                                                          |
-| ----------------------- | ------------------------------------------------------------------------------ |
-| `frontmatter-rules.mjs` | `classifyMarkdown(file)` and `inspectFrontmatter({ file, text })`, with no I/O |
-| `check-frontmatter.mjs` | The command: picks the files, prints the findings, sets the exit code          |
+| File                                               | Holds                                                                          |
+| -------------------------------------------------- | ------------------------------------------------------------------------------ |
+| [`frontmatter-rules.mjs`](./frontmatter-rules.mjs) | `classifyMarkdown(file)` and `inspectFrontmatter({ file, text })`, with no I/O |
+| [`check-frontmatter.mjs`](./check-frontmatter.mjs) | The command: picks the files, prints the findings, sets the exit code          |
 
 ## 🚀 Usage
 

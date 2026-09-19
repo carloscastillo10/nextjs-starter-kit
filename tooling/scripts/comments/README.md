@@ -22,10 +22,10 @@
 
 ## 🗂️ Structure
 
-| File                 | Holds                                                                            |
-| -------------------- | -------------------------------------------------------------------------------- |
-| `comment-rules.mjs`  | The rules: `inspectComments({ code, file })` and `isCheckedSource(file)`. No I/O |
-| `check-comments.mjs` | The command: picks the files, prints the findings, sets the exit code            |
+| File                                         | Holds                                                                            |
+| -------------------------------------------- | -------------------------------------------------------------------------------- |
+| [`comment-rules.mjs`](./comment-rules.mjs)   | The rules: `inspectComments({ code, file })` and `isCheckedSource(file)`. No I/O |
+| [`check-comments.mjs`](./check-comments.mjs) | The command: picks the files, prints the findings, sets the exit code            |
 
 ## 🚀 Usage
 

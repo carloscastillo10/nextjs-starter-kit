@@ -8,10 +8,10 @@
 
 ## 🗂️ Structure
 
-| File                    | Holds                                                                                                   |
-| ----------------------- | ------------------------------------------------------------------------------------------------------- |
-| `workspace-plan.mjs`    | `planWorkspace(answers)`: the folder, the files with their templates, and the data the templates render |
-| `register-fsd-root.mjs` | `registerFsdRoot({ file, root })`: the new root in `fsd-roots.json`, validated before it is written     |
+| File                                               | Holds                                                                                                   |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [`workspace-plan.mjs`](./workspace-plan.mjs)       | `planWorkspace(answers)`: the folder, the files with their templates, and the data the templates render |
+| [`register-fsd-root.mjs`](./register-fsd-root.mjs) | `registerFsdRoot({ file, root })`: the new root in `fsd-roots.json`, validated before it is written     |
 
 ## 🚀 Usage
 
