@@ -70,7 +70,7 @@ pnpm lint:echo                 # against origin/main
 pnpm lint:echo origin/release  # against another base
 ```
 
-`pre-push` runs this too. It takes the comments the branch adds and the Markdown the branch adds, and fails when eight words in a row appear in both. It reads the working tree rather than `HEAD`, so a comment already deleted does not count.
+`pre-push` runs this too. It takes the comments the branch adds and the Markdown the branch adds, and fails when eight words in a row appear in both. It reads the working tree rather than `HEAD`, so a comment already deleted does not count. With no `origin/main` to fork from, which is every clone until its first push, it says so and passes, like the other checks that read a branch against its base.
 
 **A reason written twice drifts**, and the copy beside the code is the one that goes stale first, because a reader looking for reasoning opens the document. Delete the comment and keep the document, or delete the paragraph and keep the comment.
 
