@@ -36,7 +36,7 @@ The list of FSD roots both linters read is one file,
 | `pnpm lint:deps`       | dependency-cruiser: the graph between workspaces, and cycles           |
 | `pnpm lint:boundaries` | Turborepo: an import that leaves a package the importer never declared |
 | `pnpm lint:ws`         | sherif: versions and manifest fields that disagree between workspaces  |
-| `pnpm lint`            | All four, plus ESLint                                                  |
+| `pnpm lint`            | ESLint, Steiger and dependency-cruiser. `pnpm gates` runs all four     |
 
 ## 🧩 Extending
 
