@@ -36,8 +36,8 @@ Thumbs.db
 !.vscode/settings.json
 !.vscode/extensions.json
 
-# Claude Code: personal settings, and what a session writes while it runs. A worktree
-# under .claude/worktrees/ is another checkout of this repository.
+# Claude Code: personal settings, and what a session writes while it runs, worktrees
+# included: each of those is another checkout of this repository.
 .claude/settings.local.json
 .claude/orchestration/
 .claude/worktrees/
