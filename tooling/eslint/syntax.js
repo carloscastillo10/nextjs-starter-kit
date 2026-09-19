@@ -90,12 +90,7 @@ export const COMPONENT_SYNTAX = [
  */
 export const APP_COMPONENT_SYNTAX = [
   {
-    /*
-     * `>` is load-bearing: what the rule judges is the expression the prop receives, so
-     * a call keeps its arguments out of reach. `cn("tab", isActive ? "a" : "b")` and
-     * `cn(buttonVariants({ size: "lg" }), "w-full")` are the value having a name, which
-     * is what the rule asks for in the first place.
-     */
+    // The child combinator is deliberate: widening it would be a new rule, not a fix.
     selector:
       "JSXAttribute > JSXExpressionContainer > :matches(ConditionalExpression, ObjectExpression, ArrayExpression, TemplateLiteral[expressions.length>0], LogicalExpression[operator='&&'], LogicalExpression[operator='||'])",
     message: "Compute the value in the hook (or a named constant), not inside a JSX prop.",
