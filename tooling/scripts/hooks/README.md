@@ -9,6 +9,7 @@
 - [🚀 Usage](#-usage)
   - [The skill reminder](#the-skill-reminder)
   - [The graph hint](#the-graph-hint)
+  - [The shell guard](#the-shell-guard)
   - [Declaring a hook](#declaring-a-hook)
   - [Trying a hook by hand](#trying-a-hook-by-hand)
   - [Two things that will bite](#two-things-that-will-bite)
@@ -22,11 +23,12 @@
 
 ## 🗂️ Structure
 
-| File                | Holds                                                                                                             |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `skill-rules.mjs`   | The rules of the skill reminder: which skills govern a path, and whether the comment rule applies. No I/O         |
-| `remind-skills.mjs` | The skill reminder hook: reads the tool call from stdin, remembers what the session has seen, prints the reminder |
-| `*.test.mjs`        | Tests: the rules directly, the hook as a real process against a temporary project                                 |
+| File                | Holds                                                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `skill-rules.mjs`   | The rules of the skill reminder: which skills govern a path, and whether the comment rule applies. No I/O          |
+| `remind-skills.mjs` | The skill reminder hook: reads the tool call from stdin, remembers what the session has seen, prints the reminder  |
+| `guard-bash.mjs`    | The shell guard: refuses a command that skips the hooks or pushes to `main`, and hands over the pull request rules |
+| `*.test.mjs`        | Tests: the rules directly, the hook as a real process against a temporary project                                  |
 
 Hooks declared in `.claude/settings.json`:
 
@@ -34,6 +36,7 @@ Hooks declared in `.claude/settings.json`:
 | ---------------------------------------------------------- | ------------ | ------------------ | --------------------------------------------------------------------------------------------------- |
 | `remind-skills.mjs`                                        | `PreToolUse` | `Write\|Edit`      | Names the skills that govern the file and, on a source file, the comment rule. Never blocks a write |
 | [`../graphify/graph-hint.mjs`](../graphify/graph-hint.mjs) | `PreToolUse` | `Bash\|Grep\|Glob` | Before a search, points at the code graph when one has been built. Never blocks a search            |
+| `guard-bash.mjs`                                           | `PreToolUse` | `Bash`             | Blocks a command that skips a git hook or pushes to `main`; on `gh pr create`, injects the rules    |
 
 ## 🚀 Usage
 
@@ -88,6 +91,32 @@ connected symbols and the communities, or ask the graph: `graphify query "<quest
 
 It speaks only when `.graphify/GRAPH_REPORT.md` exists in the checkout that holds the working folder, so a clone where nobody installed graphify never hears about it, and only once per session, like the skill reminder. In Bash it looks for a search program in command position (`grep`, `rg`, `find`, `fd`, `ack`, `ag`, `git grep`), so `git log --grep=x` does not count; the `Grep` and `Glob` tools always do. The script lives with the other graph scripts rather than in this folder, because it changes with them.
 
+### The shell guard
+
+`guard-bash.mjs` is the one hook here that blocks, and it blocks two things:
+
+| Command                                                                     | What happens                                                                                    |
+| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `--no-verify`, `git commit -n`, `LEFTHOOK=0` or `LEFTHOOK=false`            | Denied. `LEFTHOOK_EXCLUDE=<job>` still works, so a single job, such as `graph`, can be left out |
+| A `git push` that lands on `main`, named or by being the checked-out branch | Denied, with the pull request as the way in                                                     |
+
+The rest is not a block. On `gh pr create` it hands back the four sections of the pull request template, the rule the title has to pass, and what [`check-branch-scope`](../README.md#the-branch-checks) makes of the branch:
+
+```text
+  This branch against origin/main:
+
+      ! This branch changes 2 unrelated things, so a reviewer has to switch context …
+
+  Split it now if it should be split: a branch is cheap to divide and a pull request is
+  not. …
+```
+
+**A branch is cheap to split and a pull request is not**, so the scope report runs here as well as in `pre-push`: opening the pull request is the last moment the cheap answer is still available. It reports and never denies, because a scaffold, a generated drop and a repository-wide rename are all legitimately enormous and nothing mechanical tells them from a branch that quietly grew a second subject.
+
+Two things it deliberately gets wrong in the safe direction. It **reads the text of the command, not a parsed shell**, so `--no-verify` inside a quoted commit message is refused too: writing that sentence into a file, where it belongs, still works, and the body of a heredoc is skipped for exactly that reason. And a `git push` whose flags take separate values can be read as a push of a branch it names; erring toward the denial costs a rephrase, while the opposite costs a commit on `main`.
+
+**The escape hatches stay open for a person.** `CONTRIBUTING.md` explains when skipping a hook is reasonable, and none of that changes: the guard only runs inside a Claude Code session, where the honest move is to fix what the hook reported.
+
 ### Declaring a hook
 
 Each script is one entry in the array of its event, with its own matcher:
@@ -135,12 +164,14 @@ The `additionalContext` in the output is what Claude receives. Run the same line
 | `pnpm --filter @repo/scripts test`                                 | Runs the hook tests with the other script tests |
 | `echo '<payload>' \| node tooling/scripts/hooks/remind-skills.mjs` | Runs the skill reminder on one payload          |
 | `echo '<payload>' \| node tooling/scripts/graphify/graph-hint.mjs` | Runs the graph hint on one payload              |
+| `echo '<payload>' \| node tooling/scripts/hooks/guard-bash.mjs`    | Runs the shell guard on one payload             |
 
 ## 🧩 Extending
 
 - **A new skill rule** is an `id`, a `when` pattern on the path from the repository root, the `skills` it names and a `why` that completes the sentence "Load … before you continue, unless … already loaded: …". Place it above any wider rule that would also match, add its row to the table above (a test compares the two), and give it cases in `skill-rules.test.mjs`.
 - **A `Write|Edit` hook never blocks.** A refused write reads as a broken tool rather than wrong content, and an agent that cannot write a file cannot fix it either. lefthook is still the wall at commit time; these hooks are the handrail before it.
 - **A hook does not repeat a lefthook job.** Formatting and the commit message checks already run on staged files, and running them on every write slows each one down for nothing.
+- **Something worth blocking is worth denying with a way out.** The shell guard refuses two commands and each denial names what to do instead; a denial that only says no gets worked around, which is worse than not having it.
 
 ## 🔗 Related
 

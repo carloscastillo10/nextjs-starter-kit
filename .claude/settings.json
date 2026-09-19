@@ -39,6 +39,18 @@
             "statusMessage": "Checking for the code graph"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PROJECT_DIR}/tooling/scripts/hooks/guard-bash.mjs"],
+            "timeout": 15,
+            "statusMessage": "Checking the command against the git workflow"
+          }
+        ]
       }
     ]
   }
