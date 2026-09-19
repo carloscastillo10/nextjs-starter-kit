@@ -1,13 +1,10 @@
-# The labels this repository uses. A repository created from a template does not inherit
-# labels, and an issue form that asks for one that does not exist applies nothing and says
-# nothing, so the set is declared here and created once. CONTRIBUTING.md, under Repository
-# settings, has the commands; a label-sync action reads this file as it stands.
+# A repository created from a template does not inherit labels, and a form that asks for one
+# that does not exist applies nothing and warns nobody, so the set is declared here and created
+# once. The contributing guide has the commands; a label-sync action reads this file as it is.
 #
-# Two answers about type and one about state. Everything else a board column answers better,
-# and two places that answer the same question disagree within a week.
-#
-# The colors are the ones GitHub gives a new repository, so creating these changes nothing
-# that already looks right.
+# Three about type and two about state is the whole taxonomy: a second place that answers
+# "what state is this in" disagrees with the first within a week. The colors are the ones
+# GitHub gives a new repository.
 #
 # cspell:ignore eeef fbca
 - name: bug

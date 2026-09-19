@@ -1,6 +1,5 @@
-# Every issue arrives through a form, so it arrives with the fields the flow reads. The links
-# below are absolute because GitHub requires it here; a repository created from this template
-# points them at its own copy, as CONTRIBUTING.md says under Repository settings.
+# GitHub requires an absolute URL here, so a repository created from this template points
+# these at its own copy instead.
 blank_issues_enabled: false
 contact_links:
   - name: 🔀 How work moves through this repository
