@@ -44,6 +44,8 @@ The rules in short:
 - **Props extend the root element's props**, forward `...props` and compose `className`; behavior variants come from composition, not boolean props.
 - **Descriptive names**: `event`, not `e`; booleans read as questions (`isOpen`, `hasItems`).
 
+The standard reaches a change three times: the `project-conventions` skill puts it in an agent's context before the first line, and a hook names it as each file is written; the commands below check what a tool can check; and the `code-steward` agent reads the finished diff for what no linter can express, as [one of the two review lenses](#the-flow).
+
 Tools enforce what they can, so run them before you push:
 
 | Command                 | Checks                                                                                                       |

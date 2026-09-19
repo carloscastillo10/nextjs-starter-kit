@@ -10,6 +10,14 @@ How code in this repository is written: the rules every change follows, why they
 
 Where code lives (layers, slices, segments, import rules) is covered by the architecture guide, [docs/architecture/feature-sliced-design.md](../architecture/feature-sliced-design.md). These documents build on it and never contradict it.
 
+## How the rules reach the code
+
+A rule nobody reads at the right moment is a rule that gets broken, so the standard arrives three times:
+
+- **Before the first line.** The `project-conventions` skill in [`.claude/skills/`](../../.claude/skills/README.md) holds these documents in short form, and a hook names it, with the skills that govern the path, as each file is written. It is the same standard, kept short enough to stay in context; when the two disagree, these documents win.
+- **While the change is written.** The checks below run on demand, when a file is saved and again in the `pre-commit` hook.
+- **After the code exists.** The `code-steward` agent reads the diff for what no linter can express: comments that restate the code, tests that assert wiring instead of behavior, scope nobody asked for, a rule implemented in a component instead of the layer that owns it, an abstraction with one caller.
+
 ## How the rules are enforced
 
 Each document ends with an **Enforcement** table that maps its rules to a check. Formatting is Prettier's job, most rules are ESLint rules (`pnpm lint`), comment rules are split between ESLint and `pnpm lint:comments`, and the folder structure is checked by Steiger (`pnpm --filter web lint:arch`). A rule with no check in the table is a review rule.
@@ -19,5 +27,6 @@ Each document ends with an **Enforcement** table that maps its rules to a check.
 1. Change the document that owns the topic, with a short bad and good example.
 2. If a tool can check the rule, wire the check in the shared tooling configuration and add a row to the document's Enforcement table.
 3. Apply the rule to the existing code in the same change, so the repository never disagrees with its own conventions.
+4. Bring the one-line form of the rule to the `project-conventions` skill, in the same change. A skill that contradicts the document it summarizes is worse than no skill.
 
 Write one Markdown file per topic, named in kebab-case after it, and add it to the list above.
