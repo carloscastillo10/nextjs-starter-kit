@@ -39,19 +39,17 @@ const JSX_PROP_ORDER = {
   ],
 };
 
-/*
- * The same order as the JSX one, for the three places the linter used to leave alone:
- * the props type, the destructuring and the object a hook returns. `unsorted` moves
- * only what falls in a group, so a lookup map keeps the order it was written in.
- */
-const MEMBER_ORDER = {
-  type: "unsorted",
+const FIELD_GROUPS = {
   groups: ["class-name", "unknown", "callback"],
   customGroups: [
     { groupName: "class-name", elementNamePattern: "^className$" },
     { groupName: "callback", elementNamePattern: "^(on|handle)[A-Z]" },
   ],
 };
+
+const FIELD_ORDER = { type: "alphabetical", ...FIELD_GROUPS };
+
+const WRITTEN_ORDER = { type: "unsorted", ...FIELD_GROUPS };
 
 const HOOK_FILES = ["**/model/use-*.ts", "**/api/use-*.ts"];
 
@@ -101,10 +99,26 @@ export const reactBlocks = [
   },
   {
     name: "@repo/eslint-config/react/prop-order",
-    files: [...COMPONENT_FILES, ...HOOK_FILES],
+    files: COMPONENT_FILES,
     rules: {
-      "perfectionist/sort-object-types": ["error", MEMBER_ORDER],
-      "perfectionist/sort-objects": ["error", MEMBER_ORDER],
+      "perfectionist/sort-object-types": ["error", FIELD_ORDER],
+      /*
+       * perfectionist stops at the first configuration whose `useConfigurationIf`
+       * matches, so the narrow one comes first and the last one is the fallback.
+       */
+      "perfectionist/sort-objects": [
+        "error",
+        { useConfigurationIf: { objectType: "destructured" }, ...FIELD_ORDER },
+        WRITTEN_ORDER,
+      ],
+    },
+  },
+  {
+    name: "@repo/eslint-config/react/hook-field-order",
+    files: HOOK_FILES,
+    rules: {
+      "perfectionist/sort-object-types": ["error", FIELD_ORDER],
+      "perfectionist/sort-objects": ["error", FIELD_ORDER],
     },
   },
 ];

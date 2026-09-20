@@ -12,6 +12,14 @@ const NAVIGATION_GUARDS = "notFound|redirect|permanentRedirect|forbidden|unautho
 const PROPS_TYPE_STAYS_LOCAL =
   "Keep a props type next to its component; derive it with ComponentProps<typeof X>.";
 
+const MEMO_TYPE_IS_INFERRED = "Drop the type argument: the factory already fixes the memo's type.";
+
+const MEMOIZED_RETURN =
+  "Return a plain object and memoize the fields that need it, not the object.";
+
+const HOOK_BODY =
+  "VariableDeclarator[id.name=/^use[A-Z]/] > ArrowFunctionExpression > BlockStatement";
+
 const FUNCTION_EXPRESSION_OUTSIDE_METHODS = [
   "FunctionExpression[generator=false]",
   ":not(MethodDefinition > FunctionExpression)",
@@ -57,6 +65,22 @@ export const BASE_SYNTAX = [
     selector: "VariableDeclarator[id.name=/^use[A-Z]/] > ArrowFunctionExpression[returnType]",
     message: "Let TypeScript infer a hook's return type.",
   },
+  {
+    selector: "CallExpression[callee.name='useMemo'][typeArguments]",
+    message: MEMO_TYPE_IS_INFERRED,
+  },
+  {
+    selector: "CallExpression[callee.property.name='useMemo'][typeArguments]",
+    message: MEMO_TYPE_IS_INFERRED,
+  },
+  {
+    selector: `${HOOK_BODY} > ReturnStatement > CallExpression[callee.name='useMemo']`,
+    message: MEMOIZED_RETURN,
+  },
+  {
+    selector: `${HOOK_BODY} > ReturnStatement > CallExpression[callee.property.name='useMemo']`,
+    message: MEMOIZED_RETURN,
+  },
 ];
 
 export const COMPONENT_SYNTAX = [
@@ -81,12 +105,16 @@ export const COMPONENT_SYNTAX = [
     selector: "VariableDeclarator > :matches(JSXElement, JSXFragment)",
     message: "Keep markup where it renders, or give it a component of its own.",
   },
+  {
+    selector:
+      ":matches(CallExpression[callee.name='memo'], CallExpression[callee.object.name='React'][callee.property.name='memo'])",
+    message: "Wrap a component in memo only with a measured reason, written in the config.",
+  },
 ];
 
 /*
  * Selectors for components written by hand, which is why only the `next` preset spreads
- * them. The kit is the shadcn CLI's output, and nothing constrains the shapes the CLI
- * writes; the rules that do reach it are the ones a fixer can apply on its own.
+ * them. Asking these of the kit would be asking the shadcn CLI to write another shape.
  */
 export const APP_COMPONENT_SYNTAX = [
   {
