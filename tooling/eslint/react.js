@@ -49,10 +49,6 @@ const FIELD_GROUPS = {
 
 const FIELD_ORDER = { type: "alphabetical", ...FIELD_GROUPS };
 
-/*
- * `unsorted` moves only what falls in a group, so data written in a chosen order —
- * a lookup map, the steps of a flow — survives the fixer.
- */
 const WRITTEN_ORDER = { type: "unsorted", ...FIELD_GROUPS };
 
 const HOOK_FILES = ["**/model/use-*.ts", "**/api/use-*.ts"];
@@ -106,6 +102,10 @@ export const reactBlocks = [
     files: COMPONENT_FILES,
     rules: {
       "perfectionist/sort-object-types": ["error", FIELD_ORDER],
+      /*
+       * perfectionist stops at the first configuration whose `useConfigurationIf`
+       * matches, so the narrow one comes first and the last one is the fallback.
+       */
       "perfectionist/sort-objects": [
         "error",
         { useConfigurationIf: { objectType: "destructured" }, ...FIELD_ORDER },
