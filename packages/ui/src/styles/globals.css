@@ -1,5 +1,2 @@
-/*
- * The kit's files, for Tailwind to scan. An app imports this after the shared theme.
- */
 @source "../**/*.{ts,tsx}";
 @source not "../**/*.test.{ts,tsx}";
