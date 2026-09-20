@@ -1,10 +1,7 @@
-# Keeps the commit SHAs that pin the workflow actions current, in one pull request a month.
-# The npm packages are on purpose not here: every version is a single entry in the catalog of
-# pnpm-workspace.yaml, which the root README repeats badge by badge, so a bump is one decision
-# taken by hand rather than a pull request per package.
-# The ci(deps) prefix gets the type and scope right; the rest of a Dependabot title cannot
-# follow the convention, so the PR title check skips it and the title is rewritten when
-# the pull request is squashed.
+# The npm packages are deliberately not here: each version is one entry in the pnpm catalog,
+# which the root README repeats badge by badge, so a bump is one decision taken by hand.
+# Past this prefix a Dependabot title cannot follow the commit convention, so the title check
+# skips it and the title is rewritten when the pull request is squashed.
 version: 2
 updates:
   - package-ecosystem: github-actions

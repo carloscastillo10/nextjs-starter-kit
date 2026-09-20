@@ -1,26 +1,9 @@
-# Git hooks, installed by `pnpm install` through the postinstall script of lefthook.
-# `LEFTHOOK=0 git commit ...` skips every hook for one command, and
-# `LEFTHOOK_EXCLUDE=<job>` skips one job. CONTRIBUTING.md says when either is fine.
-#
-# One top-level key per hook, each with named jobs; a new hook goes at the end.
-
-# The hook scripts run the first lefthook on the PATH before the pinned one, and the
-# pre-commit setup step needs 2.1.2 or later, so an older lefthook stops here instead
-# of silently skipping it. 2.1.14 is the version these hooks were verified with.
+# The hook scripts run the first lefthook on the PATH before the pinned one, and the setup
+# step below needs 2.1.2 or later, so an older one stops here instead of skipping it.
 min_version: 2.1.14
 
-# ESLint and Prettier fix the staged files and stage the result. While the hook runs,
-# lefthook hides the unstaged part of a partially staged file, so every job reads
-# exactly what the commit will contain. The two fixers run one after the other,
-# Prettier last, so they never write the same file at once and the layout Prettier
-# chooses is the one committed. The checks run together after them, on fixed files.
-# A failure does not stop the jobs after it, so one commit reports every problem.
-#
-# fix-staged only checks a partially staged file instead of rewriting it: when a
-# rewrite collides with the hidden unstaged lines, lefthook 2.1.14 reverts every
-# unstaged change in the repository (upstream issue 1480). The setup step records
-# those files before lefthook hides anything. A new job that rewrites files goes
-# through fix-staged too.
+# The two fixers run one after the other, Prettier last, so they never write the same file
+# at once and the layout Prettier chooses is the one that gets committed.
 pre-commit:
   setup:
     - run: node tooling/scripts/git/fix-staged.mjs --record
@@ -46,9 +29,8 @@ pre-commit:
           - name: spelling
             run: pnpm exec cspell --no-progress --no-must-find-files {staged_files}
 
-          # Lints every Markdown file, not only the staged ones: markdownlint-cli2 reads a
-          # file argument as a glob, so a Next.js folder such as `[slug]` or `(group)`
-          # matches nothing, and a literal path skips the ignores in its config.
+          # Every file, not only the staged ones: a file argument is read as a glob, so a
+          # folder such as `[slug]` matches nothing and a literal path skips the ignores.
           - name: markdown
             glob: "*.md"
             run: pnpm lint:md
@@ -57,17 +39,15 @@ pre-commit:
             glob: "*.md"
             run: pnpm lint:frontmatter {staged_files}
 
-          # Types belong to a whole project, so this runs the full check; Turborepo
-          # replays every package whose files did not change from its cache.
+          # Types belong to a whole project, so a staged subset would answer the wrong question.
           - name: types
             glob:
               - "*.{ts,tsx,mts,cts}"
               - "*.json"
             run: pnpm types:check --output-logs=errors-only
 
-# identity runs here rather than in pre-commit: pre-commit skips every job when
-# nothing is staged, so an empty commit or a message-only amend would pass
-# unchecked, while commit-msg runs for every commit git creates, merges included.
+# identity runs here because pre-commit skips every job when nothing is staged, so an empty
+# commit or a message-only amend would pass unchecked.
 commit-msg:
   jobs:
     - name: commitlint
@@ -76,9 +56,6 @@ commit-msg:
     - name: identity
       run: node tooling/scripts/git/check-git-identity.mjs
 
-# The guards run one after the other, so the branch report prints on its own; a
-# failure does not stop the jobs after it. Then the checks that read the whole
-# project run together, and Turborepo replays unchanged packages from its cache.
 pre-push:
   jobs:
     - name: authors
@@ -112,12 +89,6 @@ pre-push:
           - name: comment-share
             run: pnpm lint:comments --changed origin/main
 
-# The code graph follows HEAD: after a commit, a branch checkout, a merge or a pull, and
-# a rebase, which runs neither of the first two for the commits it replays. The script
-# does nothing without graphify on the PATH, never fails, and returns at once, leaving
-# the rebuild to a detached process; hooks that fire while one runs add one more
-# rebuild at most, never a second at the same time. LEFTHOOK_EXCLUDE=graph turns it off
-# for one command, and lefthook-local.yml for good in one clone.
 post-commit:
   jobs:
     - name: graph

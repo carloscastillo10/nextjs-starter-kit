@@ -1,10 +1,7 @@
 # A repository created from a template does not inherit labels, and a form that asks for one
-# that does not exist applies nothing and warns nobody, so the set is declared here and created
-# once. The contributing guide has the commands; a label-sync action reads this file as it is.
-#
-# Six is the whole taxonomy: three about what kind of work it is, two about what it is waiting
-# for, one about a decision taken. A second place answering "what state is this in" disagrees
-# with the first within a week. The colors are the ones GitHub gives a new repository.
+# that does not exist applies nothing and warns nobody, so the set is declared here.
+# Six is the whole taxonomy: a second place answering "what state is this in" disagrees with
+# the first within a week.
 - name: bug
   color: d73a4a
   description: Behaves differently from what is written down
