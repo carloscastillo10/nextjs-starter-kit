@@ -14,6 +14,9 @@ const PROPS_TYPE_STAYS_LOCAL =
 
 const MEMO_TYPE_IS_INFERRED = "Drop the type argument: the factory already fixes the memo's type.";
 
+const MEMOIZED_RETURN =
+  "Return a plain object and memoize the fields that need it, not the object.";
+
 const HOOK_BODY =
   "VariableDeclarator[id.name=/^use[A-Z]/] > ArrowFunctionExpression > BlockStatement";
 
@@ -72,7 +75,11 @@ export const BASE_SYNTAX = [
   },
   {
     selector: `${HOOK_BODY} > ReturnStatement > CallExpression[callee.name='useMemo']`,
-    message: "Return a plain object and memoize the fields that need it, not the object.",
+    message: MEMOIZED_RETURN,
+  },
+  {
+    selector: `${HOOK_BODY} > ReturnStatement > CallExpression[callee.property.name='useMemo']`,
+    message: MEMOIZED_RETURN,
   },
 ];
 
