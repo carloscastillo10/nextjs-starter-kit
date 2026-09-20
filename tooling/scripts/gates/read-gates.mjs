@@ -2,11 +2,7 @@ import { parse } from "yaml";
 
 export const WORKFLOW = ".github/workflows/ci.yml";
 
-/*
- * A step is a gate when its condition calls cancelled(): the marker that lets
- * it run after an earlier one failed. Setup steps do not carry it, which tells
- * the two apart without naming either.
- */
+// A gate is a step whose condition calls cancelled(), which a setup step never does.
 const isGate = (step) =>
   typeof step?.run === "string" && String(step.if ?? "").includes("cancelled()");
 

@@ -16,9 +16,8 @@ const SOURCE_FILES = ["src/**/*.{ts,tsx}"];
 const HAND_WRITTEN_COMPONENT_FILES = ["app/**/*.tsx", "src/**/*.tsx"];
 
 /*
- * An arbitrary value closes the class, as in `w-[123px]`, `bg-[#fff]/50` or `p-[1rem]!`.
- * Anchoring the pattern there leaves arbitrary variants such as `data-[state=open]:`
- * alone, and a `calc()` stays allowed for a computed size that has no step on the scale.
+ * Anchored where an arbitrary value closes the class, as in `w-[123px]`, so an arbitrary
+ * variant such as `data-[state=open]:` is left alone and a computed `calc()` stays allowed.
  */
 const ARBITRARY_VALUE = "-\\[(?!calc\\()[^\\]]*\\](?:\\/[^/]+)?!?$";
 
@@ -47,10 +46,7 @@ const nextBlocks = [
   nextPlugin.configs["core-web-vitals"],
   {
     name: "@repo/eslint-config/next/app-router",
-    /*
-     * The rule checks links against a Pages Router directory. An App Router app has
-     * none, so the rule only warns that it cannot find one.
-     */
+    // The rule looks for a Pages Router directory, which an App Router app does not have.
     rules: { "@next/next/no-html-link-for-pages": "off" },
   },
   {
@@ -64,10 +60,7 @@ const nextBlocks = [
     },
   },
   {
-    /*
-     * The shadcn CLI writes kebab case, and a primitive dropped here is its output with
-     * the imports rewritten. Renaming it costs the next `add --diff` its match.
-     */
+    // The shadcn CLI writes kebab case, and renaming costs the next `add --diff` its match.
     name: "@repo/eslint-config/next/kit-file-names",
     files: KIT_COMPONENT_FILES,
     rules: {
@@ -107,10 +100,6 @@ const nextBlocks = [
   {
     name: "@repo/eslint-config/next/tailwind",
     files: SOURCE_FILES,
-    /*
-     * The rules read the theme through the app's global styles, which each app names in
-     * the `better-tailwindcss` settings of its own config.
-     */
     plugins: { "better-tailwindcss": betterTailwindcss },
     rules: {
       "better-tailwindcss/enforce-canonical-classes": "error",

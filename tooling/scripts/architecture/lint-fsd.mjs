@@ -18,10 +18,7 @@ export const lintFsdRoots = ({ roots, run }) => {
   return { failed, status: failed.length > 0 ? 1 : 0 };
 };
 
-/*
- * Steiger reads its configuration with cosmiconfig, which searches from the working
- * directory upwards, and takes one folder per run.
- */
+// Steiger finds its config by searching upwards from the working directory, one folder a run.
 const steiger = (root) => {
   const { error, status } = spawnSync(
     path.join(repositoryRoot, "node_modules", ".bin", "steiger"),

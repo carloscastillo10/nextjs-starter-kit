@@ -35,10 +35,7 @@ const bin = (name) => path.join(root, "node_modules", ".bin", name);
 
 const sourceChecks = (file) => [
   { args: ["--no-warn-ignored", file], command: bin("eslint"), label: "eslint" },
-  /*
-   * The density and length findings are judgement the agent should weigh rather than obey,
-   * and they only reach it on an exit code of zero, so this one reports either way.
-   */
+  // A finding only reaches the agent on an exit code of zero, so this one always reports.
   {
     advisory: true,
     args: [script("comments/check-comments.mjs"), file],

@@ -2,10 +2,7 @@ const SOURCE_FILE = /\.[cm]?[jt]sx?$/u;
 
 const GENERATED_OUTPUT = String.raw`(?:^|\/)(?:node_modules|\.next|\.turbo|dist|build|coverage)\/|\.d\.[cm]?ts$`;
 
-/*
- * The same folders the comment check skips, kept here instead of imported: loading
- * the comment check brings the TypeScript parser, which would slow down every write.
- */
+// Copied rather than imported: the comment check brings a parser every write would pay for.
 const SKIPPED_BY_COMMENT_CHECK = new RegExp(
   String.raw`(?:^|\/)(?:\.claude|\.agents)\/|${GENERATED_OUTPUT}`,
   "u",

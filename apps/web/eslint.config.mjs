@@ -11,7 +11,6 @@ export default defineConfig([
   },
   {
     name: "web/tailwind",
-    // Absolute, so the rules find the same theme from the app and from the repository root.
     settings: {
       "better-tailwindcss": {
         cwd: import.meta.dirname,

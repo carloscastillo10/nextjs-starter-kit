@@ -3,38 +3,22 @@ import { defineConfig } from "steiger";
 
 import { fsdRoots } from "./fsd-roots.js";
 
-/*
- * Steiger resolves a relative glob against the folder holding the configuration file
- * it found, which is the repository root.
- */
+// Steiger resolves a relative glob against the folder it found the config in, the root.
 const inEveryRoot = (folder) => fsdRoots.map((root) => `./${root}/${folder}`);
 
-/*
- * Steiger counts the references a slice has inside the root it reads. A root that a
- * package shares between apps is consumed from outside that root, so every slice in
- * it looks unused. The package exports say what is public there instead.
- */
 const sharedRoots = fsdRoots.filter((root) => !root.startsWith("apps/"));
 
 export default defineConfig([
   ...fsd.configs.recommended,
   {
-    /*
-     * Next.js reserves the `app` and `pages` folder names, so the FSD guide for
-     * Next.js renames those layers to `_app` and `_pages`. Steiger recognizes the
-     * prefix, but this rule compares the raw folder name and reports both as typos.
-     */
+    // This rule compares the raw folder name, so it reads the prefix the guide asks for as a typo.
     files: [...inEveryRoot("_app/**"), ...inEveryRoot("_pages/**")],
     rules: {
       "fsd/typo-in-layer-name": "off",
     },
   },
   {
-    /*
-     * The FSD guide for Next.js keeps the app-wide providers in a `providers`
-     * segment. This rule lists "providers" among names that describe what code
-     * is rather than what it is for, so it is exempted for that segment only.
-     */
+    // The rule reads "providers" as a name for what code is rather than for what it is for.
     files: inEveryRoot("_app/providers/**"),
     rules: {
       "fsd/segments-by-purpose": "off",

@@ -63,9 +63,8 @@ const rebuildOnce = async (graphify, sink) => {
 };
 
 /*
- * One rebuild per request taken, however many hooks asked while the last one ran.
- * The request is checked again once the lock is gone: a hook that found the lock
- * still held a moment before the release left its request for this process to take.
+ * One rebuild per request taken, however many hooks asked while the last one ran. The
+ * request is read again after the lock goes, for the hook that asked just before it did.
  */
 const drain = async (root, graphify, openSink) => {
   if (!acquireLock(root)) return 0;
@@ -110,9 +109,8 @@ const worker = async (root) => {
 };
 
 /*
- * Runs inside a git hook, so it never fails and never makes git wait: without graphify
- * it does nothing, and otherwise it leaves a request and starts a detached process with
- * no terminal attached, which neither git nor lefthook waits for.
+ * Runs inside a git hook, so it never fails and never makes git wait: the rebuild goes to a
+ * detached process with no terminal attached, which neither git nor lefthook waits for.
  */
 const trigger = (hook, args) => {
   try {

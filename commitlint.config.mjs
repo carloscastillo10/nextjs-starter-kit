@@ -6,13 +6,8 @@ import {
 } from "@repo/scripts/commit-rules";
 
 /*
- * The commit convention: `type(scope): <gitmoji> Message`. Pull requests are
- * squashed, so the pull request title is the message that reaches `main`, and
- * CI checks it with this same config.
- *
- * The default ignores are off because they skip every rule on a merge, and a
- * Co-authored-by trailer must not ride in on one. The shape rules skip the
- * messages git writes itself instead.
+ * The default ignores are off because they skip every rule on a merge, and a Co-authored-by
+ * trailer must not ride in on one. The shape rules skip what git writes itself instead.
  */
 export default {
   defaultIgnores: false,

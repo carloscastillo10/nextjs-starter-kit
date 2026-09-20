@@ -14,10 +14,7 @@ export const COMMIT_TYPES = [
 
 export const MAX_HEADER_CODE_POINTS = 50;
 
-/*
- * Any action verb is welcome, so the check rejects the forms that are not an
- * instruction rather than allow-listing the ones that are.
- */
+// Any action verb is welcome, so the check lists the forms that are not an instruction.
 const NOT_IMPERATIVE = new Set(
   [
     ["Added", "Adding", "Adds"],
@@ -153,9 +150,8 @@ const noCoAuthoredBy = ({ body, footer }) => {
 };
 
 /*
- * Every shape rule passes a message that git writes itself (merges, reverts,
- * fixups), because git chose that wording. The Co-authored-by rule does not,
- * so a trailer cannot ride in on a local merge commit.
+ * A message git writes itself passes every shape rule, because git chose that wording, but
+ * not the Co-authored-by rule: a trailer must not ride in on a local merge commit.
  */
 export const commitRulesPlugin = {
   rules: {

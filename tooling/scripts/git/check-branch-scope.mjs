@@ -34,10 +34,7 @@ const resolves = (ref) => {
   }
 };
 
-/*
- * A report must never be the reason a push fails, so a history git cannot
- * compare, such as a shallow clone or an unrelated branch, is skipped.
- */
+// A report must never be the reason a push fails, so a history git cannot compare is skipped.
 const changedAgainst = (base) => {
   try {
     const range = `${git("merge-base", base, "HEAD")}...HEAD`;

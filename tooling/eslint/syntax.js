@@ -1,7 +1,6 @@
 /*
- * Selectors for `no-restricted-syntax`. A later config block that sets the rule
- * replaces the earlier list instead of adding to it, so every block composes the
- * lists it needs from these constants.
+ * A later config block that sets `no-restricted-syntax` replaces the earlier list instead of
+ * adding to it, so every block composes the lists it needs from these constants.
  */
 
 const HOOK_CALLS_KEPT_OUT_OF_COMPONENTS =
@@ -98,10 +97,7 @@ export const COMPONENT_SYNTAX = [
     message: "Compute the value in the hook (or a named constant), not inside a JSX prop.",
   },
   {
-    /*
-     * `>` keeps the component itself out: there the markup hangs from the arrow, not
-     * from the declarator, and so does a map of renderers built with `useMemo`.
-     */
+    // `>` keeps out the component itself, whose markup hangs from the arrow, not the declarator.
     selector: "VariableDeclarator > :matches(JSXElement, JSXFragment)",
     message: "Keep markup where it renders, or give it a component of its own.",
   },
@@ -112,13 +108,9 @@ export const COMPONENT_SYNTAX = [
   },
 ];
 
-/*
- * Selectors for components written by hand, which is why only the `next` preset spreads
- * them. Asking these of the kit would be asking the shadcn CLI to write another shape.
- */
+// Asking these of the kit would be asking the shadcn CLI to write another shape.
 export const APP_COMPONENT_SYNTAX = [
   {
-    // The child combinator is deliberate: widening it would be a new rule, not a fix.
     selector:
       "JSXAttribute > JSXExpressionContainer > :matches(ConditionalExpression, ObjectExpression, ArrayExpression, TemplateLiteral[expressions.length>0], LogicalExpression[operator='&&'], LogicalExpression[operator='||'])",
     message: "Compute the value in the hook (or a named constant), not inside a JSX prop.",

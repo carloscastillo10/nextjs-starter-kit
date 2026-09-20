@@ -13,10 +13,7 @@ const IGNORED = [
   /(?:^|\/)(?:CHANGELOG|LICENSE)\.md$/u,
 ];
 
-/*
- * GitHub renders a frontmatter block as a table above the text, which is the first thing a
- * visitor reads, so the two files a visitor lands on carry none.
- */
+// GitHub renders frontmatter as a table above the text, which a visitor reads first.
 const WITHOUT_FRONTMATTER = /(?:^|\/)(?:README|CONTRIBUTING)\.md$/u;
 
 const INDEXED = [/^[^/]+\.md$/u, /^docs\//u];

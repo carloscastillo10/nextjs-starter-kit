@@ -4,20 +4,15 @@ import path from "node:path";
 export const GRAPHIFY = "graphify";
 
 /*
- * graphify refuses to write a graph with fewer nodes than the last one, so without
- * --force a checkout that removes files would leave the old graph in place for good.
- * Descriptions and community labels stay off: with no API key, graphify leaves batches
- * of instructions for an assistant to answer instead, and a git hook has no assistant.
+ * graphify refuses to write a graph with fewer nodes than the last one, and with no API key
+ * it leaves descriptions and labels as instructions for an assistant a git hook does not have.
  */
 export const REBUILD_STEPS = [
   ["update", ".", "--force", "--no-description", "--no-label"],
   ["export", "obsidian"],
 ];
 
-/*
- * post-checkout also runs for a file checkout, with 0 as its third argument, and an
- * amend runs post-rewrite right after a post-commit that already asked for a rebuild.
- */
+// post-checkout also fires for a file checkout, and an amend rewrites after post-commit.
 const EVENTS = new Map([
   ["post-commit", () => true],
   ["post-checkout", (args) => args[2] === "1"],
@@ -48,9 +43,6 @@ export const findExecutable = (name, env = process.env, platform = process.platf
     .find((file) => isExecutableFile(file));
 };
 
-/*
- * Git exports variables such as GIT_INDEX_FILE to the hooks it runs, and graphify runs
- * git to read the history, so the rebuild starts from an environment without them.
- */
+// Git exports GIT_INDEX_FILE and friends to its hooks, and graphify runs git of its own.
 export const withoutGitVariables = (env) =>
   Object.fromEntries(Object.entries(env).filter(([key]) => !key.startsWith("GIT_")));

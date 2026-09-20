@@ -1,7 +1,4 @@
-/*
- * Tailwind entry point and the design tokens shared by every app and UI package. The
- * shadcn CLI writes the variables of the components it adds into this file.
- */
+/* The shadcn CLI writes the variables of the components it adds into this file. */
 @import "tailwindcss" source(none);
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
