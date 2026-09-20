@@ -5,7 +5,7 @@ aliases: [Comments, Comment conventions]
 
 # Comments
 
-How this repository writes comments in code, and the check that holds the mechanical part of it. Markdown documents are prose and follow their own rules; this document is about comments inside source files (`.ts`, `.tsx`, `.js`, `.mjs` and the rest).
+How this repository writes comments, and the check that holds the mechanical part of it. It covers every file a person writes and a tool reads: TypeScript and JavaScript, the YAML behind the workflows and the git hooks, the JSON with comments the linters are configured in, and the stylesheets. Markdown documents are prose and follow their own rules.
 
 ## Contents
 
@@ -41,8 +41,9 @@ The comment states the reason itself, in full. It does not point somewhere else 
 | ------------------------------------------------------------------ | -------------------------------------------------- |
 | Documents a declaration (a function, a type, an exported constant) | A `/** */` block, always spread over several lines |
 | Explains a statement inside a body, in more than one line          | A `/* */` block, always spread over several lines  |
-| Anything that fits on one line                                     | `//`                                               |
+| Anything that fits on one line                                     | `//`, or `#` in YAML                               |
 | Inside JSX                                                         | `{/* ... */}`, the only comment syntax JSX accepts |
+| In CSS, which has no line comment                                  | `/* ... */`, on one line when one line is enough   |
 
 ```ts
 /**
@@ -52,7 +53,7 @@ The comment states the reason itself, in full. It does not point somewhere else 
 export const toMajorUnits = (amountInMinorUnits: number) => amountInMinorUnits / 100;
 ```
 
-- **A multi-line comment is one block, never a stack of `//` lines.**
+- **A multi-line comment is one block, never a stack of `//` lines.** YAML is the exception, because it has no block form: there a paragraph is a run of `#` lines, and the check counts that run as one block.
 - **A block comment never sits on a single line.** `/** Returns the total. */` becomes either a `//` line or a multi-line block; the `/**` and the `*/` each get their own line.
 - A trailing comment at the end of a line of code is rare; put the comment above the line instead.
 
@@ -66,26 +67,29 @@ export const toMajorUnits = (amountInMinorUnits: number) => amountInMinorUnits /
 
 ## The comment check
 
-`pnpm lint:comments` checks every tracked source file (or only the files it is given, which is how the pre-commit hook runs it). Generated files (`*.d.ts`, build output) and `.claude/` are skipped. It splits its findings in two, on purpose: what can be matched by a pattern fails, and what needs judgement is only reported.
+`pnpm lint:comments` reads every tracked file it has a reader for: TypeScript and JavaScript through the TypeScript parser, YAML through the YAML parser, JSON with comments and CSS through a scanner that knows where the strings are. A parser rather than a search for `#` or `//` is what keeps a hash inside a quoted value, a shell comment inside a block scalar and a URL inside a string from being read as comments. Plain `.json` has no comments to hold, and a template is not the language it renders, so neither is checked. Generated files (`*.d.ts`, the lockfile, build output) and `.claude/` are skipped. Given file arguments it checks only those, which is how the pre-commit hook runs it.
+
+**What fails is what can be judged without ambiguity. What takes judgement only reports.** That line is deliberate, and moving it would cost more than it buys: a gate that fails on a judgement is a gate people learn to route around, and nothing can correct a comment on its own, because sometimes the comment is what is wrong and sometimes the code is. Whether a comment restates the line below it is an argument; whether it names a file path is a regex with nothing to argue about.
 
 **Fails** (non-zero exit):
 
-| Finding                                                                                                                       | Why it fails                                                                                                                      |
-| ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| A citation: a path into the repository, an `@/` import path, a file name, an issue or pull request number, a numbered section | The pointer goes stale; write the reason instead. A file naming itself, and product names such as `Next.js`, are not citations    |
-| A block comment on a single line (`/* ... */` or `/** ... */` alone on its line)                                              | Use `//`, or spread the block over several lines. `{/* ... */}` in JSX and bundler annotations such as `/*#__PURE__*/` are exempt |
-| An ESLint directive (`eslint-disable`, `eslint-enable`, `eslint`, `global`)                                                   | Inline directives are ignored by the linter; change the config for the glob instead                                               |
+| Finding                                                                                                                       | Why it fails                                                                                                                                                               |
+| ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A citation: a path into the repository, an `@/` import path, a file name, an issue or pull request number, a numbered section | The pointer goes stale; write the reason instead. A file naming itself, and product names such as `Next.js`, are not citations                                             |
+| A block comment on a single line (`/* ... */` or `/** ... */` alone on its line)                                              | Use `//`, or spread the block over several lines. `{/* ... */}` in JSX, bundler annotations such as `/*#__PURE__*/`, and CSS, which has no line comment, are exempt        |
+| An ESLint directive (`eslint-disable`, `eslint-enable`, `eslint`, `global`)                                                   | Inline directives are ignored by the linter; change the config for the glob instead. Judged only in the files ESLint reads, since the words mean nothing in a YAML comment |
+| A file no reader could parse                                                                                                  | A file the check cannot read is a file it cannot hold to any of the above                                                                                                  |
 
 **Reports** (printed, exit code unaffected):
 
-| Finding                     | Reported at                                                                                                 |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| More comment than code      | Over 40% of the non-blank lines of a file of 20 or more non-blank lines                                     |
-| One block became an essay   | A single comment block longer than 12 lines                                                                 |
-| A doc block on every member | At least 60% of the exports of a file with 3 or more exports                                                |
-| Commented-out code          | A comment line that reads like code (starts with `import`, `const`, `return`...; ends with `;`, `{` or `}`) |
+| Finding                     | Reported at                                                                                                                              |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| More comment than code      | Over 25% of the non-blank lines of a file of 20 or more non-blank lines                                                                  |
+| One block became an essay   | A comment block longer than 12 lines, counting a run of line comments as the one block it reads as                                       |
+| A doc block on every member | At least 60% of the exports of a file with 3 or more exports                                                                             |
+| Commented-out code          | A comment line that reads like code: a declaration or a statement where the language has them, a key with a value or a list item in YAML |
 
-Read the reports instead of scrolling past them. Whether a comment restates its code is a judgement no heuristic can make, so review makes it.
+Read the reports instead of scrolling past them. They are addressed to whoever wrote the comment, not enforced against them, and whether a comment restates its code is a judgement no heuristic can make, so review makes it.
 
 ESLint covers the rest: `@stylistic/multiline-comment-style` rejects stacks of `//` lines (and turns them into one block with `--fix`), and `no-warning-comments` warns on `TODO`, `FIXME`, `HACK` and `XXX`.
 
