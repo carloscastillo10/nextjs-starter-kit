@@ -18,10 +18,7 @@ const lines = (text) => text.split("\n").filter(Boolean);
 
 const recordFile = () => git("rev-parse", "--git-path", "fix-staged-partial");
 
-/*
- * Runs as the hook's setup step, before lefthook hides the unstaged part of
- * each partly staged file. From inside a job those files look fully staged.
- */
+// Runs before lefthook hides the unstaged half of a file, which a job cannot see it did.
 const record = () => {
   const unstaged = new Set(lines(git("diff", "--name-only")));
   const partlyStaged = lines(git("diff", "--cached", "--name-only", "--diff-filter=d")).filter(
@@ -52,9 +49,8 @@ const pnpmExec = (args, files) => {
 };
 
 /*
- * Rewriting a partly staged file can collide with its hidden unstaged lines,
- * and lefthook then reverts every unstaged change in the repository. Those
- * files are only checked, so a fixer never takes that path.
+ * Rewriting a partly staged file can collide with its hidden unstaged lines, and lefthook
+ * then reverts every unstaged change in the repository. So those files are only checked.
  */
 const fixOrCheck = (tool, files) => {
   const commands = TOOLS[tool];

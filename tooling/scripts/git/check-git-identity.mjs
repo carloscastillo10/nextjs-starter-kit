@@ -39,11 +39,7 @@ const ENVIRONMENT_HELP = [
   "  GIT_COMMITTER_EMAIL, or correct your global identity.",
 ];
 
-/*
- * Every worktree shares one config file, so an identity set inside the
- * repository reassigns authorship for every session on the machine; that is
- * the case worth naming precisely.
- */
+// Every worktree shares one config, so an identity set here reassigns authorship for all.
 const howToFix = () => {
   const commands = repositoryScopes().flatMap(overridesIn);
 

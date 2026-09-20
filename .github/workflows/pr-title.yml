@@ -1,5 +1,4 @@
-# Pull requests are squashed, so the title becomes the commit subject on main. This lives
-# apart from CI because editing a title re-runs only this workflow, and a skipped CI job
+# Apart from CI because editing a title re-runs only this workflow, and a skipped CI job
 # would report success on the same commit.
 name: PR title
 

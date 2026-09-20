@@ -7,8 +7,4 @@ export type EnvSchema = {
   readonly shape: Readonly<Record<string, z.ZodType>>;
 };
 
-/*
- * One registry for every reader: the example file groups variables by title, and the Turborepo
- * check reads their names. A new provider is one more entry here.
- */
 export const ENV_SCHEMAS: readonly EnvSchema[] = [{ title: "App", shape: appEnv }];

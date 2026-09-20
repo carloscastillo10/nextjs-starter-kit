@@ -109,6 +109,7 @@ A new variable is a new key in a schema, and then:
 - **Optional vs required**: `.optional()` or `.default()` only when the app really runs without the variable. When a default fits a developer's machine but every deployment needs its own value, keep the default and add `.meta({ requiredWhenDeployed: true })`.
 - **A flag** uses `booleanFlag("false")`: `z.coerce.boolean()` reads the string `"false"` as true.
 - **Metadata goes last**: zod drops `.meta()` attached before a `.transform()`.
+- **A refinement's own message is printed as it is**, and it is the one reason this package does not write itself, so say what the variable should be and never what arrived.
 
 ## 🔗 Related
 

@@ -11,10 +11,6 @@ export default defineConfig([
   },
   {
     name: "web/tailwind",
-    /*
-     * The Tailwind rules resolve Tailwind and the theme from these paths. Absolute paths
-     * give the same result whether ESLint runs in the app or at the repository root.
-     */
     settings: {
       "better-tailwindcss": {
         cwd: import.meta.dirname,

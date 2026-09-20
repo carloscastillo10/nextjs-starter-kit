@@ -3,9 +3,8 @@ import type { z } from "zod";
 import { activeAppEnv } from "../loading/env-file";
 
 /*
- * invalid_type fires both for a missing variable and for one set to a string that fails to
- * coerce, like "abc" for a number. Only the coercion failure carries a `received` field at run
- * time, which tells the two apart without reading the value.
+ * Only a coercion failure carries `received`, which tells it from a missing variable without
+ * reading the value; zod reports both as invalid_type.
  */
 const reasonFor = (issue: z.core.$ZodIssue): string => {
   if (issue.code === "invalid_type") {
@@ -21,12 +20,6 @@ const reasonFor = (issue: z.core.$ZodIssue): string => {
   return "invalid";
 };
 
-/*
- * No value is ever printed: the message reaches build logs and screenshots, and some of these
- * variables are credentials. APP_ENV is the one exception, because without it the header could
- * not say which file it looked for. A refinement's own message is the one reason not written
- * here, so a refinement says what it expects and never what arrived.
- */
 const messageFor = (error: z.ZodError, path: string | null): string => {
   const problems = error.issues.map((issue) => ({
     name: String(issue.path[0] ?? "?"),

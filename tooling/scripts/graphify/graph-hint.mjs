@@ -5,9 +5,8 @@ import path from "node:path";
 const SEARCH_TOOLS = new Set(["Glob", "Grep"]);
 
 /*
- * A search program in command position: at the start, after a separator, a pipe or an
- * opening parenthesis, or handed to xargs. A flag such as --grep, or the word inside a
- * message, does not count.
+ * A search program in command position only: at the start, after a separator, a pipe or an
+ * opening parenthesis, or handed to xargs. A flag such as --grep does not count.
  */
 const SEARCH_COMMAND = /(?:^|[;&|(]|\bxargs)\s*(?:git\s+grep|[ef]?grep|rg|find|fd|ack|ag)(?=\s|$)/u;
 
@@ -50,10 +49,7 @@ const checkoutRoot = (directory) => {
   return parent === directory ? undefined : checkoutRoot(parent);
 };
 
-/*
- * Once per session: the note never changes, and a hook that repeats itself on every
- * search is one people switch off.
- */
+// Once per session: a hook that repeats itself on every search is one people switch off.
 const isFirstInSession = (session) => {
   const marker = path.join(os.tmpdir(), "claude-graph-hint", session);
 

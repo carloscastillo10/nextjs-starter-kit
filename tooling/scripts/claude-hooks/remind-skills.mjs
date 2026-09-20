@@ -22,10 +22,7 @@ const isInside = (directory, file) => {
   return relative !== "" && !path.isAbsolute(relative) && relative.split(path.sep)[0] !== "..";
 };
 
-/*
- * The nearest folder holding a .git entry, not the project folder: a worktree nested
- * inside the project is a checkout of its own, and its paths start at its own root.
- */
+// Not the project folder: a worktree nested inside it starts its paths at its own root.
 const checkoutRoot = (directory) => {
   if (existsSync(path.join(directory, ".git"))) return directory;
 
@@ -34,10 +31,7 @@ const checkoutRoot = (directory) => {
   return parent === directory ? undefined : checkoutRoot(parent);
 };
 
-/*
- * Once per session and per reminder: repeated on every edit, the same paragraphs
- * become noise, and a noisy hook is one people switch off.
- */
+// Once per session and per reminder: a hook that repeats itself is one people switch off.
 const unseen = (session, reminders) => {
   const seen = path.join(os.tmpdir(), "claude-skill-reminders", session);
   const fresh = reminders.filter(({ key }) => !existsSync(path.join(seen, key)));

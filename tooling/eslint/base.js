@@ -11,10 +11,7 @@ import { BASE_SYNTAX } from "./syntax.js";
 
 const JAVASCRIPT_FILES = ["**/*.{js,mjs,cjs}"];
 
-/*
- * A tool that fixes the name of the file it reads, such as plop for the generators, leaves
- * no room for the `<tool>.config` spelling, so a file named `config` counts as one too.
- */
+// A tool that names the file it writes leaves no room for the `<tool>.config` spelling.
 const CONFIG_FILES = ["**/*.config.{ts,mts,cts,js,mjs,cjs}", "**/config.{ts,mts,cts,js,mjs,cjs}"];
 
 export const MODULE_FILE_NAMES = { "**/*.{ts,mts,cts,js,mjs,cjs}": "KEBAB_CASE" };
@@ -155,10 +152,6 @@ const CODE_STYLE_RULES = {
   "check-file/filename-naming-convention": fileNamingRule(MODULE_FILE_NAMES),
 };
 
-/**
- * Everything but the closing blocks: the recommended presets, type information and the
- * rules of the code standard. React and Next.js presets add their blocks after these.
- */
 export const codeStyle = [
   {
     name: "@repo/eslint-config/ignores",
@@ -204,11 +197,7 @@ export const codeStyle = [
   },
 ];
 
-/**
- * The blocks every preset ends with. JavaScript files have no type information, so the
- * rules that need it are switched off for them. Prettier switches off the formatting
- * rules, `curly` included, which is why `curly` is set again after it.
- */
+// Prettier switches off the formatting rules, `curly` included, so `curly` is set again after it.
 export const closing = [
   { ...tseslint.configs.disableTypeChecked, files: JAVASCRIPT_FILES },
   {

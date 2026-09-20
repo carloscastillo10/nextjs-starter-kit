@@ -10,9 +10,8 @@ import {
 import path from "node:path";
 
 /*
- * The lock is the file graphify watch takes around each of its own rebuilds, in its
- * format: the owner's process id on the first line. Sharing it keeps a rebuild started
- * by a git hook and one started by watch from writing the graph at the same time.
+ * The lock is the one graphify watch takes around its own rebuilds, in its format: the
+ * owner's process id on the first line. Sharing it is what keeps the two from overlapping.
  */
 export const statePaths = (root) => {
   const directory = path.join(root, ".graphify");
@@ -27,10 +26,7 @@ export const statePaths = (root) => {
 
 export const HEARTBEAT_MS = 30_000;
 
-/*
- * A rebuild in progress touches its lock every HEARTBEAT_MS, so only the lock of a
- * process that died, or whose id went to another process after a restart, gets old.
- */
+// A rebuild touches its lock every HEARTBEAT_MS, so only a dead owner's lock gets old.
 export const STALE_AFTER_MS = 10 * 60_000;
 
 export const isProcessRunning = (pid) => {
@@ -74,10 +70,7 @@ const createLock = (lock) => {
   }
 };
 
-/*
- * Another process may replace a stale lock between the read that found it stale and
- * the removal. Reading it again right before removing it keeps that window tiny.
- */
+// Another process may replace a stale lock between the read and the removal.
 const removeIfUnchanged = (lock, holder) => {
   if (readHolder(lock)?.text === holder.text) rmSync(lock, { force: true });
 };

@@ -3,36 +3,27 @@ packages:
   - packages/*
   - tooling/*
 
-# Fail the install when the running Node.js is outside an `engines.node` range, both
-# in this workspace's package.json files and in dependencies. Without it, pnpm 11
-# only warns when the workspace's own range does not match. pnpm 11 reads this
-# setting from this file only: `.npmrc` now carries auth and registry settings, so
-# an `engine-strict` line there is silently ignored.
+# Without this, pnpm 11 only warns when the workspace's own range does not match, and it
+# reads the setting from this file alone: an `engine-strict` line in `.npmrc` is ignored.
 engineStrict: true
 
-# lefthook's postinstall runs `lefthook install`, which writes the git hooks. It skips
-# itself when the CI variable is set and never fails the install.
+# lefthook's postinstall writes the git hooks, skips itself in CI and never fails an install.
 allowBuilds:
-  # tsx runs esbuild from the platform package pnpm installs. The install script is a
-  # fallback that downloads the binary when that package is missing, and a start-up
-  # speed-up for the esbuild command line, which nothing here calls.
+  # The install script only downloads a binary the platform package already provides.
   esbuild: false
   lefthook: true
 
-# Peer ranges that lag behind a release the package already works with. Each entry
-# was checked by running the package, and can go once upstream widens its range.
+# Peer ranges that lag behind a release the package already works with, each one checked
+# by running it, and each removable once upstream widens its own range.
 peerDependencyRules:
   allowedVersions:
-    # The accessibility rules run on ESLint 10 (a missing `alt` is still reported);
-    # the plugin's last release predates ESLint 10.
+    # The rules run on ESLint 10; the plugin's last release predates it.
     eslint-plugin-jsx-a11y>eslint: "10"
-    # Optional peer of a Steiger dependency, which only reads tsconfig files and does
-    # not call the TypeScript compiler.
+    # Only reads tsconfig files and never calls the TypeScript compiler.
     tsconfck>typescript: "6"
 
-# eslint-plugin-react-hooks accepts zod-validation-error 3.5 or 4, but loads its `v4`
-# entry point, which 3.5.4 no longer exports. Steiger needs the 3.x line, so without
-# this override both share 3.5.4 and the plugin fails to load.
+# eslint-plugin-react-hooks loads the `v4` entry point that 3.5.4 no longer exports, and
+# Steiger needs the 3.x line, so without this they share 3.5.4 and the plugin fails to load.
 overrides:
   eslint-plugin-react-hooks>zod-validation-error: ^4.0.2
 
@@ -85,8 +76,7 @@ catalog:
   tsx: ^4.23.13
   turbo: ^2.10.13
   tw-animate-css: ^1.4.0
-  # TypeScript minors can break types, so stay on 6.0.x: typescript-eslint
-  # supports `<6.1.0`, and TypeScript 7 ships without the compiler API it needs.
+  # typescript-eslint supports `<6.1.0`, and TypeScript 7 ships without the compiler API.
   typescript: ~6.0.3
   typescript-eslint: ^8.70.0
   vite: ^8.3.0

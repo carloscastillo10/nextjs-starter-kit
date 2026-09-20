@@ -11,10 +11,7 @@ export const metadata: Metadata = {
   title: "nextjs-starter-kit",
 };
 
-/*
- * The browser tints its own toolbar with these colors before the page styles load, so
- * they repeat the page background of the light and dark themes.
- */
+// The browser tints its toolbar with these before the page styles load, so they match it.
 export const viewport: Viewport = {
   colorScheme: "light dark",
   themeColor: [

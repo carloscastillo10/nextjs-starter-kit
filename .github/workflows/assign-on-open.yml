@@ -1,8 +1,7 @@
 name: Assign on open
 
 # Creating a branch from an issue links the two without assigning anyone, and GitHub does not
-# assign a pull request to its own author either, so work that somebody is holding can look
-# like work nobody has started.
+# assign a pull request to its author either, so held work can look like work nobody started.
 
 on:
   pull_request:
@@ -20,8 +19,7 @@ permissions:
 jobs:
   assign:
     name: Assign
-    # A bot opens pull requests it does not own, and assigning them says nothing. A pull request
-    # from a fork carries a read-only token whatever the permissions above ask for, so every
+    # A fork carries a read-only token whatever the permissions above ask for, so every
     # assignment would fail and a contribution that is fine would collect a red check.
     if: >-
       github.event.pull_request.user.type != 'Bot' &&
@@ -40,8 +38,7 @@ jobs:
           node-version-file: .nvmrc
           package-manager-cache: false
 
-      # The body reaches the script as an environment variable, never as part of the command:
-      # a pull request description is text anybody can write.
+      # Through an environment variable, never the command text: anybody can write a body.
       - name: Read the closing references
         id: refs
         env:
@@ -72,7 +69,7 @@ jobs:
               return;
             }
 
-            /* One number nobody can resolve must not strand the ones after it. */
+            // One number nobody can resolve must not strand the ones after it.
             for (const issue_number of numbers) {
               try {
                 const { data: issue } = await github.rest.issues.get({ ...context.repo, issue_number });
@@ -82,7 +79,7 @@ jobs:
                   continue;
                 }
 
-                /* Filling a gap, never taking somebody's work off them. */
+                // Filling a gap, never taking somebody's work off them.
                 if (issue.assignees.length > 0) {
                   const held = issue.assignees.map((assignee) => assignee.login).join(", ");
                   core.notice(`#${issue_number} is already ${held}'s. Left alone.`);

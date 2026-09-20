@@ -27,8 +27,8 @@ const stringsIn = (value: unknown): string[] =>
   Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
 
 /*
- * All four lists, not only globalEnv: a secret belongs in a pass-through list, where it stays
- * out of every task hash, and a check that called it undeclared would push it into the hash.
+ * All four lists: calling a secret undeclared because it sits in a pass-through list would
+ * push it into every task hash, which is the one place it must not be.
  */
 const coveringPatterns = (config: TurboConfig): string[] => {
   const tasks = (config.tasks ?? {}) as Readonly<Record<string, TurboConfig>>;

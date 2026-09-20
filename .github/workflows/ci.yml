@@ -23,9 +23,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
+      # The whole history, because the echo check reads this branch against origin/main, and a
+      # shallow clone never fetches that ref, so the check would pass without comparing anything.
       - name: Check out the repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          fetch-depth: 0
           persist-credentials: false
 
       # Without a version input, the action installs the pnpm that packageManager names.
@@ -72,6 +75,10 @@ jobs:
       - name: Comments
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: pnpm lint:comments
+
+      - name: Comment echo
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: pnpm lint:echo
 
       - name: Types
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}

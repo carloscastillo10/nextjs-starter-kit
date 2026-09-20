@@ -1,8 +1,5 @@
 import { cleanup } from "@testing-library/react";
 import { afterEach } from "vitest";
 
-/*
- * Testing Library unmounts after each test on its own only when the test functions are
- * globals. They are imported here, so the cleanup is registered by hand.
- */
+// Testing Library unmounts on its own only for global test functions; these are imported.
 afterEach(cleanup);

@@ -27,9 +27,8 @@ const commitsAdded = (base) =>
   );
 
 /*
- * The accepted set derives itself from git, so there is no list to keep: a new
- * colleague passes on their first push, because it carries their own global
- * identity, and from then on their address is on main.
+ * The accepted set derives itself from git, so there is no list to keep: a first push
+ * carries its author's own global identity, and from then on that address is on main.
  */
 const knownAuthors = () => {
   const known = new Set(lines(git("log", "--format=%ae", HISTORY)));

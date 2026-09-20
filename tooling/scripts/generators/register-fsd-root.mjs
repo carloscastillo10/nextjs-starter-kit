@@ -4,11 +4,7 @@ import { readFsdRoots } from "@repo/architecture-config/fsd-roots";
 
 export const FSD_ROOTS_FILE = "tooling/architecture/fsd-roots.json";
 
-/**
- * Adds a root to the list both architecture linters read. `readFsdRoots` runs twice:
- * on the list as it stands, and on the result, so a root this rejects never reaches
- * the file.
- */
+// `readFsdRoots` runs on the list and on the result, so a root it rejects never lands.
 export const withFsdRoot = (document, root) => {
   const roots = readFsdRoots(document);
 

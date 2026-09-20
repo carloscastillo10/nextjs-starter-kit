@@ -42,10 +42,6 @@ const check = ({ kind, layers, name, summary }) => {
   }
 };
 
-/**
- * Turns the answers into the files the generator writes and the data its templates
- * render, so the generator itself stays a list of `add` actions.
- */
 export const planWorkspace = ({ kind, layers = false, name, summary }) => {
   check({ kind, layers, name, summary });
 

@@ -4,10 +4,6 @@ const PUBLIC_API = "/index(\\.server)?\\.(ts|tsx|js|jsx|mjs)$";
 
 const interiorOf = (root) => `^${root}/`;
 
-/*
- * A root that lives in an app is already unreachable from every other workspace, so
- * the rule is written only for the roots a package shares between apps.
- */
 const sharedRoots = fsdRoots.filter((root) => !root.startsWith("apps/"));
 
 const publicApiRules = sharedRoots.map((root) => ({

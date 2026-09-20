@@ -9,11 +9,7 @@ const REACT_FILES = ["**/*.{ts,tsx}"];
 
 const COMPONENT_FILES = ["**/*.tsx"];
 
-/*
- * @eslint-react carries its own copy of the React Compiler rules. The React team's
- * plugin owns them here, so the copies are switched off and each problem is reported
- * once, under the name the React documentation uses.
- */
+// Copies of rules the React team's plugin also carries, so each problem is reported once.
 const RULES_OWNED_BY_REACT_HOOKS = [
   "rules-of-hooks",
   "exhaustive-deps",
@@ -53,10 +49,6 @@ const WRITTEN_ORDER = { type: "unsorted", ...FIELD_GROUPS };
 
 const HOOK_FILES = ["**/model/use-*.ts", "**/api/use-*.ts"];
 
-/**
- * React rules for TypeScript files, shared by the React library and Next.js presets.
- * They stay off JavaScript files: the type-aware rules need type information.
- */
 export const reactBlocks = [
   {
     ...reactHooks.configs.flat["recommended-latest"],
@@ -102,10 +94,7 @@ export const reactBlocks = [
     files: COMPONENT_FILES,
     rules: {
       "perfectionist/sort-object-types": ["error", FIELD_ORDER],
-      /*
-       * perfectionist stops at the first configuration whose `useConfigurationIf`
-       * matches, so the narrow one comes first and the last one is the fallback.
-       */
+      // perfectionist takes the first `useConfigurationIf` that matches, so the last one is the fallback.
       "perfectionist/sort-objects": [
         "error",
         { useConfigurationIf: { objectType: "destructured" }, ...FIELD_ORDER },

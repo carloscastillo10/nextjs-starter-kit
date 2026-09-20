@@ -1,11 +1,9 @@
 {
   "extends": "@repo/markdown-config/markdownlint.jsonc",
 
-  // GitHub renders the pull request template as the start of a description, below the
-  // pull request title, so it opens with a second-level heading.
+  // GitHub renders this below the pull request title, so it opens at the second level.
   "MD041": false,
 
-  // Markdown has no way to fold a block, and the reasoning behind the pull request sections
-  // has to stay out of the way of the checklist. Inline HTML stays banned everywhere else.
+  // Markdown has no way to fold a block, and the reasoning has to stay out of the checklist.
   "MD033": false
 }

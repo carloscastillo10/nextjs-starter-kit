@@ -1,13 +1,6 @@
 import path from "node:path";
 
-import { parse } from "@typescript-eslint/typescript-estree";
-
-const SOURCE_FILE = /\.[cm]?[jt]sx?$/u;
-
-const SKIPPED_FILE =
-  /(?:^|\/)(?:node_modules|\.next|\.turbo|dist|build|coverage|\.claude|\.agents)\/|\.d\.[cm]?ts$/u;
-
-const JSX_ALLOWED = /\.(?:[cm]?js|[jt]sx)$/u;
+import { dialectOf, readComments } from "./comment-dialects.mjs";
 
 const CITATIONS = [
   {
@@ -52,9 +45,22 @@ const DIRECTIVE = {
 
 const BUNDLER_ANNOTATION = /^\s*[#@]__(?:PURE|NO_SIDE_EFFECTS)__\s*$/u;
 
-const CODE_LIKE = /^(?:import|export|const|let|var|return|if|for|await|function)\b|[;{}]$|\);$/u;
+/*
+ * What commented-out code looks like, which is not the same text in every dialect: a YAML
+ * comment is prose often enough that the keyword half would convict "for a required check".
+ */
+const CODE_LIKE = {
+  css: /^(?:import|export|const|let|var|return|if|for|await|function)\b|[;{}]$|\);$/u,
+  jsonc: /^(?:import|export|const|let|var|return|if|for|await|function)\b|[;{}]$|\);$/u,
+  script: /^(?:import|export|const|let|var|return|if|for|await|function)\b|[;{}]$|\);$/u,
+  yaml: /^-\s|^[a-z][\w-]*:(?:\s|$)/u,
+};
 
-const DENSITY_LIMIT = 0.4;
+/*
+ * One line in four, down from two in five, because no own file is above a fifth any more.
+ * It reports and never fails: whether a comment earns its line is not a call a regex makes.
+ */
+const DENSITY_LIMIT = 0.25;
 
 const DENSITY_MIN_LINES = 20;
 
@@ -64,55 +70,83 @@ const DOC_SHARE_LIMIT = 0.6;
 
 const DOC_MIN_EXPORTS = 3;
 
-export const isCheckedSource = (file) => SOURCE_FILE.test(file) && !SKIPPED_FILE.test(file);
+export const isCheckedSource = (file) => dialectOf(file) !== null;
 
 const ADDED_FILE = /^\+\+\+ b\/(?<file>.*)$/u;
 
-const COMMENT_START = /^(?:\/\/|\/\*|\*)/u;
+/*
+ * A diff has no parser behind it, so these are the line shapes alone. CSS leaves out the bare
+ * asterisk that continues a block, because `* { … }` is a selector.
+ */
+const ADDED_COMMENT = {
+  css: /^\/\*/u,
+  jsonc: /^(?:\/\/|\/\*|\*)/u,
+  script: /^(?:\/\/|\/\*|\*)/u,
+  yaml: /^#/u,
+};
 
 const BLOCK_ENDS = /\*\/$/u;
 
+const SIDES = { "+": "added", "-": "removed" };
+
+const countLine = ({ dialect, line, side }) => {
+  if (side.inBlock) {
+    side.comments += 1;
+    side.inBlock = !BLOCK_ENDS.test(line);
+
+    return;
+  }
+
+  if (ADDED_COMMENT[dialect].test(line)) {
+    side.comments += 1;
+    side.inBlock = line.startsWith("/*") && !BLOCK_ENDS.test(line);
+
+    return;
+  }
+
+  side.code += 1;
+};
+
+/*
+ * Both sides of the diff, because a comment rewritten shorter reads as a new one on the added
+ * side alone, and then a change whose whole point is deleting comment looks like writing it.
+ */
 export const countAddedComments = (diff) => {
-  let file = "";
-  let comments = 0;
-  let code = 0;
-  let inBlock = false;
+  let dialect = null;
+  const sides = {
+    added: { code: 0, comments: 0, inBlock: false },
+    removed: { code: 0, comments: 0, inBlock: false },
+  };
 
   for (const raw of diff.split("\n")) {
     const header = ADDED_FILE.exec(raw);
 
     if (header !== null) {
-      file = header.groups.file;
-      inBlock = false;
+      dialect = dialectOf(header.groups.file);
+      sides.added.inBlock = false;
+      sides.removed.inBlock = false;
       continue;
     }
 
-    if (!raw.startsWith("+") || raw.startsWith("+++") || !isCheckedSource(file)) continue;
+    const name = SIDES[raw[0]];
+
+    if (name === undefined || dialect === null) continue;
+
+    if (raw.startsWith("+++") || raw.startsWith("---")) continue;
 
     const line = raw.slice(1).trim();
 
     if (line === "") continue;
 
-    if (inBlock) {
-      comments += 1;
-      inBlock = !BLOCK_ENDS.test(line);
-      continue;
-    }
-
-    if (COMMENT_START.test(line)) {
-      comments += 1;
-      inBlock = line.startsWith("/*") && !BLOCK_ENDS.test(line);
-      continue;
-    }
-
-    code += 1;
+    countLine({ dialect, line, side: sides[name] });
   }
 
-  return { comments, total: comments + code };
+  return {
+    comments: sides.added.comments,
+    removed: sides.removed.comments,
+    total: sides.added.comments + sides.added.code,
+  };
 };
-
-const parseSource = ({ code, file }) =>
-  parse(code, { comment: true, loc: true, range: true, jsx: JSX_ALLOWED.test(file) });
 
 const commentLines = (comment) =>
   comment.value.split("\n").map((raw, offset) => ({
@@ -135,21 +169,22 @@ const findCitations = (comment, file) => {
 };
 
 const isAloneOnItsLine = (comment, sourceLines) => {
-  const lineText = sourceLines[comment.loc.start.line - 1] ?? "";
-  const before = lineText.slice(0, comment.loc.start.column);
-  const after = lineText.slice(comment.loc.end.column);
+  const before = (sourceLines[comment.loc.start.line - 1] ?? "").slice(0, comment.loc.start.column);
+  const after = (sourceLines[comment.loc.end.line - 1] ?? "").slice(comment.loc.end.column);
 
   return before.trim() === "" && after.trim() === "";
 };
 
-const isOneLineBlock = (comment, sourceLines) =>
+// CSS has no line comment, so a block alone on one line is the one-line form there.
+const isOneLineBlock = ({ comment, dialect, sourceLines }) =>
+  dialect !== "css" &&
   comment.type === "Block" &&
   comment.loc.start.line === comment.loc.end.line &&
   !BUNDLER_ANNOTATION.test(comment.value) &&
   isAloneOnItsLine(comment, sourceLines);
 
-const shapeFailures = (comment, sourceLines) =>
-  isOneLineBlock(comment, sourceLines)
+const shapeFailures = ({ comment, dialect, sourceLines }) =>
+  isOneLineBlock({ comment, dialect, sourceLines })
     ? [
         {
           line: comment.loc.start.line,
@@ -159,8 +194,8 @@ const shapeFailures = (comment, sourceLines) =>
       ]
     : [];
 
-const commentFailures = ({ comment, file, sourceLines }) => {
-  if (DIRECTIVE[comment.type].test(comment.value)) {
+const commentFailures = ({ comment, dialect, file, sourceLines }) => {
+  if (dialect === "script" && DIRECTIVE[comment.type].test(comment.value)) {
     return [
       {
         line: comment.loc.start.line,
@@ -170,7 +205,7 @@ const commentFailures = ({ comment, file, sourceLines }) => {
     ];
   }
 
-  return [...findCitations(comment, file), ...shapeFailures(comment, sourceLines)];
+  return [...findCitations(comment, file), ...shapeFailures({ comment, dialect, sourceLines })];
 };
 
 const parseFailure = (error) => ({
@@ -179,22 +214,40 @@ const parseFailure = (error) => ({
   message: `could not be parsed: ${error.message}`,
 });
 
-const blockReports = (comment) => {
-  const lineCount = comment.loc.end.line - comment.loc.start.line + 1;
+/*
+ * A run of line comments reads as one block, and in YAML it is the only way to write one.
+ * A comment sharing its line with code never joins the run above it.
+ */
+const commentRuns = (comments, sourceLines) => {
+  const runs = [];
 
-  if (comment.type !== "Block" || lineCount <= LONG_BLOCK_LINES) return [];
+  for (const comment of comments) {
+    const alone = isAloneOnItsLine(comment, sourceLines);
+    const open = runs.at(-1);
 
-  return [
-    {
-      line: comment.loc.start.line,
-      rule: "long-block",
-      message: `starts a ${lineCount}-line comment block`,
-    },
-  ];
+    if (alone && open?.alone === true && comment.loc.start.line === open.end + 1) {
+      open.end = comment.loc.end.line;
+      continue;
+    }
+
+    runs.push({ alone, end: comment.loc.end.line, start: comment.loc.start.line });
+  }
+
+  return runs;
 };
 
-const codeReports = (comment) => {
-  const codeLine = commentLines(comment).find(({ text }) => CODE_LIKE.test(text));
+const runReports = (comments, sourceLines) =>
+  commentRuns(comments, sourceLines)
+    .map((run) => ({ length: run.end - run.start + 1, start: run.start }))
+    .filter(({ length }) => length > LONG_BLOCK_LINES)
+    .map(({ length, start }) => ({
+      line: start,
+      rule: "long-block",
+      message: `starts a ${length}-line comment block`,
+    }));
+
+const codeReports = (comment, dialect) => {
+  const codeLine = commentLines(comment).find(({ text }) => CODE_LIKE[dialect].test(text));
 
   if (!codeLine) return [];
 
@@ -214,7 +267,7 @@ const densityReports = ({ comments, sourceLines }) => {
   return [
     {
       rule: "density",
-      message: `${Math.round(share * 100)}% of the non-blank lines are comments`,
+      message: `is ${Math.round(share * 100)}% comment lines`,
     },
   ];
 };
@@ -246,32 +299,21 @@ const docReports = ({ body, comments }) => {
   ];
 };
 
-const inspectParsed = ({ code, file, ast }) => {
-  const sourceLines = code.split("\n");
-  const { body, comments } = ast;
-
-  return {
-    failures: comments.flatMap((comment) => commentFailures({ comment, file, sourceLines })),
-    reports: [
-      ...comments.flatMap((comment) => [...blockReports(comment), ...codeReports(comment)]),
-      ...densityReports({ comments, sourceLines }),
-      ...docReports({ body, comments }),
-    ],
-  };
-};
-
-const tryParse = ({ code, file }) => {
-  try {
-    return { ast: parseSource({ code, file }) };
-  } catch (error) {
-    return { error };
-  }
-};
+// Only a script has exports to carry a doc block, so only a script is asked about them.
+const inspectRead = ({ body, comments, dialect, file, sourceLines }) => ({
+  failures: comments.flatMap((comment) => commentFailures({ comment, dialect, file, sourceLines })),
+  reports: [
+    ...runReports(comments, sourceLines),
+    ...comments.flatMap((comment) => codeReports(comment, dialect)),
+    ...densityReports({ comments, sourceLines }),
+    ...(body === null ? [] : docReports({ body, comments })),
+  ],
+});
 
 export const inspectComments = ({ code, file }) => {
-  const { ast, error } = tryParse({ code, file });
+  const { body, comments, dialect, error } = readComments({ code, file });
 
   if (error) return { failures: [parseFailure(error)], reports: [] };
 
-  return inspectParsed({ code, file, ast });
+  return inspectRead({ body, comments, dialect, file, sourceLines: code.split("\n") });
 };

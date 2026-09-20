@@ -17,11 +17,7 @@ const currentBranch = () => {
   }
 };
 
-/*
- * No remote, no network or no answer: a hook that blocks a push over any of
- * those is worse than the thing it guards, so an unanswered question counts as
- * already pushed.
- */
+// A hook that blocks a push over a missing answer is worse than the thing it guards.
 const isOnTheRemote = (branch) => {
   try {
     return run("git", "ls-remote", "--heads", "origin", branch).length > 0;

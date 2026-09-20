@@ -58,10 +58,7 @@ const deny = (permissionDecisionReason) => ({
 
 const inject = (additionalContext) => ({ additionalContext });
 
-/*
- * A file written through a heredoc is content, not a command: a guide that mentions the flag
- * it forbids could not be written from a shell at all.
- */
+// Heredoc content is not a command: a guide naming the flag it forbids has to be writable.
 const withoutHeredocBodies = (command) => command.replaceAll(HEREDOC_BODY, "<<$1");
 
 const checkedOutBranch = (cwd) => {
@@ -76,10 +73,7 @@ const checkedOutBranch = (cwd) => {
   }
 };
 
-/*
- * `git push origin HEAD` is how a branch is usually published, so the name it pushes is
- * whatever is checked out, and from main that is main.
- */
+// `git push origin HEAD` pushes whatever is checked out, and from main that is main.
 const branchOf = (refspec, cwd) => {
   const named = refspec
     .replaceAll(/^["'+]+|["']+$/gu, "")
@@ -90,10 +84,7 @@ const branchOf = (refspec, cwd) => {
   return HEAD_ALIASES.has(named) ? checkedOutBranch(cwd) : named;
 };
 
-/*
- * The first bare word after the remote is a refspec, and a push without one goes to the
- * branch that happens to be checked out, which is how main gets pushed by accident.
- */
+// A push with no refspec goes to whatever is checked out, which is how main gets pushed.
 const pushedBranches = (argumentsOfPush, cwd) => {
   const words = argumentsOfPush
     .split(/\s+/u)

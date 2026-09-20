@@ -14,7 +14,7 @@
 > [!NOTE]
 > **The application is deliberately empty.** `apps/web` renders the landing page `create-next-app` ships and
 > nothing else. What is not empty is everything around it: the layers a feature goes into, the UI kit, the
-> design tokens, the thirteen checks `pnpm gates` and CI both run, the git hooks and the commit convention,
+> design tokens, the fourteen checks `pnpm gates` and CI both run, the git hooks and the commit convention,
 > the workspace generator, and the documentation that says where each new thing belongs. Nothing has to be
 > deleted before you start.
 

@@ -45,10 +45,7 @@ const write = (plan) =>
     type: "add",
   }));
 
-/*
- * Without this, a name already taken fails halfway through: the first files are
- * written and the one that exists stops the run, leaving half a workspace behind.
- */
+// Without this, a name already taken fails halfway and leaves half a workspace behind.
 const refuseTakenFolder = (plan) => (_answers, _config, plop) => {
   if (existsSync(path.join(plop.getDestBasePath(), plan.folder))) {
     throw new Error(`${plan.folder} already exists. Pick another name, or delete it first.`);
@@ -64,11 +61,7 @@ const registerRoot = (plan) => (_answers, _config, plop) => {
   return `${plan.fsdRoot} joins ${FSD_ROOTS_FILE}, which now lists ${roots.length} FSD roots`;
 };
 
-/*
- * The templates are written for a reader, not for Prettier, and the answers change the
- * width of what they render. Formatting the result is what keeps the `Format` gate
- * green whoever lays a template out by hand.
- */
+// The templates are laid out for a reader, and the answers change the width they render.
 const format = (plan) => (_answers, _config, plop) => {
   const base = plop.getDestBasePath();
   const targets = [plan.folder, ...(plan.fsdRoot === null ? [] : [FSD_ROOTS_FILE])];

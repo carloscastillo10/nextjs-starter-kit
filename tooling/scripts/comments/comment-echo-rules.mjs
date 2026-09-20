@@ -1,4 +1,4 @@
-import { isCheckedSource } from "./comment-rules.mjs";
+import { dialectOf } from "./comment-dialects.mjs";
 
 /*
  * Short enough that a copied sentence lands on it, long enough that two people writing
@@ -10,9 +10,13 @@ const PROSE_FILE = /\.mdx?$/u;
 
 const DIFF_HEADER = /^\+\+\+ b\/(?<file>.*)$/u;
 
-const BLOCK_OPENS = /^\s*\/\*/u;
-
-const LINE_COMMENT = /^\s*\/\//u;
+// How each dialect opens a comment in a diff, where there is no parser to ask.
+const SHAPES = {
+  css: { block: /^\s*\/\*/u, line: null },
+  jsonc: { block: /^\s*\/\*/u, line: /^\s*\/\//u },
+  script: { block: /^\s*\/\*/u, line: /^\s*\/\//u },
+  yaml: { block: null, line: /^\s*#/u },
+};
 
 const wordsIn = (line) =>
   line
@@ -38,12 +42,17 @@ const commentText = (line) =>
     .replace(/^\s*\/\*+/u, "")
     .replace(/\*+\/\s*$/u, "")
     .replace(/^\s*\*\s?/u, "")
-    .replace(/^\s*\/\/+\s?/u, "");
+    .replace(/^\s*\/\/+\s?/u, "")
+    .replace(/^\s*#+\s?/u, "");
 
-const kindOf = (file) => {
-  if (isCheckedSource(file)) return "source";
+const kindOf = (file) => dialectOf(file) ?? (PROSE_FILE.test(file) ? "prose" : "");
 
-  return PROSE_FILE.test(file) ? "prose" : "";
+const commentAt = ({ body, inBlock, shape }) => {
+  if (inBlock || shape.block?.test(body) === true) {
+    return { inBlock: !body.includes("*/"), isComment: true };
+  }
+
+  return { inBlock: false, isComment: shape.line?.test(body) === true };
 };
 
 const readAdded = (diff) => {
@@ -72,17 +81,15 @@ const readAdded = (diff) => {
       continue;
     }
 
-    if (kind !== "source") continue;
+    const shape = SHAPES[kind];
 
-    const opens = BLOCK_OPENS.test(body);
+    if (shape === undefined) continue;
 
-    if (inBlock || opens) {
-      comments.push({ file, text: commentText(body) });
-      inBlock = !body.includes("*/");
-      continue;
-    }
+    const step = commentAt({ body, inBlock, shape });
 
-    if (LINE_COMMENT.test(body)) comments.push({ file, text: commentText(body) });
+    inBlock = step.inBlock;
+
+    if (step.isComment) comments.push({ file, text: commentText(body) });
   }
 
   return { comments, prose };

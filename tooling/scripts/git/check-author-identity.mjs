@@ -27,10 +27,7 @@ const commitsIn = async (pullRequest, page = 1) => {
   return batch.length < PAGE_SIZE ? batch : [...batch, ...(await commitsIn(pullRequest, page + 1))];
 };
 
-/*
- * GitHub answers the collaborator question only to a token with push access,
- * which a workflow token does not have unless its job asks for it.
- */
+// GitHub answers this only to a token with push access, which a job has to ask for.
 const hasAccess = async ({ repository, token }, login) => {
   const { status, statusText } = await request(
     `/repos/${repository}/collaborators/${login}`,
