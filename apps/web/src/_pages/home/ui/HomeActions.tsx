@@ -1,11 +1,14 @@
 import { buttonVariants } from "@repo/ui/components/button";
 import { cn } from "@repo/ui/lib/utils";
 import Image from "next/image";
+import type { ComponentProps } from "react";
 
 import { HOME_LINKS } from "../config/home-links";
 
-export const HomeActions = () => (
-  <div className="flex w-full flex-col gap-4 sm:w-auto sm:flex-row">
+type HomeActionsProps = ComponentProps<"div">;
+
+export const HomeActions = ({ className, ...props }: HomeActionsProps) => (
+  <div className={cn("flex w-full flex-col gap-4 sm:w-auto sm:flex-row", className)} {...props}>
     <a
       className={cn(buttonVariants({ size: "lg" }), "w-full rounded-full sm:w-40")}
       href={HOME_LINKS.deploy}
