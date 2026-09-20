@@ -121,7 +121,7 @@ export const LoginForm = ({ className, onSubmit, ...props }: LoginFormProps) => 
 
 ## Props
 
-- **Props extend the props of the root element**, so callers can pass any native attribute: `ComponentProps<"div">` for an HTML element, `ComponentProps<typeof Button>` for a wrapped component. Add the component's own props with `&`, and use `Omit` for an inherited prop whose meaning changes. `HomeActions`, the one component in this repository that has a caller, is the whole shape in four lines:
+- **Props extend the props of the root element**, so callers can pass any native attribute: `ComponentProps<"div">` for an HTML element, `ComponentProps<typeof Button>` for a wrapped component. Add the component's own props with `&`, and use `Omit` for an inherited prop whose meaning changes. `HomeActions`, this repository's own component, is the whole shape:
 
   ```tsx
   // _pages/home/ui/HomeActions.tsx
