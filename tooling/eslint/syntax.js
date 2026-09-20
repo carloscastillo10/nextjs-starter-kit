@@ -101,14 +101,13 @@ export const COMPONENT_SYNTAX = [
   {
     selector:
       ":matches(CallExpression[callee.name='memo'], CallExpression[callee.object.name='React'][callee.property.name='memo'])",
-    message: "Wrap a component in memo only with a measured reason, written where it is exempted.",
+    message: "Wrap a component in memo only with a measured reason, written in the config.",
   },
 ];
 
 /*
  * Selectors for components written by hand, which is why only the `next` preset spreads
- * them. The kit is the shadcn CLI's output, and nothing constrains the shapes the CLI
- * writes; the rules that do reach it are the ones a fixer can apply on its own.
+ * them. Asking these of the kit would be asking the shadcn CLI to write another shape.
  */
 export const APP_COMPONENT_SYNTAX = [
   {
