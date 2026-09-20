@@ -12,6 +12,11 @@ const NAVIGATION_GUARDS = "notFound|redirect|permanentRedirect|forbidden|unautho
 const PROPS_TYPE_STAYS_LOCAL =
   "Keep a props type next to its component; derive it with ComponentProps<typeof X>.";
 
+const MEMO_TYPE_IS_INFERRED = "Drop the type argument: the factory already fixes the memo's type.";
+
+const HOOK_BODY =
+  "VariableDeclarator[id.name=/^use[A-Z]/] > ArrowFunctionExpression > BlockStatement";
+
 const FUNCTION_EXPRESSION_OUTSIDE_METHODS = [
   "FunctionExpression[generator=false]",
   ":not(MethodDefinition > FunctionExpression)",
@@ -57,6 +62,18 @@ export const BASE_SYNTAX = [
     selector: "VariableDeclarator[id.name=/^use[A-Z]/] > ArrowFunctionExpression[returnType]",
     message: "Let TypeScript infer a hook's return type.",
   },
+  {
+    selector: "CallExpression[callee.name='useMemo'][typeArguments]",
+    message: MEMO_TYPE_IS_INFERRED,
+  },
+  {
+    selector: "CallExpression[callee.property.name='useMemo'][typeArguments]",
+    message: MEMO_TYPE_IS_INFERRED,
+  },
+  {
+    selector: `${HOOK_BODY} > ReturnStatement > CallExpression[callee.name='useMemo']`,
+    message: "Return a plain object and memoize the fields that need it, not the object.",
+  },
 ];
 
 export const COMPONENT_SYNTAX = [
@@ -80,6 +97,11 @@ export const COMPONENT_SYNTAX = [
      */
     selector: "VariableDeclarator > :matches(JSXElement, JSXFragment)",
     message: "Keep markup where it renders, or give it a component of its own.",
+  },
+  {
+    selector:
+      ":matches(CallExpression[callee.name='memo'], CallExpression[callee.object.name='React'][callee.property.name='memo'])",
+    message: "Wrap a component in memo only with a measured reason, written where it is exempted.",
   },
 ];
 
