@@ -13,7 +13,7 @@ import {
 
 const SOURCE_FILES = ["src/**/*.{ts,tsx}"];
 
-const SOURCE_COMPONENT_FILES = ["src/**/*.tsx"];
+const HAND_WRITTEN_COMPONENT_FILES = ["app/**/*.tsx", "src/**/*.tsx"];
 
 /*
  * An arbitrary value closes the class, as in `w-[123px]`, `bg-[#fff]/50` or `p-[1rem]!`.
@@ -79,7 +79,7 @@ const nextBlocks = [
   },
   {
     name: "@repo/eslint-config/next/ui-kit",
-    files: SOURCE_COMPONENT_FILES,
+    files: HAND_WRITTEN_COMPONENT_FILES,
     rules: {
       "no-restricted-syntax": [
         "error",
