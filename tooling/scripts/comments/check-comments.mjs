@@ -67,9 +67,18 @@ const inspectChange = (base) => {
     return 0;
   }
 
-  const { comments, total } = added;
+  const { comments, removed, total } = added;
   const share = total === 0 ? 0 : comments / total;
   const percent = Math.round(share * 100);
+
+  // A change that deletes at least as much comment as it writes is not the habit this hunts.
+  if (removed >= comments) {
+    process.stdout.write(
+      `check-comments: ${comments} comment lines added and ${removed} removed, so this change writes less comment than it found\n`,
+    );
+
+    return 0;
+  }
 
   if (total < ENOUGH_ADDED_LINES_TO_JUDGE || share <= A_CHANGE_IS_MOSTLY_COMMENT_AT) {
     process.stdout.write(

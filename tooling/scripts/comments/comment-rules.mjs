@@ -87,43 +87,65 @@ const ADDED_COMMENT = {
 
 const BLOCK_ENDS = /\*\/$/u;
 
+const SIDES = { "+": "added", "-": "removed" };
+
+const countLine = ({ dialect, line, side }) => {
+  if (side.inBlock) {
+    side.comments += 1;
+    side.inBlock = !BLOCK_ENDS.test(line);
+
+    return;
+  }
+
+  if (ADDED_COMMENT[dialect].test(line)) {
+    side.comments += 1;
+    side.inBlock = line.startsWith("/*") && !BLOCK_ENDS.test(line);
+
+    return;
+  }
+
+  side.code += 1;
+};
+
+/*
+ * Both sides of the diff, because a comment rewritten shorter reads as a new one on the added
+ * side alone, and then a change whose whole point is deleting comment looks like writing it.
+ */
 export const countAddedComments = (diff) => {
   let dialect = null;
-  let comments = 0;
-  let code = 0;
-  let inBlock = false;
+  const sides = {
+    added: { code: 0, comments: 0, inBlock: false },
+    removed: { code: 0, comments: 0, inBlock: false },
+  };
 
   for (const raw of diff.split("\n")) {
     const header = ADDED_FILE.exec(raw);
 
     if (header !== null) {
       dialect = dialectOf(header.groups.file);
-      inBlock = false;
+      sides.added.inBlock = false;
+      sides.removed.inBlock = false;
       continue;
     }
 
-    if (!raw.startsWith("+") || raw.startsWith("+++") || dialect === null) continue;
+    const name = SIDES[raw[0]];
+
+    if (name === undefined || dialect === null) continue;
+
+    if (raw.startsWith("+++") || raw.startsWith("---")) continue;
 
     const line = raw.slice(1).trim();
 
     if (line === "") continue;
 
-    if (inBlock) {
-      comments += 1;
-      inBlock = !BLOCK_ENDS.test(line);
-      continue;
-    }
-
-    if (ADDED_COMMENT[dialect].test(line)) {
-      comments += 1;
-      inBlock = line.startsWith("/*") && !BLOCK_ENDS.test(line);
-      continue;
-    }
-
-    code += 1;
+    countLine({ dialect, line, side: sides[name] });
   }
 
-  return { comments, total: comments + code };
+  return {
+    comments: sides.added.comments,
+    removed: sides.removed.comments,
+    total: sides.added.comments + sides.added.code,
+  };
 };
 
 const commentLines = (comment) =>

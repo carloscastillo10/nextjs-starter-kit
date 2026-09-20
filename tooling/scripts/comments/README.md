@@ -71,9 +71,9 @@ check-comments: 12 files, 1 failures
 pnpm lint:comments --changed origin/main
 ```
 
-`pre-push` runs this. It counts the lines the branch adds to source files and fails when more than 5% of them are comment, once the branch has added at least 200 lines. Below that the number says nothing: a two-line fix with the reason above it is half comment and exactly right.
+`pre-push` runs this. It counts the lines the branch adds and fails when more than 5% of them are comment, once the branch has added at least 200 lines. Below that the number says nothing: a two-line fix with the reason above it is half comment and exactly right.
 
-The per-file density report above convicts one file; this one convicts a habit, which is the version worth catching before a reviewer reads the branch. Without a base to fork from, a fresh clone with no `origin/main`, it says so and passes.
+**It reads both sides of the diff.** A comment rewritten shorter looks like a new comment on the added side alone, so a branch whose whole point is deleting comment would be convicted for the shorter ones it leaves behind. A change that removes at least as much comment as it writes passes, whatever share of its added lines is comment, because the habit this hunts is writing comment and that change is not it. A comment-heavy file inside such a branch is still caught, by the per-file density report, which is the division of labour: that one convicts a file, this one convicts a habit. Without a base to fork from, a fresh clone with no `origin/main`, it says so and passes.
 
 ### Comments that echo a document
 
