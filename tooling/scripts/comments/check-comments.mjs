@@ -71,7 +71,6 @@ const inspectChange = (base) => {
   const share = total === 0 ? 0 : comments / total;
   const percent = Math.round(share * 100);
 
-  // A change that deletes at least as much comment as it writes is not the habit this hunts.
   if (removed >= comments) {
     process.stdout.write(
       `check-comments: ${comments} comment lines added and ${removed} removed, so this change writes less comment than it found\n`,
