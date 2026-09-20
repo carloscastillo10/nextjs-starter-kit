@@ -121,12 +121,26 @@ export const LoginForm = ({ className, onSubmit, ...props }: LoginFormProps) => 
 
 ## Props
 
-- **Props extend the props of the root element**, so callers can pass any native attribute: `ComponentProps<"div">` for an HTML element, `ComponentProps<typeof Button>` for a wrapped component. Add the component's own props with `&`, and use `Omit` for an inherited prop whose meaning changes.
+- **Props extend the props of the root element**, so callers can pass any native attribute: `ComponentProps<"div">` for an HTML element, `ComponentProps<typeof Button>` for a wrapped component. Add the component's own props with `&`, and use `Omit` for an inherited prop whose meaning changes. `HomeActions`, the one component in this repository that has a caller, is the whole shape in four lines:
+
+  ```tsx
+  // _pages/home/ui/HomeActions.tsx
+  type HomeActionsProps = ComponentProps<"div">;
+
+  export const HomeActions = ({ className, ...props }: HomeActionsProps) => (
+    <div className={cn("flex w-full flex-col gap-4 sm:w-auto sm:flex-row", className)} {...props}>
+      …
+    </div>
+  );
+  ```
+
 - **The rest is called `props` and is spread on the root element** (`...props`, never `...rest`).
 - **`className` is composed, never replaced**: `cn("base classes", className)`.
-- **Order: `className` first, then data, then callbacks**, in the props type, in the destructuring, when passing props in JSX and in what a hook returns. The linter fixes all four; the kit's generated components keep the order the shadcn CLI wrote.
+- **Order: `className` first, then data, then callbacks**, in the props type, in the destructuring, when passing props in JSX and in what a hook returns. Inside a group the fields are alphabetical everywhere except the JSX, where an attribute list reads better grouped than sorted. The linter fixes all four; the kit's generated components keep the order the shadcn CLI wrote.
 - **Each component declares its own `XProps`**, next to it, unexported. Another component that needs the same shape derives it: `ComponentProps<typeof LoginForm>`. What gets shared between components is a callback type, not a props type.
 - **A closed component is the exception.** A component that takes full control of its root, renames or wraps the root's props and forwards nothing (a dialog that owns its open state and close behavior, for example) does not extend `ComponentProps`. A presentational wrapper around an element is never closed.
+- **What the router renders has no caller to extend.** A route file's component and the page component a route file re-exports are called by React with what Next.js hands them: a layout gets `children` and `params`, a page gets `params` and `searchParams`, and the last three are promises. They type that with `LayoutProps<"/">` or `PageProps<"/products/[id]">`, read the fields they need, and spread nothing — forwarding what they were given onto an element puts `params="[object Promise]"` in the DOM. Everything below them is a normal component and extends its root.
+- **A provider in `_app/providers` takes `children`.** Its root is whichever provider it wires, and that root changes the day a second one is added, so extending the root's props would tie the app's provider stack to the library that happens to be outermost today.
 - **No boolean props that switch behavior** (`isEditing`, `isThread`). Build explicit variants through [composition](#composition). A visual variant is a single union prop (`variant: "default" | "outline"`), declared with `cva` next to the component, the way the UI kit does it.
 - **The UI kit first.** When the kit (`@repo/ui`) has a component for an element, use it: `Button` over `<button>`, `Input` over `<input>`, and the same for `select`, `textarea`, `label` and `dialog`. Semantic containers (`div`, `section`, `nav`, `ul`, headings) have no kit equivalent and are used directly. A missing component is added to the kit, not written inline.
 
@@ -216,8 +230,10 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormOptions) => {
   - an object, array or function that is passed to a child or used as a dependency: `useMemo` or `useCallback`, in the hook;
   - an expensive computation: `useMemo`, in the hook;
   - a simple expression with a primitive result (`email === ""`, `a || b`): never. Comparing the dependencies costs more than the expression.
+- **A `style` object is an object like any other**: built from values it is a `useMemo` in the hook, fixed it is a module-level constant. Written in the prop it is a new object on every render, which is why the linter reports it there.
+- **`useMemo` takes no type argument.** What the factory returns already fixes the type; `useState` is typed instead because its initial value seldom is enough to fix one. A memo whose type inference genuinely cannot reach is an override in the ESLint config, with the reason beside it.
 - **The logic inside `useMemo` lives in `lib/`.** The hook only memoizes: `useMemo(() => buildRows(items, columns), [items, columns])`. The same goes for view models, per-item styles and per-item handlers: a builder in `lib/` produces them, the hook memoizes them, and the JSX only reads them.
-- **`React.memo` only with a measured reason.**
+- **`React.memo` only with a measured reason.** Every `memo()` is reported, so taking one costs a block in the ESLint config; the measurement is what goes next to it.
 - If the React Compiler is enabled later, manual `useMemo` and `useCallback` become optional; keep the existing ones.
 
 ## Composition
@@ -271,29 +287,32 @@ Tailwind CSS v4 reads its theme from [`@repo/tailwind-config`](../../tooling/tai
 
 In addition to the checks in [code-style.md](code-style.md#enforcement):
 
-| Rule                                                                                                    | Check                                                                                                                                   |
-| ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| Rules of hooks, no components created during render, no synchronous `setState` in effects, purity, refs | `eslint-plugin-react-hooks` (`recommended-latest`)                                                                                      |
-| Missing effect dependencies (warning)                                                                   | `react-hooks/exhaustive-deps`                                                                                                           |
-| No state or effect hooks in slice `ui/` files                                                           | `no-restricted-syntax` (hook calls in `src/{_pages,widgets,features,entities}/**/ui/**/*.tsx`)                                          |
-| No `if` in a component body except navigation guards                                                    | `no-restricted-syntax` (for `*.tsx`)                                                                                                    |
-| No computation in JSX props: arithmetic, comparisons and `??`                                           | `no-restricted-syntax` (for `*.tsx`)                                                                                                    |
-| No computation in JSX props: objects, arrays, ternaries, template literals, `&&`, `\|\|`, array methods | `no-restricted-syntax` (for `src/**/*.tsx`; what the prop receives, so a call keeps its arguments out of reach)                         |
-| No JSX stored in a constant                                                                             | `no-restricted-syntax` (`VariableDeclarator > JSXElement`, `JSXFragment`)                                                               |
-| A props type is never exported                                                                          | `no-restricted-syntax` (for `src/**/*.tsx`, both export forms)                                                                          |
-| The rest of the props is named `props`                                                                  | `no-restricted-syntax` (for `*.tsx`)                                                                                                    |
-| `useState` typed, hooks without a return type                                                           | `no-restricted-syntax`                                                                                                                  |
-| `className` first and callbacks last in JSX                                                             | `perfectionist/sort-jsx-props`                                                                                                          |
-| `className` first and callbacks last in the props type, the destructuring and a hook's return           | `perfectionist/sort-object-types`, `perfectionist/sort-objects` (switched off for the kit's generated components)                       |
-| `&&` only with a boolean                                                                                | `@eslint-react/no-leaked-conditional-rendering`                                                                                         |
-| No component defined inside another                                                                     | `@eslint-react/no-nested-component-definitions`, `react-hooks/static-components`                                                        |
-| No index as `key`                                                                                       | `@eslint-react/no-array-index-key`                                                                                                      |
-| No `forwardRef`, `use` over `useContext`, `<Context>` over `<Context.Provider>`                         | `@eslint-react/no-forward-ref`, `@eslint-react/no-use-context`, `@eslint-react/no-context-provider`                                     |
-| Stable context values and default props                                                                 | `@eslint-react/no-unstable-context-value`, `@eslint-react/no-unstable-default-props`                                                    |
-| `[value, setValue]` naming for state                                                                    | `@eslint-react/use-state`                                                                                                               |
-| Next.js rules (`next/image`, scripts, fonts)                                                            | `@next/eslint-plugin-next` (`core-web-vitals`)                                                                                          |
-| Accessibility                                                                                           | `eslint-plugin-jsx-a11y` (`recommended`)                                                                                                |
-| The UI kit first (`button`, `input`, `select`, `textarea`, `label`, `dialog`)                           | `no-restricted-syntax` (for `src/**/*.tsx`)                                                                                             |
-| No arbitrary values (`calc()` allowed)                                                                  | `better-tailwindcss/no-restricted-classes`                                                                                              |
-| Only classes the theme defines                                                                          | `better-tailwindcss/no-unknown-classes`                                                                                                 |
-| Canonical and current Tailwind v4 classes, `(--var)` syntax, no conflicting classes                     | `better-tailwindcss/enforce-canonical-classes`, `enforce-consistent-variable-syntax`, `no-deprecated-classes`, `no-conflicting-classes` |
+| Rule                                                                                                    | Check                                                                                                                                      |
+| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Rules of hooks, no components created during render, no synchronous `setState` in effects, purity, refs | `eslint-plugin-react-hooks` (`recommended-latest`)                                                                                         |
+| Missing effect dependencies (warning)                                                                   | `react-hooks/exhaustive-deps`                                                                                                              |
+| No state or effect hooks in slice `ui/` files                                                           | `no-restricted-syntax` (hook calls in `src/{_pages,widgets,features,entities}/**/ui/**/*.tsx`)                                             |
+| No `if` in a component body except navigation guards                                                    | `no-restricted-syntax` (for `*.tsx`)                                                                                                       |
+| No computation in JSX props: arithmetic, comparisons and `??`                                           | `no-restricted-syntax` (for `*.tsx`)                                                                                                       |
+| No computation in JSX props: objects, arrays, ternaries, template literals, `&&`, `\|\|`, array methods | `no-restricted-syntax` (for the app's own `.tsx` in `app/` and `src/`; what the prop receives, so a call keeps its arguments out of reach) |
+| No JSX stored in a constant                                                                             | `no-restricted-syntax` (`VariableDeclarator > JSXElement`, `JSXFragment`)                                                                  |
+| A props type is never exported                                                                          | `no-restricted-syntax` (for the app's own `.tsx`, both export forms)                                                                       |
+| The rest of the props is named `props`                                                                  | `no-restricted-syntax` (for `*.tsx`)                                                                                                       |
+| `useState` typed, hooks without a return type, `useMemo` without a type argument                        | `no-restricted-syntax`                                                                                                                     |
+| A hook returns a plain object, never one wrapped in `useMemo`                                           | `no-restricted-syntax`                                                                                                                     |
+| No `React.memo` without a measured reason                                                               | `no-restricted-syntax`                                                                                                                     |
+| `className` first and callbacks last in JSX                                                             | `perfectionist/sort-jsx-props`                                                                                                             |
+| `className` first and callbacks last in the props type, the destructuring and a hook's return           | `perfectionist/sort-object-types`, `perfectionist/sort-objects` (switched off for the kit's generated components)                          |
+| Alphabetical inside each group, except in the JSX and in data written in a chosen order                 | the same two rules, `alphabetical` for types, destructuring and hook files, `unsorted` for the rest                                        |
+| `&&` only with a boolean                                                                                | `@eslint-react/no-leaked-conditional-rendering`                                                                                            |
+| No component defined inside another                                                                     | `@eslint-react/no-nested-component-definitions`, `react-hooks/static-components`                                                           |
+| No index as `key`                                                                                       | `@eslint-react/no-array-index-key`                                                                                                         |
+| No `forwardRef`, `use` over `useContext`, `<Context>` over `<Context.Provider>`                         | `@eslint-react/no-forward-ref`, `@eslint-react/no-use-context`, `@eslint-react/no-context-provider`                                        |
+| Stable context values and default props                                                                 | `@eslint-react/no-unstable-context-value`, `@eslint-react/no-unstable-default-props`                                                       |
+| `[value, setValue]` naming for state                                                                    | `@eslint-react/use-state`                                                                                                                  |
+| Next.js rules (`next/image`, scripts, fonts)                                                            | `@next/eslint-plugin-next` (`core-web-vitals`)                                                                                             |
+| Accessibility                                                                                           | `eslint-plugin-jsx-a11y` (`recommended`)                                                                                                   |
+| The UI kit first (`button`, `input`, `select`, `textarea`, `label`, `dialog`)                           | `no-restricted-syntax` (for the app's own `.tsx`)                                                                                          |
+| No arbitrary values (`calc()` allowed)                                                                  | `better-tailwindcss/no-restricted-classes`                                                                                                 |
+| Only classes the theme defines                                                                          | `better-tailwindcss/no-unknown-classes`                                                                                                    |
+| Canonical and current Tailwind v4 classes, `(--var)` syntax, no conflicting classes                     | `better-tailwindcss/enforce-canonical-classes`, `enforce-consistent-variable-syntax`, `no-deprecated-classes`, `no-conflicting-classes`    |

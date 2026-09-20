@@ -48,7 +48,7 @@ Add `@repo/eslint-config` and `eslint` to the package's `devDependencies` and a 
 
 A Next.js app also sets the `better-tailwindcss` settings above and has `tailwindcss` in its `devDependencies`. The Tailwind rules load Tailwind from `cwd` and read the theme from `entryPoint`, the app's global styles; both are absolute so the result is the same from the app (Turbo) and from the repository root (editor, pre-commit hook). Without them the rules switch themselves off with a warning.
 
-| Rule (`next` preset, `src/**`)                          | Reports                                                                                                                  |
+| Rule (`next` preset, the app's own `.tsx`)              | Reports                                                                                                                  |
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `no-restricted-syntax` (`UI_KIT_SYNTAX`)                | a raw `button`, `input`, `select`, `textarea`, `label` or `dialog`                                                       |
 | `no-restricted-syntax` (`APP_COMPONENT_SYNTAX`)         | an object, array, ternary, template literal, `&&`, `\|\|` or `.map()` as the value of a JSX prop; an exported props type |
@@ -87,7 +87,7 @@ The `next` preset asks for `PascalCase` on a `.tsx` under `src/`, `kebab-case` u
 
 - **Change a rule** in the preset block that sets it, and update the Enforcement table of the convention document it belongs to.
 - **Relax a rule for some files** with a new block that has `files` and a comment with the reason. Inline directives (`eslint-disable`) are switched off with `noInlineConfig`.
-- **Add a `no-restricted-syntax` selector** to a list in `syntax.js`. A block that sets the rule replaces the list of earlier blocks, so each block spreads every list it needs, as the `components` and `slice-ui` blocks do. `APP_COMPONENT_SYNTAX` is the list only the `next` preset spreads: those selectors read hand-written components, and the kit is generated.
+- **Add a `no-restricted-syntax` selector** to a list in `syntax.js`. A block that sets the rule replaces the list of earlier blocks, so each block spreads every list it needs, as the `components` and `slice-ui` blocks do. `APP_COMPONENT_SYNTAX` is the list only the `next` preset spreads, over `app/**` and `src/**`: those selectors read hand-written components, and the kit is generated.
 - **The kit's exceptions live with the kit.** `packages/ui/eslint.config.mjs` switches off the two prop-order rules for `src/components/**`, with the reason next to the block.
 - **Another element with a kit component**: add its name to the `UI_KIT_SYNTAX` selector in `syntax.js` once `@repo/ui` has the component.
 - **Tailwind rules** are in the `next/tailwind` block of `next.js`. The UI kit package uses the `react` preset, so they do not apply to it: the shadcn components keep the arbitrary values they ship with.
